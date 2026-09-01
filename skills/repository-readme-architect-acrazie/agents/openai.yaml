@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repository README Architect / Acrazie"
+  short_description: "Designs reliable repository READMEs"
+  default_prompt: "Use $repository-readme-architect-acrazie to design or update this repository's primary README."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "SVG Icon Designer / Acrazie"
+  short_description: "Design SVG icons through compact iterative drafts"
+  default_prompt: "Use $svg-icon-designer-acrazie to design an icon through compact IconDraft concepts, refinement, and clean SVG production."
