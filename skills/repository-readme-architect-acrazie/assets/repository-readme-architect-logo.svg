@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 710 330" role="img" aria-labelledby="title desc">
+  <title id="title">Repository README Architect</title>
+  <desc id="desc">Architectural geometric wordmark reading README above ARCHITECT.</desc>
+  <defs>
+    <linearGradient id="brand-gradient" x1="0" y1="0" x2="0" y2="330" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6d00"/>
+      <stop offset="11.1111%" stop-color="#ff7900"/>
+      <stop offset="22.2222%" stop-color="#ff8500"/>
+      <stop offset="33.3333%" stop-color="#ff9100"/>
+      <stop offset="44.4444%" stop-color="#ff9e00"/>
+      <stop offset="55.5556%" stop-color="#240046"/>
+      <stop offset="66.6667%" stop-color="#3c096c"/>
+      <stop offset="77.7778%" stop-color="#5a189a"/>
+      <stop offset="88.8889%" stop-color="#7b2cbf"/>
+      <stop offset="100%" stop-color="#9d4edd"/>
+    </linearGradient>
+    <g id="wordmark">
+      <path d="M32 32h72v15h-72zM32 47h18v15h-18zM104 47h18v15h-18zM32 62h18v15h-18zM104 62h18v15h-18zM32 77h72v15h-72zM32 92h18v15h-18zM68 92h18v15h-18zM32 107h18v15h-18zM86 107h18v15h-18zM32 122h18v15h-18zM104 122h18v15h-18zM140 32h90v15h-90zM140 47h18v15h-18zM140 62h18v15h-18zM140 77h72v15h-72zM140 92h18v15h-18zM140 107h18v15h-18zM140 122h90v15h-90zM248 32h90v15h-90zM248 47h18v15h-18zM320 47h18v15h-18zM248 62h18v15h-18zM320 62h18v15h-18zM248 77h90v15h-90zM248 92h18v15h-18zM320 92h18v15h-18zM248 107h18v15h-18zM320 107h18v15h-18zM248 122h18v15h-18zM320 122h18v15h-18zM356 32h72v15h-72zM356 47h18v15h-18zM428 47h18v15h-18zM356 62h18v15h-18zM428 62h18v15h-18zM356 77h18v15h-18zM428 77h18v15h-18zM356 92h18v15h-18zM428 92h18v15h-18zM356 107h18v15h-18zM428 107h18v15h-18zM356 122h72v15h-72zM464 32h18v15h-18zM536 32h18v15h-18zM464 47h36v15h-36zM518 47h36v15h-36zM464 62h18v15h-18zM500 62h18v15h-18zM536 62h18v15h-18zM464 77h18v15h-18zM500 77h18v15h-18zM536 77h18v15h-18zM464 92h18v15h-18zM536 92h18v15h-18zM464 107h18v15h-18zM536 107h18v15h-18zM464 122h18v15h-18zM536 122h18v15h-18zM572 32h90v15h-90zM572 47h18v15h-18zM572 62h18v15h-18zM572 77h72v15h-72zM572 92h18v15h-18zM572 107h18v15h-18zM572 122h90v15h-90zM32 176h60v15h-60zM32 191h12v15h-12zM80 191h12v15h-12zM32 206h12v15h-12zM80 206h12v15h-12zM32 221h60v15h-60zM32 236h12v15h-12zM80 236h12v15h-12zM32 251h12v15h-12zM80 251h12v15h-12zM32 266h12v15h-12zM80 266h12v15h-12zM103 176h48v15h-48zM103 191h12v15h-12zM151 191h12v15h-12zM103 206h12v15h-12zM151 206h12v15h-12zM103 221h48v15h-48zM103 236h12v15h-12zM127 236h12v15h-12zM103 251h12v15h-12zM139 251h12v15h-12zM103 266h12v15h-12zM151 266h12v15h-12zM186 176h48v15h-48zM174 191h12v15h-12zM174 206h12v15h-12zM174 221h12v15h-12zM174 236h12v15h-12zM174 251h12v15h-12zM186 266h48v15h-48zM245 176h12v15h-12zM293 176h12v15h-12zM245 191h12v15h-12zM293 191h12v15h-12zM245 206h12v15h-12zM293 206h12v15h-12zM245 221h60v15h-60zM245 236h12v15h-12zM293 236h12v15h-12zM245 251h12v15h-12zM293 251h12v15h-12zM245 266h12v15h-12zM293 266h12v15h-12zM316 176h60v15h-60zM340 191h12v15h-12zM340 206h12v15h-12zM340 221h12v15h-12zM340 236h12v15h-12zM340 251h12v15h-12zM316 266h60v15h-60zM387 176h60v15h-60zM411 191h12v15h-12zM411 206h12v15h-12zM411 221h12v15h-12zM411 236h12v15h-12zM411 251h12v15h-12zM411 266h12v15h-12zM458 176h60v15h-60zM458 191h12v15h-12zM458 206h12v15h-12zM458 221h48v15h-48zM458 236h12v15h-12zM458 251h12v15h-12zM458 266h60v15h-60zM541 176h48v15h-48zM529 191h12v15h-12zM529 206h12v15h-12zM529 221h12v15h-12zM529 236h12v15h-12zM529 251h12v15h-12zM541 266h48v15h-48zM600 176h60v15h-60zM624 191h12v15h-12zM624 206h12v15h-12zM624 221h12v15h-12zM624 236h12v15h-12zM624 251h12v15h-12zM624 266h12v15h-12z"/>
+    </g>
+  </defs>
+  <g fill="url(#brand-gradient)" shape-rendering="geometricPrecision">
+    <use href="#wordmark" transform="translate(24 24)" opacity="0.14"/>
+    <use href="#wordmark" transform="translate(16 16)" opacity="0.26"/>
+    <use href="#wordmark" transform="translate(8 8)" opacity="0.42"/>
+    <use href="#wordmark"/>
+  </g>
+</svg>

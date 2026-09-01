@@ -26,6 +26,10 @@ The CLI detects supported coding agents and lets you choose where to install eac
 
 ### [Repository README Architect / Acrazie](skills/repository-readme-architect-acrazie/SKILL.md)
 
+<p align="center">
+  <img src="skills/repository-readme-architect-acrazie/assets/repository-readme-architect-logo.svg" alt="README Architect geometric wordmark" width="520" />
+</p>
+
 Design, create, restructure, or update a repository's primary README through repository inspection, an adaptive decision-tree interview, architecture options, and an approval-gated edit.
 
 ```text
