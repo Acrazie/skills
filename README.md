@@ -42,6 +42,10 @@ $audit-repository-acrazie
 
 ### [SVG Icon Designer / Acrazie](skills/svg-icon-designer-acrazie/SKILL.md)
 
+<p align="center">
+  <img src="skills/svg-icon-designer-acrazie/assets/svg-icon-designer-logo.svg" alt="SVG-ICON Designer geometric wordmark" width="520" />
+</p>
+
 Design original icons through compact iterative concepts, detailed ASCII previews, selected-direction refinement, clean SVG production, and requested PNG or favicon exports.
 
 ```text

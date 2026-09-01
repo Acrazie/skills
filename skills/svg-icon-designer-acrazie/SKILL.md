@@ -20,6 +20,8 @@ Interview progressively. Do not block ideation on details that can safely remain
 
 For abstract personal marks that should follow the user's curated logo taste, read [references/curated-abstract-marks.md](references/curated-abstract-marks.md). Treat that reference as optional visual vocabulary, not a default style for unrelated icon work.
 
+When the user explicitly requests the Acrazie retro-tech wordmark language or its orange-to-violet palette, read [references/visual-identity.md](references/visual-identity.md). Remix its principles into original lettering; never trace the supplied references.
+
 ## Concept phase
 
 Unless the user requests immediate production or supplies a locked design, offer three to five genuinely different directions in compact `IconDraft` notation. Read [references/icon-draft.md](references/icon-draft.md) for its syntax and selection rules.
