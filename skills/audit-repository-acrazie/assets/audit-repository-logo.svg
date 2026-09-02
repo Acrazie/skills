@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" role="img" aria-labelledby="title desc">
+  <title id="title">Audit Repository</title>
+  <desc id="desc">Panoramic geometric wordmark reading AUDIT-REPO with integrated scanline cuts.</desc>
+  <defs>
+    <linearGradient id="brand-gradient" x1="32" y1="0" x2="672" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6d00"/>
+      <stop offset="11.1111%" stop-color="#ff7900"/>
+      <stop offset="22.2222%" stop-color="#ff8500"/>
+      <stop offset="33.3333%" stop-color="#ff9100"/>
+      <stop offset="44.4444%" stop-color="#ff9e00"/>
+      <stop offset="55.5556%" stop-color="#240046"/>
+      <stop offset="66.6667%" stop-color="#3c096c"/>
+      <stop offset="77.7778%" stop-color="#5a189a"/>
+      <stop offset="88.8889%" stop-color="#7b2cbf"/>
+      <stop offset="100%" stop-color="#9d4edd"/>
+    </linearGradient>
+    <g id="wordmark">
+      <path d="M43 32h33v14h-33zM32 48h11v14h-11zM76 48h11v14h-11zM32 64h11v14h-11zM76 64h11v14h-11zM32 80h55v14h-55zM32 96h11v14h-11zM76 96h11v14h-11zM32 112h11v14h-11zM76 112h11v14h-11zM32 128h11v14h-11zM76 128h11v14h-11zM97 32h11v14h-11zM141 32h11v14h-11zM97 48h11v14h-11zM141 48h11v14h-11zM97 64h11v14h-11zM141 64h11v14h-11zM97 80h11v14h-11zM141 80h11v14h-11zM97 96h11v14h-11zM141 96h11v14h-11zM97 112h11v14h-11zM141 112h11v14h-11zM108 128h33v14h-33zM162 32h44v14h-44zM162 48h11v14h-11zM206 48h11v14h-11zM162 64h11v14h-11zM206 64h11v14h-11zM162 80h11v14h-11zM206 80h11v14h-11zM162 96h11v14h-11zM206 96h11v14h-11zM162 112h11v14h-11zM206 112h11v14h-11zM162 128h44v14h-44zM227 32h55v14h-55zM249 48h11v14h-11zM249 64h11v14h-11zM249 80h11v14h-11zM249 96h11v14h-11zM249 112h11v14h-11zM227 128h55v14h-55zM292 32h55v14h-55zM314 48h11v14h-11zM314 64h11v14h-11zM314 80h11v14h-11zM314 96h11v14h-11zM314 112h11v14h-11zM314 128h11v14h-11zM357 80h55v14h-55zM422 32h44v14h-44zM422 48h11v14h-11zM466 48h11v14h-11zM422 64h11v14h-11zM466 64h11v14h-11zM422 80h44v14h-44zM422 96h11v14h-11zM444 96h11v14h-11zM422 112h11v14h-11zM455 112h11v14h-11zM422 128h11v14h-11zM466 128h11v14h-11zM487 32h55v14h-55zM487 48h11v14h-11zM487 64h11v14h-11zM487 80h44v14h-44zM487 96h11v14h-11zM487 112h11v14h-11zM487 128h55v14h-55zM552 32h44v14h-44zM552 48h11v14h-11zM596 48h11v14h-11zM552 64h11v14h-11zM596 64h11v14h-11zM552 80h44v14h-44zM552 96h11v14h-11zM552 112h11v14h-11zM552 128h11v14h-11zM628 32h33v14h-33zM617 48h11v14h-11zM661 48h11v14h-11zM617 64h11v14h-11zM661 64h11v14h-11zM617 80h11v14h-11zM661 80h11v14h-11zM617 96h11v14h-11zM661 96h11v14h-11zM617 112h11v14h-11zM661 112h11v14h-11zM628 128h33v14h-33z"/>
+    </g>
+  </defs>
+  <g fill="url(#brand-gradient)" shape-rendering="geometricPrecision">
+    <use href="#wordmark" transform="translate(24 12)" opacity="0.14"/>
+    <use href="#wordmark" transform="translate(16 8)" opacity="0.26"/>
+    <use href="#wordmark" transform="translate(8 4)" opacity="0.42"/>
+    <use href="#wordmark"/>
+  </g>
+</svg>
