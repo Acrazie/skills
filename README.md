@@ -18,6 +18,7 @@ Install one skill directly:
 npx skills add Acrazie/skills@repository-readme-architect-acrazie
 npx skills add Acrazie/skills@audit-repository-acrazie
 npx skills add Acrazie/skills@svg-icon-designer-acrazie
+npx skills add Acrazie/skills@skill-refiner-acrazie
 ```
 
 The CLI detects supported coding agents and lets you choose where to install each skill.
@@ -60,6 +61,18 @@ Design original icons through compact iterative concepts, detailed ASCII preview
 $svg-icon-designer-acrazie
 ```
 
+### [Skill Refiner / Acrazie](skills/skill-refiner-acrazie/SKILL.md)
+
+<p align="center">
+  <img src="skills/skill-refiner-acrazie/assets/skill-refiner-logo.svg" alt="SKILL Refiner geometric wordmark" width="520" />
+</p>
+
+Collect structured feedback while testing one target skill, preserve observations in an append-only journal, and consolidate approved behavioral decisions into a living ADR without editing the target skill.
+
+```text
+$skill-refiner-acrazie
+```
+
 ## Naming
 
 Published skill IDs keep the function first for discovery and use `-acrazie` as a consistent author signature. The canonical source is `Acrazie/skills`.
@@ -70,7 +83,8 @@ Published skill IDs keep the function first for discovery and use `-acrazie` as 
 skills/
 ├── repository-readme-architect-acrazie/
 ├── audit-repository-acrazie/
-└── svg-icon-designer-acrazie/
+├── svg-icon-designer-acrazie/
+└── skill-refiner-acrazie/
 ```
 
 Each directory contains its `SKILL.md`, `agents/openai.yaml`, and only the references required by that workflow.
