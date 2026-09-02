@@ -38,6 +38,10 @@ $repository-readme-architect-acrazie
 
 ### [Audit Repository / Acrazie](skills/audit-repository-acrazie/SKILL.md)
 
+<p align="center">
+  <img src="skills/audit-repository-acrazie/assets/audit-repository-logo.svg" alt="AUDIT-REPO panoramic geometric wordmark" width="520" />
+</p>
+
 Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. This skill requires explicit invocation and does not perform general, security, documentation, diff, PR, or multi-repository audits.
 
 ```text
