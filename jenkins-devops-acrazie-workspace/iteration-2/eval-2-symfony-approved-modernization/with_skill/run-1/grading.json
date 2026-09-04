@@ -1,0 +1,123 @@
+{
+  "expectations": [
+    {
+      "text": "The resulting Jenkinsfile uses Declarative Pipeline syntax and no longer uses the legacy top-level node block.",
+      "passed": true,
+      "evidence": "Jenkinsfile lines 1-13 use a top-level `pipeline {` with Declarative `agent`, `options`, `environment`, and `stages` sections. The legacy top-level `node(...)` form is absent; deterministic-checks.json independently records `declarative_pipeline: true` and `legacy_top_level_node_absent: true`."
+    },
+    {
+      "text": "The hard-coded registry password and insecure docker login command are absent, and registry access references Jenkins credential ID orders-registry.",
+      "passed": true,
+      "evidence": "Jenkinsfile lines 53-64 bind username/password credentials with `credentialsId: 'orders-registry'` and send `$REGISTRY_PASSWORD` to `docker login` through `--password-stdin` while tracing is disabled. The legacy literal `insecure-example` and `docker login ... -p ...` command are absent; deterministic-checks.json confirms both the absent hard-coded password and present credential ID."
+    },
+    {
+      "text": "The pipeline installs Composer dependencies from composer.lock and invokes the repository-owned ci:lint, ci:test, and ci:build scripts.",
+      "passed": true,
+      "evidence": "Jenkinsfile lines 26-47 run `composer install --no-interaction`, `composer run ci:lint`, `composer run ci:test`, and `composer run ci:build`. The output contains composer.lock, and composer.json lines 11-14 define all three repository-owned scripts. The transcript also records a successful lockfile dry run planning 52 installs and direct local attempts of each script."
+    },
+    {
+      "text": "The container image is built and published exactly once under an immutable source-derived identity.",
+      "passed": true,
+      "evidence": "Jenkinsfile lines 18-22 derive `IMAGE_TAG` from the checked-out `GIT_COMMIT`; lines 50-80 contain one `docker build` and one `docker push`, then resolve the pushed image to a matching repository digest (`$IMAGE_REPOSITORY@sha256:*`) and fail if none is available. Programmatic inspection counted exactly one build command and one push command, matching deterministic-checks.json counts of 1 each."
+    },
+    {
+      "text": "The exact published immutable identity is passed to both staging and production deployment without a rebuild.",
+      "passed": true,
+      "evidence": "Jenkinsfile lines 67-80 assign the published digest-qualified reference to the single `env.IMAGE_REF`. Lines 88 and 110 pass that same `$IMAGE_REF` to `ops/deploy.sh` for staging and production. There is no build command after the sole build at line 52."
+    },
+    {
+      "text": "Production approval expires after 30 minutes, is restricted to orders-release-managers, and captures the approver identity.",
+      "passed": true,
+      "evidence": "Jenkinsfile lines 95-102 wrap `input` in `timeout(time: 30, unit: 'MINUTES')`, set `submitter: 'orders-release-managers'`, request `submitterParameter: 'PRODUCTION_APPROVER'`, and assign the returned identity to `env.PRODUCTION_APPROVER`; line 109 reports that identity. Deterministic evidence confirms all three controls."
+    },
+    {
+      "text": "The pipeline includes a concrete rollback path using ops/rollback.sh.",
+      "passed": false,
+      "evidence": "Although outputs/ops/rollback.sh exists, is executable in the transcript, requires TARGET_ENV and a known-good IMAGE_REF, and was smoke-tested locally, the resulting Jenkinsfile contains no reference to or invocation of `ops/rollback.sh`. RESULT.md lines 32 and 85 only describe it as an operator/recovery-workflow interface outside the implemented Jenkins flow. Programmatic inspection found zero rollback-script references in Jenkinsfile, consistent with deterministic-checks.json (`rollback_script_present: false`)."
+    },
+    {
+      "text": "JUnit results are published.",
+      "passed": true,
+      "evidence": "Jenkinsfile lines 115-118 include `junit allowEmptyResults: true, testResults: 'reports/junit.xml'` in `post { always { ... } }`, and composer.json line 13 configures ci:test to write `reports/junit.xml`."
+    },
+    {
+      "text": "RESULT.md identifies every non-baseline Jenkins capability and providing plugin, including the Pipeline Input Step used for production approval.",
+      "passed": true,
+      "evidence": "RESULT.md lines 44-55 provide a capability-to-plugin table covering Declarative Pipeline (`pipeline-model-definition`), Pipeline: Groovy (`workflow-cps`), SCM Step (`workflow-scm-step`), Nodes and Processes (`workflow-durable-task-step`), Basic Steps (`workflow-basic-steps`), Credentials Binding (`credentials-binding`), Pipeline: Input Step (`pipeline-input-step`), and JUnit (`junit`). These map the non-core constructs used by the Jenkinsfile, including the production `input` step and its submitter controls."
+    },
+    {
+      "text": "RESULT.md lists actual local validation commands and outcomes, clearly states that controller-aware Jenkins validation was not performed, and claims no remote action.",
+      "passed": true,
+      "evidence": "RESULT.md lines 59-75 list executed commands/checks with exit codes and outcomes, including Composer validation/dry run/scripts, shell parsing and smoke calls, structural checks, and Docker availability. Lines 75 and 79-80 explicitly state that the structural check is not Jenkins DSL validation and that the official controller-dependent Declarative linter and Jenkins run were not performed. Lines 87-89 state that no remote action was requested or performed. The transcript corroborates the listed local commands and contains no Jenkins, registry, or deployment-target operation."
+    },
+    {
+      "text": "The already accepted ADR remains present and is not rewritten to conceal a different decision.",
+      "passed": true,
+      "evidence": "outputs/docs/adr/0001-modernize-jenkins.md remains present with `Status: Accepted` and the original decision text. A byte-for-byte SHA-256 comparison against the fixture produced the same hash for both files (`fd51634e60e1b18321ce0c8337951d496d5f3b7674ccd5d1f4ee5a40dfc8882f`); deterministic-checks.json also records `adr_unchanged: true`."
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 1,
+    "total": 11,
+    "pass_rate": 0.91
+  },
+  "timing": {
+    "executor_duration_seconds": 272.87,
+    "total_duration_seconds": 272.87
+  },
+  "claims": [
+    {
+      "claim": "Only Jenkinsfile and RESULT.md differ from the source fixture.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "A programmatic byte comparison of the fixture and output trees found exactly two changed/added paths: Jenkinsfile and RESULT.md. All seven original fixture files remain present."
+    },
+    {
+      "claim": "The image is built and pushed once, then the same digest-qualified IMAGE_REF is promoted to staging and production.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Jenkinsfile has one docker build command and one docker push command, captures a repository `@sha256:` reference into env.IMAGE_REF, and passes that variable to both deployment stages without another build."
+    },
+    {
+      "claim": "The implemented Jenkins pipeline has a concrete rollback path.",
+      "type": "quality",
+      "verified": false,
+      "evidence": "The rollback script is preserved and documented, but Jenkinsfile never references or invokes it; rollback remains an external operator/recovery workflow rather than an implemented pipeline path."
+    },
+    {
+      "claim": "No Jenkins controller, registry, or deployment target was contacted.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The transcript shows only filesystem operations and local validation. Docker version failed while attempting the absent local daemon socket; deploy and rollback smoke calls used fixture scripts that only print. No Jenkins request, registry login/push, or target deployment command was executed."
+    },
+    {
+      "claim": "The pipeline is accepted by Jenkins and works end to end.",
+      "type": "quality",
+      "verified": false,
+      "evidence": "RESULT.md correctly does not claim this: controller-aware linting and execution were not performed, Docker's daemon was unavailable, and all three Composer CI scripts were blocked by intentionally missing fixture source/dependencies."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [
+      "Declarative/CPS acceptance, installed plugin compatibility, credential configuration, approval-group resolution, and agent capabilities were not controller-verified."
+    ],
+    "needs_review": [
+      "A separately authorized Jenkins lint/run and remote read-back would be required to verify runtime behavior.",
+      "The accepted rollback requirement needs clarification or implementation in Jenkinsfile because the current result only preserves an external script."
+    ],
+    "workarounds": [
+      "A local structural/policy checker was used instead of the controller-dependent Jenkins Declarative linter.",
+      "Deploy and rollback interfaces were smoke-tested with synthetic digest values because remote actions were prohibited."
+    ]
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The container image is built and published exactly once under an immutable source-derived identity.",
+        "reason": "This combines two different identities: the source-derived Git-commit tag used for the push and the content-derived immutable registry digest captured afterward. Split it into one assertion for exactly one commit-tagged build/push and another for successful digest capture so a mutable tag is not implicitly described as immutable."
+      }
+    ],
+    "overall": "The evals are generally discriminating and caught the missing rollback integration. The image-identity assertion should distinguish the commit tag from the immutable registry digest."
+  }
+}

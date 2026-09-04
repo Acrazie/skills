@@ -1,0 +1,18 @@
+{
+  "eval_id": 2,
+  "eval_name": "2-symfony-approved-modernization",
+  "prompt": "Work inside the attached synthetic Symfony/PHP repository. The accepted ADR at docs/adr/0001-modernize-jenkins.md is the plan I reviewed and explicitly approved; implement it now with exact local edits. Replace the unsafe legacy Scripted pipeline without changing application behavior beyond the ADR. Do not contact Jenkins, the registry, or any deployment target. Validate everything that can be validated locally, and save the completion report to RESULT.md with all repository files in the output directory.",
+  "assertions": [
+    "The resulting Jenkinsfile uses Declarative Pipeline syntax and no longer uses the legacy top-level node block.",
+    "The hard-coded registry password and insecure docker login command are absent, and registry access references Jenkins credential ID orders-registry.",
+    "The pipeline installs Composer dependencies from composer.lock and invokes the repository-owned ci:lint, ci:test, and ci:build scripts.",
+    "The container image is built and published exactly once under an immutable source-derived identity.",
+    "The exact published immutable identity is passed to both staging and production deployment without a rebuild.",
+    "Production approval expires after 30 minutes, is restricted to orders-release-managers, and captures the approver identity.",
+    "The pipeline includes a concrete rollback path using ops/rollback.sh.",
+    "JUnit results are published.",
+    "RESULT.md identifies every non-baseline Jenkins capability and providing plugin, including the Pipeline Input Step used for production approval.",
+    "RESULT.md lists actual local validation commands and outcomes, clearly states that controller-aware Jenkins validation was not performed, and claims no remote action.",
+    "The already accepted ADR remains present and is not rewritten to conceal a different decision."
+  ]
+}

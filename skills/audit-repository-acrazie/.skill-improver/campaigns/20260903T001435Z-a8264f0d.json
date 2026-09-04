@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "campaign_id": "20260903T001435Z-a8264f0d",
+  "target_skill": {
+    "name": "audit-repository-acrazie",
+    "directory": "/Users/acrazie/Documents/ProjectPerso/skills/skills/audit-repository-acrazie",
+    "skill_md": "/Users/acrazie/Documents/ProjectPerso/skills/skills/audit-repository-acrazie/SKILL.md",
+    "sha256": "a8264f0dd68a89ccd52b78eb99e0b4efd182a2a9f0e17645f05d3b77a120ab96"
+  },
+  "status": "active",
+  "events": [
+    {
+      "event_id": "evt-0001",
+      "type": "campaign_started",
+      "recorded_at": "2026-09-03T00:14:35Z",
+      "observation_id": null,
+      "data": {
+        "target_digest": "a8264f0dd68a89ccd52b78eb99e0b4efd182a2a9f0e17645f05d3b77a120ab96",
+        "resolved_target_directory": "/Users/acrazie/Documents/ProjectPerso/skills/skills/audit-repository-acrazie",
+        "resolved_skill_md": "/Users/acrazie/Documents/ProjectPerso/skills/skills/audit-repository-acrazie/SKILL.md",
+        "scale": {
+          "1": "behavior contradicts the user's intent",
+          "2": "major gaps",
+          "3": "partially conforms",
+          "4": "minor adjustment needed",
+          "5": "conforms to the user's intent"
+        },
+        "artifact_destination": "/Users/acrazie/Documents/ProjectPerso/skills/skills/audit-repository-acrazie/.skill-improver/campaigns/20260903T001435Z-a8264f0d.json",
+        "redactions": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+pipeline {
+  agent { label 'linux' }
+
+  options {
+    skipDefaultCheckout(true)
+  }
+
+  environment {
+    REGISTRY = 'registry.example.invalid'
+    IMAGE_REPOSITORY = 'registry.example.invalid/orders'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Install dependencies') {
+      steps {
+        sh 'composer install --no-interaction --no-progress --prefer-dist'
+      }
+    }
+
+    stage('Lint') {
+      steps {
+        sh 'composer run ci:lint'
+      }
+    }
+
+    stage('Test') {
+      steps {
+        sh 'composer run ci:test'
+      }
+      post {
+        always {
+          junit testResults: 'reports/junit.xml'
+        }
+      }
+    }
+
+    stage('Build application') {
+      steps {
+        sh 'composer run ci:build'
+      }
+    }
+
+    stage('Build and push image') {
+      steps {
+        script {
+          env.IMAGE_TAG = sh(
+            script: 'git rev-parse HEAD',
+            returnStdout: true
+          ).trim()
+          env.IMAGE_TAGGED_REF = "${env.IMAGE_REPOSITORY}:${env.IMAGE_TAG}"
+
+          withCredentials([usernamePassword(
+            credentialsId: 'orders-registry',
+            usernameVariable: 'REGISTRY_USERNAME',
+            passwordVariable: 'REGISTRY_PASSWORD'
+          )]) {
+            sh '''#!/usr/bin/env sh
+set -eu
+set +x
+trap 'docker logout "$REGISTRY" >/dev/null 2>&1 || true' EXIT
+printf '%s' "$REGISTRY_PASSWORD" | docker login "$REGISTRY" --username "$REGISTRY_USERNAME" --password-stdin
+docker build --tag "$IMAGE_TAGGED_REF" .
+push_output="$(docker push "$IMAGE_TAGGED_REF")"
+printf '%s\n' "$push_output"
+digest="$(printf '%s\n' "$push_output" | sed -n 's/^.*digest: \(sha256:[0-9a-f]\{64\}\).*$/\1/p' | tail -n 1)"
+test -n "$digest"
+printf '%s@%s\n' "$IMAGE_REPOSITORY" "$digest" > .image-digest-ref
+'''
+          }
+
+          env.IMAGE_DIGEST_REF = readFile('.image-digest-ref').trim()
+          if (!(env.IMAGE_DIGEST_REF ==~ /.+@sha256:[0-9a-f]{64}/)) {
+            error('Registry did not return a valid immutable image digest')
+          }
+        }
+      }
+    }
+
+    stage('Deploy staging') {
+      steps {
+        sh 'TARGET_ENV=staging IMAGE_REF="$IMAGE_DIGEST_REF" ops/deploy.sh'
+      }
+    }
+
+    stage('Approve production') {
+      steps {
+        timeout(time: 30, unit: 'MINUTES') {
+          script {
+            env.PRODUCTION_APPROVER = input(
+              message: "Promote ${env.IMAGE_DIGEST_REF} to production?",
+              ok: 'Deploy to production',
+              submitter: 'orders-release-managers',
+              submitterParameter: 'PRODUCTION_APPROVER'
+            )
+          }
+        }
+      }
+    }
+
+    stage('Deploy production') {
+      steps {
+        echo "Production deployment approved by ${env.PRODUCTION_APPROVER}"
+        sh 'TARGET_ENV=production IMAGE_REF="$IMAGE_DIGEST_REF" ops/deploy.sh'
+      }
+    }
+  }
+}

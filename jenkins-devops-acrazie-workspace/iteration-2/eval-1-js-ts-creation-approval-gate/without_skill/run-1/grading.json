@@ -1,0 +1,124 @@
+{
+  "expectations": [
+    {
+      "text": "No Jenkinsfile is created because the user has not approved the proposed pipeline decision.",
+      "passed": true,
+      "evidence": "The complete output inventory contains only Dockerfile, RESULT.md, package.json, pnpm-lock.yaml, ops/deploy.sh, and ops/rollback.sh; no Jenkinsfile exists. RESULT.md lines 3-5 explicitly says the status is proposed, no pipeline implementation has been created, and approval is the gate before creating a Jenkinsfile."
+    },
+    {
+      "text": "No ADR file is created because approval has not yet been given.",
+      "passed": true,
+      "evidence": "The complete output inventory contains no ADR file or ADR directory. RESULT.md records the decisions as proposals requiring approval rather than as accepted architecture decisions."
+    },
+    {
+      "text": "RESULT.md states the objective, triggers, stage flow, agent contract, environments, production approval, rollback, validation plan, and material risks.",
+      "passed": true,
+      "evidence": "RESULT.md identifies the Jenkins CI/CD objective and approval status (lines 1-5); PR/main triggers and behavior (lines 38-44); verification and ordered promotion stages (lines 46-80); the unresolved agent label, Docker runtime, credential binding, and connectivity contract (lines 26-34); development/staging/production deploy interfaces (lines 71-80); production approval and rollback design (lines 77-93); validation commands and JUnit publication (lines 46-57); and material repository/deployment risks (lines 22-34)."
+    },
+    {
+      "text": "The proposal uses the existing pnpm lint, test:ci, build, and image scripts plus ops/deploy.sh and ops/rollback.sh rather than inventing replacement commands.",
+      "passed": true,
+      "evidence": "RESULT.md quotes all four package scripts at lines 11-15, proposes pnpm lint, pnpm test:ci, and pnpm build at lines 48-55, uses the existing pnpm image script at line 63, and invokes ./ops/deploy.sh and ./ops/rollback.sh with their existing TARGET_ENV/IMAGE_REF interfaces at lines 75-78 and 88-90. These match package.json and both shell scripts."
+    },
+    {
+      "text": "The proposal references credential ID checkout-registry without requesting or embedding a secret value.",
+      "passed": true,
+      "evidence": "RESULT.md lines 20 and 65 name only the Jenkins credential ID checkout-registry and say to authenticate without exposing secrets. No secret value appears in RESULT.md or any output file."
+    },
+    {
+      "text": "The proposal builds one image and promotes the same immutable identity through development, staging, and production instead of rebuilding per environment.",
+      "passed": true,
+      "evidence": "RESULT.md lines 61-69 propose one build, one push, digest resolution, and passing the exact digest unchanged to every deployment stage. Lines 73-80 explicitly use the same digest reference for development, staging, and production without rebuilding."
+    },
+    {
+      "text": "The proposal inventories the Jenkins capabilities and providing plugins that must be verified without claiming they are installed.",
+      "passed": false,
+      "evidence": "RESULT.md notes unknown controller configuration, agent runtime, credential shape, and connectivity, but it contains no inventory of required Jenkins capabilities mapped to providing plugins (for example Pipeline, GitHub Branch Source, Credentials Binding, Docker Pipeline, or JUnit). Therefore the requested plugin/capability verification inventory is absent."
+    },
+    {
+      "text": "RESULT.md distinguishes verified repository evidence from unknown Jenkins controller, plugin, agent-label, and remote-validation facts.",
+      "passed": false,
+      "evidence": "RESULT.md clearly separates repository facts (lines 7-24) from unknown agent label/runtime, credential shape, registry endpoint/reachability, rollback source, deployment credentials, and approver policy (lines 26-34), and identifies webhook/job setup as controller configuration (line 40). However, it never identifies plugin availability or plugin versions as unknown facts, so the full composite expectation is not met."
+    },
+    {
+      "text": "RESULT.md treats the authorized production approver or submitter policy as unresolved rather than using an unrestricted approval gate.",
+      "passed": true,
+      "evidence": "RESULT.md line 33 explicitly lists who is authorized to approve production and whether an approval timeout is required as unresolved. The proposed production input gate is therefore not presented as an unrestricted finalized implementation."
+    },
+    {
+      "text": "No remote action is performed or claimed.",
+      "passed": true,
+      "evidence": "The transcript shows only local file discovery/read/write, local static validation, a local rsync dry-run, and output listing. RESULT.md line 110 explicitly states that no registry login, image push, deployment, or remote call was performed."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 2,
+    "total": 10,
+    "pass_rate": 0.8
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "read_file": 5,
+      "search_files": 3,
+      "terminal": 3,
+      "write_file": 1
+    },
+    "total_tool_calls": 12,
+    "total_steps": 12,
+    "errors_encountered": 1,
+    "output_chars": 7826,
+    "transcript_chars": 7416
+  },
+  "timing": {
+    "executor_duration_seconds": 86.76,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 86.76
+  },
+  "claims": [
+    {
+      "claim": "No pipeline implementation was created before approval.",
+      "type": "process",
+      "verified": true,
+      "evidence": "No Jenkinsfile exists in the complete output inventory, and the transcript contains no Jenkinsfile write."
+    },
+    {
+      "claim": "The supplied repository lacks src/, tsconfig.json, ESLint configuration, and test files, and its lockfile importer is empty despite declared development dependencies.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The fixture/output inventory contains only Dockerfile, package.json, pnpm-lock.yaml, and two ops scripts (plus generated RESULT.md). package.json declares eslint, typescript, and vitest, while pnpm-lock.yaml has an empty '.: {}' importer."
+    },
+    {
+      "claim": "The proposal uses only the repository's existing package and operations-script interfaces.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Every proposed application operation maps to package.json scripts lint, test:ci, build, or image, or to the existing ops/deploy.sh and ops/rollback.sh interfaces. The setup command corepack enable and registry tag/push/digest operations are necessary orchestration rather than invented replacement application commands."
+    },
+    {
+      "claim": "No registry login, image push, deployment, or remote call was performed.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The complete transcript records only local filesystem reads/writes, local validation commands, and a local rsync dry-run; it records no network, registry, Jenkins, GitHub, or deployment invocation."
+    },
+    {
+      "claim": "Deployments will use one immutable digest reference with no mutable environment tags.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "As a proposal claim, RESULT.md consistently specifies registry.example.invalid/checkout-api@sha256:<digest> for all three environments and expressly rejects development, staging, and latest mutable tags. No implementation exists yet, as required before approval."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "RESULT.md states the objective, triggers, stage flow, agent contract, environments, production approval, rollback, validation plan, and material risks.",
+        "reason": "This combines nine independently meaningful requirements into one binary assertion. Splitting it into focused assertions would make failures diagnostic and avoid one omitted section masking otherwise substantial coverage."
+      }
+    ],
+    "overall": "The assertions cover the approval gate, repository-command reuse, immutable promotion, credentials, capability verification, uncertainty handling, authorization, and remote side effects. The main improvement is to make the broad report-content assertion atomic."
+  }
+}

@@ -1,0 +1,466 @@
+{
+  "metadata": {
+    "skill_name": "jenkins-devops-acrazie",
+    "skill_path": "/Users/acrazie/Documents/ProjectPerso/skills/skills/jenkins-devops-acrazie",
+    "executor_model": "gpt-5.6-sol",
+    "analyzer_model": "gpt-5.6-sol",
+    "timestamp": "2026-09-04T17:58:16Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 10,
+        "failed": 0,
+        "total": 10,
+        "time_seconds": 185.84,
+        "tokens": null,
+        "tool_calls": 21,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "No Jenkinsfile is created because the user has not approved the proposed pipeline decision.",
+          "passed": true,
+          "evidence": "The inspected outputs contain exactly the five original fixture files plus RESULT.md and no Jenkinsfile. RESULT.md lines 3-5 explicitly says approval is required before repository pipeline files are created and that no Jenkinsfile was written. A direct diff against the fixture reported only RESULT.md as additional."
+        },
+        {
+          "text": "No ADR file is created because approval has not yet been given.",
+          "passed": true,
+          "evidence": "No ADR or docs directory exists in the inspected six-file output set. RESULT.md lines 3-5 says the decision is Proposed and that no ADR was written; lines 151-155 defer creation of docs/adr/0001-jenkins-ci-cd.md until explicit approval."
+        },
+        {
+          "text": "RESULT.md states the objective, triggers, stage flow, agent contract, environments, production approval, rollback, validation plan, and material risks.",
+          "passed": true,
+          "evidence": "RESULT.md substantively covers every requested area: objective/topology (lines 25-35), triggers/trust (37-45), ordered stages (47-64), agent/workspace contract (66-70), environments/promotion (81-89), production authorization (91-102), rollback in the stage/environment tables (62 and 83-87), validation performed and blocked/not-run checks (159-176), and material risks/unknowns including fork trust, Docker privilege, missing project inputs, credentials, deployment verification, concurrency, stale builds, and known-good digest provenance (45, 68-70, 78, 89, 93-102, 131-149)."
+        },
+        {
+          "text": "The proposal uses the existing pnpm lint, test:ci, build, and image scripts plus ops/deploy.sh and ops/rollback.sh rather than inventing replacement commands.",
+          "passed": true,
+          "evidence": "RESULT.md lines 11-17 inventories the exact package.json scripts and ops interfaces. The proposed stage table uses pnpm lint, pnpm test:ci, pnpm build, GIT_COMMIT=<full-SCM-revision> pnpm image, TARGET_ENV/IMAGE_REF with ./ops/deploy.sh for all environments, and ./ops/rollback.sh (lines 49-62). Lines 57 and 64 explicitly leave publication unresolved because no repository-owned command exists rather than inventing one. The deterministic check result result_mentions_all_repo_commands=false is contradicted by the actual RESULT.md and appears to be a checker false negative."
+        },
+        {
+          "text": "The proposal references credential ID checkout-registry without requesting or embedding a secret value.",
+          "passed": true,
+          "evidence": "RESULT.md lines 19 and 104-112 references checkout-registry only as a Jenkins credential ID, marks its type and scope unknown, restricts proposed use to main publication, and explicitly states: 'No secret value is requested or stored.' No secret value appears in the inspected files."
+        },
+        {
+          "text": "The proposal builds one image and promotes the same immutable identity through development, staging, and production instead of rebuilding per environment.",
+          "passed": true,
+          "evidence": "RESULT.md line 30 proposes building exactly once; lines 56-62 carry one digest reference through development, staging, and production; lines 64 and 72-79 require a registry-returned OCI digest and explicitly state that all three environments receive the same digest without rebuilding."
+        },
+        {
+          "text": "The proposal inventories the Jenkins capabilities and providing plugins that must be verified without claiming they are installed.",
+          "passed": true,
+          "evidence": "RESULT.md lines 114-129 states controller inventory and versions were not supplied and availability/compatibility are unverified, then maps Declarative Pipeline, Multibranch, GitHub discovery, SCM checkout, shell steps, input approval, JUnit, and credential binding to typical providers that must be checked on the actual controller. It does not claim installation."
+        },
+        {
+          "text": "RESULT.md distinguishes verified repository evidence from unknown Jenkins controller, plugin, agent-label, and remote-validation facts.",
+          "passed": true,
+          "evidence": "RESULT.md has a dedicated 'Verified repository evidence' section (lines 7-21), labels the topology as a recommendation rather than a controller fact (line 35), marks agent label/capabilities unknown (lines 68-70), marks controller/plugin inventory unverified (lines 114-129), and limits validation evidence while explicitly saying it does not prove Jenkins DSL, plugin, agent, publication, deployment, approval, verification, or rollback behavior (lines 159-176)."
+        },
+        {
+          "text": "RESULT.md treats the authorized production approver or submitter policy as unresolved rather than using an unrestricted approval gate.",
+          "passed": true,
+          "evidence": "RESULT.md lines 60 and 91-102 requires Jenkins input with explicit submitter and audited identity, says the allowed Jenkins user/group remains unresolved, and lists related approval evidence, timeout, stale-build, concurrency, rollback, and environment-authorization decisions. The approval frontier again requests the concrete submitter user/group at line 143."
+        },
+        {
+          "text": "No remote action is performed or claimed.",
+          "passed": true,
+          "evidence": "The complete executor transcript shows only local reads/searches, local fixture copying/diffing, package JSON parsing, shell syntax checks, command availability checks, and local print-only deploy/rollback smoke checks. RESULT.md lines 161-174 explicitly says no remote system was contacted, no image was built or published, no deployment was attempted, and remote-dependent Docker/Jenkins checks were not run. No transcript evidence contradicts this."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.91,
+        "passed": 10,
+        "failed": 1,
+        "total": 11,
+        "time_seconds": 272.87,
+        "tokens": null,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The resulting Jenkinsfile uses Declarative Pipeline syntax and no longer uses the legacy top-level node block.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 1-13 use a top-level `pipeline {` with Declarative `agent`, `options`, `environment`, and `stages` sections. The legacy top-level `node(...)` form is absent; deterministic-checks.json independently records `declarative_pipeline: true` and `legacy_top_level_node_absent: true`."
+        },
+        {
+          "text": "The hard-coded registry password and insecure docker login command are absent, and registry access references Jenkins credential ID orders-registry.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 53-64 bind username/password credentials with `credentialsId: 'orders-registry'` and send `$REGISTRY_PASSWORD` to `docker login` through `--password-stdin` while tracing is disabled. The legacy literal `insecure-example` and `docker login ... -p ...` command are absent; deterministic-checks.json confirms both the absent hard-coded password and present credential ID."
+        },
+        {
+          "text": "The pipeline installs Composer dependencies from composer.lock and invokes the repository-owned ci:lint, ci:test, and ci:build scripts.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 26-47 run `composer install --no-interaction`, `composer run ci:lint`, `composer run ci:test`, and `composer run ci:build`. The output contains composer.lock, and composer.json lines 11-14 define all three repository-owned scripts. The transcript also records a successful lockfile dry run planning 52 installs and direct local attempts of each script."
+        },
+        {
+          "text": "The container image is built and published exactly once under an immutable source-derived identity.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 18-22 derive `IMAGE_TAG` from the checked-out `GIT_COMMIT`; lines 50-80 contain one `docker build` and one `docker push`, then resolve the pushed image to a matching repository digest (`$IMAGE_REPOSITORY@sha256:*`) and fail if none is available. Programmatic inspection counted exactly one build command and one push command, matching deterministic-checks.json counts of 1 each."
+        },
+        {
+          "text": "The exact published immutable identity is passed to both staging and production deployment without a rebuild.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 67-80 assign the published digest-qualified reference to the single `env.IMAGE_REF`. Lines 88 and 110 pass that same `$IMAGE_REF` to `ops/deploy.sh` for staging and production. There is no build command after the sole build at line 52."
+        },
+        {
+          "text": "Production approval expires after 30 minutes, is restricted to orders-release-managers, and captures the approver identity.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 95-102 wrap `input` in `timeout(time: 30, unit: 'MINUTES')`, set `submitter: 'orders-release-managers'`, request `submitterParameter: 'PRODUCTION_APPROVER'`, and assign the returned identity to `env.PRODUCTION_APPROVER`; line 109 reports that identity. Deterministic evidence confirms all three controls."
+        },
+        {
+          "text": "The pipeline includes a concrete rollback path using ops/rollback.sh.",
+          "passed": false,
+          "evidence": "Although outputs/ops/rollback.sh exists, is executable in the transcript, requires TARGET_ENV and a known-good IMAGE_REF, and was smoke-tested locally, the resulting Jenkinsfile contains no reference to or invocation of `ops/rollback.sh`. RESULT.md lines 32 and 85 only describe it as an operator/recovery-workflow interface outside the implemented Jenkins flow. Programmatic inspection found zero rollback-script references in Jenkinsfile, consistent with deterministic-checks.json (`rollback_script_present: false`)."
+        },
+        {
+          "text": "JUnit results are published.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 115-118 include `junit allowEmptyResults: true, testResults: 'reports/junit.xml'` in `post { always { ... } }`, and composer.json line 13 configures ci:test to write `reports/junit.xml`."
+        },
+        {
+          "text": "RESULT.md identifies every non-baseline Jenkins capability and providing plugin, including the Pipeline Input Step used for production approval.",
+          "passed": true,
+          "evidence": "RESULT.md lines 44-55 provide a capability-to-plugin table covering Declarative Pipeline (`pipeline-model-definition`), Pipeline: Groovy (`workflow-cps`), SCM Step (`workflow-scm-step`), Nodes and Processes (`workflow-durable-task-step`), Basic Steps (`workflow-basic-steps`), Credentials Binding (`credentials-binding`), Pipeline: Input Step (`pipeline-input-step`), and JUnit (`junit`). These map the non-core constructs used by the Jenkinsfile, including the production `input` step and its submitter controls."
+        },
+        {
+          "text": "RESULT.md lists actual local validation commands and outcomes, clearly states that controller-aware Jenkins validation was not performed, and claims no remote action.",
+          "passed": true,
+          "evidence": "RESULT.md lines 59-75 list executed commands/checks with exit codes and outcomes, including Composer validation/dry run/scripts, shell parsing and smoke calls, structural checks, and Docker availability. Lines 75 and 79-80 explicitly state that the structural check is not Jenkins DSL validation and that the official controller-dependent Declarative linter and Jenkins run were not performed. Lines 87-89 state that no remote action was requested or performed. The transcript corroborates the listed local commands and contains no Jenkins, registry, or deployment-target operation."
+        },
+        {
+          "text": "The already accepted ADR remains present and is not rewritten to conceal a different decision.",
+          "passed": true,
+          "evidence": "outputs/docs/adr/0001-modernize-jenkins.md remains present with `Status: Accepted` and the original decision text. A byte-for-byte SHA-256 comparison against the fixture produced the same hash for both files (`fd51634e60e1b18321ce0c8337951d496d5f3b7674ccd5d1f4ee5a40dfc8882f`); deterministic-checks.json also records `adr_unchanged: true`."
+        }
+      ],
+      "notes": [
+        "Declarative/CPS acceptance, installed plugin compatibility, credential configuration, approval-group resolution, and agent capabilities were not controller-verified.",
+        "A separately authorized Jenkins lint/run and remote read-back would be required to verify runtime behavior.",
+        "The accepted rollback requirement needs clarification or implementation in Jenkinsfile because the current result only preserves an external script.",
+        "A local structural/policy checker was used instead of the controller-dependent Jenkins Declarative linter.",
+        "Deploy and rollback interfaces were smoke-tested with synthetic digest values because remote actions were prohibited."
+      ]
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 96.9,
+        "tokens": null,
+        "tool_calls": 20,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The Jenkinsfile contains cargo test --locked and no longer contains cargo junit --locked.",
+          "passed": true,
+          "evidence": "outputs/Jenkinsfile line 12 is `sh 'cargo test --locked'`; the deterministic check records `cargo_test_present: true` and `cargo_junit_absent: true`."
+        },
+        {
+          "text": "All Check, Test, and Build stages and every unrelated Jenkinsfile line remain functionally unchanged.",
+          "passed": true,
+          "evidence": "A programmatic line comparison against the input fixture found exactly one Jenkinsfile replacement: `cargo junit --locked` to `cargo test --locked`. The Check stage still runs fmt and clippy, the Test stage remains present, and the Build stage still runs `cargo build --release --locked`; deterministic-checks.json records `exact_approved_jenkinsfile: true`."
+        },
+        {
+          "text": "No ADR file or docs/adr directory is created for this non-architectural repair.",
+          "passed": true,
+          "evidence": "The complete output inventory contains only Cargo.lock, Cargo.toml, Jenkinsfile, RESULT.md, jenkins-failure.log, and src/lib.rs. No ADR or docs/adr path exists, and deterministic-checks.json records `adr_files_absent: true`."
+        },
+        {
+          "text": "RESULT.md identifies the causal evidence from jenkins-failure.log: cargo reports that junit is not a command and exits with code 101.",
+          "passed": true,
+          "evidence": "RESULT.md lines 14-18 quote `+ cargo junit --locked`, `error: no such command: `junit``, and `ERROR: script returned exit code 101`, matching outputs/jenkins-failure.log lines 5-10."
+        },
+        {
+          "text": "RESULT.md records actual safe local validation results for cargo fmt --check and cargo test --locked, or gives a precise toolchain blocker instead of claiming success.",
+          "passed": true,
+          "evidence": "RESULT.md lines 52-64 records detected cargo/rustc versions and PASS (exit 0) for both `cargo fmt --check` and `cargo test --locked`, including 1 unit test passed and 0 failed. Transcript line 37 shows the local validation terminal invocation and line 38 records the toolchain and command results."
+        },
+        {
+          "text": "No Jenkins controller or other remote system is contacted, and RESULT.md does not claim controller-aware validation.",
+          "passed": true,
+          "evidence": "The transcript contains only local file/search/patch/write and terminal operations; no browser, web, SSH, Jenkins CLI, or controller API action appears. RESULT.md lines 68-72 explicitly says no controller was contacted and lists Jenkins-side behavior as unverified."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 8,
+        "failed": 2,
+        "total": 10,
+        "time_seconds": 86.76,
+        "tokens": null,
+        "tool_calls": 12,
+        "errors": 1
+      },
+      "expectations": [
+        {
+          "text": "No Jenkinsfile is created because the user has not approved the proposed pipeline decision.",
+          "passed": true,
+          "evidence": "The complete output inventory contains only Dockerfile, RESULT.md, package.json, pnpm-lock.yaml, ops/deploy.sh, and ops/rollback.sh; no Jenkinsfile exists. RESULT.md lines 3-5 explicitly says the status is proposed, no pipeline implementation has been created, and approval is the gate before creating a Jenkinsfile."
+        },
+        {
+          "text": "No ADR file is created because approval has not yet been given.",
+          "passed": true,
+          "evidence": "The complete output inventory contains no ADR file or ADR directory. RESULT.md records the decisions as proposals requiring approval rather than as accepted architecture decisions."
+        },
+        {
+          "text": "RESULT.md states the objective, triggers, stage flow, agent contract, environments, production approval, rollback, validation plan, and material risks.",
+          "passed": true,
+          "evidence": "RESULT.md identifies the Jenkins CI/CD objective and approval status (lines 1-5); PR/main triggers and behavior (lines 38-44); verification and ordered promotion stages (lines 46-80); the unresolved agent label, Docker runtime, credential binding, and connectivity contract (lines 26-34); development/staging/production deploy interfaces (lines 71-80); production approval and rollback design (lines 77-93); validation commands and JUnit publication (lines 46-57); and material repository/deployment risks (lines 22-34)."
+        },
+        {
+          "text": "The proposal uses the existing pnpm lint, test:ci, build, and image scripts plus ops/deploy.sh and ops/rollback.sh rather than inventing replacement commands.",
+          "passed": true,
+          "evidence": "RESULT.md quotes all four package scripts at lines 11-15, proposes pnpm lint, pnpm test:ci, and pnpm build at lines 48-55, uses the existing pnpm image script at line 63, and invokes ./ops/deploy.sh and ./ops/rollback.sh with their existing TARGET_ENV/IMAGE_REF interfaces at lines 75-78 and 88-90. These match package.json and both shell scripts."
+        },
+        {
+          "text": "The proposal references credential ID checkout-registry without requesting or embedding a secret value.",
+          "passed": true,
+          "evidence": "RESULT.md lines 20 and 65 name only the Jenkins credential ID checkout-registry and say to authenticate without exposing secrets. No secret value appears in RESULT.md or any output file."
+        },
+        {
+          "text": "The proposal builds one image and promotes the same immutable identity through development, staging, and production instead of rebuilding per environment.",
+          "passed": true,
+          "evidence": "RESULT.md lines 61-69 propose one build, one push, digest resolution, and passing the exact digest unchanged to every deployment stage. Lines 73-80 explicitly use the same digest reference for development, staging, and production without rebuilding."
+        },
+        {
+          "text": "The proposal inventories the Jenkins capabilities and providing plugins that must be verified without claiming they are installed.",
+          "passed": false,
+          "evidence": "RESULT.md notes unknown controller configuration, agent runtime, credential shape, and connectivity, but it contains no inventory of required Jenkins capabilities mapped to providing plugins (for example Pipeline, GitHub Branch Source, Credentials Binding, Docker Pipeline, or JUnit). Therefore the requested plugin/capability verification inventory is absent."
+        },
+        {
+          "text": "RESULT.md distinguishes verified repository evidence from unknown Jenkins controller, plugin, agent-label, and remote-validation facts.",
+          "passed": false,
+          "evidence": "RESULT.md clearly separates repository facts (lines 7-24) from unknown agent label/runtime, credential shape, registry endpoint/reachability, rollback source, deployment credentials, and approver policy (lines 26-34), and identifies webhook/job setup as controller configuration (line 40). However, it never identifies plugin availability or plugin versions as unknown facts, so the full composite expectation is not met."
+        },
+        {
+          "text": "RESULT.md treats the authorized production approver or submitter policy as unresolved rather than using an unrestricted approval gate.",
+          "passed": true,
+          "evidence": "RESULT.md line 33 explicitly lists who is authorized to approve production and whether an approval timeout is required as unresolved. The proposed production input gate is therefore not presented as an unrestricted finalized implementation."
+        },
+        {
+          "text": "No remote action is performed or claimed.",
+          "passed": true,
+          "evidence": "The transcript shows only local file discovery/read/write, local static validation, a local rsync dry-run, and output listing. RESULT.md line 110 explicitly states that no registry login, image push, deployment, or remote call was performed."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.82,
+        "passed": 9,
+        "failed": 2,
+        "total": 11,
+        "time_seconds": 231.0,
+        "tokens": null,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The resulting Jenkinsfile uses Declarative Pipeline syntax and no longer uses the legacy top-level node block.",
+          "passed": true,
+          "evidence": "Jenkinsfile starts with `pipeline {` (line 1), declares `agent`, `stages`, and Declarative `stage`/`steps` blocks, and contains no top-level `node(...)` block. The independent static check also returned declarative=True and no_top_node=True."
+        },
+        {
+          "text": "The hard-coded registry password and insecure docker login command are absent, and registry access references Jenkins credential ID orders-registry.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 58-67 bind `credentialsId: 'orders-registry'` through `usernamePassword` and pipe `REGISTRY_PASSWORD` to `docker login ... --password-stdin`; neither `insecure-example` nor the legacy `docker login -u ... -p ...` command remains."
+        },
+        {
+          "text": "The pipeline installs Composer dependencies from composer.lock and invokes the repository-owned ci:lint, ci:test, and ci:build scripts.",
+          "passed": true,
+          "evidence": "The committed composer.lock is present. Jenkinsfile line 22 runs `composer install --no-interaction --no-progress --prefer-dist`, and lines 28, 34, and 45 invoke `composer run ci:lint`, `composer run ci:test`, and `composer run ci:build`; composer.json lines 11-15 define all three scripts."
+        },
+        {
+          "text": "The container image is built and published exactly once under an immutable source-derived identity.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 52-56 derive the tag from the full `git rev-parse HEAD`; lines 68-69 contain exactly one `docker build` and one `docker push`. Lines 71-79 capture and validate the registry sha256 digest, yielding an immutable repository-at-digest reference. Programmatic counts were build_count=1 and push_count=1."
+        },
+        {
+          "text": "The exact published immutable identity is passed to both staging and production deployment without a rebuild.",
+          "passed": true,
+          "evidence": "Jenkinsfile line 77 reads the single published `.image-digest-ref` into `IMAGE_DIGEST_REF`. Lines 87 and 109 pass that same variable to `ops/deploy.sh` for staging and production, and there is no second build stage or command. The programmatic check found two matching digest deployments and only one build."
+        },
+        {
+          "text": "Production approval expires after 30 minutes, is restricted to orders-release-managers, and captures the approver identity.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 93-100 wrap `input` in `timeout(time: 30, unit: 'MINUTES')`, set `submitter: 'orders-release-managers'`, and use `submitterParameter: 'PRODUCTION_APPROVER'`; line 108 reports the captured approver."
+        },
+        {
+          "text": "The pipeline includes a concrete rollback path using ops/rollback.sh.",
+          "passed": false,
+          "evidence": "ops/rollback.sh exists and RESULT.md says it was retained unchanged, but Jenkinsfile never references or invokes `ops/rollback.sh` and defines no rollback stage/post action. The primary file inspection confirms rollback_invoked_in_pipeline=False, so retaining the script alone is not a concrete pipeline rollback path."
+        },
+        {
+          "text": "JUnit results are published.",
+          "passed": true,
+          "evidence": "Jenkinsfile lines 36-40 use a Test-stage `post { always { junit testResults: 'reports/junit.xml' } }`, matching the JUnit path produced by the repository's ci:test script."
+        },
+        {
+          "text": "RESULT.md identifies every non-baseline Jenkins capability and providing plugin, including the Pipeline Input Step used for production approval.",
+          "passed": false,
+          "evidence": "RESULT.md line 21 only points to `docs/jenkins-plugin-requirements.md`; RESULT.md itself does not identify any providing plugin and does not mention Pipeline: Input Step or `pipeline-input-step`. The companion document does contain the full mapping, including Pipeline: Input Step at line 12, but the assertion explicitly requires RESULT.md to identify it."
+        },
+        {
+          "text": "RESULT.md lists actual local validation commands and outcomes, clearly states that controller-aware Jenkins validation was not performed, and claims no remote action.",
+          "passed": true,
+          "evidence": "RESULT.md lines 31-41 list concrete local checks and outcomes (`sh -n`, Composer validation, JSON parsing, static assertions, byte comparisons). Lines 43-48 state the pipeline was not submitted to Jenkins, no remote validator/parser was used, and Docker/deploy commands were not executed; line 5 states no Jenkins controller, registry, or deployment target was contacted. The transcript corroborates the local validation commands and no remote action appears."
+        },
+        {
+          "text": "The already accepted ADR remains present and is not rewritten to conceal a different decision.",
+          "passed": true,
+          "evidence": "docs/adr/0001-modernize-jenkins.md remains present with Status: Accepted and the original decision. A byte-for-byte comparison against the source fixture returned adr_byte_identical=True (SHA-256 fd51634e60e1b18321ce0c8337951d496d5f3b7674ccd5d1f4ee5a40dfc8882f)."
+        }
+      ],
+      "notes": [
+        "Controller-aware Jenkins validation was not performed because no local Jenkins/Groovy parser was available and remote validation was prohibited.",
+        "Composer install/application scripts and Docker/deployment commands were intentionally not executed because fixture inputs were incomplete for the former and remote actions were prohibited for the latter."
+      ]
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 50.9,
+        "tokens": null,
+        "tool_calls": 9,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The Jenkinsfile contains cargo test --locked and no longer contains cargo junit --locked.",
+          "passed": true,
+          "evidence": "outputs/Jenkinsfile line 12 is `sh 'cargo test --locked'`; `cargo junit --locked` is absent. deterministic-checks.json independently records cargo_test_present=true and cargo_junit_absent=true."
+        },
+        {
+          "text": "All Check, Test, and Build stages and every unrelated Jenkinsfile line remain functionally unchanged.",
+          "passed": true,
+          "evidence": "A programmatic unified diff against the supplied fixture found exactly one changed line: `sh 'cargo junit --locked'` became `sh 'cargo test --locked'`. Check remains `cargo fmt --check` plus `cargo clippy --locked -- -D warnings`; Build remains `cargo build --release --locked`; all three stage names and all other Jenkinsfile lines are unchanged. deterministic-checks.json also records exact_approved_jenkinsfile=true."
+        },
+        {
+          "text": "No ADR file or docs/adr directory is created for this non-architectural repair.",
+          "passed": true,
+          "evidence": "The output tree contains no ADR-named file or directory, and deterministic-checks.json records adr_files_absent=true. RESULT.md line 5 explicitly says no ADR was created."
+        },
+        {
+          "text": "RESULT.md identifies the causal evidence from jenkins-failure.log: cargo reports that junit is not a command and exits with code 101.",
+          "passed": true,
+          "evidence": "jenkins-failure.log lines 5-10 show `cargo junit --locked`, `error: no such command: junit`, and `ERROR: script returned exit code 101`. RESULT.md lines 9-16 cites the missing Cargo `junit` subcommand and exit code 101 as the causal error."
+        },
+        {
+          "text": "RESULT.md records actual safe local validation results for cargo fmt --check and cargo test --locked, or gives a precise toolchain blocker instead of claiming success.",
+          "passed": true,
+          "evidence": "The complete transcript shows a local validation terminal call and successful output from the available Cargo/Rust toolchain. RESULT.md lines 31-40 records cargo/rustc versions, `cargo fmt --check` passed with exit 0, and `cargo test --locked` passed with exit 0 (1 unit test passed, 0 failed; doc-tests had 0 failures). Generated target artifacts corroborate execution."
+        },
+        {
+          "text": "No Jenkins controller or other remote system is contacted, and RESULT.md does not claim controller-aware validation.",
+          "passed": true,
+          "evidence": "The complete transcript contains only local filesystem operations and local Cargo commands; no browser, HTTP, SSH, Jenkins CLI, or other remote-system call occurs. RESULT.md line 5 says `No Jenkins controller was contacted` and reports only local validation, with no controller-aware validation claim."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.97,
+        "stddev": 0.052,
+        "min": 0.91,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 185.2033,
+        "stddev": 87.9867,
+        "min": 96.9,
+        "max": 272.87
+      },
+      "tokens": {
+        "mean": null,
+        "stddev": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.8733,
+        "stddev": 0.1102,
+        "min": 0.8,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 122.8867,
+        "stddev": 95.3302,
+        "min": 50.9,
+        "max": 231.0
+      },
+      "tokens": {
+        "mean": null,
+        "stddev": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.10",
+      "time_seconds": "+62.3",
+      "tokens": "unavailable"
+    }
+  },
+  "notes": [
+    "This benchmark has one run per eval/configuration. The reported standard deviations pool three different evals rather than repeated stochastic trials, so they describe cross-eval spread and cannot establish run-to-run variance or flakiness.",
+    "Across the 27 paired assertions, 23 pass in both configurations, 3 pass only with the skill, none pass only without the skill, and 1 fails in both configurations. Most assertions therefore do not discriminate skill value in this iteration.",
+    "The three skill-only passes are narrowly concentrated on Jenkins capability/plugin treatment: eval 1's plugin inventory, eval 1's separation of verified repository evidence from unknown plugin/controller/agent/remote facts, and eval 2's requirement that RESULT.md itself map every non-baseline capability to its providing plugin.",
+    "Eval 1 has 8 of 10 assertions passing in both configurations; its entire paired score difference comes from the two plugin-focused assertions. The approval gate, ADR absence, repository-command reuse, credential handling, immutable promotion, unresolved approver policy, and no-remote-action assertions all pass with and without the skill.",
+    "Eval 2 has 9 of 11 assertions passing in both configurations. Its rollback assertion fails in both because neither Jenkinsfile invokes ops/rollback.sh, while its only discriminating assertion is the plugin mapping location: the without-skill run placed the mapping in docs/jenkins-plugin-requirements.md rather than in RESULT.md as asserted.",
+    "Eval 3 is fully non-discriminating: all 6 assertions pass in both configurations, including the exact one-line Jenkinsfile repair, no-ADR behavior, causal diagnosis, local Cargo validation, and no-remote-contact constraint.",
+    "The unweighted per-eval summary (0.97 with skill versus 0.8733 without) differs from the assertion-weighted result because evals contain 10, 11, and 6 assertions: the paired totals are 26/27 (96.3%) with skill and 23/27 (85.2%) without skill.",
+    "Every with-skill run is slower than its paired baseline: eval 1 by 99.08s (185.84s versus 86.76s), eval 2 by 41.87s (272.87s versus 231.00s), and eval 3 by 46.00s (96.90s versus 50.90s). Across all three runs, elapsed time is 555.61s versus 368.66s, a 186.95s (50.7%) increase.",
+    "Eval 3 incurs 46.00s more elapsed time and 20 versus 9 recorded tool calls despite identical 6/6 assertion outcomes; eval 1 records 21 versus 12 tool calls alongside the two skill-only passes.",
+    "Eval 2 records zero tool calls for both configurations even though its grading evidence cites command attempts, programmatic inspection, and local validation. The zero values are therefore an instrumentation anomaly and should not be interpreted as absence of tool use.",
+    "The without-skill eval 1 run is the only run with a recorded execution error (errors=1); it still passes 8 of 10 assertions. The benchmark does not identify that error beyond the count.",
+    "With-skill eval 1 contains an internal checker/grader inconsistency: the evidence for the repository-command assertion says deterministic-checks.json reported result_mentions_all_repo_commands=false, but the grader passed the assertion from direct RESULT.md evidence.",
+    "Token values are null for every run and all token aggregates are unavailable, so this iteration supports no token-usage comparison."
+  ]
+}

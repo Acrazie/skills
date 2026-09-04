@@ -1,0 +1,75 @@
+{
+  "skill_name": "jenkins-devops-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Work inside the attached synthetic JS/TS repository. Set up a Jenkins CI/CD pipeline for GitHub pull requests and the main branch. Use the existing pnpm scripts, build a container once, publish it to registry.example.invalid/checkout-api, and promote the exact immutable image through development, staging, and production with the existing ops scripts. Production needs manual approval and rollback. Jenkins credential ID checkout-registry already exists. I have not reviewed or approved a pipeline decision yet. Inspect the repository, do not invent missing facts, and follow the required decision process. Save your user-facing proposal/report to RESULT.md and leave all repository files in the output directory.",
+      "expected_output": "A complete approval-ready pipeline decision proposal in RESULT.md, with no Jenkinsfile or ADR created before approval. It identifies repository-backed commands, immutable promotion, credentials, Jenkins capability assumptions, validation plan, and unresolved controller facts.",
+      "files": [
+        "evals/fixtures/js-ts-create/package.json",
+        "evals/fixtures/js-ts-create/pnpm-lock.yaml",
+        "evals/fixtures/js-ts-create/Dockerfile",
+        "evals/fixtures/js-ts-create/ops/deploy.sh",
+        "evals/fixtures/js-ts-create/ops/rollback.sh"
+      ],
+      "expectations": [
+        "No Jenkinsfile is created because the user has not approved the proposed pipeline decision.",
+        "No ADR file is created because approval has not yet been given.",
+        "RESULT.md states the objective, triggers, stage flow, agent contract, environments, production approval, rollback, validation plan, and material risks.",
+        "The proposal uses the existing pnpm lint, test:ci, build, and image scripts plus ops/deploy.sh and ops/rollback.sh rather than inventing replacement commands.",
+        "The proposal references credential ID checkout-registry without requesting or embedding a secret value.",
+        "The proposal builds one image and promotes the same immutable identity through development, staging, and production instead of rebuilding per environment.",
+        "The proposal inventories the Jenkins capabilities and providing plugins that must be verified without claiming they are installed.",
+        "RESULT.md distinguishes verified repository evidence from unknown Jenkins controller, plugin, agent-label, and remote-validation facts.",
+        "RESULT.md treats the authorized production approver or submitter policy as unresolved rather than using an unrestricted approval gate.",
+        "No remote action is performed or claimed."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Work inside the attached synthetic Symfony/PHP repository. The accepted ADR at docs/adr/0001-modernize-jenkins.md is the plan I reviewed and explicitly approved; implement it now with exact local edits. Replace the unsafe legacy Scripted pipeline without changing application behavior beyond the ADR. Do not contact Jenkins, the registry, or any deployment target. Validate everything that can be validated locally, and save the completion report to RESULT.md with all repository files in the output directory.",
+      "expected_output": "A modernized Declarative Jenkinsfile that removes the hard-coded registry password and mutable latest-only flow, binds orders-registry by credential ID, builds once, promotes one immutable identity through staging and production, includes authorized bounded approval and rollback behavior, publishes JUnit results, and reports plugin/controller validation limits.",
+      "files": [
+        "evals/fixtures/symfony-modernize/composer.json",
+        "evals/fixtures/symfony-modernize/composer.lock",
+        "evals/fixtures/symfony-modernize/Dockerfile",
+        "evals/fixtures/symfony-modernize/Jenkinsfile",
+        "evals/fixtures/symfony-modernize/ops/deploy.sh",
+        "evals/fixtures/symfony-modernize/ops/rollback.sh",
+        "evals/fixtures/symfony-modernize/docs/adr/0001-modernize-jenkins.md"
+      ],
+      "expectations": [
+        "The resulting Jenkinsfile uses Declarative Pipeline syntax and no longer uses the legacy top-level node block.",
+        "The hard-coded registry password and insecure docker login command are absent, and registry access references Jenkins credential ID orders-registry.",
+        "The pipeline installs Composer dependencies from composer.lock and invokes the repository-owned ci:lint, ci:test, and ci:build scripts.",
+        "The container image is built and published exactly once under an immutable source-derived identity.",
+        "The exact published immutable identity is passed to both staging and production deployment without a rebuild.",
+        "Production approval expires after 30 minutes, is restricted to orders-release-managers, and captures the approver identity.",
+        "The pipeline includes a concrete rollback path using ops/rollback.sh.",
+        "JUnit results are published.",
+        "RESULT.md identifies every non-baseline Jenkins capability and providing plugin, including the Pipeline Input Step used for production approval.",
+        "RESULT.md lists actual local validation commands and outcomes, clearly states that controller-aware Jenkins validation was not performed, and claims no remote action.",
+        "The already accepted ADR remains present and is not rewritten to conceal a different decision."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Work inside the attached synthetic Rust repository. The supplied Jenkins log shows the failing stage. This is a pipeline repair with no durable architecture change. I explicitly approve this exact repair plan: replace the nonexistent cargo junit invocation with the repository-native cargo test --locked command, preserve all other stages, and do not create an ADR. Diagnose the causal error, apply only the approved local fix, run safe local validation if the toolchain is available, and save the completion report to RESULT.md with all repository files in the output directory. Do not contact a Jenkins controller.",
+      "expected_output": "The Jenkinsfile contains cargo test --locked instead of cargo junit --locked, no ADR is created, unrelated stages remain intact, and RESULT.md cites the causal log evidence plus actual local validation results or a precise blocker.",
+      "files": [
+        "evals/fixtures/rust-diagnose/Cargo.toml",
+        "evals/fixtures/rust-diagnose/src/lib.rs",
+        "evals/fixtures/rust-diagnose/Jenkinsfile",
+        "evals/fixtures/rust-diagnose/jenkins-failure.log"
+      ],
+      "expectations": [
+        "The Jenkinsfile contains cargo test --locked and no longer contains cargo junit --locked.",
+        "All Check, Test, and Build stages and every unrelated Jenkinsfile line remain functionally unchanged.",
+        "No ADR file or docs/adr directory is created for this non-architectural repair.",
+        "RESULT.md identifies the causal evidence from jenkins-failure.log: cargo reports that junit is not a command and exits with code 101.",
+        "RESULT.md records actual safe local validation results for cargo fmt --check and cargo test --locked, or gives a precise toolchain blocker instead of claiming success.",
+        "No Jenkins controller or other remote system is contacted, and RESULT.md does not claim controller-aware validation."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+node('linux') {
+  checkout scm
+  stage('Test') {
+    sh 'composer install'
+    sh 'vendor/bin/phpunit'
+  }
+  stage('Deploy staging') {
+    sh 'docker build -t registry.example.invalid/orders:latest .'
+    sh 'docker login -u ci-bot -p insecure-example registry.example.invalid'
+    sh 'docker push registry.example.invalid/orders:latest'
+    sh 'TARGET_ENV=staging IMAGE_REF=registry.example.invalid/orders:latest ops/deploy.sh'
+  }
+  stage('Deploy production') {
+    sh 'docker build -t registry.example.invalid/orders:latest .'
+    sh 'TARGET_ENV=production IMAGE_REF=registry.example.invalid/orders:latest ops/deploy.sh'
+  }
+}

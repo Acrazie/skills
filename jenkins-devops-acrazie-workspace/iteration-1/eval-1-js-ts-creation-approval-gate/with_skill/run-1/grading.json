@@ -1,0 +1,117 @@
+{
+  "expectations": [
+    {
+      "text": "No Jenkinsfile is created because the user has not approved the proposed pipeline decision.",
+      "passed": true,
+      "evidence": "Direct enumeration of outputs found only Dockerfile, RESULT.md, package.json, pnpm-lock.yaml, ops/deploy.sh, and ops/rollback.sh; no Jenkinsfile exists. RESULT.md lines 3 and 7 explicitly state that the proposal is not approved or implemented and that no Jenkinsfile was written pending approval."
+    },
+    {
+      "text": "No ADR file is created because approval has not yet been given.",
+      "passed": true,
+      "evidence": "Direct enumeration of outputs found no ADR directory or decision-record file. RESULT.md line 7 says no ADR was written, and line 126 says ADR creation would occur only after explicit approval."
+    },
+    {
+      "text": "RESULT.md presents an approval-ready decision covering objective, triggers, stages and exact repository-backed commands, agents, immutable artifact identity, environments, production approval, rollback, credential IDs, plugin dependencies, validation, and risks.",
+      "passed": true,
+      "evidence": "RESULT.md substantively covers the required decision dimensions: status/objective at lines 1-7; PR and main triggers at 29-38; ordered stages and commands at 40-60; agent requirements and unknown label/trust boundary at 62-71; commit/tag/digest identity at 73-81; development, staging, production, approval, and rollback at 83-89; credential IDs/types at 91-99; plugins at 101-110; unresolved decisions and operational risks at 112-134; and validation/exclusions at 136-151. Where no repository-backed publication or verification command exists, the report marks it unresolved rather than fabricating one."
+    },
+    {
+      "text": "The proposal uses the existing pnpm lint, test:ci, build, and image scripts plus ops/deploy.sh and ops/rollback.sh rather than inventing replacement commands.",
+      "passed": true,
+      "evidence": "package.json lines 5-10 defines lint, test:ci, build, and image. RESULT.md lines 45-58 invokes pnpm lint, pnpm test:ci, pnpm build, GIT_COMMIT=\"$GIT_COMMIT\" pnpm image, ./ops/deploy.sh, and ./ops/rollback.sh. The commands match the repository artifacts, and line 50 explicitly refuses to invent a missing publish/digest command. Hash comparison confirmed all five fixture files were unchanged in the outputs."
+    },
+    {
+      "text": "The proposal references credential ID checkout-registry without requesting or embedding a secret value.",
+      "passed": true,
+      "evidence": "RESULT.md lines 23 and 95 reference credential ID `checkout-registry`; line 116 asks only for its credential type and authorized registry scope. Line 99 states that no secret value will be stored or printed. Inspection of all output files found no embedded registry secret value."
+    },
+    {
+      "text": "The proposal builds one image and promotes the same immutable identity through development, staging, and production instead of rebuilding per environment.",
+      "passed": true,
+      "evidence": "RESULT.md line 34 proposes building the container exactly once and promoting the exact published digest. Lines 49-58 show one image-build stage followed by development, staging, and production deployments using IMAGE_REF. Lines 60 and 73-88 define the immutable registry digest as the single identity and explicitly prohibit rebuilding between environments; line 130 rejects separate per-environment builds."
+    },
+    {
+      "text": "RESULT.md distinguishes unknown Jenkins controller, plugin, agent-label, and remote-validation facts from verified repository evidence and performs no remote action.",
+      "passed": true,
+      "evidence": "RESULT.md lines 9-25 label repository facts, lines 38 and 71 distinguish recommendations from unknown Jenkins job/agent facts, lines 101-110 mark every plugin's availability unknown, and lines 122 and 142 identify the unknown controller/LTS/plugin facts and the unrun Declarative linter. Lines 140-143 accurately separate local repository/script checks from unrun Jenkins, registry, and deployment validation. The transcript shows only local file inspection, searches, shell syntax/mode checks, and writing RESULT.md; it contains no Jenkins, registry, or deployment remote action."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_tokens": null,
+    "duration_ms": 171390,
+    "executor_duration_seconds": 171.39,
+    "grader_duration_seconds": 128.37,
+    "total_duration_seconds": 299.76,
+    "note": "Token count was not included in the delegation completion events."
+  },
+  "claims": [
+    {
+      "claim": "The output repository contains no Jenkinsfile, CI configuration, source tree, TypeScript configuration, ESLint configuration, test files, deployment documentation, or ADR convention.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Direct recursive enumeration found exactly six files: Dockerfile, RESULT.md, package.json, pnpm-lock.yaml, ops/deploy.sh, and ops/rollback.sh. None of the claimed absent artifacts is present."
+    },
+    {
+      "claim": "The lockfile root importer is empty despite package.json declaring devDependencies, so frozen installation cannot be assumed to succeed.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "pnpm-lock.yaml lines 4-5 contains `importers: .: {}`, while package.json lines 11-15 declares eslint, typescript, and vitest devDependencies. The caution is justified; the executor did not falsely claim an installation result."
+    },
+    {
+      "claim": "The deployment and rollback scripts require environment/image variables, are executable, pass shell syntax validation, and only print the requested operation.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Direct inspection shows required TARGET_ENV and IMAGE_REF expansions and a single printf operation in each script. Direct mode checks found both executable, and independent `sh -n` runs exited successfully for both output scripts."
+    },
+    {
+      "claim": "The copied fixture files were preserved unchanged.",
+      "type": "process",
+      "verified": true,
+      "evidence": "SHA-256 comparisons between the output and fixture copies matched for Dockerfile, package.json, pnpm-lock.yaml, ops/deploy.sh, and ops/rollback.sh. RESULT.md is the only added file."
+    },
+    {
+      "claim": "No installed `jenkins-js-ts-acrazie` specialist was found, so the generic repository-evidence workflow was used.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The transcript records a local search for `*jenkins-js-ts-acrazie*` returning zero results after the main skill and relevant references were loaded. No skill-install action appears in the transcript."
+    },
+    {
+      "claim": "No package install, lint, test, build, image build, Jenkins lint, registry push, or deployment was performed.",
+      "type": "process",
+      "verified": true,
+      "evidence": "RESULT.md lines 141-143 explicitly mark these actions not run/not attempted. The complete transcript contains no invocation of pnpm, docker, Jenkins, registry, deploy.sh, or rollback.sh; it shows only local inspection, git status, shell syntax/mode checks, and RESULT.md creation."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "RESULT.md presents an approval-ready decision covering objective, triggers, stages and exact repository-backed commands, agents, immutable artifact identity, environments, production approval, rollback, credential IDs, plugin dependencies, validation, and risks.",
+        "reason": "This single binary assertion bundles many independently important properties, so a future result missing one property would fail without showing which pipeline-decision dimension regressed. Split it into a small number of discriminating assertions, especially (1) trigger/stage/command fidelity, (2) artifact promotion/approval/rollback, and (3) infrastructure dependencies/validation/risks."
+      },
+      {
+        "reason": "No assertion directly requires the approval process to surface repository blockers and unresolved user-owned decisions before implementation. Add an assertion that the report identifies the inconsistent lockfile, absent publication/digest and environment-verification commands, print-only ops scripts, and unresolved approval/rollback ownership without inventing answers; this is central to the skill's decision gate and would distinguish a merely well-formatted proposal from a safe one."
+      }
+    ],
+    "overall": "The assertions cover the core approval gate and immutable-promotion behavior and all pass on substantive evidence. The main weakness is that the broad report-quality assertion obscures which decision dimensions are actually tested, while blocker discovery and unresolved-decision handling are not independently enforced."
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 0,
+    "transcript_chars": 0,
+    "token_metric_note": "Unavailable: completion events did not include token counts; zero is a missing-data sentinel, not observed usage."
+  }
+}

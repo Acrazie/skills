@@ -1,0 +1,99 @@
+{
+  "expectations": [
+    {
+      "text": "The Jenkinsfile contains cargo test --locked and no longer contains cargo junit --locked.",
+      "passed": true,
+      "evidence": "outputs/Jenkinsfile line 12 is `sh 'cargo test --locked'`; `cargo junit --locked` is absent. deterministic-checks.json independently records cargo_test_present=true and cargo_junit_absent=true."
+    },
+    {
+      "text": "All Check, Test, and Build stages and every unrelated Jenkinsfile line remain functionally unchanged.",
+      "passed": true,
+      "evidence": "A programmatic unified diff against the supplied fixture found exactly one changed line: `sh 'cargo junit --locked'` became `sh 'cargo test --locked'`. Check remains `cargo fmt --check` plus `cargo clippy --locked -- -D warnings`; Build remains `cargo build --release --locked`; all three stage names and all other Jenkinsfile lines are unchanged. deterministic-checks.json also records exact_approved_jenkinsfile=true."
+    },
+    {
+      "text": "No ADR file or docs/adr directory is created for this non-architectural repair.",
+      "passed": true,
+      "evidence": "The output tree contains no ADR-named file or directory, and deterministic-checks.json records adr_files_absent=true. RESULT.md line 5 explicitly says no ADR was created."
+    },
+    {
+      "text": "RESULT.md identifies the causal evidence from jenkins-failure.log: cargo reports that junit is not a command and exits with code 101.",
+      "passed": true,
+      "evidence": "jenkins-failure.log lines 5-10 show `cargo junit --locked`, `error: no such command: junit`, and `ERROR: script returned exit code 101`. RESULT.md lines 9-16 cites the missing Cargo `junit` subcommand and exit code 101 as the causal error."
+    },
+    {
+      "text": "RESULT.md records actual safe local validation results for cargo fmt --check and cargo test --locked, or gives a precise toolchain blocker instead of claiming success.",
+      "passed": true,
+      "evidence": "The complete transcript shows a local validation terminal call and successful output from the available Cargo/Rust toolchain. RESULT.md lines 31-40 records cargo/rustc versions, `cargo fmt --check` passed with exit 0, and `cargo test --locked` passed with exit 0 (1 unit test passed, 0 failed; doc-tests had 0 failures). Generated target artifacts corroborate execution."
+    },
+    {
+      "text": "No Jenkins controller or other remote system is contacted, and RESULT.md does not claim controller-aware validation.",
+      "passed": true,
+      "evidence": "The complete transcript contains only local filesystem operations and local Cargo commands; no browser, HTTP, SSH, Jenkins CLI, or other remote-system call occurs. RESULT.md line 5 says `No Jenkins controller was contacted` and reports only local validation, with no controller-aware validation claim."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "terminal": 2,
+      "search_files": 1,
+      "read_file": 4,
+      "patch": 1,
+      "write_file": 1
+    },
+    "total_tool_calls": 9,
+    "total_steps": 9,
+    "errors_encountered": 0,
+    "output_chars": 2345,
+    "transcript_chars": 6998
+  },
+  "timing": {
+    "executor_duration_seconds": 50.9,
+    "total_duration_seconds": 50.9
+  },
+  "claims": [
+    {
+      "claim": "Only the Jenkinsfile test command was changed.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Programmatic comparison with the supplied fixture found Cargo.lock, Cargo.toml, jenkins-failure.log, and src/lib.rs identical; the Jenkinsfile diff contains only the approved one-line command replacement. RESULT.md is the requested new report; target/ contains local build artifacts."
+    },
+    {
+      "claim": "Cargo exited 101 because the junit subcommand does not exist.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "jenkins-failure.log lines 5-10 directly records the invoked command, Cargo's `no such command: junit` error, and exit code 101."
+    },
+    {
+      "claim": "cargo fmt --check passed locally.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The transcript's validation terminal result shows the `cargo fmt --check` section completed without an error before subsequent commands ran; RESULT.md records exit 0."
+    },
+    {
+      "claim": "cargo test --locked passed locally with one unit test passed and no failures.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The transcript records the local validation command and successful terminal result; RESULT.md line 40 reports exit 0, 1 unit test passed, 0 failed, and doc-tests with 0 failures. Test build artifacts are present under target/debug."
+    },
+    {
+      "claim": "No Jenkins controller was contacted.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The complete transcript shows no remote-system tool or network command; all execution was against local paths and the local Rust toolchain."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "No suggestions; the assertions are specific, discriminating, and verifiable from the fixture, outputs, deterministic checks, and complete transcript."
+  }
+}

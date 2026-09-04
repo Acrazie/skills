@@ -1,0 +1,20 @@
+{
+  "eval_id": 3,
+  "outputs": "/Users/acrazie/Documents/ProjectPerso/skills/jenkins-devops-acrazie-workspace/iteration-1/eval-3-rust-approved-repair/with_skill/run-1/outputs",
+  "files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "Jenkinsfile",
+    "RESULT.md",
+    "jenkins-failure.log",
+    "src/lib.rs"
+  ],
+  "exact_approved_jenkinsfile": true,
+  "cargo_test_present": true,
+  "cargo_junit_absent": true,
+  "adr_files_absent": true,
+  "result_exists": true,
+  "result_mentions_exit_101": true,
+  "result_mentions_fmt": true,
+  "result_mentions_test": true
+}

@@ -1,0 +1,122 @@
+{
+  "expectations": [
+    {
+      "text": "No Jenkinsfile is created because the user has not approved the proposed pipeline decision.",
+      "passed": true,
+      "evidence": "The inspected outputs contain exactly the five original fixture files plus RESULT.md and no Jenkinsfile. RESULT.md lines 3-5 explicitly says approval is required before repository pipeline files are created and that no Jenkinsfile was written. A direct diff against the fixture reported only RESULT.md as additional."
+    },
+    {
+      "text": "No ADR file is created because approval has not yet been given.",
+      "passed": true,
+      "evidence": "No ADR or docs directory exists in the inspected six-file output set. RESULT.md lines 3-5 says the decision is Proposed and that no ADR was written; lines 151-155 defer creation of docs/adr/0001-jenkins-ci-cd.md until explicit approval."
+    },
+    {
+      "text": "RESULT.md states the objective, triggers, stage flow, agent contract, environments, production approval, rollback, validation plan, and material risks.",
+      "passed": true,
+      "evidence": "RESULT.md substantively covers every requested area: objective/topology (lines 25-35), triggers/trust (37-45), ordered stages (47-64), agent/workspace contract (66-70), environments/promotion (81-89), production authorization (91-102), rollback in the stage/environment tables (62 and 83-87), validation performed and blocked/not-run checks (159-176), and material risks/unknowns including fork trust, Docker privilege, missing project inputs, credentials, deployment verification, concurrency, stale builds, and known-good digest provenance (45, 68-70, 78, 89, 93-102, 131-149)."
+    },
+    {
+      "text": "The proposal uses the existing pnpm lint, test:ci, build, and image scripts plus ops/deploy.sh and ops/rollback.sh rather than inventing replacement commands.",
+      "passed": true,
+      "evidence": "RESULT.md lines 11-17 inventories the exact package.json scripts and ops interfaces. The proposed stage table uses pnpm lint, pnpm test:ci, pnpm build, GIT_COMMIT=<full-SCM-revision> pnpm image, TARGET_ENV/IMAGE_REF with ./ops/deploy.sh for all environments, and ./ops/rollback.sh (lines 49-62). Lines 57 and 64 explicitly leave publication unresolved because no repository-owned command exists rather than inventing one. The deterministic check result result_mentions_all_repo_commands=false is contradicted by the actual RESULT.md and appears to be a checker false negative."
+    },
+    {
+      "text": "The proposal references credential ID checkout-registry without requesting or embedding a secret value.",
+      "passed": true,
+      "evidence": "RESULT.md lines 19 and 104-112 references checkout-registry only as a Jenkins credential ID, marks its type and scope unknown, restricts proposed use to main publication, and explicitly states: 'No secret value is requested or stored.' No secret value appears in the inspected files."
+    },
+    {
+      "text": "The proposal builds one image and promotes the same immutable identity through development, staging, and production instead of rebuilding per environment.",
+      "passed": true,
+      "evidence": "RESULT.md line 30 proposes building exactly once; lines 56-62 carry one digest reference through development, staging, and production; lines 64 and 72-79 require a registry-returned OCI digest and explicitly state that all three environments receive the same digest without rebuilding."
+    },
+    {
+      "text": "The proposal inventories the Jenkins capabilities and providing plugins that must be verified without claiming they are installed.",
+      "passed": true,
+      "evidence": "RESULT.md lines 114-129 states controller inventory and versions were not supplied and availability/compatibility are unverified, then maps Declarative Pipeline, Multibranch, GitHub discovery, SCM checkout, shell steps, input approval, JUnit, and credential binding to typical providers that must be checked on the actual controller. It does not claim installation."
+    },
+    {
+      "text": "RESULT.md distinguishes verified repository evidence from unknown Jenkins controller, plugin, agent-label, and remote-validation facts.",
+      "passed": true,
+      "evidence": "RESULT.md has a dedicated 'Verified repository evidence' section (lines 7-21), labels the topology as a recommendation rather than a controller fact (line 35), marks agent label/capabilities unknown (lines 68-70), marks controller/plugin inventory unverified (lines 114-129), and limits validation evidence while explicitly saying it does not prove Jenkins DSL, plugin, agent, publication, deployment, approval, verification, or rollback behavior (lines 159-176)."
+    },
+    {
+      "text": "RESULT.md treats the authorized production approver or submitter policy as unresolved rather than using an unrestricted approval gate.",
+      "passed": true,
+      "evidence": "RESULT.md lines 60 and 91-102 requires Jenkins input with explicit submitter and audited identity, says the allowed Jenkins user/group remains unresolved, and lists related approval evidence, timeout, stale-build, concurrency, rollback, and environment-authorization decisions. The approval frontier again requests the concrete submitter user/group at line 143."
+    },
+    {
+      "text": "No remote action is performed or claimed.",
+      "passed": true,
+      "evidence": "The complete executor transcript shows only local reads/searches, local fixture copying/diffing, package JSON parsing, shell syntax checks, command availability checks, and local print-only deploy/rollback smoke checks. RESULT.md lines 161-174 explicitly says no remote system was contacted, no image was built or published, no deployment was attempted, and remote-dependent Docker/Jenkins checks were not run. No transcript evidence contradicts this."
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 0,
+    "total": 10,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "read_file": 11,
+      "search_files": 4,
+      "terminal": 4,
+      "skills_list": 1,
+      "write_file": 1
+    },
+    "total_tool_calls": 21,
+    "errors_encountered": 0,
+    "output_chars": 14978,
+    "transcript_chars": 12018
+  },
+  "timing": {
+    "executor_duration_seconds": 185.84,
+    "total_duration_seconds": 185.84,
+    "total_tokens": null
+  },
+  "claims": [
+    {
+      "claim": "The five fixture files were copied unchanged and RESULT.md was the only added output.",
+      "type": "process",
+      "verified": true,
+      "evidence": "A direct diff -rq between the fixture and outputs reported only RESULT.md as present exclusively in outputs; inspection found six files total."
+    },
+    {
+      "claim": "The repository inputs are insufficient to validate the declared lint, test, and TypeScript build.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "The inspected output has no src/ or tsconfig.json, and pnpm-lock.yaml has an empty importer despite package.json devDependencies. RESULT.md accurately marks these validations blocked/not run."
+    },
+    {
+      "claim": "The deployment and rollback scripts do not mutate an environment.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The inspected ops/deploy.sh and ops/rollback.sh only validate TARGET_ENV/IMAGE_REF and print an operation; neither contains a remote or mutating command."
+    },
+    {
+      "claim": "No remote system was contacted and no image, publication, or deployment action occurred.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The complete transcript contains no remote-action command; its only deploy/rollback executions invoke the local print-only fixture scripts. Docker build and Jenkins/controller validation are explicitly recorded as not run."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "RESULT.md states the objective, triggers, stage flow, agent contract, environments, production approval, rollback, validation plan, and material risks.",
+        "reason": "This bundles nine independently meaningful requirements into one verdict, so a single omitted section would fail without showing which capability regressed. Split it into a small number of focused assertions, especially separating validation/risks from pipeline design and approval/rollback."
+      },
+      {
+        "assertion": "The proposal uses the existing pnpm lint, test:ci, build, and image scripts plus ops/deploy.sh and ops/rollback.sh rather than inventing replacement commands.",
+        "reason": "The sibling deterministic checker reports result_mentions_all_repo_commands=false even though RESULT.md lines 49-62 contain all six existing interfaces. Fix the checker to parse command mentions robustly so deterministic evidence does not contradict direct file inspection."
+      }
+    ],
+    "overall": "The assertions are substantive and discriminating overall. One is overly bundled, and the deterministic command-inventory check has a false negative that should be corrected."
+  }
+}

@@ -1,0 +1,21 @@
+pipeline {
+  agent { label 'linux' }
+  stages {
+    stage('Check') {
+      steps {
+        sh 'cargo fmt --check'
+        sh 'cargo clippy --locked -- -D warnings'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'cargo test --locked'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'cargo build --release --locked'
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "total_tokens": null,
+  "duration_ms": 99120,
+  "executor_duration_seconds": 99.12,
+  "grader_duration_seconds": 132.49,
+  "total_duration_seconds": 231.61,
+  "note": "Token count was not included in the delegation completion events."
+}

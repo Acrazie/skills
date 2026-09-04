@@ -1,0 +1,23 @@
+{
+  "eval_id": 1,
+  "outputs": "/Users/acrazie/Documents/ProjectPerso/skills/jenkins-devops-acrazie-workspace/iteration-2/eval-1-js-ts-creation-approval-gate/with_skill/run-1/outputs",
+  "files": [
+    "Dockerfile",
+    "RESULT.md",
+    "ops/deploy.sh",
+    "ops/rollback.sh",
+    "package.json",
+    "pnpm-lock.yaml"
+  ],
+  "jenkinsfile_absent": true,
+  "adr_files_absent": true,
+  "result_exists": true,
+  "result_mentions_credential_id": true,
+  "result_mentions_immutable_promotion": true,
+  "result_mentions_all_repo_commands": false,
+  "result_distinguishes_unknown_controller_facts": true,
+  "result_mentions_plugin_capabilities": true,
+  "result_flags_approver_policy_unresolved": true,
+  "deploy_script_unchanged": true,
+  "rollback_script_unchanged": true
+}

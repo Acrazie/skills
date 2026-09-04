@@ -1,0 +1,111 @@
+{
+  "expectations": [
+    {
+      "text": "The Jenkinsfile contains cargo test --locked and no longer contains cargo junit --locked.",
+      "passed": true,
+      "evidence": "Verified directly in outputs/Jenkinsfile: line 12 is `sh 'cargo test --locked'`, and the file contains no `cargo junit --locked`. programmatic_checks.json independently records cargo_test_present=true and cargo_junit_absent=true."
+    },
+    {
+      "text": "All Check, Test, and Build stages and every unrelated Jenkinsfile line remain functionally unchanged.",
+      "passed": true,
+      "evidence": "Direct comparison with the source fixture found the output Jenkinsfile byte-for-byte equal to the fixture after only replacing `cargo junit --locked` with `cargo test --locked`. Check still runs fmt and clippy, Test retains its structure with the approved command, and Build still runs `cargo build --release --locked`. programmatic_checks.json records exact_approved_jenkinsfile=true."
+    },
+    {
+      "text": "No ADR file or docs/adr directory is created for this non-architectural repair.",
+      "passed": true,
+      "evidence": "Recursive inspection of the output tree found no path containing `adr`; programmatic_checks.json records adr_files_absent=true. RESULT.md line 20 also states that no ADR was created."
+    },
+    {
+      "text": "RESULT.md identifies the causal evidence from jenkins-failure.log: cargo reports that junit is not a command and exits with code 101.",
+      "passed": true,
+      "evidence": "Verified against both files. jenkins-failure.log lines 5-10 show `cargo junit --locked`, `error: no such command: junit`, and `ERROR: script returned exit code 101`. RESULT.md line 9 attributes the Test-stage exit code 101 to the nonexistent `junit` Cargo subcommand."
+    },
+    {
+      "text": "RESULT.md records actual safe local validation results for cargo fmt --check and cargo test --locked, or gives a precise toolchain blocker instead of claiming success.",
+      "passed": true,
+      "evidence": "RESULT.md lines 22-29 says the Rust toolchain was available and records successful `cargo fmt --check` and `cargo test --locked`, including 1 unit test passed, 0 failed, and doc-tests passed. The transcript corroborates actual execution: it detects cargo/rustc/rustfmt, then runs a `set -e` local validation sequence containing both commands; the tool exits 0 and emits the test/build output. Generated target artifacts are also present."
+    },
+    {
+      "text": "No Jenkins controller or other remote system is contacted, and RESULT.md does not claim controller-aware validation.",
+      "passed": true,
+      "evidence": "RESULT.md line 5 explicitly limits the work to the copied repository and says no Jenkins controller was contacted; it labels validation as local and makes no controller-aware claim. The complete transcript contains only local filesystem inspection/editing and local Cargo commands, with no browser, web, SSH, Jenkins CLI/API, curl, or other remote-system call."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {
+      "skill_view": 1,
+      "terminal": 7,
+      "search_files": 6,
+      "read_file": 4,
+      "patch": 1,
+      "write_file": 1
+    },
+    "total_tool_calls": 20,
+    "errors_encountered": 1,
+    "output_chars": 0,
+    "transcript_chars": 12970,
+    "notes": "No metrics.json was supplied. Counts were derived from the transcript. output_chars covers non-target text files because target contains binary build artifacts. The one nonzero command was the intentional reproduction of `cargo junit --locked`, which exited 101.",
+    "total_steps": 0,
+    "token_metric_note": "Unavailable: completion events did not include token counts; zero is a missing-data sentinel, not observed usage."
+  },
+  "timing": {
+    "total_tokens": null,
+    "duration_ms": 97870,
+    "executor_duration_seconds": 97.87,
+    "grader_duration_seconds": 94.45,
+    "total_duration_seconds": 192.32,
+    "note": "Token count was not included in the delegation completion events."
+  },
+  "claims": [
+    {
+      "claim": "The failure is caused by `cargo junit --locked` invoking a nonexistent Cargo subcommand and exiting with code 101.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "jenkins-failure.log lines 5-10 contains the command, `error: no such command: junit`, and exit code 101; transcript lines 29-30 also show a local reproduction exiting 101."
+    },
+    {
+      "claim": "Only the approved Jenkinsfile command was changed; all other repository source files remain unchanged.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "The output Jenkinsfile exactly equals the fixture with the single approved string replacement. SHA-256 comparisons showed Cargo.lock, Cargo.toml, jenkins-failure.log, and src/lib.rs identical to the fixture, and the output includes the complete fixture file set."
+    },
+    {
+      "claim": "All repository-native pipeline commands completed successfully locally.",
+      "type": "process",
+      "verified": true,
+      "evidence": "Transcript line 33 runs fmt, clippy, test, and release build under `set -e`; line 34 reports exit_code 0 and includes successful clippy/test/build output. RESULT.md records the same commands and test count."
+    },
+    {
+      "claim": "No ADR was created.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Recursive output-path inspection found no ADR file or directory, matching programmatic_checks.json adr_files_absent=true."
+    },
+    {
+      "claim": "No Jenkins controller was contacted.",
+      "type": "process",
+      "verified": true,
+      "evidence": "The full transcript shows no network-capable or Jenkins-controller tool call; all operations target local files or invoke local Cargo commands."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "No Jenkins controller or other remote system is contacted, and RESULT.md does not claim controller-aware validation.",
+        "reason": "The report-language half is directly verifiable, but absence of remote contact is inferred from the transcript rather than enforced. For a more discriminating test, run the executor with network access disabled or capture an outbound-network audit and assert that it is empty."
+      }
+    ],
+    "overall": "The assertions are otherwise substantive and well supported: they verify the exact patch, preservation of unrelated content, ADR absence, causal diagnosis, and real local validation."
+  }
+}

@@ -1,0 +1,11 @@
+Started by user developer
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] sh
++ cargo junit --locked
+error: no such command: `junit`
+
+help: view all installed commands with `cargo --list`
+[Pipeline] }
+ERROR: script returned exit code 101
+Finished: FAILURE

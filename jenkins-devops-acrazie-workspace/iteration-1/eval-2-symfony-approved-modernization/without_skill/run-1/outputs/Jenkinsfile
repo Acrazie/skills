@@ -1,0 +1,123 @@
+pipeline {
+  agent { label 'linux' }
+
+  options {
+    skipDefaultCheckout(true)
+  }
+
+  environment {
+    REGISTRY = 'registry.example.invalid'
+    IMAGE_REPOSITORY = 'registry.example.invalid/orders'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        script {
+          def scmVars = checkout scm
+          env.IMAGE_TAGGED_REF = "${env.IMAGE_REPOSITORY}:${scmVars.GIT_COMMIT}"
+        }
+      }
+    }
+
+    stage('Install dependencies') {
+      steps {
+        sh '''
+          set -eu
+          test -f composer.lock
+          composer install --no-interaction --prefer-dist --no-progress
+        '''
+      }
+    }
+
+    stage('Lint') {
+      steps {
+        sh 'composer run-script ci:lint'
+      }
+    }
+
+    stage('Test') {
+      steps {
+        sh '''
+          set -eu
+          mkdir -p reports
+          composer run-script ci:test
+        '''
+      }
+      post {
+        always {
+          junit allowEmptyResults: true, testResults: 'reports/junit.xml'
+        }
+      }
+    }
+
+    stage('Build application') {
+      steps {
+        sh 'composer run-script ci:build'
+      }
+    }
+
+    stage('Build and push image') {
+      steps {
+        withCredentials([usernamePassword(
+          credentialsId: 'orders-registry',
+          usernameVariable: 'REGISTRY_USERNAME',
+          passwordVariable: 'REGISTRY_PASSWORD'
+        )]) {
+          sh '''
+            set -eu
+            set +x
+            printf '%s' "$REGISTRY_PASSWORD" | docker login \
+              --username "$REGISTRY_USERNAME" \
+              --password-stdin "$REGISTRY"
+            trap 'docker logout "$REGISTRY" >/dev/null 2>&1 || true' EXIT
+
+            docker build --tag "$IMAGE_TAGGED_REF" .
+            docker push "$IMAGE_TAGGED_REF" | tee image-push-output.txt
+
+            IMAGE_DIGEST="$(sed -n 's/.*digest: \(sha256:[0-9a-f]\{64\}\).*/\1/p' image-push-output.txt | tail -n 1)"
+            test -n "$IMAGE_DIGEST"
+            printf '%s@%s\n' "$IMAGE_REPOSITORY" "$IMAGE_DIGEST" > image-ref.txt
+          '''
+        }
+        script {
+          env.IMMUTABLE_IMAGE_REF = readFile('image-ref.txt').trim()
+          if (!env.IMMUTABLE_IMAGE_REF) {
+            error('The pushed image digest was not captured')
+          }
+        }
+      }
+    }
+
+    stage('Deploy staging') {
+      steps {
+        withEnv([
+          'TARGET_ENV=staging',
+          "IMAGE_REF=${env.IMMUTABLE_IMAGE_REF}"
+        ]) {
+          sh 'ops/deploy.sh'
+        }
+      }
+    }
+
+    stage('Approve production') {
+      options {
+        timeout(time: 30, unit: 'MINUTES')
+      }
+      steps {
+        input message: 'Promote the staging image digest to production?', ok: 'Deploy to production'
+      }
+    }
+
+    stage('Deploy production') {
+      steps {
+        withEnv([
+          'TARGET_ENV=production',
+          "IMAGE_REF=${env.IMMUTABLE_IMAGE_REF}"
+        ]) {
+          sh 'ops/deploy.sh'
+        }
+      }
+    }
+  }
+}

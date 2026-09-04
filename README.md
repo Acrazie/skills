@@ -19,6 +19,7 @@ npx skills add Acrazie/skills@repository-readme-architect-acrazie
 npx skills add Acrazie/skills@audit-repository-acrazie
 npx skills add Acrazie/skills@svg-icon-designer-acrazie
 npx skills add Acrazie/skills@skill-refiner-acrazie
+npx skills add Acrazie/skills@jenkins-devops-acrazie
 ```
 
 The CLI detects supported coding agents and lets you choose where to install each skill.
@@ -73,6 +74,14 @@ Collect structured feedback while testing one target skill, preserve observation
 $skill-refiner-acrazie
 ```
 
+### [Jenkins DevOps / Acrazie](skills/jenkins-devops-acrazie/SKILL.md)
+
+Design, modernize, and diagnose repository-owned Jenkins CI/CD pipelines through evidence-first inspection, an approval-gated ADR, immutable artifact promotion, deployment safeguards, and explicit validation limits.
+
+```text
+$jenkins-devops-acrazie
+```
+
 ## Naming
 
 Published skill IDs keep the function first for discovery and use `-acrazie` as a consistent author signature. The canonical source is `Acrazie/skills`.
@@ -84,7 +93,8 @@ skills/
 ├── repository-readme-architect-acrazie/
 ├── audit-repository-acrazie/
 ├── svg-icon-designer-acrazie/
-└── skill-refiner-acrazie/
+├── skill-refiner-acrazie/
+└── jenkins-devops-acrazie/
 ```
 
 Each directory contains its `SKILL.md`, `agents/openai.yaml`, and only the references required by that workflow.

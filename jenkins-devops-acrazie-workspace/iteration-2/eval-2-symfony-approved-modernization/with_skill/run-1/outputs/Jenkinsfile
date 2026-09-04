@@ -1,0 +1,124 @@
+pipeline {
+    agent { label 'linux' }
+
+    options {
+        skipDefaultCheckout(true)
+    }
+
+    environment {
+        REGISTRY = 'registry.example.invalid'
+        IMAGE_REPOSITORY = 'registry.example.invalid/orders'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                script {
+                    if (!env.GIT_COMMIT?.trim()) {
+                        error 'SCM checkout did not provide GIT_COMMIT'
+                    }
+                    env.IMAGE_TAG = "${env.IMAGE_REPOSITORY}:${env.GIT_COMMIT}"
+                }
+            }
+        }
+
+        stage('Install dependencies') {
+            steps {
+                sh 'composer install --no-interaction'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh 'composer run ci:lint'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'composer run ci:test'
+            }
+        }
+
+        stage('Build application') {
+            steps {
+                sh 'composer run ci:build'
+            }
+        }
+
+        stage('Build and publish image') {
+            steps {
+                sh 'docker build --tag "$IMAGE_TAG" .'
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'orders-registry',
+                        usernameVariable: 'REGISTRY_USERNAME',
+                        passwordVariable: 'REGISTRY_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                        set +x
+                        printf '%s' "$REGISTRY_PASSWORD" | docker login "$REGISTRY" --username "$REGISTRY_USERNAME" --password-stdin
+                        docker push "$IMAGE_TAG"
+                    '''
+                }
+                script {
+                    env.IMAGE_REF = sh(
+                        script: '''
+                            docker image inspect --format='{{range .RepoDigests}}{{println .}}{{end}}' "$IMAGE_TAG" |
+                                while IFS= read -r ref; do
+                                    case "$ref" in
+                                        "$IMAGE_REPOSITORY"@sha256:*) printf '%s\n' "$ref"; exit 0 ;;
+                                    esac
+                                done
+                        ''',
+                        returnStdout: true
+                    ).trim()
+                    if (!env.IMAGE_REF) {
+                        error 'Published image digest was not available locally after push'
+                    }
+                }
+                sh 'docker logout "$REGISTRY"'
+            }
+        }
+
+        stage('Deploy staging') {
+            steps {
+                sh 'TARGET_ENV=staging IMAGE_REF="$IMAGE_REF" ./ops/deploy.sh'
+            }
+        }
+
+        stage('Approve production') {
+            steps {
+                script {
+                    env.PRODUCTION_APPROVER = timeout(time: 30, unit: 'MINUTES') {
+                        input(
+                            message: "Promote ${env.IMAGE_REF} to production?",
+                            ok: 'Deploy',
+                            submitter: 'orders-release-managers',
+                            submitterParameter: 'PRODUCTION_APPROVER'
+                        )
+                    }
+                }
+            }
+        }
+
+        stage('Deploy production') {
+            steps {
+                echo "Production deployment approved by ${env.PRODUCTION_APPROVER}"
+                sh 'TARGET_ENV=production IMAGE_REF="$IMAGE_REF" ./ops/deploy.sh'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit allowEmptyResults: true, testResults: 'reports/junit.xml'
+        }
+        cleanup {
+            sh 'docker logout "$REGISTRY" >/dev/null 2>&1 || true'
+            deleteDir()
+        }
+    }
+}
