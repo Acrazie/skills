@@ -20,6 +20,11 @@ npx skills add Acrazie/skills@audit-repository-acrazie
 npx skills add Acrazie/skills@svg-icon-designer-acrazie
 npx skills add Acrazie/skills@skill-refiner-acrazie
 npx skills add Acrazie/skills@jenkins-devops-acrazie
+npx skills add Acrazie/skills@jenkins-js-ts-acrazie
+npx skills add Acrazie/skills@jenkins-python-acrazie
+npx skills add Acrazie/skills@jenkins-rust-acrazie
+npx skills add Acrazie/skills@jenkins-go-acrazie
+npx skills add Acrazie/skills@jenkins-symfony-php-acrazie
 ```
 
 The CLI detects supported coding agents and lets you choose where to install each skill.
@@ -82,6 +87,16 @@ Design, modernize, and diagnose repository-owned Jenkins CI/CD pipelines through
 $jenkins-devops-acrazie
 ```
 
+### Stack Specialists (invoked by Jenkins DevOps)
+
+Complementary read-only specialists that inspect language-specific toolchains, frozen install commands, test reports, and cache keys:
+
+- **[Jenkins JS/TS Specialist / Acrazie](skills/jenkins-js-ts-acrazie/SKILL.md)**: Node.js and Bun runtimes, package managers (`pnpm`, `npm`, `yarn`, `bun`), and script targets.
+- **[Jenkins Python Specialist / Acrazie](skills/jenkins-python-acrazie/SKILL.md)**: Python environments (`uv`, `poetry`, `pipenv`, `pip`), Pytest, and linters.
+- **[Jenkins Rust Specialist / Acrazie](skills/jenkins-rust-acrazie/SKILL.md)**: Cargo workspaces, `--locked` builds, Clippy, and test targets.
+- **[Jenkins Go Specialist / Acrazie](skills/jenkins-go-acrazie/SKILL.md)**: Go modules, workspaces, `golangci-lint`, and test targets.
+- **[Jenkins Symfony / PHP Specialist / Acrazie](skills/jenkins-symfony-php-acrazie/SKILL.md)**: Composer lockfiles, Symfony console tasks, PHPUnit, and static analysis.
+
 ## Naming
 
 Published skill IDs keep the function first for discovery and use `-acrazie` as a consistent author signature. The canonical source is `Acrazie/skills`.
@@ -94,7 +109,12 @@ skills/
 ├── audit-repository-acrazie/
 ├── svg-icon-designer-acrazie/
 ├── skill-refiner-acrazie/
-└── jenkins-devops-acrazie/
+├── jenkins-devops-acrazie/
+├── jenkins-js-ts-acrazie/
+├── jenkins-python-acrazie/
+├── jenkins-rust-acrazie/
+├── jenkins-go-acrazie/
+└── jenkins-symfony-php-acrazie/
 ```
 
 Each directory contains its `SKILL.md`, `agents/openai.yaml`, and only the references required by that workflow.

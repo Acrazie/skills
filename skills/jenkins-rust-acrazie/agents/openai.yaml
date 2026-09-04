@@ -1,0 +1,6 @@
+interface:
+  display_name: "Jenkins Rust Specialist / Acrazie"
+  short_description: "Interprets Rust and Cargo codebases for Jenkins pipelines"
+  default_prompt: "Interpret this Rust repository for integration with jenkins-devops-acrazie."
+policy:
+  allow_implicit_invocation: false

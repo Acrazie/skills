@@ -1,0 +1,6 @@
+interface:
+  display_name: "Jenkins Symfony / PHP Specialist / Acrazie"
+  short_description: "Interprets Symfony and PHP codebases for Jenkins pipelines"
+  default_prompt: "Interpret this Symfony/PHP repository for integration with jenkins-devops-acrazie."
+policy:
+  allow_implicit_invocation: false

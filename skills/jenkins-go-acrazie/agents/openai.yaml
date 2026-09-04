@@ -1,0 +1,6 @@
+interface:
+  display_name: "Jenkins Go Specialist / Acrazie"
+  short_description: "Interprets Go codebases for Jenkins pipelines"
+  default_prompt: "Interpret this Go repository for integration with jenkins-devops-acrazie."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Jenkins JS/TS Specialist / Acrazie"
+  short_description: "Interprets Node.js and Bun codebases for Jenkins pipelines"
+  default_prompt: "Interpret this JavaScript/TypeScript repository for integration with jenkins-devops-acrazie."
+policy:
+  allow_implicit_invocation: false
