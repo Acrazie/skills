@@ -19,6 +19,7 @@ npx skills add Acrazie/skills@repository-readme-architect-acrazie
 npx skills add Acrazie/skills@audit-repository-acrazie
 npx skills add Acrazie/skills@svg-icon-designer-acrazie
 npx skills add Acrazie/skills@skill-refiner-acrazie
+npx skills add Acrazie/skills@multi-agent-planner-acrazie
 npx skills add Acrazie/skills@jenkins-devops-acrazie
 npx skills add Acrazie/skills@jenkins-js-ts-acrazie
 npx skills add Acrazie/skills@jenkins-python-acrazie
@@ -79,6 +80,18 @@ Collect structured feedback while testing one target skill, preserve observation
 $skill-refiner-acrazie
 ```
 
+### [Multi-Agent Planner / Acrazie](skills/multi-agent-planner-acrazie/SKILL.md)
+
+<p align="center">
+  <img src="skills/multi-agent-planner-acrazie/assets/multi-agent-planner-logo.svg" alt="MULTI-AGENT-PLANNER panoramic geometric wordmark" width="520" />
+</p>
+
+Decide single-agent vs multi-agent execution through a short option-driven interview, then produce a verified copy-paste workflow for any coding-agent platform. This skill requires explicit invocation and plans only; it never spawns workers itself.
+
+```text
+$multi-agent-planner-acrazie
+```
+
 ### [Jenkins DevOps / Acrazie](skills/jenkins-devops-acrazie/SKILL.md)
 
 Design, modernize, and diagnose repository-owned Jenkins CI/CD pipelines through evidence-first inspection, an approval-gated ADR, immutable artifact promotion, deployment safeguards, and explicit validation limits.
@@ -109,6 +122,7 @@ skills/
 ├── audit-repository-acrazie/
 ├── svg-icon-designer-acrazie/
 ├── skill-refiner-acrazie/
+├── multi-agent-planner-acrazie/
 ├── jenkins-devops-acrazie/
 ├── jenkins-js-ts-acrazie/
 ├── jenkins-python-acrazie/

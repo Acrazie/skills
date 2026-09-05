@@ -1,0 +1,6 @@
+interface:
+  display_name: "Multi-Agent Planner / Acrazie"
+  short_description: "Decides single vs multi-agent and drafts the workflow"
+  default_prompt: "Use $multi-agent-planner-acrazie to decide single vs multi-agent for this task and draft the copy-paste workflow."
+policy:
+  allow_implicit_invocation: false
