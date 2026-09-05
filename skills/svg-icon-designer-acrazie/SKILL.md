@@ -22,9 +22,11 @@ For abstract personal marks that should follow the user's curated logo taste, re
 
 When the user explicitly requests the Acrazie retro-tech wordmark language or its orange-to-violet palette, read [references/visual-identity.md](references/visual-identity.md). Remix its principles into original lettering; never trace the supplied references.
 
+Once intake context is refined (meaning, audience, sizes known), read [references/inspiration-library.md](references/inspiration-library.md) alongside the interview to propose ideas. Use it strictly as creativity fuel: extract construction rules, never reproduce a linked logo.
+
 ## Concept phase
 
-Unless the user requests immediate production or supplies a locked design, offer three to five genuinely different directions in compact `IconDraft` notation. Read [references/icon-draft.md](references/icon-draft.md) for its syntax and selection rules.
+Unless the user requests immediate production or supplies a locked design, offer three to five genuinely different directions in compact `IconDraft` notation. Read [references/icon-draft.md](references/icon-draft.md) for its syntax and selection rules. Sample at least two different inspiration families per batch and cap ASCII-forward directions at one unless the user explicitly requests ASCII. After the interview, re-read the When to use entries and shortlist the families that fit the user's own nuanced wording rather than forcing keyword matches.
 
 Whenever presenting multiple visual directions, include one detailed ASCII raster for every direction unless the user explicitly opts out. Build every raster from the same normalized geometry described by its recipe rather than drawing a loosely related symbol. Use a consistent canvas, aspect correction, resolution, and legend across the batch so silhouettes can be compared directly. Default to roughly 28 columns by 16 rows for a square icon; use 24–36 columns and 14–20 rows when geometry needs adjustment. Show outer contour, internal voids, cuts, overlap, detached fragments, and relative scale. Prefer `.` for empty cells, `#` for the main mass, `+` for a secondary/accent mass, and `@` only where overlap must be explicit. Never present ASCII as evidence of Bézier quality, antialiasing, exact stroke weight, or optical balance.
 

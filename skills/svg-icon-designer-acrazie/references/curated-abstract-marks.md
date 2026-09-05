@@ -40,3 +40,5 @@ Create new topology by combining principles from at least two families. Change e
 - several interchangeable variants differing only in rotation, stroke, or palette
 
 Judge candidates first in monochrome at 16, 32, and 128 px. Add a second color only after topology works.
+
+See also [inspiration-library.md](inspiration-library.md) for 3D / fluid / algorithmic / ASCII inspiration rules. Same non-copy obligation applies.
