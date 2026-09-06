@@ -1,6 +1,6 @@
 interface:
-  display_name: "Jenkins Symfony / PHP Specialist / Acrazie"
-  short_description: "Interprets Symfony and PHP codebases for Jenkins pipelines"
-  default_prompt: "Interpret this Symfony/PHP repository for integration with jenkins-devops-acrazie."
+  display_name: "Jenkins Symfony Specialist / Acrazie"
+  short_description: "Analyzes Symfony CI and delivery constraints for Jenkins"
+  default_prompt: "Use $jenkins-symfony-php-acrazie to inspect this Symfony application statically and return evidence-based CI and delivery constraints to jenkins-devops-acrazie, without executing application commands or changing files."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true
