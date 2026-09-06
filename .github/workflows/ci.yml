@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-skills:
+    name: validate-skills
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify skill directory structure
+        run: |
+          chmod +x scripts/hooks/check-skill-structure.sh
+          ./scripts/hooks/check-skill-structure.sh
+
+      - name: Validate SKILL.md frontmatters
+        run: |
+          chmod +x scripts/hooks/validate-skills.sh
+          for skill_md in skills/*/SKILL.md; do
+            ./scripts/hooks/validate-skills.sh "$skill_md"
+          done
+
+      - name: Check for forbidden files in PR diff
+        if: github.event_name == 'pull_request'
+        run: |
+          chmod +x scripts/hooks/check-forbidden-files.sh
+          # Check files changed between target branch and PR head
+          forbidden=$(git diff --name-only origin/main...HEAD --diff-filter=d | grep -E '(\.hermes/|\.skill-refiner/|\.skill-improver/|\.DS_Store|assets/.*-(preview|variants)\.html|skills/[^/]+/docs/)' || true)
+          if [ -n "$forbidden" ]; then
+            echo "Error: PR contains forbidden or internal files:" >&2
+            echo "$forbidden" >&2
+            exit 1
+          fi
