@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 232" role="img" aria-labelledby="title desc">
+  <title id="title">Jenkins DevOps</title>
+  <desc id="desc">Stacked geometric wordmark reading JENKINS above DEVOPS with a node in the J hook.</desc>
+  <defs>
+    <linearGradient id="brand-gradient" x1="0" y1="0" x2="0" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6d00"/>
+      <stop offset="11.1111%" stop-color="#ff7900"/>
+      <stop offset="22.2222%" stop-color="#ff8500"/>
+      <stop offset="33.3333%" stop-color="#ff9100"/>
+      <stop offset="44.4444%" stop-color="#ff9e00"/>
+      <stop offset="55.5556%" stop-color="#240046"/>
+      <stop offset="66.6667%" stop-color="#3c096c"/>
+      <stop offset="77.7778%" stop-color="#5a189a"/>
+      <stop offset="88.8889%" stop-color="#7b2cbf"/>
+      <stop offset="100%" stop-color="#9d4edd"/>
+    </linearGradient>
+    <g id="wordmark"><path d="M22 20h48v12h-48zM58 32h12v12h-12zM58 44h12v12h-12zM58 56h12v12h-12zM58 68h12v12h-12zM10 80h12v12h-12zM58 80h12v12h-12zM22 92h36v12h-36zM82 20h60v12h-60zM82 32h12v12h-12zM82 44h12v12h-12zM82 56h48v12h-48zM82 68h12v12h-12zM82 80h12v12h-12zM82 92h60v12h-60zM154 20h24v12h-24zM202 20h12v12h-12zM154 32h24v12h-24zM202 32h12v12h-12zM154 44h12v12h-12zM178 44h12v12h-12zM202 44h12v12h-12zM154 56h12v12h-12zM178 56h12v12h-12zM202 56h12v12h-12zM154 68h12v12h-12zM190 68h24v12h-24zM154 80h12v12h-12zM190 80h24v12h-24zM154 92h12v12h-12zM190 92h24v12h-24zM226 20h12v12h-12zM274 20h12v12h-12zM226 32h12v12h-12zM262 32h12v12h-12zM226 44h12v12h-12zM250 44h12v12h-12zM226 56h24v12h-24zM226 68h12v12h-12zM250 68h12v12h-12zM226 80h12v12h-12zM262 80h12v12h-12zM226 92h12v12h-12zM274 92h12v12h-12zM298 20h60v12h-60zM322 32h12v12h-12zM322 44h12v12h-12zM322 56h12v12h-12zM322 68h12v12h-12zM322 80h12v12h-12zM298 92h60v12h-60zM370 20h24v12h-24zM418 20h12v12h-12zM370 32h24v12h-24zM418 32h12v12h-12zM370 44h12v12h-12zM394 44h12v12h-12zM418 44h12v12h-12zM370 56h12v12h-12zM394 56h12v12h-12zM418 56h12v12h-12zM370 68h12v12h-12zM406 68h24v12h-24zM370 80h12v12h-12zM406 80h24v12h-24zM370 92h12v12h-12zM406 92h24v12h-24zM454 20h48v12h-48zM442 32h12v12h-12zM442 44h12v12h-12zM454 56h36v12h-36zM490 68h12v12h-12zM490 80h12v12h-12zM442 92h48v12h-48zM22 68h24v24h-24z"/><path d="M46 128h48v12h-48zM46 140h12v12h-12zM94 140h12v12h-12zM46 152h12v12h-12zM94 152h12v12h-12zM46 164h12v12h-12zM94 164h12v12h-12zM46 176h12v12h-12zM94 176h12v12h-12zM46 188h12v12h-12zM94 188h12v12h-12zM46 200h48v12h-48zM118 128h60v12h-60zM118 140h12v12h-12zM118 152h12v12h-12zM118 164h48v12h-48zM118 176h12v12h-12zM118 188h12v12h-12zM118 200h60v12h-60zM190 128h12v12h-12zM238 128h12v12h-12zM190 140h12v12h-12zM238 140h12v12h-12zM190 152h12v12h-12zM238 152h12v12h-12zM190 164h12v12h-12zM238 164h12v12h-12zM202 176h12v12h-12zM226 176h12v12h-12zM202 188h12v12h-12zM226 188h12v12h-12zM214 200h12v12h-12zM274 128h36v12h-36zM262 140h12v12h-12zM310 140h12v12h-12zM262 152h12v12h-12zM310 152h12v12h-12zM262 164h12v12h-12zM310 164h12v12h-12zM262 176h12v12h-12zM310 176h12v12h-12zM262 188h12v12h-12zM310 188h12v12h-12zM274 200h36v12h-36zM334 128h48v12h-48zM334 140h12v12h-12zM382 140h12v12h-12zM334 152h12v12h-12zM382 152h12v12h-12zM334 164h48v12h-48zM334 176h12v12h-12zM334 188h12v12h-12zM334 200h12v12h-12zM418 128h48v12h-48zM406 140h12v12h-12zM406 152h12v12h-12zM418 164h36v12h-36zM454 176h12v12h-12zM454 188h12v12h-12zM406 200h48v12h-48z"/></g>
+  </defs>
+  <g fill="url(#brand-gradient)">
+    <use href="#wordmark" transform="translate(18 18)" opacity="0.16"/>
+    <use href="#wordmark" transform="translate(11 11)" opacity="0.28"/>
+    <use href="#wordmark" transform="translate(5 5)" opacity="0.46"/>
+    <use href="#wordmark"/>
+  </g>
+</svg>

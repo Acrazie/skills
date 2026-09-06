@@ -1,6 +1,6 @@
 # IconDraft
 
-Use this compact notation during ideation. It is a working design recipe, not a public file format and not a substitute for the final SVG.
+Use this compact notation during ideation. It is a working design recipe, not a public file format and not a substitute for the final SVG. ASCII rasters preview geometry so directions can be compared; they are not the logo to ship.
 
 ## Shape
 
@@ -26,15 +26,17 @@ This vocabulary is descriptive, not a parser grammar. Prefer words over pseudo-s
 
 ## Detailed ASCII rasters
 
-Every direction in a multi-choice concept batch needs a detailed text raster. Use one shared legend before the batch rather than repeating it for every option. Default legend:
+Every direction in a multi-choice concept batch needs a large, detailed text raster as a geometry preview. Choose the charset and any legend in the interview — the alphabet below is only an example, never a default:
 
 ```text
 . empty   # main mass   + detached/accent mass   @ explicit overlap
 ```
 
+Size rasters so the direction can actually be judged: no horizontal scrolling (vertical scrolling is acceptable). Use one shared legend for the batch only when the chosen charset needs explaining.
+
 Use `.` for empty cells so canvas bounds, internal voids, and trailing space remain visible. Choose outline characters such as `/`, `\\`, `|`, `_`, and `-` only when a filled-cell raster would hide an essential thin structure.
 
-Default square-icon preview: 28 columns by 16 rows. Monospace characters are taller than they are wide, so the wider grid compensates visually. All directions in one batch must use the same dimensions unless a different aspect ratio is intrinsic to the requested icon.
+Default to a raster large enough to judge the direction; never cap it at 28 columns by 16 rows. Monospace characters are taller than they are wide, so compensate aspect accordingly. All directions in one batch must use the same dimensions unless a different aspect ratio is intrinsic to the requested icon.
 
 Construct the recipe and normalized geometry first, then map that same topology onto the raster. Do not improvise an unrelated ASCII silhouette after writing the description. The raster must show:
 
@@ -57,8 +59,8 @@ Example, shortened only for documentation:
 ......########........
 ```
 
-Treat resolution as geometric fidelity, not decorative density. Do not add texture, fake shading, or random cells merely to make a preview look detailed. ASCII still cannot validate Bézier curves, exact stroke weight, antialiasing, or optical centering. After the user narrows the field to one or two directions, SVG previews replace ASCII as the authoritative visual comparison.
+Treat resolution as geometric fidelity, not decorative density. Do not add texture, fake shading, or random cells merely to make a preview look detailed. ASCII still cannot validate Bézier curves, exact stroke weight, antialiasing, or optical centering. Only after the user explicitly elects one direction do SVG previews replace ASCII as the authoritative visual comparison.
 
 ## Direction quality
 
-Directions must differ in concept or composition, not merely corner radius or stroke width. Compare meaning and small-size behavior before aesthetics. If only one credible direction exists because the user supplied strict geometry, say so and proceed instead of manufacturing alternatives.
+Directions must differ in topology — element count, void shape, and balance — not merely corner radius, stroke width, or a satellite on the same form. Compare meaning and small-size behavior before aesthetics. If only one credible direction exists because the user supplied strict geometry, say so and proceed instead of manufacturing alternatives.

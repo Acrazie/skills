@@ -1,0 +1,13 @@
+pre-commit:
+  parallel: true
+  commands:
+    check-forbidden-files:
+      run: ./scripts/hooks/check-forbidden-files.sh
+    validate-skills:
+      glob: "skills/*/SKILL.md"
+      run: ./scripts/hooks/validate-skills.sh {staged_files}
+
+pre-push:
+  commands:
+    check-skill-structure:
+      run: ./scripts/hooks/check-skill-structure.sh

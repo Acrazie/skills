@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 626 418" role="img" aria-labelledby="title desc">
+  <title id="title">Jenkins Python</title>
+  <desc id="desc">Pixel-block folded ribbon with two teardrop voids.</desc>
+  <defs>
+    <linearGradient id="brand-gradient" x1="0" y1="0" x2="0" y2="418" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6d00"/>
+      <stop offset="11.1111%" stop-color="#ff7900"/>
+      <stop offset="22.2222%" stop-color="#ff8500"/>
+      <stop offset="33.3333%" stop-color="#ff9100"/>
+      <stop offset="44.4444%" stop-color="#ff9e00"/>
+      <stop offset="55.5556%" stop-color="#240046"/>
+      <stop offset="66.6667%" stop-color="#3c096c"/>
+      <stop offset="77.7778%" stop-color="#5a189a"/>
+      <stop offset="88.8889%" stop-color="#7b2cbf"/>
+      <stop offset="100%" stop-color="#9d4edd"/>
+    </linearGradient>
+    <g id="wordmark"><path d="M240 48h128v16h-128zM176 64h256v16h-256zM144 80h96v16h-96zM368 80h96v16h-96zM112 96h96v16h-96zM400 96h96v16h-96zM96 112h80v16h-80zM432 112h80v16h-80zM96 128h64v16h-64zM448 128h64v16h-64zM96 144h64v16h-64zM288 144h32v16h-32zM448 144h64v16h-64zM96 160h80v16h-80zM272 160h64v16h-64zM432 160h80v16h-80zM112 176h96v16h-96zM256 176h96v16h-96zM400 176h96v16h-96zM144 192h320v16h-320zM112 208h96v16h-96zM256 208h96v16h-96zM400 208h96v16h-96zM96 224h80v16h-80zM272 224h64v16h-64zM432 224h80v16h-80zM96 240h64v16h-64zM288 240h32v16h-32zM448 240h64v16h-64zM96 256h64v16h-64zM448 256h64v16h-64zM96 272h80v16h-80zM432 272h80v16h-80zM112 288h96v16h-96zM400 288h96v16h-96zM144 304h96v16h-96zM368 304h96v16h-96zM176 320h256v16h-256zM240 336h128v16h-128z"/></g>
+  </defs>
+  <g fill="url(#brand-gradient)">
+    <use href="#wordmark" transform="translate(18 18)" opacity="0.16"/>
+    <use href="#wordmark" transform="translate(11 11)" opacity="0.28"/>
+    <use href="#wordmark" transform="translate(5 5)" opacity="0.46"/>
+    <use href="#wordmark"/>
+  </g>
+</svg>

@@ -7,7 +7,7 @@ Use one JSON object with an append-only `events` array. During an active campaig
 ```json
 {
   "schema_version": "1.0",
-  "campaign_id": "<unique-id>",
+  "campaign_id": "YYYY-MM-DD-refinement-<N>",
   "target_skill": {
     "name": "<skill-name>",
     "directory": "<resolved-path>",

@@ -1,11 +1,11 @@
 ---
 name: svg-icon-designer-acrazie
-description: Design original icons through compact, iterative concept drafts, then produce clean SVG and requested PNG or favicon exports. Use for individual icons, small icon sets, app symbols, and favicons; not for editing raster artwork.
+description: Design original SVG logos and icons through compact concept drafts, then produce clean vector markup and requested PNG or favicon exports. Use for individual marks, small sets, app symbols, and favicons; not for editing raster artwork and not for producing ASCII art as the deliverable.
 ---
 
 # SVG Icon Designer / Acrazie
 
-Turn an icon idea into a small, readable vector asset without spending tokens on premature polished variants.
+Turn an icon or logo idea into a readable SVG without spending tokens on premature polished variants. ASCII rasters are geometry previews for comparing directions, not the product. The deliverable is general-purpose vector markup in the visual language the user elected.
 
 ## Intake
 
@@ -26,27 +26,28 @@ Once intake context is refined (meaning, audience, sizes known), read [reference
 
 ## Concept phase
 
-Unless the user requests immediate production or supplies a locked design, offer three to five genuinely different directions in compact `IconDraft` notation. Read [references/icon-draft.md](references/icon-draft.md) for its syntax and selection rules. Sample at least two different inspiration families per batch and cap ASCII-forward directions at one unless the user explicitly requests ASCII. After the interview, re-read the When to use entries and shortlist the families that fit the user's own nuanced wording rather than forcing keyword matches.
+Unless the user requests immediate production or supplies a locked design, offer two to three genuinely different directions in compact `IconDraft` notation. Read [references/icon-draft.md](references/icon-draft.md) for its syntax and selection rules. Sample at least two different inspiration families per batch. Cap ASCII-forward *final* styles at one unless the user explicitly requests an ASCII or pixel-block mark. After the interview, re-read the When to use entries and shortlist the families that fit the user's own nuanced wording rather than forcing keyword matches.
 
-Whenever presenting multiple visual directions, include one detailed ASCII raster for every direction unless the user explicitly opts out. Build every raster from the same normalized geometry described by its recipe rather than drawing a loosely related symbol. Use a consistent canvas, aspect correction, resolution, and legend across the batch so silhouettes can be compared directly. Default to roughly 28 columns by 16 rows for a square icon; use 24–36 columns and 14–20 rows when geometry needs adjustment. Show outer contour, internal voids, cuts, overlap, detached fragments, and relative scale. Prefer `.` for empty cells, `#` for the main mass, `+` for a secondary/accent mass, and `@` only where overlap must be explicit. Never present ASCII as evidence of Bézier quality, antialiasing, exact stroke weight, or optical balance.
+Whenever presenting multiple visual directions, include one large, detailed ASCII geometry preview for every direction unless the user explicitly opts out. The raster is a stand-in for topology, not a preview of an ASCII logo. Build every raster from the same normalized geometry described by its recipe rather than drawing a loosely related symbol. Size rasters so the direction can actually be judged: no horizontal scrolling (vertical scrolling is acceptable). Choose the charset and any legend in the interview — never impose a default alphabet or symbol set. Show outer contour, internal voids, cuts, overlap, detached fragments, and relative scale. Never present ASCII as evidence of Bézier quality, antialiasing, exact stroke weight, or optical balance.
 
 For each direction, include:
 
 - short name and intended metaphor
-- detailed ASCII raster with dimensions and legend
+- detailed ASCII geometry preview (charset chosen in the interview)
 - geometric recipe
 - distinguishing benefit
 - likely risk at the smallest target size
+- any shape that reads as a rendering bug at small size must be removed or made explicit
 
-Ask the user to select, reject, or combine directions. Preserve prior decisions. Do not generate several detailed SVGs before selection unless the user explicitly wants a comparison sheet.
+Ask the user to select, reject, or combine directions. Preserve prior decisions. Do not generate any SVG before the user explicitly elects a direction, unless the user explicitly wants a comparison sheet.
 
 When source logos are supplied as taste references, extract shared design principles and remix them into new topology. Do not trace, closely reproduce, or merely recolor a reference mark.
 
 ## SVG production
 
-Create vector markup directly; do not invoke raster image generation for code-native icons.
+Create vector markup directly; do not invoke raster image generation for code-native icons. Build the SVG from the elected geometry. Do not reduce it to a generic pictogram, and do not default the deliverable to an ASCII or pixel-block logo unless that language was elected.
 
-- Use a deliberate `viewBox`, normally `0 0 24 24` unless target or family dictates another grid.
+- Use a deliberate `viewBox`, normally `0 0 24 24` unless target or family dictates another grid; use a large grid (512 units or more) when the detail requires it.
 - Keep geometry editable and concise. Prefer primitives when they communicate structure; use paths when they improve output.
 - Avoid scripts, external resources, embedded raster data, editor metadata, invisible objects, and arbitrary precision.
 - Define `fill`, `stroke`, line caps, and joins explicitly. Prefer `currentColor` for adaptable monochrome icons unless fixed branding requires colors.
@@ -54,7 +55,9 @@ Create vector markup directly; do not invoke raster image generation for code-na
 - Determine whether usage is decorative or meaningful before adding accessibility markup. Do not hard-code an unsuitable label.
 - Preserve sharp features and intentional asymmetry; do not mechanically normalize geometry.
 
-When comparison helps, create a minimal local HTML contact sheet that renders candidates at the actual target sizes. Do not treat source-code inspection alone as visual validation.
+When comparison helps, create a minimal local HTML contact sheet that renders candidates large at the actual target sizes. Do not treat source-code inspection alone as visual validation.
+
+Deliver the result as a large visual preview plus what to keep or adjust in plain language. Report generated paths, dimensions, and any converter dependency used only when requested.
 
 ## Refinement
 
@@ -72,4 +75,4 @@ Validate observable results:
 - PNG dimensions and transparency match the request.
 - ICO is a real multi-size ICO when requested, not a renamed PNG.
 
-Report generated paths, dimensions, and any converter dependency used. Do not install dependencies or overwrite unrelated assets without permission.
+Report generated paths, dimensions, and any converter dependency used only when requested. Do not install dependencies or overwrite unrelated assets without permission.

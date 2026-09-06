@@ -40,7 +40,7 @@ Do not use it for:
 Write the active journal to:
 
 ```text
-<target-skill>/.skill-improver/campaigns/<campaign-id>.json
+<target-skill>/.skill-refiner/campaigns/YYYY-MM-DD-refinement-<N>.json
 ```
 
 Use an append-only event model. Never erase or silently rewrite an earlier event; append a correction event that points to it. Once closed, treat the journal as immutable.
@@ -66,7 +66,7 @@ If the target directory is read-only, create both artifacts in an adjacent writa
 1. Confirm that no other Refiner campaign is active in this conversation.
 2. Resolve the target skill and read its `SKILL.md` without asking the user for discoverable filesystem facts.
 3. Compute the SHA-256 digest of the exact `SKILL.md` bytes. This digest identifies the tested version; do not normalize or reformat the file first.
-4. Create a unique campaign ID and initialize the journal with a `campaign_started` event.
+4. Create a unique campaign ID formatted as `YYYY-MM-DD-refinement-<N>` (where `<N>` is an auto-incrementing integer starting at 1 for that date, based on existing campaign files) and initialize the journal with a `campaign_started` event.
 5. Explain the scale once:
    - `1/5`: behavior contradicts the user’s intent;
    - `2/5`: major gaps;
