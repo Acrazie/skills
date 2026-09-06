@@ -23,7 +23,8 @@ skills/
 1. **Naming**:
    - Every skill directory and identifier must end with the author signature: `-acrazie` (e.g. `svg-icon-designer-acrazie`).
 2. **Git & Commit Protocol**:
-   - Never commit or push without explicit user authorization.
+   - The agent is authorized to autonomously perform routine Git operations on dedicated branches: staging (`git add`), creating commits, pushing branches (`git push -u origin <branch>`), and opening Pull Requests via `gh pr create`.
+   - Sensitive or destructive Git operations still require explicit user confirmation (e.g. force-pushing `git push --force`, hard reset `git reset --hard`, branch deletion, or direct pushes to protected branches like `main`).
    - Use Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`) so `release-please` can generate changelogs and version bumps automatically.
    - **PR Workflow**:
      - All material changes (adding, updating, or deleting a skill) must go through a dedicated branch and Pull Request.
@@ -32,7 +33,7 @@ skills/
      - Direct pushes to `main` are reserved for emergency hotfixes and must strictly follow Conventional Commits.
 3. **Artifact Isolation & Hygiene**:
    - Internal refinement journals belong in `<skill>/.skill-refiner/campaigns/YYYY-MM-DD-refinement-<N>.json`.
-   - Never commit `.skill-refiner/`, `.skill-improver/`, `skills/*/docs/`, or temporary HTML previews. They are gitignored and blocked by Lefthook.
+   - Never commit `.hermes/`, `.skill-refiner/`, `.skill-improver/`, `skills/*/docs/`, or temporary HTML previews. They are gitignored and blocked by Lefthook.
 4. **Visual Identity**:
    - Logos follow the Acrazie retro-tech design language (modular lettering, orange-to-violet palette `#ff6d00` to `#9d4edd`, southeast echoes).
    - Metaphors must be cleanly integrated into letterforms without lookalike glitches or detached noise.

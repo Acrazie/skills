@@ -32,3 +32,8 @@ skills/*/assets/*-variants.html
 *-workspace/
 skills/*-workspace/
 
+# Hermes agent workspace & plans
+.hermes/
+**/.hermes/
+
+
