@@ -25,6 +25,11 @@ skills/
 2. **Git & Commit Protocol**:
    - Never commit or push without explicit user authorization.
    - Use Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`) so `release-please` can generate changelogs and version bumps automatically.
+   - **PR Workflow**:
+     - All material changes (adding, updating, or deleting a skill) must go through a dedicated branch and Pull Request.
+     - PRs should be **squash-merged** into `main` using a single Conventional Commit message (e.g. `feat(jenkins-go): add go specialist skill`).
+     - Release Please tracks commits on `main` and manages the release PR + version tag.
+     - Direct pushes to `main` are reserved for emergency hotfixes and must strictly follow Conventional Commits.
 3. **Artifact Isolation & Hygiene**:
    - Internal refinement journals belong in `<skill>/.skill-refiner/campaigns/YYYY-MM-DD-refinement-<N>.json`.
    - Never commit `.skill-refiner/`, `.skill-improver/`, `skills/*/docs/`, or temporary HTML previews. They are gitignored and blocked by Lefthook.
@@ -39,3 +44,11 @@ skills/
 
 - Run `scripts/link-skills.sh` to symlink all repository skills into `~/.hermes/skills/` and `~/.agents/skills/`.
 - Pre-commit and pre-push validations are configured via `lefthook.yml`.
+
+## Cross-Agent Compatibility
+
+`AGENTS.md` is the universal instruction file. To support harnesses that look for legacy or harness-specific files:
+- `CLAUDE.md` is maintained as a symlink to `AGENTS.md` for Claude Code.
+- Codex, OpenCode, and Hermes natively read `AGENTS.md` directly.
+- Cursor and Windsurf map rules via `.cursorrules` / `.windsurfrules` (or import from `AGENTS.md`).
+
