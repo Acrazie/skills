@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.0](https://github.com/Acrazie/skills/compare/v1.1.0...v1.2.0) (2026-09-16)
+
+
+### Features
+
+* **banner-designer:** add svg-banner-designer-acrazie skill ([fe03490](https://github.com/Acrazie/skills/commit/fe03490332a43da3dda1fb81f543558b07aa7964))
+* **canvas-banner:** add animated canvas designer skill ([#7](https://github.com/Acrazie/skills/issues/7)) ([59e916d](https://github.com/Acrazie/skills/commit/59e916d2af8875aa23dcb25f8de85b29ebedad13))
+* **jenkins-symfony:** deepen analysis and keep reports concise ([#5](https://github.com/Acrazie/skills/issues/5)) ([241c98a](https://github.com/Acrazie/skills/commit/241c98adcd77bc4fca69729da582b26149e4666e))
+
 ## [1.1.0](https://github.com/Acrazie/skills/compare/v1.0.0...v1.1.0) (2026-09-06)
 
 
