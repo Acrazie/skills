@@ -6,15 +6,17 @@ Standard, secure GitHub Actions workflows for continuous integration, release au
 
 ## 1. Continuous Integration (`.github/workflows/ci.yml`)
 
+Adapts to the selected branching model (e.g. `[main]` for trunk-based, or `[main, staging, develop]` for multi-environment branches).
+
 ### 1.1 Node.js / TypeScript (pnpm + Biome)
 ```yaml
 name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging, develop] # adjust to selected environment branches
   pull_request:
-    branches: [main]
+    branches: [main, staging, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
