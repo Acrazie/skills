@@ -32,6 +32,12 @@ skills/*/assets/*-variants.html
 *-workspace/
 skills/*-workspace/
 
+# Worktrees for parallel skill development
+.worktrees/
+
+# Design tool cache & evaluation artifacts
+.impeccable/
+
 # Hermes agent workspace & plans
 .hermes/
 **/.hermes/
