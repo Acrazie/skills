@@ -97,3 +97,24 @@ Use structured ASCII / block diagrams to illustrate spatial distribution and saf
 4. **Bento Grid / Feature Cards**:
    - Best for: Feature-rich products, platforms, or multi-faceted toolkits.
    - Anatomy: 2 to 3 clean glassmorphism / card blocks highlighting distinct metrics, badges, or capabilities.
+
+---
+
+## Anti-Patterns & Traps to Avoid
+
+1. **Text Overload & Infographic Clutter**:
+   - Never turn a brand banner into an infographic or marketing feature list.
+   - Avoid multiple body copy sentences, paragraphs, or lists of bullet points.
+   - Favor pure brand authority: Wordmark + at most one short punchy phrase.
+
+2. **Cockpit / Telemetry Clutter**:
+   - Avoid piling up fake HUD elements: excessive crosshairs (`+`), random coordinates (`LAT/LON`), artificial progress bars, and dense grid overlays.
+   - Every background element must serve the visual hierarchy, not clutter it.
+
+3. **Text Enclosed in Fixed `<rect>` Containers**:
+   - Avoid pill shapes or boxes wrapping text with fixed widths.
+   - Cross-platform font metrics vary; text will clip or overflow the container box. Use open text layout with generous whitespace.
+
+4. **Lack of Breathing Room**:
+   - Always ensure 50% to 65% active negative space so the central mark commands attention.
+
