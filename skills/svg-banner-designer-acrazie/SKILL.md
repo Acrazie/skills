@@ -12,15 +12,15 @@ Design distinctive, clean vector SVG banners and social preview cards tailored t
 Identify core constraints before designing. Ask only unanswered questions that directly shape composition:
 
 - **Target platform & aspect ratio**: GitHub README, Open Graph card, X/Twitter header, LinkedIn banner, YouTube banner, or blog hero. Read [references/presets.md](references/presets.md) for standard dimensions and safe zones.
-- **Content**: Project or brand name, tagline, badges/tech stack, call-to-action or URL.
-- **Visual tone**: Minimalist modern, cyberpunk/dark tech, editorial/clean corporate, abstract geometric, or generative.
+- **Content & Text Minimalism**: Default strictly to essential branding (Brand Name / Wordmark only, or at most a single short micro-tagline). **Do not treat banners as infographics**: avoid multi-line body paragraphs, marketing bullet points, feature lists, or decorative telemetry clutter unless explicitly requested.
+- **Visual tone**: Minimalist modern, high-contrast geometric, editorial, or quiet tech. Prioritize breathing room over decorative density.
 - **Brand palette**: When the user requests the signature Acrazie retro-tech language or orange-to-violet palette, read [references/visual-identity.md](references/visual-identity.md).
 
 Progress swiftly: if constraints are already provided in the prompt, proceed immediately to concepts.
 
 ## 2. Concept phase
 
-Unless the user requests immediate production or provides a locked layout, present 2 to 3 distinct visual directions using compact `BannerDraft` notation. Read [references/banner-draft.md](references/banner-draft.md) for draft structure and wireframe rules.
+Unless the user requests immediate production or provides a locked layout, present 2 to 3 distinct visual directions using compact `BannerDraft` notation. Read [references/banner-draft.md](references/banner-draft.md) for draft structure, wireframe rules, and anti-pattern guidelines.
 
 Each direction must include:
 - Name and visual metaphor (e.g., Split Terminal, Centered Monolith, Asymmetric Glow)
@@ -35,8 +35,11 @@ Ask the user to select, reject, or combine directions. Once a direction is elect
 Generate clean, valid SVG markup directly:
 
 - **ViewBox & sizing**: Set `viewBox="0 0 W H"` matching the chosen preset. Ensure responsive scaling via `width="100%"` with appropriate aspect ratio preserving attributes.
-- **Safe zones**: Never place essential text, logos, or focal points inside platform-occluded zones (e.g., avatar overlaps on Twitter/LinkedIn, mobile crops on YouTube).
-- **Typography**: Use robust SVG `<text>` elements with clean font stacks (`system-ui`, `-apple-system`, `Inter`, `sans-serif`, or `monospace` for tech contexts). Define font sizes, line heights, font weights, and letter spacing explicitly.
+- **Safe zones & framing**: Maintain at least 50–80px of internal padding around the canvas edges. Ensure all strokes, transforms, and rotated elements remain fully visible within bounds. Respect avatar occlusion zones (e.g., bottom-left on Twitter/LinkedIn).
+- **Negative space & visual restraint**: Banners must breathe. Aim for at least 50% to 65% uncluttered negative space. Avoid the "cockpit syndrome" (stacking dense grids, excessive telemetry ticks, multiple concentric rings, and busy speed lines simultaneously).
+- **Typography & text-box anti-pattern**:
+  - Use robust SVG `<text>` elements with clean font stacks (`system-ui`, `-apple-system`, `Inter`, `sans-serif`, or `monospace` for tech contexts).
+  - **CRITICAL ANTI-PATTERN**: Never wrap `<text>` inside a fixed-width `<rect>` pill or container. Because font metrics vary across operating systems and browsers, text will inevitably overflow fixed containers. Structure text through font size, weight, tracking, color contrast, and open rule lines rather than enclosed boxes.
 - **Visual elements**: Build backgrounds using native SVG `<defs>`: linear/radial gradients, subtle grid `<pattern>`, glow filters, or geometric vector shapes. Avoid embedded external raster bitmaps.
 - **Code cleanliness**: Format SVG with clear grouping (`<g id="...">`), semantic classes or inline presentation attributes, and clean coordinate numbers.
 - **Theme adaptability**: Default to dark mode or high-contrast themes popular in developer ecosystems, unless brand guidelines specify light backgrounds.
