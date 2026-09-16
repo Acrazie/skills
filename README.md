@@ -18,6 +18,7 @@ Install one skill directly:
 npx skills add Acrazie/skills@repository-readme-architect-acrazie
 npx skills add Acrazie/skills@audit-repository-acrazie
 npx skills add Acrazie/skills@svg-icon-designer-acrazie
+npx skills add Acrazie/skills@svg-banner-designer-acrazie
 npx skills add Acrazie/skills@skill-refiner-acrazie
 npx skills add Acrazie/skills@multi-agent-planner-acrazie
 npx skills add Acrazie/skills@jenkins-devops-acrazie
@@ -66,6 +67,18 @@ Design original icons through compact iterative concepts, detailed ASCII preview
 
 ```text
 $svg-icon-designer-acrazie
+```
+
+### [SVG Banner Designer / Acrazie](skills/svg-banner-designer-acrazie/SKILL.md)
+
+<p align="center">
+  <img src="skills/svg-banner-designer-acrazie/assets/svg-banner-designer-logo.svg" alt="BANNER DESIGNER geometric wordmark" width="520" />
+</p>
+
+Design custom vector SVG banners, social cards, and header graphics with platform-specific safe zones, typography, and optional PNG exports.
+
+```text
+$svg-banner-designer-acrazie
 ```
 
 ### [Skill Refiner / Acrazie](skills/skill-refiner-acrazie/SKILL.md)
@@ -121,6 +134,7 @@ skills/
 ├── repository-readme-architect-acrazie/
 ├── audit-repository-acrazie/
 ├── svg-icon-designer-acrazie/
+├── svg-banner-designer-acrazie/
 ├── skill-refiner-acrazie/
 ├── multi-agent-planner-acrazie/
 ├── jenkins-devops-acrazie/

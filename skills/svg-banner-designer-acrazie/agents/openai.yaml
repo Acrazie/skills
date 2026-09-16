@@ -1,0 +1,4 @@
+interface:
+  display_name: "SVG Banner Designer / Acrazie"
+  short_description: "Design SVG banners and social cards with safe zones"
+  default_prompt: "Use $svg-banner-designer-acrazie to design a banner through compact BannerDraft concepts, platform safe zones, and clean SVG production."
