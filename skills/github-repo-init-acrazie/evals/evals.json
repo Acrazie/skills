@@ -3,43 +3,43 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "I want to initialize a new GitHub repository for a modern frontend app called 'stellar-dashboard'. I want React with TypeScript and Vite, using pnpm as the package manager. For code quality, I want Biome and Lefthook for pre-commit hooks, with Conventional Commits. I also need complete GitHub Actions CI/CD for linting, testing, and building, Release Please for automated releases, and all governance files including README, MIT LICENSE, CONTRIBUTING.md, and SECURITY.md. Conduct the interview to confirm everything, synthesize the blueprint, wait for my approval, and then simulate/execute the setup cleanly.",
-      "expected_output": "The agent inspects the environment, conducts the decision interview, presents a clear Repository Blueprint with directory preview, waits for approval before executing scaffolding, generates valid configuration files (biome.json, lefthook.yml, ci.yml, release-please.yml, governance files), initializes git with a clean commit, and presents a completion report.",
+      "prompt": "I want to initialize a new GitHub repository for a modern frontend app called 'stellar-dashboard'. I want React with TypeScript and Vite, using pnpm as the package manager. For code quality, I want Biome and Lefthook for pre-commit hooks, with Conventional Commits. I also need complete GitHub Actions CI/CD for linting, testing, and building, Release Please for automated releases, and all governance files including README, MIT LICENSE, CONTRIBUTING.md, and SECURITY.md. We work in Trunk-Based mode and want Node 20 pinned via .node-version, plus Git Worktrees support for parallel agent development. Conduct the interview to confirm everything, synthesize the blueprint, wait for my approval, and then execute the setup cleanly.",
+      "expected_output": "The agent inspects the environment, conducts the decision interview, presents a clear Repository Blueprint with directory preview (including branching, worktrees, and DX files), waits for approval before executing scaffolding, generates valid configuration files (biome.json, lefthook.yml, ci.yml, release-please.yml, .node-version, scripts/worktree.sh, governance files), initializes git with a clean commit, and presents a completion report.",
       "files": [],
       "expectations": [
         "The agent does not create files or run destructive commands before presenting the blueprint and asking for confirmation.",
-        "The proposed blueprint includes React + TypeScript (Vite), pnpm, Biome, Lefthook, Conventional Commits, GitHub Actions CI, Release Please, and governance files.",
-        "Generated configuration includes a valid biome.json and lefthook.yml.",
+        "The proposed blueprint includes React + TypeScript (Vite), pnpm, Biome, Lefthook, Conventional Commits, GitHub Actions CI, Release Please, .node-version, Git Worktrees, and governance files.",
+        "Generated configuration includes a valid biome.json, lefthook.yml, and .gitignore containing .worktrees/.",
         "Generated .github/workflows directory contains ci.yml and release-please.yml.",
-        "Governance files include README.md, SECURITY.md, CONTRIBUTING.md, and LICENSE (MIT).",
+        "Governance files include README.md, SECURITY.md, CONTRIBUTING.md (with branching and worktree sections), and LICENSE (MIT).",
         "The git commit history contains a clean initial commit with conventional commit format (e.g. 'chore: initial repository bootstrap') without co-author mentions."
       ]
     },
     {
       "id": 2,
-      "prompt": "Initialize a Python microservice repository named 'payment-webhook-service' using uv. We need Ruff for linting and formatting, Pytest for testing, GitHub Actions CI, Dependabot for weekly updates, and full governance documentation (README, SECURITY.md, Apache 2.0 LICENSE). Ask me the necessary questions, propose the blueprint, and scaffold the repository.",
-      "expected_output": "The agent asks clarifying questions or confirms settled decisions, produces a structured blueprint, waits for user approval, and generates pyproject.toml with uv/ruff configuration, .github/workflows/ci.yml, .github/dependabot.yml, tests/ directory, and full documentation.",
+      "prompt": "Initialize a Python microservice repository named 'payment-webhook-service' using uv. We need Ruff for linting and formatting, Pytest for testing, multi-environment branches (main for prod, staging, develop), GitHub Actions CI on these branches, Dependabot for weekly updates, Python 3.11 pinned via .python-version, a setup.sh script, and full governance documentation (README, SECURITY.md, Apache 2.0 LICENSE). Ask me the necessary questions, propose the blueprint, and scaffold the repository.",
+      "expected_output": "The agent asks clarifying questions or confirms settled decisions, produces a structured blueprint showing multi-environment branches and setup scripts, waits for user approval, and generates pyproject.toml with uv/ruff configuration, .github/workflows/ci.yml with branch triggers, .github/dependabot.yml, .python-version, scripts/setup.sh, tests/ directory, and full documentation.",
       "files": [],
       "expectations": [
-        "The agent presents a structured blueprint summarizing Python/uv, Ruff, Pytest, Dependabot, and Apache 2.0 license.",
+        "The agent presents a structured blueprint summarizing Python/uv, Ruff, Pytest, multi-environment branches, Dependabot, and Apache 2.0 license.",
         "The agent stops at an approval gate before executing any scaffolding.",
         "A pyproject.toml is generated containing [tool.ruff] configuration and dependency groups for dev (ruff, pytest).",
-        ".github/workflows/ci.yml runs uv sync, ruff check, ruff format --check, and pytest.",
-        ".github/dependabot.yml is configured for pip/uv and github-actions updates.",
+        ".github/workflows/ci.yml triggers on main, staging, and develop branches.",
+        "A scripts/setup.sh and .python-version file are generated.",
         "Governance files README.md, SECURITY.md, CONTRIBUTING.md, and Apache 2.0 LICENSE are generated."
       ]
     },
     {
       "id": 3,
-      "prompt": "I want to create an agnostic repository called 'devops-playbooks' with no specific framework. I just need a clean structure with shell scripts, docker compose, Lefthook for pre-commit linting (shellcheck and markdownlint), GitHub Actions CI to validate scripts, and private repository creation on GitHub. Guide me through the interview and set it up.",
-      "expected_output": "The agent identifies the agnostic stack mode, asks any frontier questions, presents the blueprint for approval, scaffolds the directory layout with scripts/ and docs/, creates lefthook.yml, ci.yml, governance files, and outlines the `gh repo create --private` command.",
+      "prompt": "I want to create an agnostic repository called 'devops-playbooks' with no specific framework. I just need a clean structure with shell scripts, docker compose, Lefthook for pre-commit linting (shellcheck and markdownlint), Git Worktrees enabled with scripts/worktree.sh, GitHub Actions CI to validate scripts, and private repository creation on GitHub. Guide me through the interview and set it up.",
+      "expected_output": "The agent identifies the agnostic stack mode, asks any frontier questions, presents the blueprint for approval, scaffolds the directory layout with scripts/ and docs/, creates lefthook.yml, scripts/worktree.sh, ci.yml, governance files, and outlines the `gh repo create --private` command.",
       "files": [],
       "expectations": [
         "The agent recognizes the custom/agnostic mode and does not force an unwanted JS or Python framework.",
-        "The blueprint details the agnostic structure, Lefthook configuration, CI workflow, and private GitHub repo intent.",
+        "The blueprint details the agnostic structure, Lefthook configuration, Git Worktrees workflow, CI workflow, and private GitHub repo intent.",
         "The agent honors the approval gate before creating files.",
         "Lefthook configuration includes hooks for shellcheck and markdownlint.",
-        "The workflow .github/workflows/ci.yml validates scripts and markdown files.",
+        "A worktree helper script scripts/worktree.sh is generated and .worktrees/ is ignored in .gitignore.",
         "Git is initialized with main branch and an initial commit following Conventional Commits."
       ]
     }

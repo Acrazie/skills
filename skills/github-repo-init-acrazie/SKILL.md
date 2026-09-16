@@ -70,6 +70,10 @@ Follow an adaptive decision tree grouped into themes:
    - `README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` (MIT by default).
    - `.github/ISSUE_TEMPLATE/` (bug & feature), `PULL_REQUEST_TEMPLATE.md`, `CODEOWNERS`.
    - `.editorconfig`, `.gitignore`.
+6. **Development Workflow, Branching & DX**:
+   - Branching strategy: Trunk-based vs Environment branches (`main`, `staging`, `develop`) and branch naming conventions (`feat/`, `fix/`, `chore/`, `docs/`).
+   - Git Worktrees: Enable parallel development isolation (`.worktrees/` in `.gitignore`, optional `scripts/worktree.sh`).
+   - Developer Experience & Onboarding: Runtime version pinning (`.node-version`, `.python-version`, `.tool-versions`), `.env.example` template, and bootstrap script (`scripts/setup.sh`).
 
 *Note*: If the user provides requirements upfront in their prompt, mark those decisions as settled and only ask about unresolved branches.
 
@@ -77,7 +81,7 @@ Follow an adaptive decision tree grouped into themes:
 
 ### Step 3: Synthesize Blueprint & Approval Gate
 Synthesize all answers into a clear, structured **Repository Blueprint**:
-- Summary of target directory, stack, package manager, quality tools, CI/CD actions, and governance files.
+- Summary of target directory, stack, package manager, quality tools, CI/CD actions, governance files, branching model, and worktree/DX setup.
 - Visual directory tree preview showing the expected repository structure.
 - **Approval Gate**: Stop and ask:
   > "Here is the proposed blueprint for `<repo-name>`. Please review and confirm to start scaffolding, or let me know if you want to tweak any option."
@@ -89,7 +93,7 @@ Do **NOT** write files or run mutating commands before receiving user confirmati
 ### Step 4: Execute Scaffolding
 Read [references/stack-recipes.md](references/stack-recipes.md) for precise commands.
 1. Create and enter target directory if not working in `.`.
-2. Generate curated `.gitignore` and `.editorconfig` first.
+2. Generate curated `.gitignore` (including `.worktrees/` and `.env*`) and `.editorconfig` first.
 3. Run the official initialization command for the chosen stack (e.g. `pnpm create vite . --template react-ts`, `uv init`, `cargo init`, `go mod init`).
 4. Verify the generated skeleton compiles or installs cleanly.
 
@@ -103,17 +107,22 @@ Read [references/tooling-recipes.md](references/tooling-recipes.md).
 
 ---
 
-### Step 6: Generate Governance & Workflows
-Read [references/governance-templates.md](references/governance-templates.md) and [references/github-workflows.md](references/github-workflows.md).
-1. Create `.github/workflows/ci.yml` adapted to the chosen stack.
+### Step 6: Generate Governance, DX & Workflows
+Read [references/governance-templates.md](references/governance-templates.md), [references/tooling-recipes.md](references/tooling-recipes.md), and [references/github-workflows.md](references/github-workflows.md).
+1. Create `.github/workflows/ci.yml` adapted to the chosen stack and branch triggers (`main`, `staging`, `develop`).
 2. If release automation was requested, add `.github/workflows/release-please.yml` and `release-please-config.json`.
 3. If Dependabot was selected, add `.github/dependabot.yml`.
 4. Generate `.github/ISSUE_TEMPLATE/bug_report.yml` and `feature_request.yml`.
 5. Generate `.github/PULL_REQUEST_TEMPLATE.md`.
-6. Write authoritative documentation:
+6. Generate DX & Setup scripts:
+   - Create `.env.example` (sanitized with dummy values).
+   - Create runtime version file (`.node-version`, `.python-version`, or `.tool-versions`).
+   - Create `scripts/setup.sh` (executable onboarding script).
+   - If worktrees are enabled, create `scripts/worktree.sh` (executable worktree helper).
+7. Write authoritative documentation:
    - `README.md`: Project title, badges, description, prerequisites, quickstart, available commands, architecture overview.
    - `SECURITY.md`: Vulnerability reporting process and supported versions table.
-   - `CONTRIBUTING.md`: Workflow, branching model, commit conventions, local test steps.
+   - `CONTRIBUTING.md`: Workflow, branching model & environments, branch naming conventions, worktrees guide, commit conventions, local test steps.
    - `LICENSE`: Full legal text of the chosen license with current year and author.
    - `CODEOWNERS` (if requested).
 
