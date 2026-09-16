@@ -1,0 +1,4 @@
+interface:
+  display_name: "Canvas Banner Designer / Acrazie"
+  short_description: "Build animated Canvas heroes with mouse interaction"
+  default_prompt: "Use $canvas-banner-designer-acrazie to design an animated web banner through distinct CanvasDraft concepts, purposeful mouse interaction, and production-ready standalone HTML or framework integration."

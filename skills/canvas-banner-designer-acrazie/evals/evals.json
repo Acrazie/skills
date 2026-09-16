@@ -1,0 +1,39 @@
+{
+  "skill_name": "canvas-banner-designer-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "living-sky-html",
+      "prompt": "Crée un hero Canvas en HTML autonome, sans dépendance ni réseau, pour le projet fictif Observatoire. Texte exact : « Observer autrement. », sous-titre « Un espace pour explorer. », lien « Explorer » vers #suite ; ajoute une section cible. Direction validée : ciel illustré bleu ardoise, nuages crème, lune discrète, profondeur lente ; pas un simple dégradé abstrait. Le fond vit doucement et réagit à la souris. Le titre reste lisible. Mobile et mouvement réduit doivent être soignés. Passe directement à la réalisation, pas de nouvelle sélection de concepts. Livre index.html et une courte note de vérification honnête.",
+      "expected_output": "An offline standalone HTML hero with a recognizable layered sky, actual animation and pointer response, semantic content, responsive composition, reduced motion, pause and fallback behavior.",
+      "files": [],
+      "expectations": [
+        "The offline demo loads a nonempty canvas and the requested semantic heading/link without a script error.",
+        "The composition contains the requested scene elements and no horizontal overflow at desktop and narrow widths.",
+        "Elapsed-time animation and bounded host-relative pointer response are implemented, with leave/cancel reset.",
+        "Reduced motion disables both idle and pointer-driven spatial animation, including preference changes.",
+        "A keyboard-accessible pause control stops motion and cannot override reduced motion.",
+        "The scheduler suspends hidden/offscreen work, bounds device pixel ratio and cancels pending frames during teardown.",
+        "A designed static fallback preserves the semantic content when canvas rendering is unavailable."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "line-field-react",
+      "prompt": "Crée un composant React/TypeScript CanvasHero réutilisable, avec CSS associé et une démo qui monte réellement ce composant. Direction validée : champ de lignes topographiques cuivre sur fond ivoire, zone calme pour le titre « Les idées prennent forme. », lien « Découvrir » vers #suite. Les lignes ondulent lentement et se déforment localement près de la souris. Aucun ajout de bibliothèque d'animation. Prévois mobile, mouvement réduit et utilisation dans une application avec rendu serveur. La démo doit permettre de retirer/remonter le composant et d'afficher deux instances indépendantes. Passe directement à la réalisation. Livre les sources, une démo HTML compilée autonome et une courte note de vérification honnête.",
+      "expected_output": "A real typed React canvas component and runnable bundled demo, with local pointer deformation, SSR-safe lifecycle, isolated instances, responsive layout, and accessible motion handling.",
+      "files": [],
+      "expectations": [
+        "The offline demo loads a nonempty canvas and the requested semantic heading/link without a script error.",
+        "The composition contains the requested scene elements and no horizontal overflow at desktop and narrow widths.",
+        "Elapsed-time animation and bounded host-relative pointer response are implemented, with leave/cancel reset.",
+        "Reduced motion disables both idle and pointer-driven spatial animation, including preference changes.",
+        "A keyboard-accessible pause control stops motion and cannot override reduced motion.",
+        "The scheduler suspends hidden/offscreen work, bounds device pixel ratio and cancels pending frames during teardown.",
+        "A designed static fallback preserves the semantic content when canvas rendering is unavailable.",
+        "The React source typechecks and server-renders without browser globals, and the preview mounts the real component.",
+        "Unmount/remount and two instances have isolated listeners, observers, animation handles and control state."
+      ]
+    }
+  ]
+}
