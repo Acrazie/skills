@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/Acrazie/skills/compare/v1.2.0...v1.3.0) (2026-09-16)
+
+
+### Features
+
+* **svg-banner:** add anti-pattern guidelines and spacing rules ([#8](https://github.com/Acrazie/skills/issues/8)) ([b23c5c1](https://github.com/Acrazie/skills/commit/b23c5c17bc002060d5a14125da52ab85795a274a))
+
 ## [1.2.0](https://github.com/Acrazie/skills/compare/v1.1.0...v1.2.0) (2026-09-16)
 
 
