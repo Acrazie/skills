@@ -1,0 +1,6 @@
+interface:
+  display_name: "GitHub Repo Init / Acrazie"
+  short_description: "Initializes production-ready GitHub repositories with adaptive interview"
+  default_prompt: "Use $github-repo-init-acrazie to interview, design, and scaffold a new GitHub repository."
+policy:
+  allow_implicit_invocation: false
