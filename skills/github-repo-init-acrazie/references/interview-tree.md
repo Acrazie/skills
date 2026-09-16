@@ -123,6 +123,39 @@ Prerequisites: Theme A settled
 
 ---
 
+### Theme F: Development Workflow, Branching & DX
+Prerequisites: Theme A and B settled
+
+1. **Branching Model & Environment Branches**:
+   - Question: What branching model and environments do you need?
+   - Options:
+     - **Trunk-Based Development** (Recommended for speed & modern CI/CD: all feature branches merge into `main`).
+     - **Multi-Environment Branches**:
+       - `main`: Production release branch.
+       - `staging`: Pre-production / staging environment branch.
+       - `develop`: Ongoing integration branch.
+   - **Branch Naming Standard**:
+     - `feat/<topic>`: New features.
+     - `fix/<topic>`: Bug fixes.
+     - `chore/<topic>`: Tooling, dependencies, maintenance.
+     - `docs/<topic>`: Documentation updates.
+     - `release/<version>`: Release candidates or maintenance.
+2. **Git Worktrees Workflow**:
+   - Question: Do you want to enable a Git Worktrees workflow for parallel development (e.g. isolated `.worktrees/<branch>` directories)?
+   - Recommendation: Yes, if multiple concurrent tasks, features, or AI agents work on the repository simultaneously.
+   - Artifacts generated:
+     - Ignore rule in `.gitignore`: `.worktrees/`.
+     - Dedicated worktree helper script: `scripts/worktree.sh` (or `Makefile` target).
+     - Documentation in `CONTRIBUTING.md` explaining the worktree lifecycle.
+3. **Developer Experience (DX) & Runtime Version Pinning**:
+   - Question: Pin exact runtime versions and configure local setup automation?
+   - Options:
+     - Runtime version files: `.node-version`, `.nvmrc` (Node), `.python-version` (Python), or `.tool-versions` / `.mise.toml`.
+     - Environment template: `.env.example` with dummy values.
+     - Bootstrap setup script: `scripts/setup.sh` (installs dependencies, configures hooks, sets up `.env`).
+
+---
+
 ## 3. Interview Synthesis: The Blueprint
 
 Once all questions are answered, compile the decisions into a **Repository Blueprint** formatted as follows:
@@ -132,16 +165,18 @@ Once all questions are answered, compile the decisions into a **Repository Bluep
 
 - **Target Directory**: `./my-awesome-app`
 - **Remote GitHub**: `owner/my-awesome-app` (Private) via `gh`
-- **Stack & Runtime**: TypeScript + React (Vite) with `pnpm`
+- **Stack & Runtime**: TypeScript + React (Vite) with `pnpm` (Node 20 pinned via `.node-version`)
+- **Branching & Environments**: Trunk-based (`main`), branch prefixes (`feat/`, `fix/`, `chore/`)
+- **Parallel Dev Workflow**: Git Worktrees enabled (`.worktrees/` in `.gitignore`, `scripts/worktree.sh`)
 - **Quality & Hooks**: Lefthook + Biome + Commitlint (Conventional Commits)
 - **CI/CD Actions**:
   - `ci.yml`: Lint, typecheck, test, build on PR/push
   - `release-please.yml`: Automated semver releases & changelogs
   - `dependabot.yml`: Weekly npm dependencies update
-- **Governance**:
+- **Governance & DX**:
   - `README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` (MIT)
   - `.github/ISSUE_TEMPLATE/` (bug & feature), `PULL_REQUEST_TEMPLATE.md`
-  - `.editorconfig`, `.gitignore`
+  - `.editorconfig`, `.gitignore`, `.env.example`, `scripts/setup.sh`
 
 **Directory Structure Preview:**
 my-awesome-app/
@@ -153,14 +188,19 @@ my-awesome-app/
 │       ├── ci.yml
 │       └── release-please.yml
 ├── .editorconfig
+├── .env.example
 ├── .gitignore
+├── .node-version
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── README.md
 ├── SECURITY.md
 ├── biome.json
 ├── lefthook.yml
-└── package.json (and source files)
+├── package.json
+└── scripts/
+    ├── setup.sh
+    └── worktree.sh
 
 👉 **Approval Gate**: Please review this blueprint. Should we proceed with scaffolding, or do you want to adjust any choice?
 ```

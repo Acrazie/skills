@@ -53,14 +53,45 @@ Please be respectful and constructive in all interactions.
    git clone <repo-url>
    cd <repo-name>
    ```
-2. Install dependencies:
+2. Run the automated setup script (or install manually):
    ```bash
-   <install-command>
+   ./scripts/setup.sh
+   # Or manually:
+   # <install-command>
+   # <hooks-install-command>
    ```
-3. Set up pre-commit hooks:
-   ```bash
-   <hooks-install-command>
-   ```
+
+## Branching Strategy & Environments
+
+This repository uses **<Trunk-Based Development | Environment Branches>**:
+
+- `main`: <Production stable branch | Production deployment>
+- `staging` *(if applicable)*: Pre-production QA and staging deployment
+- `develop` *(if applicable)*: Integration branch for daily development
+
+### Branch Naming Conventions
+- `feat/<topic>`: New features or capabilities
+- `fix/<topic>`: Bug fixes and patches
+- `chore/<topic>`: Dependencies, tooling, or refactoring
+- `docs/<topic>`: Documentation only changes
+
+## Parallel Development with Git Worktrees
+
+If you work on multiple features or with AI coding agents in parallel, use Git Worktrees to prevent branch collision:
+
+```bash
+# Using the helper script:
+./scripts/worktree.sh add feat/<branch-name>
+
+# Or manually:
+git worktree add .worktrees/<branch-name> -b feat/<branch-name> origin/main
+cd .worktrees/<branch-name>
+```
+
+When work is finished and the PR is merged:
+```bash
+./scripts/worktree.sh remove feat/<branch-name>
+```
 
 ## Commit Conventions
 
@@ -73,15 +104,17 @@ This project enforces [Conventional Commits](https://www.conventionalcommits.org
 - `test:` Adding or updating tests
 - `chore:` Routine tasks, dependency updates, tooling
 
+*Note: Never add automated co-author attributions.*
+
 ## Pull Request Process
 
-1. Create a dedicated branch (`feat/<branch-name>` or `fix/<branch-name>`).
+1. Create your branch or worktree (`feat/<branch-name>` or `fix/<branch-name>`).
 2. Run local tests and linters before committing:
    ```bash
    <lint-command>
    <test-command>
    ```
-3. Open a Pull Request referencing any related issues.
+3. Open a Pull Request targeting `<main | develop>`.
 4. Ensure CI checks pass.
 ```
 
@@ -229,6 +262,9 @@ Thumbs.db
 .env.*.local
 *.pem
 *.key
+
+# Worktrees for parallel development
+.worktrees/
 
 # Common build & logs
 logs
