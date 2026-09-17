@@ -71,6 +71,13 @@ skills/
 5. **Invocation Model**:
    - User-invoked skills require `disable-model-invocation: true` in `SKILL.md` frontmatter and `policy.allow_implicit_invocation: false` in `agents/openai.yaml`.
    - Read `.agents/invocation.md` for complete rules.
+6. **Prior Art & Non-Overlap Invariant**:
+   - Before designing, creating, or renaming a skill, agents **MUST** inspect all existing skills in `skills/` across local and remote branches (and review their `SKILL.md` scope/exclusions).
+   - A new skill is only admissible if its target workflow is distinctly unaddressed by existing skills.
+   - If a capability partially overlaps an existing skill, the agent must evaluate whether it belongs as:
+     a) an explicit sub-specialist under a parent orchestrator (e.g. `jenkins-*-acrazie`),
+     b) an extension of the existing skill's scope (if coherent),
+     c) or a strictly partitioned, independent skill with documented mutual exclusions.
 
 ## Local Development
 
