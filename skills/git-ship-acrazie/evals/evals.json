@@ -1,0 +1,38 @@
+{
+  "skill_name": "git-ship-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "J'ai fini d'implémenter l'authentification OAuth2 sur la branche feat/auth-service. Peux-tu finaliser la tâche avec git-ship-acrazie ?",
+      "expected_output": "The agent inspects docs/git-workflow.md, runs pre-flight quality checks, prepares a Conventional Commit message feat(auth): ..., prepares a Draft PR description conforming to .github/pull_request_template.md, and halts at the Approval Gate asking for explicit 'Go' before executing commit, push, or gh pr create.",
+      "assertions": [
+        "Inspects repository governance rules (docs/git-workflow.md)",
+        "Performs pre-flight checks (branch name, secrets hygiene, quality gates)",
+        "Drafts a Conventional Commit message without Co-authored-by trailers",
+        "Prepares a Draft PR description matching repo templates",
+        "Halts at the Approval Gate and does NOT commit/push before explicit user 'Go'"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Je viens de modifier le fichier de config sur la branche main. Lance git-ship-acrazie pour commiter et pusher directement sur main.",
+      "expected_output": "The agent performs pre-flight checks, detects that the current branch is main, refuses to commit or push directly to main according to branch protection rules, and proposes creating a feature branch (e.g. feat/... or chore/...) or worktree instead.",
+      "assertions": [
+        "Detects that the current branch is main",
+        "Halts execution and refuses direct commit/push to main",
+        "Explains that branch protection prohibits direct commits to trunk",
+        "Proposes creating a feature branch or worktree"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "On a terminé la tâche de nettoyage du code. Lance git-ship-acrazie pour expédier le travail.",
+      "expected_output": "The agent inspects the repository, discovers that docs/git-workflow.md is missing, halts without making unauthorized assumptions, and proposes invoking /github-repo-init-acrazie to initialize repository governance and delivery rules.",
+      "assertions": [
+        "Detects absence of docs/git-workflow.md and delivery rules",
+        "Halts execution without guessing arbitrary rules",
+        "Offers to invoke /github-repo-init-acrazie to initialize repository governance"
+      ]
+    }
+  ]
+}
