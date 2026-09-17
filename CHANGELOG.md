@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.5.1](https://github.com/Acrazie/skills/compare/v1.5.0...v1.5.1) (2026-09-17)
+
+
+### Bug Fixes
+
+* **ci:** remove direct push to protected main in release workflow ([#32](https://github.com/Acrazie/skills/issues/32)) ([eeae2cd](https://github.com/Acrazie/skills/commit/eeae2cd5c335b2378e009346c9defb9f1135bfe9))
+
 ## [1.5.0](https://github.com/Acrazie/skills/compare/v1.4.0...v1.5.0) (2026-09-17)
 
 
