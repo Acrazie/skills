@@ -29,5 +29,3 @@ When reporting an issue, please include:
 - A description of the vulnerability, execution risk, or behavioral bypass.
 - Minimal reproducible example or sample prompt demonstrating the vulnerability.
 - Any suggested remediations or mitigations.
-
-You will receive an initial response acknowledging your report within 48 hours, followed by progress updates as the issue is triaged and resolved.
