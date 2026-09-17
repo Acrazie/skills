@@ -137,6 +137,8 @@ Read [references/governance-templates.md](references/governance-templates.md), [
 7. Write authoritative documentation:
    - `README.md`: Project title, badges, description, prerequisites, quickstart, available commands, architecture overview.
    - `SECURITY.md`: Vulnerability reporting process and supported versions table.
+   - `docs/git-workflow.md`: Complete Git delivery rules, branching strategy, worktree isolation, commit standards (Conventional Commits, no co-authors), quality gates, and draft PR protocol.
+   - `AGENTS.md`: Lightweight agent instructions entrypoint containing project overview and concise pointer to `docs/git-workflow.md`. Create relative symlink `CLAUDE.md -> AGENTS.md`.
    - `CONTRIBUTING.md`: Workflow, branching model & environments, branch naming conventions, worktrees guide, commit conventions, local test steps.
    - `LICENSE`: Full legal text of the chosen license with current year and author.
    - `CODEOWNERS` (if requested).

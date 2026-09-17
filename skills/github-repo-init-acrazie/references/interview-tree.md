@@ -103,7 +103,7 @@ Use this decision map to interview the user adaptively before any scaffolding oc
 #### 2.5 Documentation & Governance
 - **Question**: Which repository governance and documentation files should be generated?
 - **Options**:
-  - Standard governance suite (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` [MIT], `.github/ISSUE_TEMPLATE/`, `PULL_REQUEST_TEMPLATE.md`).
+  - Standard governance suite (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` [MIT], `docs/git-workflow.md`, `AGENTS.md` [linking to `docs/git-workflow.md`], `.github/ISSUE_TEMPLATE/`, `PULL_REQUEST_TEMPLATE.md`).
   - Minimal governance (`README.md` + `LICENSE`).
 - **Recommendation**: Standard governance suite with MIT License.
 - **Note on Existing Files**: If any of these files already exist, explicitly ask whether to **preserve** or **overwrite** them.
