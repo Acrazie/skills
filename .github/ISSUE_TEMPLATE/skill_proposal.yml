@@ -1,0 +1,44 @@
+name: Skill Proposal / Enhancement
+description: Propose a new specialized agent skill or a major architectural update to an existing skill
+labels: ["enhancement", "skill-proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a skill! Each skill should own exactly one concrete workflow with high craftsmanship and clear boundaries.
+  - type: input
+    id: skill_name
+    attributes:
+      label: Proposed Skill Identifier
+      description: Must end with `-acrazie` (e.g. `docker-compose-architect-acrazie`)
+      placeholder: "<name>-acrazie"
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Mission & Problem Statement
+      description: What specific workflow or friction does this skill address?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: In-Scope vs Out-of-Scope
+      description: What should this skill do, and what should it explicitly NOT do?
+    validations:
+      required: true
+  - type: textarea
+    id: persona
+    attributes:
+      label: Persona & Operating Model
+      description: How should the skill interact with the user (e.g. interactive interview, decision gate, automated pipeline)?
+    validations:
+      required: false
+  - type: checkboxes
+    id: invariants
+    attributes:
+      label: Acrazie Standards Checklist
+      options:
+        - label: I understand that all skills must follow the `-acrazie` naming convention and isolated worktree protocol.
+          required: true

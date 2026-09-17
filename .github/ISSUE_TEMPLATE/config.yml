@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerabilities
+    url: https://github.com/Acrazie/skills/security/advisories/new
+    about: Please report security vulnerabilities privately via GitHub Security Advisories.
+  - name: skills.sh Directory
+    url: https://skills.sh
+    about: Discover skills published to the skills.sh registry.
