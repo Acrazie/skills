@@ -14,6 +14,7 @@ Scaffold and bootstrap a complete, production-grade GitHub repository tailored t
 
 1. **Explicit Invariants**:
    - **No Silent Assumptions**: Never choose a stack, package manager, linter, or repository visibility without asking or obtaining approval.
+   - **Deep Prior Discovery**: If running in an existing populated directory or initialized git repository, thoroughly explore existing manifests, workflows, linters, and tests *before* asking questions, and prune all redundant questions from the interview.
    - **Approval Gate**: Present a consolidated **Repository Blueprint** and obtain explicit user confirmation before creating files or running mutating shell commands.
    - **Tooling Verification**: Verify CLI availability (`node`, `pnpm`, `uv`, `go`, `cargo`, `git`, `gh`) before executing commands. If a tool is missing, report the dependency and offer alternatives.
    - **Git Hygiene**: Always configure `.gitignore` *before* package installations so caches and dependencies (e.g. `node_modules`, `.venv`) are never tracked.
@@ -26,8 +27,8 @@ Scaffold and bootstrap a complete, production-grade GitHub repository tailored t
 
 ```mermaid
 flowchart TD
-  A["1. Inspect Environment & Directory"] --> B["2. Adaptive Decision-Tree Interview"]
-  B --> C["3. Synthesize Blueprint & Request Approval"]
+  A["1. Inspect Environment & Deep Discovery"] --> B["2. Adaptive Decision-Tree Interview (3 Rounds)"]
+  B --> C["3. Synthesize Blueprint & Approval Gate"]
   C -->|Approved| D["4. Execute Stack Scaffolding"]
   D --> E["5. Setup Code Quality & Git Hooks"]
   E --> F["6. Generate Governance & Workflows"]
@@ -39,43 +40,57 @@ flowchart TD
 
 ## 3. Workflow Steps
 
-### Step 1: Inspect Environment & Directory
-Before asking questions, inspect the current environment:
-- Check current working directory path and check whether it contains existing files (`ls -la`).
-- Check if git is already initialized (`git status`).
-- Check installed CLI tooling availability (`node -v`, `pnpm -v`, `uv --version`, `go version`, `cargo --version`, `gh auth status`).
-- Record findings as baseline facts so you do not ask the user for facts the environment already answers.
+### Step 1: Inspect Environment & Directory (Deep Exploration)
+Before asking questions, thoroughly inspect the working directory and system environment:
+1. **Directory & Git State**:
+   - Check current working directory path.
+   - Check if git is initialized (`git status`), check existing remotes (`git remote -v`), and current branch.
+   - Check whether the directory is empty or populated (`ls -la`).
+2. **Deep Exploration of Existing Stack & Config (if directory is populated or git initialized)**:
+   - **Language manifests**:
+     - JS/TS: `package.json`, `tsconfig.json`, lockfiles (`pnpm-lock.yaml`, `package-lock.json`, `bun.lockb`).
+     - Python: `pyproject.toml`, `requirements.txt`, `Pipfile`, `setup.py`, lockfiles (`uv.lock`, `poetry.lock`).
+     - Go: `go.mod`, `go.sum`.
+     - Rust: `Cargo.toml`, `Cargo.lock`.
+   - **Code quality & tooling configurations**:
+     - Linters/Formatters: `biome.json`, `.eslintrc*`, `ruff.toml`, `pyproject.toml` tool sections, `.golangci.yml`.
+     - Git hooks: `lefthook.yml`, `.husky/`, `.pre-commit-config.yaml`.
+   - **CI/CD & Workflows**:
+     - `.github/workflows/` (inspect existing CI, release, and audit workflows).
+     - Dependabot: `.github/dependabot.yml`.
+   - **Existing Governance & DX**:
+     - `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`.
+     - `.editorconfig`, `.gitignore`, `.env*`, `scripts/`.
+3. **CLI Tooling Availability**:
+   - Check installed CLI tools (`node -v`, `pnpm -v`, `uv --version`, `go version`, `cargo --version`, `gh auth status`).
+4. **Fact Consolidation & Pruning Invariant**:
+   - Record all discovered facts (stack, package manager, remotes, existing linters/CI).
+   - **Hard Invariant**: Never ask the user to choose or confirm a stack, framework, or package manager if authoritative manifests are already present. Treat discovered configuration as settled baseline and prune redundant questions from the interview.
 
 ---
 
 ### Step 2: Adaptive Decision-Tree Interview
 Read [references/interview-tree.md](references/interview-tree.md) before conducting the interview.
 
-Follow an adaptive decision tree grouped into themes:
-1. **Repository Identity & Destination**:
-   - Repository name, description, target directory (`.` vs `./<repo-name>`).
-   - Remote repository: Local only vs GitHub remote (Public or Private).
-2. **Stack & Framework**:
-   - JS/TS (React Vite, Vue Vite, Next.js, Node CLI/tsup), Python (`uv` / Poetry, FastAPI / CLI), Go, Rust, or Custom / Agnostic.
-   - Preferred package manager (`pnpm`, `npm`, `uv`, etc.).
-3. **Code Quality & Git Hooks**:
-   - Hook manager: **Lefthook** (recommended), Husky, pre-commit, or None.
-   - Linter/Formatter: **Biome** (recommended for JS/TS), ESLint + Prettier, **Ruff** (Python), golangci-lint, clippy.
-   - Commit linting: Conventional Commits via commit-msg hook.
-4. **CI/CD Workflows**:
-   - Automated CI testing/linting/build (`ci.yml`).
-   - Automated releases: **Release Please** (recommended), Changesets, or manual.
-   - Dependabot / Security audit.
-5. **Governance & Documentation**:
-   - `README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` (MIT by default).
-   - `.github/ISSUE_TEMPLATE/` (bug & feature), `PULL_REQUEST_TEMPLATE.md`, `CODEOWNERS`.
-   - `.editorconfig`, `.gitignore`.
-6. **Development Workflow, Branching & DX**:
-   - Branching strategy: Trunk-based vs Environment branches (`main`, `staging`, `develop`) and branch naming conventions (`feat/`, `fix/`, `chore/`, `docs/`).
-   - Git Worktrees: Enable parallel development isolation (`.worktrees/` in `.gitignore`, optional `scripts/worktree.sh`).
-   - Developer Experience & Onboarding: Runtime version pinning (`.node-version`, `.python-version`, `.tool-versions`), `.env.example` template, and bootstrap script (`scripts/setup.sh`).
+Do **NOT** present all interview themes in a single monolithic questionnaire. Conduct an adaptive interview grouped into at most **2 to 3 progressive rounds**, where every question includes an explicit, contextual recommendation:
 
-*Note*: If the user provides requirements upfront in their prompt, mark those decisions as settled and only ask about unresolved branches.
+1. **Round 1: Identity, Destination & Stack**:
+   - Target directory: in-place (`.`) vs new subfolder (`./<repo-name>`). *(Pruned if in-place execution is obvious or explicitly stated).*
+   - Repository name & description. *(Pruned if manifest or directory name provides it).*
+   - Remote GitHub repository: Local only vs GitHub remote (Public or Private) via `gh`. *(Pruned if remote `origin` already exists; ask only whether to keep or replace).*
+   - Stack preset & package manager: *(Pruned if detected during Step 1; otherwise asked with recommended defaults).*
+2. **Round 2: Quality Gates, CI/CD & Governance**:
+   - Git hook manager: **Lefthook** (recommended), Husky, pre-commit, or None.
+   - Linter/Formatter: **Biome** (recommended for JS/TS), **Ruff** (recommended for Python), golangci-lint, clippy. *(Pruned if already configured).*
+   - Commit linting: Conventional Commits via commit-msg hook. *(Recommended: Yes).*
+   - CI/CD workflows: Automated CI (`ci.yml`) and **Release Please** (recommended).
+   - Governance files: Generate missing files (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE`, issue/PR templates). If existing files are detected, ask whether to preserve or overwrite.
+3. **Round 3: Workflow, Worktrees & Developer Experience (DX)**:
+   - Branching model: Trunk-based (`main`) with branch naming conventions (`feat/`, `fix/`, `chore/`). *(Recommended: Yes).*
+   - Git Worktrees: Enable parallel development workflow with `.worktrees/` in `.gitignore` and `scripts/worktree.sh`. *(Recommended: Yes).*
+   - Runtime pinning & onboarding: Runtime version file (`.node-version`, `.python-version`) and bootstrap script (`scripts/setup.sh`). *(Recommended: Yes).*
+
+*Note*: If the user provides requirements upfront in their prompt, mark those decisions as settled and only ask about unresolved branches. Always provide a recommended default with a concise rationale for every question.
 
 ---
 
