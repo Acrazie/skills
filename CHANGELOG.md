@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.5.0](https://github.com/Acrazie/skills/compare/v1.4.0...v1.5.0) (2026-09-17)
+
+
+### Features
+
+* **docs:** setup astro documentation portal with shadcn style for github pages ([#31](https://github.com/Acrazie/skills/issues/31)) ([def168f](https://github.com/Acrazie/skills/commit/def168fee17c05e05b49d0512d91f6fd8d8c5120))
+
+
+### Bug Fixes
+
+* **ci:** use install-action to provision git-cliff in release workflow ([#27](https://github.com/Acrazie/skills/issues/27)) ([08088a5](https://github.com/Acrazie/skills/commit/08088a557985fa21c6d012b685f82e607a552fc6))
+
 ## [1.4.0](https://github.com/Acrazie/skills/compare/v1.3.0...v1.4.0) - 2026-09-17
 
 ### 🚀 Features
