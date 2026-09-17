@@ -30,6 +30,11 @@ Do not use it for:
 - Require an explicit target skill. Resolve its directory and `SKILL.md`; ask only if the name or path is ambiguous.
 - Let the target skill control task execution. Skill Refiner observes rather than coaching, critiquing, or pre-emptively changing its behavior.
 - Evaluate only a final response or deliverable that the target skill actually guided. Do not evaluate clarification questions, progress reports, or Refiner’s own messages.
+- **Continuous presence invariant**: Every assistant message during an active campaign MUST terminate with an explicit Refiner indicator matching the conversation language:
+  - final deliverable: the evaluation prompt footer;
+  - intermediate turns (clarifications, questions, progress updates): the discreet status badge;
+  - turns following an unrated deliverable: the reminder footer.
+  Never emit a conversational turn without its corresponding Refiner indicator while a campaign is active.
 - Interpret the score as adherence of the target skill’s behavior to the user’s intent, not as a generic quality score for the subject matter.
 - Match the user’s language in all explanations and follow-ups.
 
@@ -73,7 +78,11 @@ If the target directory is read-only, create both artifacts in an adjacent writa
    - `3/5`: partially conforms;
    - `4/5`: minor adjustment needed;
    - `5/5`: conforms to the user’s intent.
-6. State that every score needs a comment, that `5/5` comments identify behavior to preserve, and that the user may say `passer` to skip an observation.
+6. State that every score needs a comment, that `5/5` comments identify behavior to preserve, and that the user may say `passer` (or `skip`) to skip an observation.
+7. Announce the visual presence indicators matching the conversation language:
+   - status badge on intermediate exchanges (`[Refiner: actif • en cours]` or `[Refiner: active • in progress]`);
+   - evaluation prompt on target deliverables (`[Refiner] Note + commentaire : 4/5 — …` or `[Refiner] Rating + comment : 4/5 — …`);
+   - reminder if work continues without rating (`[Refiner: rappel] Note + commentaire attendus (ou 'passer') : 4/5 — …` or `[Refiner: reminder] Rating + comment expected (or 'skip') : 4/5 — …`).
 
 Do not create an upfront behavioral contract. The campaign learns the user’s intent from successive scored interactions.
 
@@ -81,21 +90,38 @@ Do not create an upfront behavioral contract. The campaign learns the user’s i
 
 ### 2. Observe a target-guided result
 
-Before each target-guided final result:
+Distinguish intermediate exchanges from final deliverables to ensure constant visual continuity without premature scoring:
 
-1. Re-read the target `SKILL.md` and recompute its SHA-256 digest.
-2. If it differs from the starting digest, do not mix evidence across versions. Append a `version_changed` event, pause the campaign, and offer to start a new campaign for the new digest.
-3. If it matches, let the target skill finish the user’s task normally.
-4. Append a `result_presented` event with a minimal request summary and result summary. Mark the observation as awaiting feedback.
-5. Outside any produced artifact, append exactly:
+- **Intermediate turns (clarifications, questions, progress reports, multi-step actions):**
+  Do not evaluate these turns or prompt for a score. However, to eliminate doubt about campaign activity, append a discreet status badge outside any artifact:
+  - In French:
+    ```text
+    [Refiner: actif • en cours]
+    ```
+  - In English:
+    ```text
+    [Refiner: active • in progress]
+    ```
 
-```text
-[Refiner] Note + commentaire : 4/5 — …
-```
+- **Target-guided final results:**
+  Before presenting each final result guided by the target skill:
+  1. Re-read the target `SKILL.md` and recompute its SHA-256 digest.
+  2. If it differs from the starting digest, do not mix evidence across versions. Append a `version_changed` event, pause the campaign, and offer to start a new campaign for the new digest.
+  3. If it matches, let the target skill finish the user’s task normally.
+  4. Append a `result_presented` event with a minimal request summary and result summary. Mark the observation as awaiting feedback.
+  5. Outside any produced artifact, append exactly:
+     - In French:
+       ```text
+       [Refiner] Note + commentaire : 4/5 — …
+       ```
+     - In English:
+       ```text
+       [Refiner] Rating + comment : 4/5 — …
+       ```
 
-Do not put the footer inside a generated file, code block, JSON value, document, or other deliverable. If the response itself must be strictly machine-readable and cannot contain trailing text, defer the footer to the next conversational turn before processing another target-guided task.
+Do not put any badge or footer inside a generated file, code block, JSON value, document, or other deliverable. If the response itself must be strictly machine-readable and cannot contain trailing text, defer the footer to the next conversational turn before processing another target-guided task. Never omit the footer or badge from conversational responses.
 
-**Observation criterion:** every eligible result has one stable observation ID and is either awaiting feedback, complete, corrected, or skipped.
+**Observation criterion:** every eligible result has one stable observation ID and is either awaiting feedback, complete, corrected, or skipped; every conversational turn displays its appropriate Refiner indicator.
 
 ### 3. Capture feedback
 
@@ -113,7 +139,16 @@ Then:
 5. For scores below 5, determine whether the comment already explains the desired 5/5 behavior. If not, ask one targeted follow-up: what would have made this behavior a 5/5?
 6. Append `feedback_recorded` and, when applicable, `ideal_behavior_added` events. Do not turn either into an ADR decision yet.
 
-If the user ignores a feedback request, continue their work. Remind them once at the next suitable conversational turn and offer `passer`. Never infer satisfaction from silence. If they pass, append `observation_skipped`.
+If the user ignores a feedback request and continues their work, keep helping them while appending a reminder footer to that conversational response:
+- In French:
+  ```text
+  [Refiner: rappel] Note + commentaire attendus (ou 'passer') : 4/5 — …
+  ```
+- In English:
+  ```text
+  [Refiner: reminder] Rating + comment expected (or 'skip') : 4/5 — …
+  ```
+Remind them once. Never infer satisfaction from silence. If they say `passer` (or `skip`), append `observation_skipped`.
 
 If the user revises a prior score or comment, append `feedback_corrected` with the superseded event ID and keep both versions visible in the journal.
 
@@ -148,6 +183,7 @@ Rely on the active harness conversation for ordinary pause, compaction, or resum
 
 - **Contaminating the test:** advice from Refiner before the target acts changes the behavior being measured.
 - **Scoring every assistant message:** only target-guided final results qualify.
+- **Omitting presence indicators:** emitting an assistant message without the status badge (`[Refiner: actif • en cours]`), evaluation footer (`[Refiner] Note + commentaire : 4/5 — …`), or reminder footer breaks continuity and leaves the user wondering if Refiner is still active.
 - **Treating silence as approval:** skipped or missing feedback provides no evidence.
 - **Over-questioning:** ask one rating/comment prompt, then only the necessary coherence or below-5 follow-up.
 - **Mixing versions:** any digest change ends evidence collection for the original campaign.
@@ -160,6 +196,7 @@ Rely on the active harness conversation for ordinary pause, compaction, or resum
 Before reporting a campaign complete, verify:
 
 - the target digest matches the tested version or the campaign ended with `version_changed`;
+- all conversational turns throughout the active campaign carried their expected Refiner presence indicator;
 - every journal event has a unique ID and events remain in chronological order;
 - corrections point to existing earlier events;
 - every accepted decision cites one or more complete observation IDs;
