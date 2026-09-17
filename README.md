@@ -1,6 +1,7 @@
 # Acrazie Skills
 
 [![skills.sh](https://skills.sh/b/Acrazie/skills)](https://skills.sh/Acrazie/skills)
+[![Documentation](https://img.shields.io/badge/docs-skills.acrazie.dev-black?style=flat)](https://skills.acrazie.dev)
 
 Focused skills for AI coding agents. Each skill owns one concrete workflow and keeps its instructions, UI metadata, and supporting references together.
 
