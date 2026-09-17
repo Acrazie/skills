@@ -29,8 +29,6 @@ Instead, please report it privately:
    - A clear description of the vulnerability
    - Steps or proof-of-concept to reproduce the issue
    - Impact assessment
-
-You will receive an acknowledgment within 48 hours, followed by updates on triage and mitigation.
 ```
 
 ---

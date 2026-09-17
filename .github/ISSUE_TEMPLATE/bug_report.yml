@@ -1,0 +1,61 @@
+name: Bug Report
+description: Report unexpected behavior, broken prompt instructions, or tool errors in a skill
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please provide as much detail as possible to help reproduce and fix the behavior.
+  - type: input
+    id: skill
+    attributes:
+      label: Affected Skill
+      description: Which skill is having an issue? (e.g. `svg-icon-designer-acrazie`)
+      placeholder: "skills/<skill-name>-acrazie"
+    validations:
+      required: true
+  - type: dropdown
+    id: runner
+    attributes:
+      label: Agent / Runner
+      description: Which agent runner or harness were you using?
+      options:
+        - Claude Code
+        - Codex / OpenAI
+        - Antigravity / Gemini
+        - Hermes
+        - OpenCode / Cursor / Windsurf
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect the skill or agent to do?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What did the skill or agent actually do instead?
+    validations:
+      required: true
+  - type: textarea
+    id: prompt
+    attributes:
+      label: User Prompt or Repro Steps
+      description: What prompt or command triggered this behavior?
+      placeholder: |
+        1. Invoked skill with prompt: "..."
+        2. Agent responded with: "..."
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate.
+          required: true
