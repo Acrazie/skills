@@ -88,8 +88,11 @@ Use this decision map to interview the user adaptively before any scaffolding oc
 
 #### 2.3 Commit Linting & Conventions
 - **Question**: Do you want to enforce Conventional Commits (`feat:`, `fix:`, `chore:`, etc.) via commit-msg hooks?
-- **Options**: Yes (Commitlint hook) | No (Manual conventions).
+- **Options**:
+  - Yes (Ecosystem-native: Commitlint for JS/TS, zero-dependency regex hook via Lefthook for Python/Go/Rust).
+  - No (Manual conventions).
 - **Recommendation**: **Yes** (enables automated release management and clean semver changelogs).
+- **Ecosystem Fit Invariant (DEC-004)**: Never install Node.js/npm dependencies in a non-JS project solely for commitlint. Always configure Lefthook's native regex hook or repository-local scripts for Python, Go, and Rust.
 
 #### 2.4 CI/CD Workflows (GitHub Actions)
 - **Question**: Which automated GitHub Actions workflows do you want to enable?
@@ -132,11 +135,20 @@ Use this decision map to interview the user adaptively before any scaffolding oc
   - Onboarding setup script (`scripts/setup.sh`).
 - **Recommendation**: **Yes** (pins predictable environment versions and allows one-command onboarding for contributors).
 
+#### 3.4 Plain-Language Concept Comparison (DEC-005)
+When presenting technical choices that may seem abstract or non-basic, include a compact comparison in plain language without jargon:
+
+| Topic | Recommended Option | Alternative | Why the recommendation is better |
+|---|---|---|---|
+| **Branching** | **Trunk-Based Development** (Single `main` branch + short-lived feature branches) | **GitFlow** (Multiple permanent branches: `develop`, `staging`, `main`) | **Faster & simpler**: avoids painful merge conflicts and integrates cleanly with modern CI/CD. |
+| **Parallel Dev** | **Git Worktrees** (Isolated working folders on the same repo) | **Standard Git branches** (Single folder, requires `git stash` to switch tasks) | **Zero collisions**: allows AI agents or devs to work in `.worktrees/feat-x` without dirtying the main folder. |
+| **Commit Validation** | **Ecosystem-Native Hook** (Lefthook regex for Python/Go/Rust, Commitlint for JS/TS) | **Global npm Commitlint** (Installing Node.js everywhere) | **Zero pollution**: prevents adding foreign runtimes and lockfiles into pure Python/Go/Rust projects. |
+
 ---
 
 ## 3. Interview Synthesis: The Blueprint
 
-Once all 3 rounds are resolved, compile the agreed configuration into a concise, structured **Repository Blueprint** followed by an ASCII tree preview and the explicit **Approval Gate** stop:
+Once all rounds are resolved, compile the agreed configuration into a concise, structured **Repository Blueprint** including the plain-language key decisions table, an ASCII tree preview, and the explicit **Approval Gate** stop:
 
 ```markdown
 ### 📋 Proposed Repository Blueprint

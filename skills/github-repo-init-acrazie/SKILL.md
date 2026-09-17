@@ -82,13 +82,14 @@ Do **NOT** present all interview themes in a single monolithic questionnaire. Co
 2. **Round 2: Quality Gates, CI/CD & Governance**:
    - Git hook manager: **Lefthook** (recommended), Husky, pre-commit, or None.
    - Linter/Formatter: **Biome** (recommended for JS/TS), **Ruff** (recommended for Python), golangci-lint, clippy. *(Pruned if already configured).*
-   - Commit linting: Conventional Commits via commit-msg hook. *(Recommended: Yes).*
+   - Commit linting: Conventional Commits via commit-msg hook. **Ecosystem-native Invariant (DEC-004)**: use Commitlint for JS/TS, native Lefthook regex hook or local script for Python/Go/Rust. Never add npm/Node.js to non-JS projects solely for commit linting. *(Recommended: Yes).*
    - CI/CD workflows: Automated CI (`ci.yml`) and **Release Please** (recommended).
-   - Governance files: Generate missing files (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE`, issue/PR templates). If existing files are detected, ask whether to preserve or overwrite.
+   - Governance files: Generate missing files (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE`, `docs/git-workflow.md`, `AGENTS.md`, issue/PR templates). If existing files are detected, ask whether to preserve or overwrite.
 3. **Round 3: Workflow, Worktrees & Developer Experience (DX)**:
    - Branching model: Trunk-based (`main`) with branch naming conventions (`feat/`, `fix/`, `chore/`). *(Recommended: Yes).*
    - Git Worktrees: Enable parallel development workflow with `.worktrees/` in `.gitignore` and `scripts/worktree.sh`. *(Recommended: Yes).*
    - Runtime pinning & onboarding: Runtime version file (`.node-version`, `.python-version`) and bootstrap script (`scripts/setup.sh`). *(Recommended: Yes).*
+   - **Plain-Language Concept Comparison (DEC-005)**: For abstract or non-basic concepts (Trunk-Based vs GitFlow, Worktrees vs standard branches), provide a compact "Recommendation vs Alternative" comparison in plain language without technical jargon.
 
 *Note*: If the user provides requirements upfront in their prompt, mark those decisions as settled and only ask about unresolved branches. Always provide a recommended default with a concise rationale for every question.
 
@@ -96,10 +97,11 @@ Do **NOT** present all interview themes in a single monolithic questionnaire. Co
 
 ### Step 3: Synthesize Blueprint & Approval Gate
 Synthesize all answers into a clear, structured **Repository Blueprint**:
-- Summary of target directory, stack, package manager, quality tools, CI/CD actions, governance files, branching model, and worktree/DX setup.
-- Visual directory tree preview showing the expected repository structure.
-- **Approval Gate**: Stop and ask:
-  > "Here is the proposed blueprint for `<repo-name>`. Please review and confirm to start scaffolding, or let me know if you want to tweak any option."
+1. **Key Decisions Table**: Compact "Recommendation vs Alternative" table in plain language explaining why each key technical choice was selected.
+2. **Configuration Summary**: Bulleted list of target directory, stack, package manager, quality tools, CI/CD actions, governance files, branching model, and worktree/DX setup.
+3. **Visual Directory Tree**: Visual ASCII directory tree preview showing the expected repository structure.
+4. **Approval Gate**: Stop and ask:
+   > "Here is the proposed blueprint for `<repo-name>`. Please review and confirm to start scaffolding, or let me know if you want to tweak any option."
 
 Do **NOT** write files or run mutating commands before receiving user confirmation.
 
@@ -181,9 +183,12 @@ If the user requested remote GitHub creation and `gh` is authenticated:
 
 ---
 
-### Step 9: Completion Report
-Provide a concise summary:
-- Repository status: local path, git branch, remote URL (if created).
-- Installed tools, configs, and workflows.
-- Ready-to-use commands (`dev`, `lint`, `test`, `build`).
-- Next steps for development.
+### Step 9: Completion Report (DEC-006)
+Provide a concise, direct, and structured 3-part completion summary:
+1. **Installed Artifacts & Governance**:
+   - Clean inventory of created/configured files (governance, linter/formatter, CI workflows, DX scripts).
+   - Repository status: local path, git branch, remote URL (if connected).
+2. **Local Validation Status**:
+   - Explicit confirmation of executed verification checks (e.g. `ruff check .` / `biome check .` and test suite results).
+3. **Ready-to-Use Commands**:
+   - Practical commands for contributor onboarding, linting, running tests, and managing worktrees (`setup.sh`, `test`, `lint`, `worktree.sh`).

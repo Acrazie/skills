@@ -30,7 +30,7 @@ commit-msg:
       run: npx commitlint --edit {1}
 ```
 
-`lefthook.yml` for Python (with Ruff):
+`lefthook.yml` for Python (with Ruff & Native Conventional Commits):
 ```yaml
 pre-commit:
   parallel: true
@@ -43,11 +43,25 @@ pre-commit:
       glob: "*.py"
       run: uv run ruff check --fix {staged_files}
       stage_fixed: true
+
+commit-msg:
+  commands:
+    conventional-commits:
+      run: |
+        msg=$(head -n1 "$1")
+        pattern="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-zA-Z0-9_\.-]+\))?: .{1,80}$"
+        if ! echo "$msg" | grep -Eq "$pattern"; then
+          echo "Error: Commit message does not follow Conventional Commits format."
+          echo "Example: feat(scope): concise description"
+          exit 1
+        fi
 ```
+
+> **Ecosystem Fit Invariant (DEC-004)**: Never install Node.js/npm dependencies (such as `@commitlint/cli`) in a pure Python, Go, or Rust project solely for commit linting. Always use Lefthook's native regex hook or a repository-local script to keep lockfiles and dev dependencies clean.
 
 Activate hooks:
 ```bash
-npx lefthook install # or lefthook install
+lefthook install # or npx lefthook install for JS/TS
 ```
 
 ### 1.2 Husky (Alternative for JS/TS)
