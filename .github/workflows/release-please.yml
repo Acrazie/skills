@@ -33,12 +33,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up git-cliff
+      - name: Install git-cliff
         if: ${{ steps.release.outputs.releases_created == 'true' }}
-        uses: orhun/git-cliff-action@v4
+        uses: taiki-e/install-action@v2
         with:
-          version: latest
-          download-only: true
+          tool: git-cliff
 
       - name: Update GitHub Release notes with git-cliff
         if: ${{ steps.release.outputs.releases_created == 'true' }}
@@ -48,7 +47,7 @@ jobs:
             TAG="v${{ steps.release.outputs.version }}"
           fi
           echo "Updating release notes for tag: $TAG"
-          git-cliff --tag "$TAG" --strip header --output /tmp/release-notes.md
+          git-cliff --latest --strip header --output /tmp/release-notes.md
           gh release edit "$TAG" --notes-file /tmp/release-notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

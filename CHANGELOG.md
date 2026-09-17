@@ -3,33 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 
-## [1.4.0](https://github.com/Acrazie/skills/compare/v1.3.0...v1.4.0) (2026-09-17)
-
-
-### Features
-
-* **ci:** modernize workflows with node 24 runtime, concurrency, and pr linting ([#22](https://github.com/Acrazie/skills/issues/22)) ([f096da0](https://github.com/Acrazie/skills/commit/f096da0f8e95fdfb05cb121bf3d88149ed24d8fc))
-* **git-ship:** add git-ship task finalizer skill ([#15](https://github.com/Acrazie/skills/issues/15)) ([3a119e7](https://github.com/Acrazie/skills/commit/3a119e7e930c38e183d93ba88325a1adbf91187f))
-* **github-repo-init:** add branching strategy, git worktrees, and dx setup ([#13](https://github.com/Acrazie/skills/issues/13)) ([0aa8bb6](https://github.com/Acrazie/skills/commit/0aa8bb6cef553f1c7413a646896b7ec24497df41))
-* **github-repo-init:** add github repository initializer skill ([#11](https://github.com/Acrazie/skills/issues/11)) ([46edf88](https://github.com/Acrazie/skills/commit/46edf884b21be91cbc3cc0f56bec90490cd2e576))
-* **github-repo-init:** align instructions with ADR DEC-004, DEC-005, and DEC-006 ([#18](https://github.com/Acrazie/skills/issues/18)) ([aed927f](https://github.com/Acrazie/skills/commit/aed927f46c4254fb35fe51d5e4639e2fcd116298))
-* **github-repo-init:** deep exploration and adaptive 3-round interview ([#14](https://github.com/Acrazie/skills/issues/14)) ([07ac00c](https://github.com/Acrazie/skills/commit/07ac00c8c63c011cc1d44ec39fc9a4377ed7b6b4))
-* **github-repo-init:** deep exploration, 3-round interview, and docs/git-workflow templates ([#16](https://github.com/Acrazie/skills/issues/16)) ([1bf8072](https://github.com/Acrazie/skills/commit/1bf80720ab32e54ac0460d66507809c49c2153b8))
-* **governance:** add github governance templates, contributing guide, and dependabot ([#19](https://github.com/Acrazie/skills/issues/19)) ([2513893](https://github.com/Acrazie/skills/commit/25138932d28b72dcf7a1aa09d87cb034340383aa))
-* **release:** setup git-cliff for changelog and release notes automation ([#26](https://github.com/Acrazie/skills/issues/26)) ([edae17d](https://github.com/Acrazie/skills/commit/edae17d9f5d5d4783e3ab02abd915145812d3fb4))
-* **repo-modernizer:** add repo modernizer skill for setup upgrades and migrations ([#23](https://github.com/Acrazie/skills/issues/23)) ([85f8f95](https://github.com/Acrazie/skills/commit/85f8f95c1facd8bd779ddc175a6a3ca612420b77))
-
-
-### Bug Fixes
-
-* **skill-refiner:** enforce continuous presence indicators and reminder footers ([#17](https://github.com/Acrazie/skills/issues/17)) ([55dada9](https://github.com/Acrazie/skills/commit/55dada911346991f9df2be8052a63e2b87452970))
-
-## [Unreleased]
-
+## [1.4.0](https://github.com/Acrazie/skills/compare/v1.3.0...v1.4.0) - 2026-09-17
 
 ### 🚀 Features
 
-- **(svg-banner)**: Add anti-pattern guidelines and spacing rules ([#8](https://github.com/Acrazie/skills/pull/8)) by @Acrazie
 - **(github-repo-init)**: Add github repository initializer skill ([#11](https://github.com/Acrazie/skills/pull/11)) by @Acrazie
 - **(github-repo-init)**: Add branching strategy, git worktrees, and dx setup ([#13](https://github.com/Acrazie/skills/pull/13)) by @Acrazie
 - **(github-repo-init)**: Deep exploration and adaptive 3-round interview ([#14](https://github.com/Acrazie/skills/pull/14)) by @Acrazie
@@ -38,15 +15,30 @@ All notable changes to this project will be documented in this file.
 - **(github-repo-init)**: Align instructions with ADR DEC-004, DEC-005, and DEC-006 ([#18](https://github.com/Acrazie/skills/pull/18)) by @Acrazie
 - **(governance)**: Add github governance templates, contributing guide, and dependabot ([#19](https://github.com/Acrazie/skills/pull/19)) by @Acrazie
 - **(ci)**: Modernize workflows with node 24 runtime, concurrency, and pr linting ([#22](https://github.com/Acrazie/skills/pull/22)) by @Acrazie
+- **(release)**: Setup git-cliff for changelog and release notes automation ([#26](https://github.com/Acrazie/skills/pull/26)) by @Acrazie
+- **(repo-modernizer)**: Add repo modernizer skill for setup upgrades and migrations ([#23](https://github.com/Acrazie/skills/pull/23)) by @Acrazie
 
 ### 🐛 Bug Fixes
 
 - **(skill-refiner)**: Enforce continuous presence indicators and reminder footers ([#17](https://github.com/Acrazie/skills/pull/17)) by @Acrazie
 
+### 📚 Documentation
+
+- **(governance)**: Add prior art and non-overlap invariant to AGENTS.md ([#25](https://github.com/Acrazie/skills/pull/25)) by @Acrazie
+
+### 🔧 Maintenance
+
+- **(ci)**: Add auto-assign workflow for pull requests ([#24](https://github.com/Acrazie/skills/pull/24)) by @Acrazie
+
+## [1.3.0](https://github.com/Acrazie/skills/compare/v1.2.0...v1.3.0) - 2026-09-16
+
+### 🚀 Features
+
+- **(svg-banner)**: Add anti-pattern guidelines and spacing rules ([#8](https://github.com/Acrazie/skills/pull/8)) by @Acrazie
+
 ### 🔧 Maintenance
 
 - **(agents)**: Mandate git worktrees for parallel skill development ([#10](https://github.com/Acrazie/skills/pull/10)) by @Acrazie
-- **(ci)**: Add auto-assign workflow for pull requests ([#24](https://github.com/Acrazie/skills/pull/24)) by @Acrazie
 
 ## [1.2.0](https://github.com/Acrazie/skills/compare/v1.1.0...v1.2.0) - 2026-09-16
 
