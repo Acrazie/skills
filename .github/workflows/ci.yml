@@ -4,16 +4,34 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
   push:
     branches:
       - main
       - 'release-please--**'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   validate-skills:
     name: validate-skills
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -21,25 +39,47 @@ jobs:
           fetch-depth: 0
 
       - name: Verify skill directory structure
-        run: |
-          chmod +x scripts/hooks/check-skill-structure.sh
-          ./scripts/hooks/check-skill-structure.sh
+        run: ./scripts/hooks/check-skill-structure.sh
 
       - name: Validate SKILL.md frontmatters
-        run: |
-          chmod +x scripts/hooks/validate-skills.sh
-          for skill_md in skills/*/SKILL.md; do
-            ./scripts/hooks/validate-skills.sh "$skill_md"
-          done
+        run: ./scripts/hooks/validate-skills.sh skills/*/SKILL.md
 
       - name: Check for forbidden files in PR diff
         if: github.event_name == 'pull_request'
-        run: |
-          chmod +x scripts/hooks/check-forbidden-files.sh
-          # Check files changed between target branch and PR head
-          forbidden=$(git diff --name-only origin/main...HEAD --diff-filter=d | grep -E '(\.hermes/|\.skill-refiner/|\.skill-improver/|\.DS_Store|assets/.*-(preview|variants)\.html|skills/[^/]+/docs/)' || true)
-          if [ -n "$forbidden" ]; then
-            echo "Error: PR contains forbidden or internal files:" >&2
-            echo "$forbidden" >&2
-            exit 1
-          fi
+        run: ./scripts/hooks/check-forbidden-files.sh "origin/${{ github.base_ref }}...HEAD"
+
+  validate-pr-title:
+    name: validate-pr-title
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Validate Conventional Commit PR title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            chore
+            refactor
+            test
+            ci
+            style
+            perf
+          requireScope: false
+
+  lint-workflows:
+    name: lint-workflows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint GitHub Actions workflows
+        uses: raven-actions/actionlint@v2
