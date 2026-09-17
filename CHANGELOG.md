@@ -1,29 +1,73 @@
 # Changelog
 
-## [1.3.0](https://github.com/Acrazie/skills/compare/v1.2.0...v1.3.0) (2026-09-16)
+All notable changes to this project will be documented in this file.
 
 
-### Features
-
-* **svg-banner:** add anti-pattern guidelines and spacing rules ([#8](https://github.com/Acrazie/skills/issues/8)) ([b23c5c1](https://github.com/Acrazie/skills/commit/b23c5c17bc002060d5a14125da52ab85795a274a))
-
-## [1.2.0](https://github.com/Acrazie/skills/compare/v1.1.0...v1.2.0) (2026-09-16)
+## [Unreleased]
 
 
-### Features
+### 🚀 Features
 
-* **banner-designer:** add svg-banner-designer-acrazie skill ([fe03490](https://github.com/Acrazie/skills/commit/fe03490332a43da3dda1fb81f543558b07aa7964))
-* **canvas-banner:** add animated canvas designer skill ([#7](https://github.com/Acrazie/skills/issues/7)) ([59e916d](https://github.com/Acrazie/skills/commit/59e916d2af8875aa23dcb25f8de85b29ebedad13))
-* **jenkins-symfony:** deepen analysis and keep reports concise ([#5](https://github.com/Acrazie/skills/issues/5)) ([241c98a](https://github.com/Acrazie/skills/commit/241c98adcd77bc4fca69729da582b26149e4666e))
+- **(svg-banner)**: Add anti-pattern guidelines and spacing rules ([#8](https://github.com/Acrazie/skills/pull/8)) by @Acrazie
+- **(github-repo-init)**: Add github repository initializer skill ([#11](https://github.com/Acrazie/skills/pull/11)) by @Acrazie
+- **(github-repo-init)**: Add branching strategy, git worktrees, and dx setup ([#13](https://github.com/Acrazie/skills/pull/13)) by @Acrazie
+- **(github-repo-init)**: Deep exploration and adaptive 3-round interview ([#14](https://github.com/Acrazie/skills/pull/14)) by @Acrazie
+- **(git-ship)**: Add git-ship task finalizer skill ([#15](https://github.com/Acrazie/skills/pull/15)) by @Acrazie
+- **(github-repo-init)**: Deep exploration, 3-round interview, and docs/git-workflow templates ([#16](https://github.com/Acrazie/skills/pull/16)) by @Acrazie
+- **(github-repo-init)**: Align instructions with ADR DEC-004, DEC-005, and DEC-006 ([#18](https://github.com/Acrazie/skills/pull/18)) by @Acrazie
+- **(governance)**: Add github governance templates, contributing guide, and dependabot ([#19](https://github.com/Acrazie/skills/pull/19)) by @Acrazie
+- **(ci)**: Modernize workflows with node 24 runtime, concurrency, and pr linting ([#22](https://github.com/Acrazie/skills/pull/22)) by @Acrazie
 
-## [1.1.0](https://github.com/Acrazie/skills/compare/v1.0.0...v1.1.0) (2026-09-06)
+### 🐛 Bug Fixes
 
+- **(skill-refiner)**: Enforce continuous presence indicators and reminder footers ([#17](https://github.com/Acrazie/skills/pull/17)) by @Acrazie
 
-### Features
+### 🔧 Maintenance
 
-* add jenkins devops skill ([e7809e5](https://github.com/Acrazie/skills/commit/e7809e501a064dec90cbb3402167b0691df5c0ca))
-* add jenkins stack specialist skills ([b512e61](https://github.com/Acrazie/skills/commit/b512e612999c6529d480bc0e6f57ee55e071de1f))
-* add skill refiner skill ([78a02c0](https://github.com/Acrazie/skills/commit/78a02c01a9a2e66f0838618d47040537bada6d1b))
-* publish Acrazie skills monorepo ([74e3453](https://github.com/Acrazie/skills/commit/74e34533384992b3a14a4f1c37fc1077e5d89d89))
-* **skills:** add multi-agent-planner-acrazie ([0266429](https://github.com/Acrazie/skills/commit/02664299c18bfc39c267775cf3efe99cb35944c4))
-* **svg-icon-designer-acrazie:** add inspiration-library with 5 balanced families ([5056fd3](https://github.com/Acrazie/skills/commit/5056fd3db1cff754eeae53ec579631689ae5d968))
+- **(agents)**: Mandate git worktrees for parallel skill development ([#10](https://github.com/Acrazie/skills/pull/10)) by @Acrazie
+- **(ci)**: Add auto-assign workflow for pull requests ([#24](https://github.com/Acrazie/skills/pull/24)) by @Acrazie
+
+## [1.2.0](https://github.com/Acrazie/skills/compare/v1.1.0...v1.2.0) - 2026-09-16
+
+### 🚀 Features
+
+- **(jenkins-symfony)**: Deepen analysis and keep reports concise ([#5](https://github.com/Acrazie/skills/pull/5)) by @Acrazie
+- **(banner-designer)**: Add svg-banner-designer-acrazie skill ([fe03490](https://github.com/Acrazie/skills/commit/fe03490332a43da3dda1fb81f543558b07aa7964)) by @Acrazie
+- **(canvas-banner)**: Add animated canvas designer skill ([#7](https://github.com/Acrazie/skills/pull/7)) by @Acrazie
+
+### 🔧 Maintenance
+
+- Allow automatic trigger on release-please branches and manual dispatch ([#4](https://github.com/Acrazie/skills/pull/4)) by @Acrazie
+
+## [1.1.0] - 2026-09-06
+
+### 🚀 Features
+
+- Publish Acrazie skills monorepo ([74e3453](https://github.com/Acrazie/skills/commit/74e34533384992b3a14a4f1c37fc1077e5d89d89)) by @Acrazie
+- Add skill refiner skill ([78a02c0](https://github.com/Acrazie/skills/commit/78a02c01a9a2e66f0838618d47040537bada6d1b)) by @Acrazie
+- Add jenkins devops skill ([e7809e5](https://github.com/Acrazie/skills/commit/e7809e501a064dec90cbb3402167b0691df5c0ca)) by @Acrazie
+- Add jenkins stack specialist skills ([b512e61](https://github.com/Acrazie/skills/commit/b512e612999c6529d480bc0e6f57ee55e071de1f)) by @Acrazie
+- **(skills)**: Add multi-agent-planner-acrazie ([0266429](https://github.com/Acrazie/skills/commit/02664299c18bfc39c267775cf3efe99cb35944c4)) by @Acrazie
+- **(svg-icon-designer-acrazie)**: Add inspiration-library with 5 balanced families ([5056fd3](https://github.com/Acrazie/skills/commit/5056fd3db1cff754eeae53ec579631689ae5d968)) by @Acrazie
+
+### 📚 Documentation
+
+- Create logo for skill and update it ([d9b5881](https://github.com/Acrazie/skills/commit/d9b588149ddd7811027307449948ff86afaa4bca)) by @Acrazie
+- Add Repository README Architect logo ([d0b4b3e](https://github.com/Acrazie/skills/commit/d0b4b3ed20705ccb4bafff191c13b1c61b2c8ebc)) by @Acrazie
+- Add audit repository skill logo ([9561336](https://github.com/Acrazie/skills/commit/9561336c8170f94e40726f96c47f1d5114ce2552)) by @Acrazie
+- Add audit repository logo to README ([d2ac41c](https://github.com/Acrazie/skills/commit/d2ac41c1e62583e2de9a0dad92cc349971f9c05e)) by @Acrazie
+- Document PR workflow and cross-agent compatibility ([03255c9](https://github.com/Acrazie/skills/commit/03255c93288cfd2f6911a15560b3b6596dbff0a9)) by @Acrazie
+- Add release management plan and link CLAUDE.md to AGENTS.md ([7797d18](https://github.com/Acrazie/skills/commit/7797d185d8d05839156fac4380914b387159b4a1)) by @Acrazie
+
+### 🚜 Refactor
+
+- Delete unnessary files ([16bd63e](https://github.com/Acrazie/skills/commit/16bd63e459292d23b04357e72b9d6e604f3e11c7)) by @Acrazie
+
+### 🔧 Maintenance
+
+- Ignore macOS metadata files ([7bd5882](https://github.com/Acrazie/skills/commit/7bd58828d7272a2e4b7ddd80ee5ccb4d736dddd7)) by @Acrazie
+- **(audit-repository-acrazie)**: Remove skill-improver campaign file ([05e7dc5](https://github.com/Acrazie/skills/commit/05e7dc5bff592a1c14e795f17b8b19b4ee012431)) by @Acrazie
+- Update gitignore and refine skill instructions ([6a5031c](https://github.com/Acrazie/skills/commit/6a5031c48681a2455f402f2d963725348eefb2b3)) by @Acrazie
+- **(repo)**: Ignore hermes workspaces and permit routine git operations in AGENTS.md ([#1](https://github.com/Acrazie/skills/pull/1)) by @Acrazie
+- **(repo)**: Stop tracking .hermes workspace plans ([#2](https://github.com/Acrazie/skills/pull/2)) by @Acrazie
+<!-- generated by git-cliff -->
