@@ -17,6 +17,7 @@ Install one skill directly:
 ```bash
 npx skills add Acrazie/skills@repository-readme-architect-acrazie
 npx skills add Acrazie/skills@audit-repository-acrazie
+npx skills add Acrazie/skills@repo-modernizer-acrazie
 npx skills add Acrazie/skills@svg-icon-designer-acrazie
 npx skills add Acrazie/skills@svg-banner-designer-acrazie
 npx skills add Acrazie/skills@skill-refiner-acrazie
@@ -55,6 +56,18 @@ Audit a precise technical decision, integration, tool, stack choice, or subsyste
 
 ```text
 $audit-repository-acrazie
+```
+
+### [Repo Modernizer / Acrazie](skills/repo-modernizer-acrazie/SKILL.md)
+
+<p align="center">
+  <img src="skills/repo-modernizer-acrazie/assets/repo-modernizer-logo.svg" alt="MODERNIZE geometric wordmark" width="520" />
+</p>
+
+Audit an existing repository setup, identify outdated tools, frameworks, and runtimes, and guide safe, step-by-step modernizations, upgrades, and paradigm shifts across 6 thematic pillars with automated validation and rollback safeguards.
+
+```text
+$repo-modernizer-acrazie
 ```
 
 ### [SVG Icon Designer / Acrazie](skills/svg-icon-designer-acrazie/SKILL.md)
@@ -133,6 +146,8 @@ Published skill IDs keep the function first for discovery and use `-acrazie` as 
 skills/
 ├── repository-readme-architect-acrazie/
 ├── audit-repository-acrazie/
+├── repo-modernizer-acrazie/
+├── github-repo-init-acrazie/
 ├── svg-icon-designer-acrazie/
 ├── svg-banner-designer-acrazie/
 ├── skill-refiner-acrazie/

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 570 190" role="img" aria-labelledby="title desc">
+  <title id="title">Repo Modernizer</title>
+  <desc id="desc">Modular retro-tech wordmark reading MODERNIZE with southeast echoes.</desc>
+  <defs>
+    <linearGradient id="brand-gradient" x1="32" y1="0" x2="520" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff6d00"/>
+      <stop offset="11.1111%" stop-color="#ff7900"/>
+      <stop offset="22.2222%" stop-color="#ff8500"/>
+      <stop offset="33.3333%" stop-color="#ff9100"/>
+      <stop offset="44.4444%" stop-color="#ff9e00"/>
+      <stop offset="55.5556%" stop-color="#240046"/>
+      <stop offset="66.6667%" stop-color="#3c096c"/>
+      <stop offset="77.7778%" stop-color="#5a189a"/>
+      <stop offset="88.8889%" stop-color="#7b2cbf"/>
+      <stop offset="100%" stop-color="#9d4edd"/>
+    </linearGradient>
+    <g id="wordmark">
+      <!-- M -->
+      <path d="M32 32h11v14h-11zM32 48h11v14h-11zM32 64h11v14h-11zM32 80h11v14h-11zM32 96h11v14h-11zM32 112h11v14h-11zM32 128h11v14h-11zM76 32h11v14h-11zM76 48h11v14h-11zM76 64h11v14h-11zM76 80h11v14h-11zM76 96h11v14h-11zM76 112h11v14h-11zM76 128h11v14h-11zM43 48h11v14h-11zM65 48h11v14h-11zM54 64h11v14h-11z"/>
+      <!-- O -->
+      <path d="M98 32h44v14h-44zM98 48h11v14h-11zM131 48h11v14h-11zM98 64h11v14h-11zM131 64h11v14h-11zM98 80h11v14h-11zM131 80h11v14h-11zM98 96h11v14h-11zM131 96h11v14h-11zM98 112h11v14h-11zM131 112h11v14h-11zM98 128h44v14h-44z"/>
+      <!-- D -->
+      <path d="M153 32h11v14h-11zM153 48h11v14h-11zM153 64h11v14h-11zM153 80h11v14h-11zM153 96h11v14h-11zM153 112h11v14h-11zM153 128h11v14h-11zM164 32h22v14h-22zM164 128h22v14h-22zM186 48h11v14h-11zM186 64h11v14h-11zM186 80h11v14h-11zM186 96h11v14h-11zM186 112h11v14h-11z"/>
+      <!-- E -->
+      <path d="M208 32h11v14h-11zM208 48h11v14h-11zM208 64h11v14h-11zM208 80h11v14h-11zM208 96h11v14h-11zM208 112h11v14h-11zM208 128h11v14h-11zM219 32h33v14h-33zM219 80h22v14h-22zM219 128h33v14h-33z"/>
+      <!-- R -->
+      <path d="M263 32h11v14h-11zM263 48h11v14h-11zM263 64h11v14h-11zM263 80h11v14h-11zM263 96h11v14h-11zM263 112h11v14h-11zM263 128h11v14h-11zM274 32h33v14h-33zM296 48h11v14h-11zM296 64h11v14h-11zM274 80h33v14h-33zM274 96h11v14h-11zM285 112h11v14h-11zM296 128h11v14h-11z"/>
+      <!-- N -->
+      <path d="M318 32h11v14h-11zM318 48h11v14h-11zM318 64h11v14h-11zM318 80h11v14h-11zM318 96h11v14h-11zM318 112h11v14h-11zM318 128h11v14h-11zM351 32h11v14h-11zM351 48h11v14h-11zM351 64h11v14h-11zM351 80h11v14h-11zM351 96h11v14h-11zM351 112h11v14h-11zM351 128h11v14h-11zM329 48h11v14h-11zM329 64h11v14h-11zM340 80h11v14h-11zM340 96h11v14h-11z"/>
+      <!-- I -->
+      <path d="M373 32h33v14h-33zM384 48h11v14h-11zM384 64h11v14h-11zM384 80h11v14h-11zM384 96h11v14h-11zM384 112h11v14h-11zM373 128h33v14h-33z"/>
+      <!-- Z -->
+      <path d="M417 32h44v14h-44zM450 48h11v14h-11zM439 64h11v14h-11zM428 80h22v14h-22zM428 96h11v14h-11zM417 112h11v14h-11zM417 128h44v14h-44z"/>
+      <!-- E -->
+      <path d="M472 32h11v14h-11zM472 48h11v14h-11zM472 64h11v14h-11zM472 80h11v14h-11zM472 96h11v14h-11zM472 112h11v14h-11zM472 128h11v14h-11zM483 32h33v14h-33zM483 80h22v14h-22zM483 128h33v14h-33z"/>
+    </g>
+  </defs>
+  <g fill="url(#brand-gradient)" shape-rendering="geometricPrecision">
+    <use href="#wordmark" transform="translate(24 12)" opacity="0.14"/>
+    <use href="#wordmark" transform="translate(16 8)" opacity="0.26"/>
+    <use href="#wordmark" transform="translate(8 4)" opacity="0.42"/>
+    <use href="#wordmark"/>
+  </g>
+</svg>
