@@ -1,0 +1,23 @@
+name: Auto Assign PR
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  assign:
+    name: Assign repository owner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign PR to repository owner
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          ASSIGNEE: ${{ github.repository_owner }}
+        run: |
+          echo "Assigning $ASSIGNEE to PR $PR_URL"
+          gh pr edit "$PR_URL" --add-assignee "$ASSIGNEE"
