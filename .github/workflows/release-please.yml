@@ -47,7 +47,7 @@ jobs:
             TAG="v${{ steps.release.outputs.version }}"
           fi
           echo "Updating release notes for tag: $TAG"
-          git-cliff --tag "$TAG" --strip header --output /tmp/release-notes.md
+          git-cliff --latest --strip header --output /tmp/release-notes.md
           gh release edit "$TAG" --notes-file /tmp/release-notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
