@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TablerIcon from '../components/TablerIcon.astro';
+import { getChangelog } from '../lib/skills';
+import { marked } from 'marked';
+
+const changelogRaw = getChangelog();
+const changelogHtml = marked.parse(changelogRaw);
+---
+
+<BaseLayout
+  title="Changelog — Acrazie Skills"
+  description="Historique des releases et évolutions du monorepo Acrazie Skills généré par git-cliff."
+>
+  <div class="max-w-4xl mx-auto py-6">
+    <!-- Breadcrumb & Header -->
+    <div class="mb-8 pb-6 border-b border-zinc-800">
+      <a href="/" class="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 mb-4 transition-colors">
+        <TablerIcon name="chevron-left" size={14} />
+        <span>Retour au catalogue</span>
+      </a>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-mono text-zinc-400 mb-2">
+            <TablerIcon name="git-pull-request" size={14} class="text-zinc-400" />
+            <span>Automated via git-cliff</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Changelog</h1>
+        </div>
+
+        <a
+          href="https://github.com/Acrazie/skills/releases"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-200 transition-colors shrink-0"
+        >
+          <span>Releases GitHub</span>
+          <TablerIcon name="arrow-up-right" size={13} class="text-zinc-400" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Rendered Markdown in shadcn prose -->
+    <article class="prose-shadcn max-w-none" set:html={changelogHtml} />
+  </div>
+</BaseLayout>

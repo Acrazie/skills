@@ -1,0 +1,65 @@
+---
+import TablerIcon from './TablerIcon.astro';
+
+interface Props {
+  text: string;
+  label?: string;
+  class?: string;
+  size?: 'sm' | 'md';
+}
+
+const { text, label, class: className = '', size = 'md' } = Astro.props;
+---
+
+<button
+  type="button"
+  data-copy-text={text}
+  class={`copy-btn inline-flex items-center gap-1.5 font-medium rounded-md border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-zinc-100 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-600 ${size === 'sm' ? 'px-2 py-1 text-xs' : 'px-3 py-1.5 text-sm'} ${className}`}
+  title="Copier dans le presse-papiers"
+>
+  <span class="icon-copy flex items-center">
+    <TablerIcon name="copy" size={size === 'sm' ? 14 : 16} />
+  </span>
+  <span class="icon-check hidden text-emerald-400 flex items-center">
+    <TablerIcon name="check" size={size === 'sm' ? 14 : 16} />
+  </span>
+  {label && <span class="btn-label">{label}</span>}
+</button>
+
+<script>
+  function setupCopyButtons() {
+    const buttons = document.querySelectorAll('.copy-btn');
+    buttons.forEach((btn) => {
+      // Prevent attaching duplicate listeners
+      if (btn.getAttribute('data-copy-initialized')) return;
+      btn.setAttribute('data-copy-initialized', 'true');
+
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const text = btn.getAttribute('data-copy-text');
+        if (!text) return;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          const iconCopy = btn.querySelector('.icon-copy');
+          const iconCheck = btn.querySelector('.icon-check');
+
+          iconCopy?.classList.add('hidden');
+          iconCheck?.classList.remove('hidden');
+
+          setTimeout(() => {
+            iconCopy?.classList.remove('hidden');
+            iconCheck?.classList.add('hidden');
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy to clipboard', err);
+        }
+      });
+    });
+  }
+
+  // Setup on page load and on client-side navigation
+  setupCopyButtons();
+  document.addEventListener('astro:page-load', setupCopyButtons);
+</script>
