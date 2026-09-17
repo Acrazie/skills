@@ -1,164 +1,142 @@
 # Adaptive GitHub Repository Initialization Interview Tree
 
-Use this decision map to interview the user adaptively before any scaffolding occurs. Do not treat this as an inflexible robotic questionnaire; skip decisions that the user has already made explicit or that are constrained by existing facts. Present questions grouped by theme with recommended answers and rationales.
+Use this decision map to interview the user adaptively before any scaffolding occurs. Do not treat this as an inflexible robotic questionnaire; skip decisions that the user has already made explicit or that are constrained by existing facts discovered during Step 1. Present questions grouped into at most **2 to 3 progressive rounds**, where every question includes an explicit, contextual recommendation with rationale.
 
 ---
 
 ## 1. Ground Rules & Sequence
 
-1. **Discovery First**: Check if the working directory already contains files, a git repository, or a package manifest. If files exist, confirm whether to initialize in-place or into a new subfolder.
-2. **Never Assume Silently**: If the user hasn't specified a tool or framework, ask. Always provide a recommended default with a concise reason.
-3. **Prerequisite Gating**: Do not ask tool-specific questions before the stack is chosen (e.g., do not ask between Biome and ESLint before knowing if JS/TS is selected).
-4. **Shared Blueprint Approval**: When all questions are resolved, synthesize a single **Initialization Blueprint** and require explicit user sign-off before executing any commands or generating files.
+1. **Deep Discovery First (DEC-001)**:
+   - Before asking questions, inspect the current working directory, git state, and configuration files.
+   - If the repository is already populated or initialized, settle known decisions as established facts and prune redundant questions according to the table below.
+2. **Progressive Rounds (DEC-002)**:
+   - Never dump all interview themes in a single monolithic questionnaire. Structure the interaction into at most 2 to 3 logical rounds (Identity & Stack -> Quality & CI/CD -> Workflow & DX).
+3. **Always Recommend with Rationale**:
+   - For every question asked, state available options and provide an explicit recommended default with a concise justification.
+4. **Shared Blueprint Approval (DEC-003)**:
+   - When all rounds are completed, synthesize a single **Initialization Blueprint** (bulleted summary + visual ASCII directory structure) and require explicit user sign-off before executing any mutating shell commands or writing files.
 
 ---
 
-## 2. Decision Tree & Themes
+### Automated Pruning Rules
 
-### Theme A: Repository Identity & Target Location
-Prerequisites: None (Frontier Round 1)
-
-1. **Repository Name & Description**:
-   - Question: What is the project / repository name and a one-line description?
-   - Default: Current directory name if meaningful, or prompt for name.
-2. **Target Path**:
-   - Question: Should the repository be created in the current working directory (`.`) or in a new subfolder (`./<repo-name>`)?
-   - Recommendation: Current directory if already named after the project and empty; subfolder otherwise.
-3. **Remote GitHub Repository**:
-   - Question: Do you want to create and connect a remote repository on GitHub (`gh repo create`) right away, or keep it local-only for now?
-   - Options:
-     - Local git repository only.
-     - Remote GitHub repository: **Public**.
-     - Remote GitHub repository: **Private**.
-   - Note: Verify `gh auth status` before offering GitHub remote creation.
+| Artifact / Environment Detected | Established Fact | Pruned Interview Questions |
+|---|---|---|
+| `pyproject.toml`, `requirements.txt`, `Pipfile` | Stack is **Python** | Do NOT ask between JS/TS, Python, Go, Rust. Recommend `uv` and `Ruff`. |
+| `package.json`, `tsconfig.json` | Stack is **TypeScript/JavaScript** | Do NOT ask between JS/TS, Python, Go, Rust. Recommend `pnpm` and `Biome`. |
+| `go.mod` | Stack is **Go** | Do NOT ask for general stack choice. Recommend `golangci-lint`. |
+| `Cargo.toml` | Stack is **Rust** | Do NOT ask for general stack choice. Recommend `clippy`. |
+| `git remote -v` contains `origin` | Remote repository already exists | Do NOT ask to create a new remote with `gh repo create`. Just confirm keeping `origin`. |
+| `.github/workflows/ci.yml` exists | CI workflow already configured | Do NOT ask if CI is needed. Ask whether to standardize / upgrade existing CI. |
+| `biome.json`, `ruff.toml`, `.eslintrc*` | Linter/formatter already chosen | Do NOT ask to choose between linters. Propose keeping current tool. |
+| Directory non-empty & git initialized | Target path is current repo (`.`) | Do NOT ask to create a new subfolder unless explicitly requested. |
 
 ---
 
-### Theme B: Language, Stack & Framework Preset
-Prerequisites: Theme A settled
+## 2. Progressive 3-Round Interview Tree
 
-1. **Framework / Technology Preset**:
-   - Options:
-     - **TypeScript / JavaScript**:
-       - *Frontend*: React (Vite / Next.js), Vue (Vite / Nuxt), Svelte.
-       - *Backend / Node*: Node.js / TypeScript (tsup / Hono / Express / Fastify / CLI).
-     - **Python**:
-       - *Package Manager*: `uv` (recommended: ultra-fast, modern) or `poetry`.
-       - *Type*: CLI, FastAPI, Library, or minimal script.
-     - **Go**:
-       - Go module (`go mod init <module-path>`), CLI (Cobra) or HTTP service.
-     - **Rust**:
-       - Cargo binary (`cargo new --bin`) or library (`cargo new --lib`).
-     - **Custom / Stack-Agnostic**:
-       - User provides their own initialization command (e.g., custom generator, starter kit) or starts completely empty without code scaffolding.
-2. **Package Manager**:
-   - JS/TS: `pnpm` (recommended for disk space & speed), `npm`, `yarn`, or `bun`.
-   - Python: `uv` (recommended) or `poetry`.
+### Round 1: Repository Identity, Destination & Stack
 
----
+#### 1.1 Target Path
+- **Question**: Should the repository be initialized in the current working directory (`.`) or in a new subfolder (`./<repo-name>`)?
+- **Options**: Current directory (`.`) | New subfolder (`./<repo-name>`).
+- **Recommendation**: Current directory (`.`) if already named after the project; subfolder otherwise.
+- **Pruning Rule**: Prune if the working directory is already an initialized project or if the user explicitly specified the path.
 
-### Theme C: Code Quality & Git Hooks
-Prerequisites: Stack settled (Theme B)
+#### 1.2 Repository Name & Description
+- **Question**: What is the project / repository name and a one-line description?
+- **Options**: Freeform text.
+- **Recommendation**: Default to the current directory name or manifest name (e.g. `name` field in `package.json` / `pyproject.toml`).
+- **Pruning Rule**: Prune if manifest or directory name already provides an unambiguous name.
 
-1. **Git Hooks Manager**:
-   - Options:
-     - **Lefthook** (Recommended: ultra-fast Go binary, language-agnostic, zero-dependency pre-commit runner).
-     - **Husky** (Standard in the JS/TS ecosystem).
-     - **pre-commit** (Python-based framework).
-     - **None** (Manual scripts only).
-2. **Linter & Formatter**:
-   - *For JS/TS*:
-     - **Biome** (Recommended: 30x faster than ESLint+Prettier, unified linter & formatter, zero configuration fatigue).
-     - **ESLint + Prettier** (Legacy standard, maximum plugin ecosystem).
-   - *For Python*:
-     - **Ruff** (Recommended: Rust-powered linter and formatter, replaces Black/Flake8/isort).
-   - *For Go*:
-     - `golangci-lint` + `gofmt`.
-   - *For Rust*:
-     - `clippy` + `rustfmt`.
-3. **Commit Convention & Message Linting**:
-   - Question: Do you want to enforce Conventional Commits (`feat:`, `fix:`, `chore:`, etc.) via commit-msg hooks?
-   - Recommendation: Yes (enables automated changelogs and semver releases).
+#### 1.3 Remote GitHub Repository
+- **Question**: Do you want to create and connect a remote repository on GitHub right away, or keep it local-only?
+- **Options**: Local git repository only | Remote GitHub repository: **Public** | Remote GitHub repository: **Private**.
+- **Recommendation**: Private GitHub remote if `gh auth status` is authenticated and project is private; Public if intended for open-source; Local only if `gh` is unauthenticated.
+- **Pruning Rule**: If `git remote -v` already lists an active `origin` remote, do NOT offer `gh repo create`. Ask only whether to keep or replace the existing remote.
+
+#### 1.4 Stack Preset & Package Manager
+- **Question**: Which technology stack and package manager do you want to use?
+- **Options**:
+  - TypeScript / JavaScript (React Vite, Vue Vite, Next.js, Node CLI/tsup) with `pnpm` / `npm` / `bun`.
+  - Python (FastAPI, CLI, Library) with `uv` (recommended) or `poetry`.
+  - Go module (`go mod init`) with standard Go tooling.
+  - Rust binary or library (`cargo`) with Cargo.
+  - Custom / Stack-Agnostic (empty skeleton or custom command).
+- **Recommendation**: Stack-specific modern standard (`uv` for Python, `pnpm` + Vite for JS/TS, standard toolchains for Go/Rust).
+- **Pruning Rule**: Prune entirely if an authoritative manifest (`pyproject.toml`, `package.json`, `go.mod`, `Cargo.toml`) was detected during Step 1.
 
 ---
 
-### Theme D: CI/CD & Automation (GitHub Actions)
-Prerequisites: Stack & Tools settled (Themes B, C)
+### Round 2: Code Quality Gates, CI/CD & Governance
 
-1. **Continuous Integration Workflow (`.github/workflows/ci.yml`)**:
-   - Triggers: Pull Requests and pushes to `main`.
-   - Steps: Checkout, setup environment with caching, dependency installation, lint/format check, typecheck, test, and build.
-2. **Automated Releases & Versioning**:
-   - Options:
-     - **Release Please** (Recommended: Google GitHub Action that creates release PRs and tags automatically from Conventional Commits).
-     - **Changesets** (Ideal for monorepos or multi-package JS libraries).
-     - **GitHub Release on Tag** (Triggered manually or upon pushing `v*.*.*` tags).
-     - **None** (Manual release management).
-3. **Security & Dependency Audits**:
-   - Question: Add automated security checks?
-   - Sub-options:
-     - Dependabot configuration (`.github/dependabot.yml`).
-     - Automated vulnerability scan in CI (e.g. `npm audit`, `cargo audit`, or CodeQL).
+#### 2.1 Git Hooks Manager
+- **Question**: Which Git hook manager would you like to configure?
+- **Options**: **Lefthook** | Husky | pre-commit | None.
+- **Recommendation**: **Lefthook** (language-agnostic, ultra-fast Go binary, zero-dependency pre-commit runner).
+- **Pruning Rule**: Prune if `lefthook.yml`, `.husky/`, or `.pre-commit-config.yaml` is already present.
+
+#### 2.2 Linter & Formatter
+- **Question**: Which linter and code formatter should be configured?
+- **Options**:
+  - *JS/TS*: **Biome** (recommended: 30x faster, zero config fatigue) vs ESLint + Prettier.
+  - *Python*: **Ruff** (recommended: Rust-powered, all-in-one linter & formatter) vs Black/Flake8.
+  - *Go*: `golangci-lint` + `gofmt`.
+  - *Rust*: `clippy` + `rustfmt`.
+- **Recommendation**: **Biome** for JS/TS; **Ruff** for Python; native linters for Go/Rust.
+- **Pruning Rule**: Prune if already configured in existing repo files.
+
+#### 2.3 Commit Linting & Conventions
+- **Question**: Do you want to enforce Conventional Commits (`feat:`, `fix:`, `chore:`, etc.) via commit-msg hooks?
+- **Options**: Yes (Commitlint hook) | No (Manual conventions).
+- **Recommendation**: **Yes** (enables automated release management and clean semver changelogs).
+
+#### 2.4 CI/CD Workflows (GitHub Actions)
+- **Question**: Which automated GitHub Actions workflows do you want to enable?
+- **Options**:
+  - Automated CI (`.github/workflows/ci.yml`: lint, typecheck, test, build).
+  - Automated Releases: **Release Please** (recommended) | Changesets | Tag-based | None.
+  - Security & Dependency audits: Dependabot (`.github/dependabot.yml`) | None.
+- **Recommendation**: Automated CI + **Release Please** (Google Action automating changelogs and semver tags).
+- **Pruning Rule**: If `.github/workflows/ci.yml` or `release-please.yml` already exists, offer to update/standardize instead of asking whether to create them from scratch.
+
+#### 2.5 Documentation & Governance
+- **Question**: Which repository governance and documentation files should be generated?
+- **Options**:
+  - Standard governance suite (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` [MIT], `.github/ISSUE_TEMPLATE/`, `PULL_REQUEST_TEMPLATE.md`).
+  - Minimal governance (`README.md` + `LICENSE`).
+- **Recommendation**: Standard governance suite with MIT License.
+- **Note on Existing Files**: If any of these files already exist, explicitly ask whether to **preserve** or **overwrite** them.
 
 ---
 
-### Theme E: Documentation & Repository Governance
-Prerequisites: Theme A settled
+### Round 3: Development Workflow, Branching & Developer Experience (DX)
 
-1. **README.md Structure**:
-   - Include: Title, badges, brief overview, prerequisites, quickstart, available commands/scripts, architecture outline, and license mention.
-2. **Security Policy (`SECURITY.md`)**:
-   - Supported versions table, private disclosure process, reporting email or GitHub Security Advisory instructions.
-3. **Contribution Guidelines (`CONTRIBUTING.md`)**:
-   - Prerequisites, branch naming conventions, commit guidelines (Conventional Commits), PR process, and local testing instructions.
-4. **License (`LICENSE`)**:
-   - Choice: MIT (recommended for open source), Apache 2.0, BSD-3-Clause, MPL-2.0, GPL-3.0, Unlicense, or Proprietary / All Rights Reserved.
-5. **Issue & Pull Request Templates (`.github/`)**:
-   - Bug report template, Feature request template, and standard Pull Request template with checklist.
-6. **Code Ownership (`CODEOWNERS`)**:
-   - Optional GitHub username or team handle.
-7. **Environment & Editor Consistency**:
-   - `.editorconfig` (indent style, charset, trim trailing whitespace).
-   - `.gitignore` (curated strictly for the selected language, OS, and tools).
+#### 3.1 Branching Strategy & Environment Branches
+- **Question**: Which branching model and environment branches do you require?
+- **Options**:
+  - **Trunk-Based Development** (All feature branches merge directly into `main`).
+  - **Multi-Environment Branches** (`main` for production, `staging` for pre-production, `develop` for integration).
+- **Recommendation**: **Trunk-Based Development** (simplest, fastest, and most compatible with modern CI/CD and Release Please).
 
----
+#### 3.2 Git Worktrees Workflow
+- **Question**: Do you want to enable a Git Worktrees workflow for isolated parallel development (e.g. `.worktrees/<branch>` directories)?
+- **Options**: Yes (`.worktrees/` in `.gitignore` + helper script `scripts/worktree.sh`) | No.
+- **Recommendation**: **Yes** (essential if multiple concurrent tasks, features, or AI agents work on the repository simultaneously).
 
-### Theme F: Development Workflow, Branching & DX
-Prerequisites: Theme A and B settled
-
-1. **Branching Model & Environment Branches**:
-   - Question: What branching model and environments do you need?
-   - Options:
-     - **Trunk-Based Development** (Recommended for speed & modern CI/CD: all feature branches merge into `main`).
-     - **Multi-Environment Branches**:
-       - `main`: Production release branch.
-       - `staging`: Pre-production / staging environment branch.
-       - `develop`: Ongoing integration branch.
-   - **Branch Naming Standard**:
-     - `feat/<topic>`: New features.
-     - `fix/<topic>`: Bug fixes.
-     - `chore/<topic>`: Tooling, dependencies, maintenance.
-     - `docs/<topic>`: Documentation updates.
-     - `release/<version>`: Release candidates or maintenance.
-2. **Git Worktrees Workflow**:
-   - Question: Do you want to enable a Git Worktrees workflow for parallel development (e.g. isolated `.worktrees/<branch>` directories)?
-   - Recommendation: Yes, if multiple concurrent tasks, features, or AI agents work on the repository simultaneously.
-   - Artifacts generated:
-     - Ignore rule in `.gitignore`: `.worktrees/`.
-     - Dedicated worktree helper script: `scripts/worktree.sh` (or `Makefile` target).
-     - Documentation in `CONTRIBUTING.md` explaining the worktree lifecycle.
-3. **Developer Experience (DX) & Runtime Version Pinning**:
-   - Question: Pin exact runtime versions and configure local setup automation?
-   - Options:
-     - Runtime version files: `.node-version`, `.nvmrc` (Node), `.python-version` (Python), or `.tool-versions` / `.mise.toml`.
-     - Environment template: `.env.example` with dummy values.
-     - Bootstrap setup script: `scripts/setup.sh` (installs dependencies, configures hooks, sets up `.env`).
+#### 3.3 Runtime Version Pinning & Local Onboarding Automation
+- **Question**: Do you want to pin runtime versions and generate a bootstrap setup script?
+- **Options**:
+  - Runtime version file (`.node-version`, `.python-version`, or `.tool-versions`).
+  - Environment variable template (`.env.example`).
+  - Onboarding setup script (`scripts/setup.sh`).
+- **Recommendation**: **Yes** (pins predictable environment versions and allows one-command onboarding for contributors).
 
 ---
 
 ## 3. Interview Synthesis: The Blueprint
 
-Once all questions are answered, compile the decisions into a **Repository Blueprint** formatted as follows:
+Once all 3 rounds are resolved, compile the agreed configuration into a concise, structured **Repository Blueprint** followed by an ASCII tree preview and the explicit **Approval Gate** stop:
 
 ```markdown
 ### 📋 Proposed Repository Blueprint
