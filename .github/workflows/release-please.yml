@@ -13,9 +13,6 @@ concurrency:
   group: release-please
   cancel-in-progress: false
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -51,4 +48,3 @@ jobs:
           gh release edit "$TAG" --notes-file /tmp/release-notes.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
