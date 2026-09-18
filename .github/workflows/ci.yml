@@ -100,3 +100,73 @@ jobs:
 
       - name: Build documentation
         run: npm run build --prefix docs
+
+      - name: Build production container
+        run: docker build --target runtime --tag acrazie-skills-ci .
+
+      - name: Smoke test production container
+        run: |
+          container_id=$(docker run --detach --publish 127.0.0.1::8080 acrazie-skills-ci)
+          trap 'docker rm --force "$container_id" >/dev/null' EXIT
+
+          port=$(docker port "$container_id" 8080/tcp | awk -F: '{print $NF}')
+          base_url="http://127.0.0.1:$port"
+
+          for attempt in {1..20}; do
+            if curl --fail --silent --output /dev/null "$base_url/healthz"; then
+              break
+            fi
+            if [[ "$attempt" -eq 20 ]]; then
+              docker logs "$container_id"
+              exit 1
+            fi
+            sleep 1
+          done
+
+          curl --fail --silent --output /tmp/skills-index.html "$base_url/"
+          grep --quiet "Acrazie Skills" /tmp/skills-index.html
+          curl --fail --silent --output /dev/null "$base_url/changelog/"
+          curl --fail --silent --output /dev/null "$base_url/skills/canvas-banner-designer-acrazie/"
+          test "$(curl --silent --output /dev/null --write-out '%{http_code}' "$base_url/not-found")" = "404"
+          curl --fail --silent --head "$base_url/" | grep --ignore-case --quiet "content-security-policy:"
+          test "$(docker inspect --format '{{.Config.User}}' acrazie-skills-ci)" = "101:101"
+
+  deploy-production:
+    name: deploy-production
+    needs:
+      - validate-skills
+      - lint-workflows
+      - build-docs
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: production
+      url: https://skills.acrazie.dev
+    steps:
+      - name: Trigger Dokploy deployment
+        env:
+          DOKPLOY_DEPLOY_URL: ${{ secrets.DOKPLOY_DEPLOY_URL }}
+          CLOUDFLARE_ACCESS_CLIENT_ID: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_ID }}
+          CLOUDFLARE_ACCESS_CLIENT_SECRET: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_SECRET }}
+        run: |
+          : "${DOKPLOY_DEPLOY_URL:?Missing DOKPLOY_DEPLOY_URL}"
+          : "${CLOUDFLARE_ACCESS_CLIENT_ID:?Missing CLOUDFLARE_ACCESS_CLIENT_ID}"
+          : "${CLOUDFLARE_ACCESS_CLIENT_SECRET:?Missing CLOUDFLARE_ACCESS_CLIENT_SECRET}"
+
+          deploy_token="${DOKPLOY_DEPLOY_URL##*/}"
+          echo "::add-mask::$deploy_token"
+
+          payload=$(jq -nc \
+            --arg ref "$GITHUB_REF" \
+            --arg sha "$GITHUB_SHA" \
+            '{ref: $ref, head_commit: {id: $sha, message: "CI passed"}, commits: []}')
+
+          curl --fail --silent --show-error --output /dev/null \
+            --request POST \
+            --header "CF-Access-Client-Id: $CLOUDFLARE_ACCESS_CLIENT_ID" \
+            --header "CF-Access-Client-Secret: $CLOUDFLARE_ACCESS_CLIENT_SECRET" \
+            --header "X-GitHub-Event: push" \
+            --header "Content-Type: application/json" \
+            --data "$payload" \
+            "$DOKPLOY_DEPLOY_URL"

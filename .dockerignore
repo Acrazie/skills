@@ -1,0 +1,16 @@
+.git
+.github
+.worktrees
+.hermes
+.impeccable
+.lefthook
+
+**/.DS_Store
+**/node_modules
+**/.astro
+**/dist
+**/*-workspace
+**/.skill-refiner
+**/.skill-improver
+
+docs/package-lock.json.*
