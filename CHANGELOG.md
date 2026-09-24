@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.6.0](https://github.com/Acrazie/skills/compare/v1.5.1...v1.6.0) (2026-09-24)
+
+
+### Features
+
+* **deploy:** host skills site on Dokploy ([#40](https://github.com/Acrazie/skills/issues/40)) ([757f4cf](https://github.com/Acrazie/skills/commit/757f4cf6df3a211239daa3eba93f89018ce9f44d))
+* **immersive-hero:** add designer skill ([#42](https://github.com/Acrazie/skills/issues/42)) ([15daf62](https://github.com/Acrazie/skills/commit/15daf6268a41615b731d65649b8a0071e27e16f1))
+
+
+### Bug Fixes
+
+* **ci:** harden GitHub Pages deployment ([#34](https://github.com/Acrazie/skills/issues/34)) ([d8c3f66](https://github.com/Acrazie/skills/commit/d8c3f6693ee66d4d666c9bc6d4bca2b5a7b6d936))
+
 ## [1.5.1](https://github.com/Acrazie/skills/compare/v1.5.0...v1.5.1) (2026-09-17)
 
 

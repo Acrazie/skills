@@ -1,0 +1,6 @@
+interface:
+  display_name: "Immersive Hero Designer / Acrazie"
+  short_description: "Build original, media-rich web heroes"
+  default_prompt: "Use $immersive-hero-designer-acrazie to design and integrate an original immersive hero in this site, selecting the right visual medium and obtaining approval before using or generating assets."
+policy:
+  allow_implicit_invocation: false
