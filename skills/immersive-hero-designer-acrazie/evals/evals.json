@@ -1,0 +1,26 @@
+{
+  "skill_name": "immersive-hero-designer-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "supplied-video-approval",
+      "prompt": "Utilise $immersive-hero-designer-acrazie pour intégrer un hero cinématique dans mon site Astro. J'ai fourni une vidéo et une image poster dans assets/, mais je n'ai pas encore confirmé leur usage. Je veux un titre et un CTA accessibles, une version mobile et un comportement correct avec mouvement réduit. Commence par inspecter le projet.",
+      "expected_output": "The agent inspects the project, proposes a specific asset approval batch before integration, and after approval integrates a semantic, responsive video hero with poster, pause, reduced-motion and failure fallback.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "scroll-reference-not-necessarily-video",
+      "prompt": "Utilise $immersive-hero-designer-acrazie. J'aime le MacBook Neo Hero de 21st.dev : narration en images pilotée par le scroll. Crée un hero original pour mon application React, sans copier ses assets. Aucun média fourni. Le défilement ne doit pas être bloqué. Propose d'abord la direction et ce qu'il faudrait produire.",
+      "expected_output": "The agent recognizes image sequence rather than assuming video, proposes an original direction and needed media with approval gates, preserves normal scrolling, and does not implement or generate assets before approval.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "canvas-boundary-and-precise-brief",
+      "prompt": "Utilise $immersive-hero-designer-acrazie pour ajouter un hero complet à ce site HTML existant. Direction déjà validée : paysage procédural léger qui réagit au pointeur derrière un vrai titre, une phrase et un lien. Pas de nouveau média ni dépendance. Passe directement à l'intégration et garde une image fixe si mouvement réduit.",
+      "expected_output": "The agent integrates a complete semantic hero using the existing stack, reuses the Canvas specialist's contract for the procedural scene, avoids unnecessary media/dependencies, and verifies pointer, mobile and reduced-motion behavior.",
+      "files": []
+    }
+  ]
+}
