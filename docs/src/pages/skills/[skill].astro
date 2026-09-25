@@ -17,7 +17,7 @@ const renderedReferences = skill.references.map((ref) => ({ ...ref, html: marked
   <div class="content-page">
     <a class="back-link" href="/#catalogue"><TablerIcon name="chevron-left" size={16} /> Retour au catalogue</a>
     <header class="skill-heading">
-      <div class="skill-heading__meta"><span>{skill.category}</span><span>{skill.disableModelInvocation ? 'Sur invocation' : 'Invocation libre'}</span></div>
+      <div class="skill-heading__meta"><span>{skill.category}</span><code>{skill.invocationCommand}</code>{skill.disableModelInvocation && <span>Sur invocation</span>}</div>
       <h1>{skill.id}</h1>
       <p>{skill.description}</p>
       <div class="install-bar"><span aria-hidden="true">$</span><code>{skill.installCommand}</code><CopyButton text={skill.installCommand} label="Copier la commande" size="sm" /></div>

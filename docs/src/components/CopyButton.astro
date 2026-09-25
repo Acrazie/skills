@@ -6,9 +6,10 @@ interface Props {
   label?: string;
   class?: string;
   size?: 'sm' | 'md';
+  ariaLabel?: string;
 }
 
-const { text, label, class: className = '', size = 'md' } = Astro.props;
+const { text, label, class: className = '', size = 'md', ariaLabel } = Astro.props;
 ---
 
 <button
@@ -16,6 +17,7 @@ const { text, label, class: className = '', size = 'md' } = Astro.props;
   data-copy-text={text}
   class={`copy-btn inline-flex items-center gap-1.5 font-medium rounded-md border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-zinc-100 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-600 ${size === 'sm' ? 'px-2 py-1 text-xs' : 'px-3 py-1.5 text-sm'} ${className}`}
   title="Copier dans le presse-papiers"
+  aria-label={ariaLabel}
 >
   <span class="icon-copy flex items-center">
     <TablerIcon name="copy" size={size === 'sm' ? 14 : 16} />
@@ -24,6 +26,7 @@ const { text, label, class: className = '', size = 'md' } = Astro.props;
     <TablerIcon name="check" size={size === 'sm' ? 14 : 16} />
   </span>
   {label && <span class="btn-label">{label}</span>}
+  <span class="copy-status sr-only" aria-live="polite"></span>
 </button>
 
 <script>
@@ -47,13 +50,18 @@ const { text, label, class: className = '', size = 'md' } = Astro.props;
 
           iconCopy?.classList.add('hidden');
           iconCheck?.classList.remove('hidden');
+          const status = btn.querySelector('.copy-status');
+          if (status) status.textContent = 'Commande copiée';
 
           setTimeout(() => {
             iconCopy?.classList.remove('hidden');
             iconCheck?.classList.add('hidden');
+            if (status) status.textContent = '';
           }, 2000);
         } catch (err) {
           console.error('Failed to copy to clipboard', err);
+          const status = btn.querySelector('.copy-status');
+          if (status) status.textContent = 'Copie impossible. Sélectionnez la commande manuellement.';
         }
       });
     });

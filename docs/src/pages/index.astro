@@ -66,7 +66,7 @@ const categories = ['Tout', ...new Set(skills.map((skill) => skill.category))];
       card.hidden = !(matchesCategory && matchesQuery);
       if (!card.hidden) visible++;
     }
-    if (count) count.textContent = `${visible} skill${visible > 1 ? 's' : ''}`;
+    if (count) count.textContent = `${visible} skill${visible === 1 ? '' : 's'}`;
     if (empty) empty.hidden = visible !== 0;
   }
 

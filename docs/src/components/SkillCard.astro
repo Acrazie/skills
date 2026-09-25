@@ -1,6 +1,7 @@
 ---
 import type { SkillData } from '../lib/skills';
 import TablerIcon from './TablerIcon.astro';
+import CopyButton from './CopyButton.astro';
 interface Props { skill: SkillData }
 const { skill } = Astro.props;
 ---
@@ -15,10 +16,14 @@ const { skill } = Astro.props;
     <span class="skill-card__icon" aria-hidden="true"><TablerIcon name={skill.icon} size={19} /></span>
     <div>
       <h3><a href={`/skills/${skill.id}`}>{skill.id}</a></h3>
-      <span class="skill-card__invoke">{skill.disableModelInvocation ? 'Sur invocation' : 'Invocation libre'}</span>
+      <code class="skill-card__invoke">{skill.invocationCommand}</code>
+      {skill.disableModelInvocation && <span class="skill-card__restriction">Sur invocation</span>}
     </div>
   </div>
   <p>{skill.description}</p>
   <span class="skill-card__category">{skill.category}</span>
-  <TablerIcon name="arrow-right" size={19} class="skill-card__arrow" />
+  <div class="skill-card__actions">
+    <CopyButton text={skill.installCommand} size="sm" ariaLabel={`Copier la commande d’installation de ${skill.id}`} />
+    <TablerIcon name="arrow-right" size={19} class="skill-card__arrow" />
+  </div>
 </article>
