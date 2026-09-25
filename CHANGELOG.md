@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.7.0](https://github.com/Acrazie/skills/compare/v1.6.0...v1.7.0) (2026-09-25)
+
+
+### Features
+
+* **docs:** redesign skills portal with ASCII cloud hero ([#44](https://github.com/Acrazie/skills/issues/44)) ([a21ffed](https://github.com/Acrazie/skills/commit/a21ffed691deeb1e68d18eaf99208caae2b322af))
+
 ## [1.6.0](https://github.com/Acrazie/skills/compare/v1.5.1...v1.6.0) (2026-09-24)
 
 
