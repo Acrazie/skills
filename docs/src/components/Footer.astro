@@ -1,25 +1,13 @@
 ---
 import TablerIcon from './TablerIcon.astro';
 ---
-
-<footer class="border-t border-zinc-800/80 mt-20 py-8 bg-zinc-950 text-zinc-500 text-xs">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-    <div class="flex items-center gap-2">
-      <span class="text-zinc-400 font-medium">Acrazie Skills</span>
-      <span>—</span>
-      <span>Agent skills monorepo for AI coding agents</span>
-    </div>
-
-    <div class="flex items-center gap-4">
-      <a href="https://skills.sh/Acrazie/skills" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">
-        skills.sh
-      </a>
-      <a href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">
-        GitHub
-      </a>
-      <a href="/changelog" class="hover:text-zinc-300 transition-colors">
-        Changelog
-      </a>
-    </div>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div><strong>Acrazie Skills</strong><span>Workflows spécialisés pour agents de code.</span></div>
+    <nav aria-label="Navigation de pied de page">
+      <a href="/#catalogue">Catalogue</a>
+      <a href="/changelog">Changelog</a>
+      <a href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer">GitHub <TablerIcon name="arrow-up-right" size={14} /></a>
+    </nav>
   </div>
 </footer>

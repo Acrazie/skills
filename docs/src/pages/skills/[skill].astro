@@ -6,121 +6,47 @@ import { getAllSkills, type SkillData } from '../../lib/skills';
 import { marked } from 'marked';
 
 export async function getStaticPaths() {
-  const skills = getAllSkills();
-  return skills.map((skill) => ({
-    params: { skill: skill.id },
-    props: { skill },
-  }));
+  return getAllSkills().map((skill) => ({ params: { skill: skill.id }, props: { skill } }));
 }
-
-interface Props {
-  skill: SkillData;
-}
-
+interface Props { skill: SkillData }
 const { skill } = Astro.props;
-
-// Render skill content to HTML
 const contentHtml = marked.parse(skill.content);
-
-// Render references content
-const renderedReferences = skill.references.map((ref) => ({
-  ...ref,
-  html: marked.parse(ref.content),
-}));
+const renderedReferences = skill.references.map((ref) => ({ ...ref, html: marked.parse(ref.content) }));
 ---
-
-<BaseLayout
-  title={`${skill.id} — Acrazie Skills`}
-  description={skill.description}
->
-  <div class="max-w-4xl mx-auto py-6">
-    <!-- Breadcrumb -->
-    <a href="/" class="inline-flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 mb-6 transition-colors">
-      <TablerIcon name="chevron-left" size={14} />
-      <span>Retour au catalogue</span>
-    </a>
-
-    <!-- Skill Header (shadcn card style) -->
-    <div class="p-6 rounded-xl border border-zinc-800 bg-[#121215] mb-8">
-      <div class="flex flex-wrap items-center gap-2 mb-3">
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-mono bg-zinc-900 border border-zinc-800 text-zinc-300">
-          <TablerIcon name={skill.icon} size={14} />
-          <span>{skill.category}</span>
-        </span>
-
-        {skill.disableModelInvocation ? (
-          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-amber-950/50 border border-amber-800/40 text-amber-400">
-            User Invocation Only
-          </span>
-        ) : (
-          <span class="px-2.5 py-0.5 rounded text-xs font-mono bg-emerald-950/40 border border-emerald-800/40 text-emerald-400">
-            Implicit & Explicit
-          </span>
+<BaseLayout title={`${skill.id} — Acrazie Skills`} description={skill.description}>
+  <div class="content-page">
+    <a class="back-link" href="/#catalogue"><TablerIcon name="chevron-left" size={16} /> Retour au catalogue</a>
+    <header class="skill-heading">
+      <div class="skill-heading__meta"><span>{skill.category}</span><span>{skill.disableModelInvocation ? 'Sur invocation' : 'Invocation libre'}</span></div>
+      <h1>{skill.id}</h1>
+      <p>{skill.description}</p>
+      <div class="install-bar"><span aria-hidden="true">$</span><code>{skill.installCommand}</code><CopyButton text={skill.installCommand} label="Copier la commande" size="sm" /></div>
+    </header>
+    <div class="reading-layout">
+      <aside class="reading-sidebar" aria-label="Navigation de cette page">
+        <span>Sur cette page</span>
+        <a href="#instructions">Instructions</a>
+        {renderedReferences.length > 0 && <a href="#references">Références ({renderedReferences.length})</a>}
+        <a href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer">Voir sur GitHub <TablerIcon name="arrow-up-right" size={13} /></a>
+      </aside>
+      <div class="reading-main">
+        <section id="instructions" aria-labelledby="instructions-title">
+          <h2 id="instructions-title" class="reading-section-title">Instructions</h2>
+          <article class="prose-shadcn" set:html={contentHtml} />
+        </section>
+        {renderedReferences.length > 0 && (
+          <section id="references" class="reference-section" aria-labelledby="references-title">
+            <h2 id="references-title" class="reading-section-title">Références</h2>
+            <p class="reference-section__intro">Guides et ressources inclus avec ce skill.</p>
+            {renderedReferences.map((ref) => (
+              <details class="reference-item">
+                <summary><TablerIcon name="file-text" size={17} /><span>{ref.title}</span><TablerIcon name="chevron-right" size={16} /></summary>
+                <article class="prose-shadcn" set:html={ref.html} />
+              </details>
+            ))}
+          </section>
         )}
-
-        <code class="px-2.5 py-0.5 rounded text-xs font-mono bg-zinc-900 border border-zinc-800 text-zinc-400">
-          {skill.invocationCommand}
-        </code>
-      </div>
-
-      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
-        {skill.id}
-      </h1>
-
-      <p class="text-sm sm:text-base text-zinc-400 leading-relaxed mb-6">
-        {skill.description}
-      </p>
-
-      <!-- Install Snippet -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-2 rounded-lg bg-zinc-950 border border-zinc-800/90 font-mono text-xs">
-        <div class="flex items-center gap-2 px-2 overflow-x-auto text-zinc-300">
-          <span class="text-zinc-500 select-none">$</span>
-          <span class="whitespace-nowrap">{skill.installCommand}</span>
-        </div>
-        <CopyButton text={skill.installCommand} label="Copier" size="sm" />
       </div>
     </div>
-
-    <!-- Skill Body Content -->
-    <div class="mb-14">
-      <h2 class="text-lg font-semibold text-zinc-200 border-b border-zinc-800 pb-2 mb-6 tracking-tight flex items-center gap-2">
-        <TablerIcon name="file-text" size={18} class="text-zinc-400" />
-        <span>Instructions & Guide d'utilisation</span>
-      </h2>
-
-      <article class="prose-shadcn max-w-none" set:html={contentHtml} />
-    </div>
-
-    <!-- Supporting References & Domain Guides (if available) -->
-    {renderedReferences.length > 0 && (
-      <section class="mt-12 pt-8 border-t border-zinc-800">
-        <h2 class="text-lg font-semibold text-zinc-200 mb-2 tracking-tight flex items-center gap-2">
-          <TablerIcon name="book" size={18} class="text-zinc-400" />
-          <span>Références & Guides du domaine ({renderedReferences.length})</span>
-        </h2>
-        <p class="text-xs text-zinc-400 mb-6">
-          Documentation d'accompagnement, listes de contrôle et schémas embarqués avec ce skill.
-        </p>
-
-        <div class="space-y-4">
-          {renderedReferences.map((ref, idx) => (
-            <details class="group rounded-lg border border-zinc-800 bg-[#121215] overflow-hidden transition-colors">
-              <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-900/50 select-none">
-                <span class="font-medium text-sm text-zinc-200 group-open:text-white flex items-center gap-2">
-                  <TablerIcon name="file-text" size={16} class="text-zinc-500" />
-                  <span>{ref.name}</span>
-                </span>
-                <span class="text-xs text-zinc-500 group-open:rotate-90 transition-transform">
-                  <TablerIcon name="chevron-right" size={16} />
-                </span>
-              </summary>
-              <div class="p-6 border-t border-zinc-800/80 bg-zinc-950/40">
-                <article class="prose-shadcn max-w-none" set:html={ref.html} />
-              </div>
-            </details>
-          ))}
-        </div>
-      </section>
-    )}
   </div>
 </BaseLayout>

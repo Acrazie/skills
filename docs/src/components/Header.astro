@@ -1,63 +1,21 @@
 ---
 import TablerIcon from './TablerIcon.astro';
-
-interface Props {
-  currentPath?: string;
-}
-
+interface Props { currentPath?: string }
 const { currentPath = '/' } = Astro.props;
 ---
-
-<header class="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-    <!-- Brand -->
-    <div class="flex items-center gap-6">
-      <a href="/" class="flex items-center gap-2.5 group">
-        <span class="flex items-center justify-center w-7 h-7 rounded-md bg-zinc-900 border border-zinc-700/80 text-zinc-100 group-hover:border-zinc-500 transition-colors">
-          <TablerIcon name="sparkles" size={16} />
-        </span>
-        <span class="font-semibold text-sm tracking-tight text-zinc-100 group-hover:text-white transition-colors">
-          Acrazie Skills
-        </span>
-      </a>
-
-      <!-- Navigation links -->
-      <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
-        <a
-          href="/"
-          class={`px-3 py-1.5 rounded-md transition-colors ${currentPath === '/' ? 'text-zinc-100 bg-zinc-900' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50'}`}
-        >
-          Catalogue
-        </a>
-        <a
-          href="/changelog"
-          class={`px-3 py-1.5 rounded-md transition-colors ${currentPath.startsWith('/changelog') ? 'text-zinc-100 bg-zinc-900' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/50'}`}
-        >
-          Changelog
-        </a>
-      </nav>
-    </div>
-
-    <!-- External Links -->
-    <div class="flex items-center gap-2">
-      <a
-        href="https://skills.sh/Acrazie/skills"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-200 px-2.5 py-1.5 rounded-md border border-zinc-800 hover:border-zinc-700 transition-colors"
-      >
-        <span>skills.sh</span>
-        <TablerIcon name="arrow-up-right" size={13} class="text-zinc-500" />
-      </a>
-      <a
-        href="https://github.com/Acrazie/skills"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center justify-center w-8 h-8 rounded-md text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 border border-transparent hover:border-zinc-800 transition-colors"
-        aria-label="GitHub Repository"
-      >
-        <TablerIcon name="brand-github" size={18} />
-      </a>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-brand" href="/" aria-label="Acrazie Skills, accueil">
+      <span class="site-brand__mark" aria-hidden="true">a<span>.</span></span>
+      <span>Acrazie <strong>Skills</strong></span>
+    </a>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="/#catalogue" aria-current={currentPath === '/' ? 'page' : undefined}>Catalogue</a>
+      <a href="/changelog" aria-current={currentPath.startsWith('/changelog') ? 'page' : undefined}>Changelog</a>
+    </nav>
+    <div class="site-header__links">
+      <a class="site-header__skills" href="https://skills.sh/Acrazie/skills" target="_blank" rel="noopener noreferrer">skills.sh <TablerIcon name="arrow-up-right" size={15} /></a>
+      <a class="site-header__github" href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer" aria-label="Dépôt GitHub Acrazie Skills"><TablerIcon name="brand-github" size={19} /></a>
     </div>
   </div>
 </header>
