@@ -1,180 +1,90 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AsciiCloudHero from '../components/AsciiCloudHero.astro';
 import SkillCard from '../components/SkillCard.astro';
-import CopyButton from '../components/CopyButton.astro';
 import TablerIcon from '../components/TablerIcon.astro';
 import { getAllSkills } from '../lib/skills';
 
 const skills = getAllSkills();
-
-// Extract unique categories
-const categories = ['All', ...new Set(skills.map((s) => s.category))];
+const categories = ['Tout', ...new Set(skills.map((skill) => skill.category))];
 ---
-
 <BaseLayout
-  title="Acrazie Skills — Agent skills for AI coding agents"
-  description="Focused, deterministic skills for AI coding agents published to skills.sh."
+  title="Acrazie Skills — Skills pour agents de code"
+  description="Découvrez, consultez et installez des skills spécialisés pour agents de code."
 >
-  <!-- Hero Section (shadcn style) -->
-  <section class="py-10 md:py-16 border-b border-zinc-800/80 mb-10">
-    <div class="max-w-3xl">
-      <!-- Badge -->
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/60 text-xs text-zinc-300 mb-6 font-mono">
-        <TablerIcon name="sparkles" size={13} class="text-zinc-400" />
-        <span>skills.sh / Acrazie / skills</span>
-      </div>
-
-      <!-- Main Headline -->
-      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4 leading-tight">
-        Precision skills for AI coding agents.
-      </h1>
-
-      <p class="text-base sm:text-lg text-zinc-400 leading-relaxed mb-8 max-w-2xl">
-        Each skill owns one concrete workflow and maintains its instructions, UI metadata, and supporting references together for Hermes, Codex, and Claude Code.
-      </p>
-
-      <!-- Interactive Quick Install snippet -->
-      <div class="inline-flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-1.5 rounded-lg border border-zinc-800 bg-[#121215] max-w-xl w-full">
-        <div class="flex items-center gap-2.5 px-3 py-2 text-zinc-300 font-mono text-xs sm:text-sm flex-1 overflow-x-auto">
-          <TablerIcon name="terminal" size={16} class="text-zinc-500 shrink-0" />
-          <span class="text-zinc-500 select-none">$</span>
-          <span class="text-zinc-100 whitespace-nowrap">npx skills add Acrazie/skills</span>
-        </div>
-        <CopyButton text="npx skills add Acrazie/skills" label="Copy Command" size="md" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Search & Filtering Catalog -->
-  <section>
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+  <AsciiCloudHero />
+  <section id="catalogue" class="catalogue-section" aria-labelledby="catalogue-title">
+    <div class="catalogue-section__heading">
       <div>
-        <h2 class="text-xl font-semibold text-zinc-100 tracking-tight">Catalogue des compétences</h2>
-        <p class="text-xs text-zinc-400 mt-0.5" id="results-count">
-          Affichage de {skills.length} compétences
-        </p>
+        <h2 id="catalogue-title">Trouvez le bon skill.</h2>
+        <p>Parcourez les workflows, consultez leurs instructions, puis copiez la commande d'installation.</p>
       </div>
-
-      <!-- Search Input -->
-      <div class="relative w-full md:w-72">
-        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-500">
-          <TablerIcon name="search" size={16} />
-        </span>
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Rechercher une compétence..."
-          class="w-full pl-9 pr-3 py-1.5 text-xs bg-[#121215] border border-zinc-800 rounded-md text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-600 focus:border-zinc-700 transition-colors"
-        />
-      </div>
+      <p id="results-count" class="catalogue-section__count" aria-live="polite">{skills.length} skills</p>
     </div>
 
-    <!-- Category Filter Tabs -->
-    <div class="flex items-center gap-1.5 overflow-x-auto pb-3 mb-6 scrollbar-none">
-      {categories.map((cat, idx) => (
-        <button
-          type="button"
-          class={`filter-tag whitespace-nowrap px-3 py-1 rounded-md text-xs font-medium border transition-colors ${
-            idx === 0
-              ? 'active-filter bg-zinc-100 text-zinc-900 border-zinc-100'
-              : 'bg-zinc-900/60 text-zinc-400 border-zinc-800/80 hover:text-zinc-200 hover:border-zinc-700'
-          }`}
-          data-category={cat}
-        >
-          {cat}
-        </button>
+    <div class="catalogue-search">
+      <TablerIcon name="search" size={20} />
+      <label class="sr-only" for="search-input">Rechercher un skill</label>
+      <input id="search-input" type="search" placeholder="Rechercher un skill ou un workflow…" autocomplete="off" />
+      <kbd>/</kbd>
+    </div>
+
+    <div class="catalogue-filters" role="group" aria-label="Filtrer par catégorie">
+      {categories.map((category, index) => (
+        <button type="button" class="filter-tag" data-category={category} aria-pressed={index === 0 ? 'true' : 'false'}>{category}</button>
       ))}
     </div>
 
-    <!-- Skill Cards Grid -->
-    <div id="skills-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {skills.map((skill) => (
-        <SkillCard skill={skill} />
-      ))}
+    <div class="catalogue-columns" aria-hidden="true"><span>Skill</span><span>Description</span><span>Catégorie</span></div>
+    <div id="skills-grid" class="skill-list">
+      {skills.map((skill) => <SkillCard skill={skill} />)}
     </div>
-
-    <!-- Empty state -->
-    <div id="empty-state" class="hidden py-16 text-center border border-dashed border-zinc-800 rounded-lg">
-      <TablerIcon name="search" size={32} class="mx-auto text-zinc-600 mb-3" />
-      <h3 class="text-sm font-semibold text-zinc-300">Aucune compétence trouvée</h3>
-      <p class="text-xs text-zinc-500 mt-1">Essayez un autre mot-clé ou réinitialisez les filtres.</p>
+    <div id="empty-state" class="catalogue-empty" hidden>
+      <TablerIcon name="search" size={25} />
+      <h3>Aucun skill trouvé</h3>
+      <p>Essayez un autre terme ou une autre catégorie.</p>
+      <button type="button" id="reset-filters">Réinitialiser les filtres</button>
     </div>
   </section>
 </BaseLayout>
 
 <script>
-  function setupSearchAndFilters() {
-    const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
-    const filterButtons = document.querySelectorAll('.filter-tag');
-    const cards = document.querySelectorAll('.skill-card');
-    const emptyState = document.getElementById('empty-state');
-    const resultsCount = document.getElementById('results-count');
+  const searchInput = document.querySelector<HTMLInputElement>('#search-input');
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.filter-tag')];
+  const cards = [...document.querySelectorAll<HTMLElement>('.skill-card')];
+  const empty = document.querySelector<HTMLElement>('#empty-state');
+  const count = document.querySelector<HTMLElement>('#results-count');
+  const reset = document.querySelector<HTMLButtonElement>('#reset-filters');
+  let category = 'Tout';
 
-    let currentCategory = 'All';
-    let currentQuery = '';
-
-    function filterCards() {
-      let visibleCount = 0;
-
-      cards.forEach((card) => {
-        const el = card as HTMLElement;
-        const name = el.dataset.name || '';
-        const id = el.dataset.id || '';
-        const desc = el.dataset.desc || '';
-        const category = el.dataset.category || '';
-
-        const matchesQuery =
-          !currentQuery ||
-          name.includes(currentQuery) ||
-          id.includes(currentQuery) ||
-          desc.includes(currentQuery);
-
-        const matchesCategory = currentCategory === 'All' || category === currentCategory;
-
-        if (matchesQuery && matchesCategory) {
-          el.style.display = '';
-          visibleCount++;
-        } else {
-          el.style.display = 'none';
-        }
-      });
-
-      if (resultsCount) {
-        resultsCount.textContent = `Affichage de ${visibleCount} compétence${visibleCount > 1 ? 's' : ''}`;
-      }
-
-      if (emptyState) {
-        if (visibleCount === 0) {
-          emptyState.classList.remove('hidden');
-        } else {
-          emptyState.classList.add('hidden');
-        }
-      }
+  function filter() {
+    const query = searchInput?.value.toLocaleLowerCase().trim() || '';
+    let visible = 0;
+    for (const card of cards) {
+      const matchesCategory = category === 'Tout' || card.dataset.category === category;
+      const matchesQuery = !query || `${card.dataset.name} ${card.dataset.id} ${card.dataset.desc}`.includes(query);
+      card.hidden = !(matchesCategory && matchesQuery);
+      if (!card.hidden) visible++;
     }
-
-    // Handle Search input
-    searchInput?.addEventListener('input', (e) => {
-      currentQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
-      filterCards();
-    });
-
-    // Handle Category button clicks
-    filterButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach((b) => {
-          b.classList.remove('bg-zinc-100', 'text-zinc-900', 'border-zinc-100', 'active-filter');
-          b.classList.add('bg-zinc-900/60', 'text-zinc-400', 'border-zinc-800/80');
-        });
-
-        btn.classList.remove('bg-zinc-900/60', 'text-zinc-400', 'border-zinc-800/80');
-        btn.classList.add('bg-zinc-100', 'text-zinc-900', 'border-zinc-100', 'active-filter');
-
-        currentCategory = btn.getAttribute('data-category') || 'All';
-        filterCards();
-      });
-    });
+    if (count) count.textContent = `${visible} skill${visible === 1 ? '' : 's'}`;
+    if (empty) empty.hidden = visible !== 0;
   }
 
-  setupSearchAndFilters();
-  document.addEventListener('astro:page-load', setupSearchAndFilters);
+  buttons.forEach((button) => button.addEventListener('click', () => {
+    category = button.dataset.category || 'Tout';
+    buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+    filter();
+  }));
+  searchInput?.addEventListener('input', filter);
+  reset?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    buttons[0]?.click();
+    searchInput?.focus();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '/' && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
+      event.preventDefault();
+      searchInput?.focus();
+    }
+  });
 </script>

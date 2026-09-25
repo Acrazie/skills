@@ -2,74 +2,28 @@
 import type { SkillData } from '../lib/skills';
 import TablerIcon from './TablerIcon.astro';
 import CopyButton from './CopyButton.astro';
-
-interface Props {
-  skill: SkillData;
-}
-
+interface Props { skill: SkillData }
 const { skill } = Astro.props;
 ---
-
-<div
-  class="skill-card group rounded-lg border border-zinc-800/90 bg-[#121215] p-5 hover:border-zinc-700 transition-all flex flex-col justify-between"
+<article
+  class="skill-card"
   data-name={skill.name.toLowerCase()}
   data-id={skill.id.toLowerCase()}
   data-desc={skill.description.toLowerCase()}
   data-category={skill.category}
 >
-  <div>
-    <!-- Top Row: Icon, Category Badge & Explicit Invocation tag -->
-    <div class="flex items-center justify-between gap-2 mb-3.5">
-      <div class="flex items-center gap-2">
-        <span class="flex items-center justify-center w-8 h-8 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300 group-hover:text-zinc-100 group-hover:border-zinc-700 transition-colors">
-          <TablerIcon name={skill.icon} size={16} />
-        </span>
-        <span class="text-xs font-mono text-zinc-400 bg-zinc-900/90 px-2 py-0.5 rounded border border-zinc-800/80">
-          {skill.category}
-        </span>
-      </div>
-
-      {skill.disableModelInvocation && (
-        <span class="text-[11px] font-mono text-amber-400/90 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/40">
-          User Invoked
-        </span>
-      )}
-    </div>
-
-    <!-- Skill Name -->
-    <h3 class="font-semibold text-base text-zinc-100 tracking-tight group-hover:text-white transition-colors mb-2">
-      <a href={`/skills/${skill.id}`} class="hover:underline flex items-center justify-between">
-        <span>{skill.id}</span>
-        <TablerIcon name="chevron-right" size={16} class="text-zinc-600 group-hover:text-zinc-300 transition-colors opacity-0 group-hover:opacity-100" />
-      </a>
-    </h3>
-
-    <!-- Description -->
-    <p class="text-xs text-zinc-400 leading-relaxed line-clamp-3 mb-4">
-      {skill.description}
-    </p>
-  </div>
-
-  <!-- Bottom Row: Invocation badge + Copy Install Action -->
-  <div class="pt-3.5 border-t border-zinc-900 flex items-center justify-between gap-2">
-    <code class="text-[11px] font-mono text-zinc-400 bg-zinc-900/60 px-2 py-1 rounded border border-zinc-800/60 truncate max-w-[140px]">
-      {skill.invocationCommand}
-    </code>
-
-    <div class="flex items-center gap-1.5">
-      <CopyButton
-        text={skill.installCommand}
-        label="Install"
-        size="sm"
-        class="text-xs bg-zinc-900 hover:bg-zinc-800"
-      />
-      <a
-        href={`/skills/${skill.id}`}
-        class="p-1.5 rounded-md border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors"
-        title="Voir la documentation du skill"
-      >
-        <TablerIcon name="file-text" size={14} />
-      </a>
+  <div class="skill-card__main">
+    <span class="skill-card__icon" aria-hidden="true"><TablerIcon name={skill.icon} size={19} /></span>
+    <div>
+      <h3><a href={`/skills/${skill.id}`}>{skill.id}</a></h3>
+      <code class="skill-card__invoke">{skill.invocationCommand}</code>
+      {skill.disableModelInvocation && <span class="skill-card__restriction">Sur invocation</span>}
     </div>
   </div>
-</div>
+  <p>{skill.description}</p>
+  <span class="skill-card__category">{skill.category}</span>
+  <div class="skill-card__actions">
+    <CopyButton text={skill.installCommand} size="sm" ariaLabel={`Copier la commande d’installation de ${skill.id}`} />
+    <TablerIcon name="arrow-right" size={19} class="skill-card__arrow" />
+  </div>
+</article>

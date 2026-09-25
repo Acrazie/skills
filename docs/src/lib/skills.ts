@@ -26,7 +26,7 @@ function determineCategory(id: string): { category: string; icon: string } {
   if (id.startsWith('jenkins-')) {
     return { category: 'CI/CD & DevOps', icon: 'server' };
   }
-  if (id.startsWith('svg-') || id.startsWith('canvas-')) {
+  if (id.startsWith('svg-') || id.startsWith('canvas-') || id.startsWith('immersive-')) {
     return { category: 'Design & Visuals', icon: 'palette' };
   }
   if (id.startsWith('github-repo-init') || id.includes('governance')) {
