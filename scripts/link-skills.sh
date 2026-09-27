@@ -5,6 +5,7 @@ set -euo pipefail
 # agent harnesses:
 #   - ~/.hermes/skills : Hermes Agent
 #   - ~/.agents/skills : Codex and other Agent Skills-compatible harnesses
+#   - ~/.gemini/config/skills : Antigravity / Gemini CLI
 #   - ~/.claude/skills : Claude Code (if directory exists)
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
@@ -12,6 +13,7 @@ REPO="$(cd "$(dirname "$0")/.." && pwd)"
 DESTS=(
   "$HOME/.hermes/skills"
   "$HOME/.agents/skills"
+  "$HOME/.gemini/config/skills"
 )
 
 if [ -d "$HOME/.claude/skills" ]; then
