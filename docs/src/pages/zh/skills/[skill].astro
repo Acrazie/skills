@@ -1,0 +1,19 @@
+---
+import SkillDetailPage from '../../../views/SkillDetailPage.astro';
+import { getLocalizedSkills, type SkillData } from '../../../lib/skills';
+
+export async function getStaticPaths() {
+  return getLocalizedSkills('zh').map((skill) => ({
+    params: { skill: skill.id },
+    props: { skill },
+  }));
+}
+
+interface Props {
+  skill: SkillData;
+}
+
+const { skill } = Astro.props;
+---
+
+<SkillDetailPage skill={skill} lang="zh" />

@@ -1,52 +1,19 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import TablerIcon from '../../components/TablerIcon.astro';
-import CopyButton from '../../components/CopyButton.astro';
-import { getAllSkills, type SkillData } from '../../lib/skills';
-import { marked } from 'marked';
+import SkillDetailPage from '../../views/SkillDetailPage.astro';
+import { getLocalizedSkills, type SkillData } from '../../lib/skills';
 
 export async function getStaticPaths() {
-  return getAllSkills().map((skill) => ({ params: { skill: skill.id }, props: { skill } }));
+  return getLocalizedSkills('en').map((skill) => ({
+    params: { skill: skill.id },
+    props: { skill },
+  }));
 }
-interface Props { skill: SkillData }
+
+interface Props {
+  skill: SkillData;
+}
+
 const { skill } = Astro.props;
-const contentHtml = marked.parse(skill.content);
-const renderedReferences = skill.references.map((ref) => ({ ...ref, html: marked.parse(ref.content) }));
 ---
-<BaseLayout title={`${skill.id} — Acrazie Skills`} description={skill.description}>
-  <div class="content-page">
-    <a class="back-link" href="/#catalogue"><TablerIcon name="chevron-left" size={16} /> Retour au catalogue</a>
-    <header class="skill-heading">
-      <div class="skill-heading__meta"><span>{skill.category}</span><code>{skill.invocationCommand}</code>{skill.disableModelInvocation && <span>Sur invocation</span>}</div>
-      <h1>{skill.id}</h1>
-      <p>{skill.description}</p>
-      <div class="install-bar"><span aria-hidden="true">$</span><code>{skill.installCommand}</code><CopyButton text={skill.installCommand} label="Copier la commande" size="sm" /></div>
-    </header>
-    <div class="reading-layout">
-      <aside class="reading-sidebar" aria-label="Navigation de cette page">
-        <span>Sur cette page</span>
-        <a href="#instructions">Instructions</a>
-        {renderedReferences.length > 0 && <a href="#references">Références ({renderedReferences.length})</a>}
-        <a href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer">Voir sur GitHub <TablerIcon name="arrow-up-right" size={13} /></a>
-      </aside>
-      <div class="reading-main">
-        <section id="instructions" aria-labelledby="instructions-title">
-          <h2 id="instructions-title" class="reading-section-title">Instructions</h2>
-          <article class="prose-shadcn" set:html={contentHtml} />
-        </section>
-        {renderedReferences.length > 0 && (
-          <section id="references" class="reference-section" aria-labelledby="references-title">
-            <h2 id="references-title" class="reading-section-title">Références</h2>
-            <p class="reference-section__intro">Guides et ressources inclus avec ce skill.</p>
-            {renderedReferences.map((ref) => (
-              <details class="reference-item">
-                <summary><TablerIcon name="file-text" size={17} /><span>{ref.title}</span><TablerIcon name="chevron-right" size={16} /></summary>
-                <article class="prose-shadcn" set:html={ref.html} />
-              </details>
-            ))}
-          </section>
-        )}
-      </div>
-    </div>
-  </div>
-</BaseLayout>
+
+<SkillDetailPage skill={skill} lang="en" />

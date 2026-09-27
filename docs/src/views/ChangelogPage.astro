@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TablerIcon from '../components/TablerIcon.astro';
+import { getChangelog } from '../lib/skills';
+import { useTranslations, getLocalizedPath, type Locale } from '../i18n/ui';
+import { marked } from 'marked';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const changelogHtml = marked.parse(getChangelog());
+const backUrl = `${getLocalizedPath('/', lang)}#catalogue`;
+---
+
+<BaseLayout
+  title={t('meta.changelogTitle')}
+  description={t('meta.changelogDescription')}
+>
+  <div class="content-page changelog-page">
+    <a class="back-link" href={backUrl}>
+      <TablerIcon name="chevron-left" size={16} />
+      {t('changelog.backToCatalogue')}
+    </a>
+    <header class="page-heading">
+      <div>
+        <h1>{t('changelog.title')}</h1>
+        <p>{t('changelog.subtitle')}</p>
+      </div>
+      <a
+        class="text-action"
+        href="https://github.com/Acrazie/skills/releases"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {t('changelog.releasesLink')}
+        <TablerIcon name="arrow-up-right" size={16} />
+      </a>
+    </header>
+    <article class="prose-shadcn changelog-content" set:html={changelogHtml} />
+  </div>
+</BaseLayout>

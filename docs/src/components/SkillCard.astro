@@ -2,8 +2,16 @@
 import type { SkillData } from '../lib/skills';
 import TablerIcon from './TablerIcon.astro';
 import CopyButton from './CopyButton.astro';
-interface Props { skill: SkillData }
-const { skill } = Astro.props;
+import { useTranslations, getLocalizedPath, type Locale } from '../i18n/ui';
+
+interface Props {
+  skill: SkillData;
+  lang?: Locale;
+}
+
+const { skill, lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
+const skillUrl = getLocalizedPath(`/skills/${skill.id}/`, lang);
 ---
 <article
   class="skill-card"
@@ -15,15 +23,16 @@ const { skill } = Astro.props;
   <div class="skill-card__main">
     <span class="skill-card__icon" aria-hidden="true"><TablerIcon name={skill.icon} size={19} /></span>
     <div>
-      <h3><a href={`/skills/${skill.id}/`}>{skill.id}</a></h3>
+      <h3><a href={skillUrl}>{skill.id}</a></h3>
       <code class="skill-card__invoke">{skill.invocationCommand}</code>
-      {skill.disableModelInvocation && <span class="skill-card__restriction">Sur invocation</span>}
+      {skill.disableModelInvocation && <span class="skill-card__restriction">{t('card.userInvoked')}</span>}
     </div>
   </div>
   <p>{skill.description}</p>
   <span class="skill-card__category">{skill.category}</span>
   <div class="skill-card__actions">
-    <CopyButton text={skill.installCommand} size="sm" ariaLabel={`Copier la commande d’installation de ${skill.id}`} />
+    <CopyButton text={skill.installCommand} size="sm" ariaLabel={t('card.copyInstallAria')(skill.id)} />
     <TablerIcon name="arrow-right" size={19} class="skill-card__arrow" />
   </div>
 </article>
+

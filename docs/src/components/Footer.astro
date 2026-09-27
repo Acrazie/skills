@@ -1,14 +1,28 @@
 ---
 import TablerIcon from './TablerIcon.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/ui';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+const lang = getLangFromUrl(currentPath);
+const t = useTranslations(lang);
+
+const homePath = getLocalizedPath('/', lang);
+const cataloguePath = `${homePath}#catalogue`;
+const changelogPath = getLocalizedPath('/changelog/', lang);
 ---
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <div><strong>Acrazie Skills</strong><span>Workflows spécialisés pour agents de code.</span></div>
-    <nav aria-label="Navigation de pied de page">
-      <a href="/#catalogue">Catalogue</a>
-      <a href="/changelog/">Changelog</a>
+    <div><strong>Acrazie Skills</strong><span>{t('footer.tagline')}</span></div>
+    <nav aria-label={t('footer.catalogue')}>
+      <a href={cataloguePath}>{t('footer.catalogue')}</a>
+      <a href={changelogPath}>{t('footer.changelog')}</a>
       <a href="https://skills.sh/Acrazie/skills" target="_blank" rel="noopener noreferrer">skills.sh <TablerIcon name="arrow-up-right" size={14} /></a>
       <a href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer">GitHub <TablerIcon name="arrow-up-right" size={14} /></a>
     </nav>
   </div>
 </footer>
+

@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TablerIcon from '../components/TablerIcon.astro';
+import CopyButton from '../components/CopyButton.astro';
+import { type SkillData } from '../lib/skills';
+import { useTranslations, getLocalizedPath, type Locale } from '../i18n/ui';
+import { marked } from 'marked';
+
+interface Props {
+  skill: SkillData;
+  lang: Locale;
+}
+
+const { skill, lang } = Astro.props;
+const t = useTranslations(lang);
+const contentHtml = marked.parse(skill.content);
+const renderedReferences = skill.references.map((ref) => ({
+  ...ref,
+  html: marked.parse(ref.content),
+}));
+const backUrl = `${getLocalizedPath('/', lang)}#catalogue`;
+---
+
+<BaseLayout
+  title={`${skill.id} — Acrazie Skills`}
+  description={skill.description}
+>
+  <div class="content-page">
+    <a class="back-link" href={backUrl}>
+      <TablerIcon name="chevron-left" size={16} />
+      {t('detail.backToCatalogue')}
+    </a>
+    <header class="skill-heading">
+      <div class="skill-heading__meta">
+        <span>{skill.category}</span>
+        <code>{skill.invocationCommand}</code>
+        {skill.disableModelInvocation ? (
+          <span class="skill-heading__restriction">{t('detail.userInvoked')}</span>
+        ) : (
+          <span class="skill-heading__open">{t('detail.implicitAndExplicit')}</span>
+        )}
+      </div>
+      <h1>{skill.id}</h1>
+      <p>{skill.description}</p>
+      <div class="install-bar">
+        <span aria-hidden="true">$</span>
+        <code>{skill.installCommand}</code>
+        <CopyButton
+          text={skill.installCommand}
+          label={t('detail.copyCommand')}
+          size="sm"
+        />
+      </div>
+    </header>
+    <div class="reading-layout">
+      <aside class="reading-sidebar" aria-label={t('detail.onThisPage')}>
+        <span>{t('detail.onThisPage')}</span>
+        <a href="#instructions">{t('detail.instructions')}</a>
+        {renderedReferences.length > 0 && (
+          <a href="#references">{t('detail.references')} ({renderedReferences.length})</a>
+        )}
+        <a
+          href="https://github.com/Acrazie/skills"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t('detail.viewOnGithub')} <TablerIcon name="arrow-up-right" size={13} />
+        </a>
+      </aside>
+      <div class="reading-main">
+        <section id="instructions" aria-labelledby="instructions-title">
+          <h2 id="instructions-title" class="reading-section-title">{t('detail.instructions')}</h2>
+          <article class="prose-shadcn" set:html={contentHtml} />
+        </section>
+        {renderedReferences.length > 0 && (
+          <section id="references" class="reference-section" aria-labelledby="references-title">
+            <h2 id="references-title" class="reading-section-title">{t('detail.references')}</h2>
+            <p class="reference-section__intro">{t('detail.referencesIntro')}</p>
+            {renderedReferences.map((ref) => (
+              <details class="reference-item">
+                <summary>
+                  <TablerIcon name="file-text" size={17} />
+                  <span>{ref.title}</span>
+                  <TablerIcon name="chevron-right" size={16} />
+                </summary>
+                <article class="prose-shadcn" set:html={ref.html} />
+              </details>
+            ))}
+          </section>
+        )}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

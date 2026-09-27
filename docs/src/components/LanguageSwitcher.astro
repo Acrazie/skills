@@ -1,0 +1,185 @@
+---
+import TablerIcon from './TablerIcon.astro';
+import { LOCALES, getLocalizedPath, type Locale } from '../i18n/ui';
+
+interface Props {
+  currentLang: Locale;
+  currentPath: string;
+}
+
+const { currentLang, currentPath } = Astro.props;
+
+const localesList: Locale[] = ['en', 'fr', 'zh'];
+---
+
+<div class="lang-switcher" data-lang-switcher>
+  <button
+    type="button"
+    class="lang-switcher__btn"
+    aria-label="Changer de langue / Change language / 切换语言"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <TablerIcon name="world" size={15} class="lang-switcher__icon" />
+    <span class="lang-switcher__code">{LOCALES[currentLang].flag}</span>
+    <TablerIcon name="chevron-down" size={13} class="lang-switcher__arrow" />
+  </button>
+
+  <div class="lang-switcher__dropdown" hidden role="menu">
+    {localesList.map((locale) => {
+      const isCurrent = locale === currentLang;
+      const targetUrl = getLocalizedPath(currentPath, locale);
+      return (
+        <a
+          href={targetUrl}
+          role="menuitem"
+          class:list={['lang-switcher__option', { 'lang-switcher__option--active': isCurrent }]}
+          aria-current={isCurrent ? 'true' : undefined}
+        >
+          <span class="lang-switcher__tag">{LOCALES[locale].flag}</span>
+          <span class="lang-switcher__label">{LOCALES[locale].label}</span>
+          {isCurrent && <TablerIcon name="check" size={14} class="lang-switcher__check" />}
+        </a>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  function setupLangSwitchers() {
+    const switchers = document.querySelectorAll<HTMLElement>('[data-lang-switcher]');
+
+    switchers.forEach((switcher) => {
+      const btn = switcher.querySelector<HTMLButtonElement>('.lang-switcher__btn');
+      const menu = switcher.querySelector<HTMLElement>('.lang-switcher__dropdown');
+      if (!btn || !menu) return;
+
+      const toggle = (open?: boolean) => {
+        const isOpen = open ?? menu.hidden;
+        menu.hidden = !isOpen;
+        btn.setAttribute('aria-expanded', String(isOpen));
+      };
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggle();
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!switcher.contains(e.target as Node)) {
+          toggle(false);
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !menu.hidden) {
+          toggle(false);
+          btn.focus();
+        }
+      });
+    });
+  }
+
+  setupLangSwitchers();
+  document.addEventListener('astro:page-load', setupLangSwitchers);
+</script>
+
+<style>
+  .lang-switcher {
+    position: relative;
+    display: inline-block;
+  }
+
+  .lang-switcher__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 1.85rem;
+    padding: 0 0.55rem;
+    border-radius: 6px;
+    background: rgba(24, 24, 27, 0.6);
+    border: 1px solid rgba(63, 63, 70, 0.4);
+    color: #a1a1aa;
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .lang-switcher__btn:hover,
+  .lang-switcher__btn[aria-expanded="true"] {
+    background: #27272a;
+    border-color: #52525b;
+    color: #f4f4f5;
+  }
+
+  .lang-switcher__code {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+
+  .lang-switcher__arrow {
+    transition: transform 0.15s ease;
+  }
+
+  .lang-switcher__btn[aria-expanded="true"] .lang-switcher__arrow {
+    transform: rotate(180deg);
+  }
+
+  .lang-switcher__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 140px;
+    padding: 4px;
+    background: #121215;
+    border: 1px solid #27272a;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+  }
+
+  .lang-switcher__option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    border-radius: 5px;
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: all 0.12s ease;
+  }
+
+  .lang-switcher__option:hover {
+    background: #1c1c22;
+    color: #fafafa;
+  }
+
+  .lang-switcher__option--active {
+    background: #18181b;
+    color: #fafafa;
+    font-weight: 500;
+  }
+
+  .lang-switcher__tag {
+    display: inline-block;
+    padding: 0.1rem 0.3rem;
+    font-size: 0.65rem;
+    font-family: var(--font-mono, monospace);
+    border-radius: 3px;
+    background: #27272a;
+    color: #d4d4d8;
+  }
+
+  .lang-switcher__label {
+    flex: 1;
+  }
+
+  .lang-switcher__check {
+    color: #ff8a00;
+  }
+</style>

@@ -22,3 +22,27 @@ The interactive feedback workflow (`skill-refiner-acrazie`) that observes real s
 
 **Audit Record**:
 A formal, read-only technical evaluation artifact created under `docs/audits/` via `audit-repository-acrazie`.
+
+## Documentation & Deployment Platform
+
+**Skills Documentation Site**:
+The Astro-powered documentation portal compiled into a containerized static site served by an unprivileged Nginx process on port 8080 (`skills.acrazie.dev`).
+
+**Site UI Chrome**:
+The localized navigational, filtering, search, and layout elements of the Skills Documentation Site presented in the user's selected language.
+*Avoid*: Application skin, site chrome.
+
+**Skill Catalog Metadata**:
+The localized high-level properties of a skill (display title, category, concise summary) used for discovery and browsing on the portal.
+*Avoid*: Prompt copy, skill specification.
+
+**Skill Specification**:
+The authoritative, untranslated agent instructions and domain references (`SKILL.md`, `references/*.md`) executed by AI coding agents.
+*Avoid*: Documentation markdown, website copy.
+
+**Dokploy Application Service**:
+The containerized service hosted on the Netcup VPS, connected to Traefik via `dokploy-network` and routed through the Cloudflare Tunnel wildcard.
+
+**Dokploy Deployment Webhook**:
+The protected endpoint (`deploy.acrazie.dev`) authenticated via Cloudflare Zero Trust Service Token headers (`CF-Access-Client-Id` and `CF-Access-Client-Secret`), triggered by the GitHub Actions `deploy-production` job only after CI validation succeeds.
+*Avoid*: Enabling Auto Deploy in Dokploy UI (which would bypass CI tests).

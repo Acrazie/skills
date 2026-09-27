@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getLangFromUrl, LOCALES } from '../i18n/ui';
 import '../styles/globals.css';
 
 interface Props {
@@ -14,10 +15,11 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const lang = getLangFromUrl(currentPath);
 ---
 
 <!doctype html>
-<html lang="fr" class="dark">
+<html lang={LOCALES[lang].htmlLang} class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

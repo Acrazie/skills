@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PixelCloudHero from '../components/PixelCloudHero.astro';
+import SkillCard from '../components/SkillCard.astro';
+import TablerIcon from '../components/TablerIcon.astro';
+import { getLocalizedSkills } from '../lib/skills';
+import { useTranslations, type Locale } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const skills = getLocalizedSkills(lang);
+const allLabel = t('catalogue.allCategories');
+const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))];
+---
+
+<BaseLayout
+  title={t('meta.siteTitle')}
+  description={t('meta.siteDescription')}
+>
+  <PixelCloudHero lang={lang} />
+  <section id="catalogue" class="catalogue-section" aria-labelledby="catalogue-title">
+    <div class="catalogue-section__heading">
+      <div>
+        <h2 id="catalogue-title">{t('catalogue.title')}</h2>
+        <p>{t('catalogue.subtitle')}</p>
+      </div>
+      <p id="results-count" class="catalogue-section__count" data-lang={lang} aria-live="polite">
+        {t('catalogue.skillsCount')(skills.length)}
+      </p>
+    </div>
+
+    <div class="catalogue-search">
+      <TablerIcon name="search" size={20} />
+      <label class="sr-only" for="search-input">{t('catalogue.searchLabel')}</label>
+      <input
+        id="search-input"
+        type="search"
+        placeholder={t('catalogue.searchPlaceholder')}
+        autocomplete="off"
+      />
+      <kbd>/</kbd>
+    </div>
+
+    <div
+      class="catalogue-filters"
+      role="group"
+      aria-label={t('catalogue.columnsCategory')}
+      data-all-label={allLabel}
+    >
+      {categories.map((category, index) => (
+        <button
+          type="button"
+          class="filter-tag"
+          data-category={category}
+          aria-pressed={index === 0 ? 'true' : 'false'}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+
+    <div class="catalogue-columns" aria-hidden="true">
+      <span>{t('catalogue.columnsSkill')}</span>
+      <span>{t('catalogue.columnsDescription')}</span>
+      <span>{t('catalogue.columnsCategory')}</span>
+    </div>
+
+    <div id="skills-grid" class="skill-list">
+      {skills.map((skill) => <SkillCard skill={skill} lang={lang} />)}
+    </div>
+
+    <div id="empty-state" class="catalogue-empty" hidden>
+      <TablerIcon name="search" size={25} />
+      <h3>{t('catalogue.emptyTitle')}</h3>
+      <p>{t('catalogue.emptyDesc')}</p>
+      <button type="button" id="reset-filters">{t('catalogue.resetFilters')}</button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  function setupCatalogue() {
+    const searchInput = document.querySelector<HTMLInputElement>('#search-input');
+    const filterContainer = document.querySelector<HTMLElement>('.catalogue-filters');
+    const buttons = [...document.querySelectorAll<HTMLButtonElement>('.filter-tag')];
+    const cards = [...document.querySelectorAll<HTMLElement>('.skill-card')];
+    const empty = document.querySelector<HTMLElement>('#empty-state');
+    const count = document.querySelector<HTMLElement>('#results-count');
+    const reset = document.querySelector<HTMLButtonElement>('#reset-filters');
+    const allLabel = filterContainer?.dataset.allLabel || 'All';
+    const lang = count?.dataset.lang || 'en';
+    let activeCategory = allLabel;
+
+    function filter() {
+      const query = searchInput?.value.toLocaleLowerCase().trim() || '';
+      let visible = 0;
+      for (const card of cards) {
+        const matchesCategory = activeCategory === allLabel || card.dataset.category === activeCategory;
+        const matchesQuery = !query || `${card.dataset.name} ${card.dataset.id} ${card.dataset.desc}`.toLowerCase().includes(query);
+        card.hidden = !(matchesCategory && matchesQuery);
+        if (!card.hidden) visible++;
+      }
+      if (count) {
+        if (lang === 'zh') {
+          count.textContent = `${visible} 个技能`;
+        } else {
+          count.textContent = `${visible} skill${visible === 1 ? '' : 's'}`;
+        }
+      }
+      if (empty) empty.hidden = visible !== 0;
+    }
+
+    buttons.forEach((button) =>
+      button.addEventListener('click', () => {
+        activeCategory = button.dataset.category || allLabel;
+        buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+        filter();
+      })
+    );
+
+    searchInput?.addEventListener('input', filter);
+
+    reset?.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      buttons[0]?.click();
+      searchInput?.focus();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '/' && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
+        event.preventDefault();
+        searchInput?.focus();
+      }
+    });
+  }
+
+  setupCatalogue();
+  document.addEventListener('astro:page-load', setupCatalogue);
+</script>
