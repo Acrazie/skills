@@ -1,5 +1,5 @@
 {
-  "name": "acrazie-skills-docs",
+  "name": "acrazie-skills-site",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -14,10 +14,5 @@
     "gray-matter": "^4.0.3",
     "marked": "^18.0.13",
     "tailwindcss": "3.4.17"
-  },
-  "overrides": {
-    "@astrojs/tailwind": {
-      "astro": "$astro"
-    }
   }
 }
