@@ -3,9 +3,10 @@ interface Props {
   name: string;
   class?: string;
   size?: number;
+  [key: string]: any;
 }
 
-const { name, class: className = '', size = 20 } = Astro.props;
+const { name, class: className = '', size = 20, ...rest } = Astro.props;
 
 // Tabler Icons SVG definitions (stroke-width: 2, stroke-linecap: round, stroke-linejoin: round)
 const icons: Record<string, string> = {
@@ -50,5 +51,6 @@ const iconPath = icons[name] || icons.sparkles;
   stroke-linecap="round"
   stroke-linejoin="round"
   class={className}
+  {...rest}
   set:html={iconPath}
 />
