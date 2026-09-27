@@ -3,7 +3,7 @@ import TablerIcon from './TablerIcon.astro';
 interface Props { currentPath?: string }
 const { currentPath = '/' } = Astro.props;
 ---
-<header class="site-header">
+<header class:list={["site-header", { "site-header--over-hero": currentPath === "/" }]}>
   <div class="site-header__inner">
     <a class="site-brand" href="/" aria-label="Acrazie Skills, accueil">
       <span class="site-brand__mark" aria-hidden="true">a<span>.</span></span>

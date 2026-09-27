@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AsciiCloudHero from '../components/AsciiCloudHero.astro';
+import PixelCloudHero from '../components/PixelCloudHero.astro';
 import SkillCard from '../components/SkillCard.astro';
 import TablerIcon from '../components/TablerIcon.astro';
 import { getAllSkills } from '../lib/skills';
@@ -12,7 +12,7 @@ const categories = ['Tout', ...new Set(skills.map((skill) => skill.category))];
   title="Acrazie Skills — Skills pour agents de code"
   description="Découvrez, consultez et installez des skills spécialisés pour agents de code."
 >
-  <AsciiCloudHero />
+  <PixelCloudHero />
   <section id="catalogue" class="catalogue-section" aria-labelledby="catalogue-title">
     <div class="catalogue-section__heading">
       <div>

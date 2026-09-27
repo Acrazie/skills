@@ -21,7 +21,7 @@ Site Astro statique construit depuis les dossiers `skills/` du monorepo. Les fic
 ## Capabilities and Constraints
 
 - Préserver les routes, le contenu réel, la recherche, les filtres, les commandes de copie et les liens d'installation.
-- Le hero utilise une photo-source et un rendu Canvas 2D animé reprenant le preset « Ascii Clouds » fourni, sans éditeur des nombreux modes du moteur de référence.
+- Le hero utilise une composition pixel art originale approuvée, inspirée du visuel fourni sans le reproduire. Aucun rendu ASCII. Son mouvement CSS discret peut être mis en pause et reste fixe en mouvement réduit.
 - La refonte couvre accueil, catalogue, fiches de skills et changelog.
 - La construction visuelle commence par une composition avant le code.
 - Le déploiement de production existant n'est pas modifié par cette refonte.
