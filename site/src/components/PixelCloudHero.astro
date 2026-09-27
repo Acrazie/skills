@@ -23,7 +23,7 @@ const installCommand = 'npx skills add Acrazie/skills';
         <div class="cloud-hero__install">
           <span class="cloud-hero__prompt" aria-hidden="true">$</span>
           <code>{installCommand}</code>
-          <CopyButton text={installCommand} label={t('hero.copyPrompt')} size="sm" />
+          <CopyButton text={installCommand} label={t('hero.copyPrompt')} size="sm" lang={lang} />
         </div>
         <a class="cloud-hero__explore" href="#catalogue">
           {t('hero.explore')} <TablerIcon name="arrow-down" size={17} />
@@ -36,13 +36,15 @@ const installCommand = 'npx skills add Acrazie/skills';
       data-cloud-pause
       data-pause-label={t('hero.pause')}
       data-resume-label={t('hero.resume')}
+      data-pause-text={t('hero.pauseAction')}
+      data-resume-text={t('hero.resumeAction')}
       aria-label={t('hero.pause')}
       aria-pressed="false"
       hidden
     >
       <TablerIcon name="player-pause" class="cloud-hero__pause-icon" size={17} />
       <TablerIcon name="player-play" class="cloud-hero__play-icon" size={17} />
-      <span>Pause</span>
+      <span>{t('hero.pauseAction')}</span>
     </button>
   </div>
 </section>
@@ -61,12 +63,23 @@ const installCommand = 'npx skills add Acrazie/skills';
       pauseButton.setAttribute('aria-pressed', String(paused));
       pauseButton.setAttribute('aria-label', paused ? resumeLabel : pauseLabel);
       const textSpan = pauseButton.querySelector('span');
-      if (textSpan) textSpan.textContent = paused ? resumeLabel : pauseLabel;
+      if (textSpan) textSpan.textContent = paused ? (pauseButton.dataset.resumeText || resumeLabel) : (pauseButton.dataset.pauseText || pauseLabel);
     };
     updatePreference();
     motionPreference.addEventListener('change', updatePreference);
     narrowScreen.addEventListener('change', updatePreference);
     pauseButton.addEventListener('click', togglePause);
+
+    let inView = true;
+    const updateAnimationState = () => hero.classList.toggle('cloud-hero--offscreen', document.hidden || !inView);
+    document.addEventListener('visibilitychange', updateAnimationState);
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        inView = entry.isIntersecting;
+        updateAnimationState();
+      });
+      observer.observe(hero);
+    }
+    updateAnimationState();
   }
 </script>
-

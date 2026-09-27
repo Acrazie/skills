@@ -18,6 +18,9 @@ export const UI_TRANSLATIONS = {
     'nav.skillsShAria': 'skills.sh documentation registry',
     'nav.githubAria': 'Acrazie Skills GitHub repository',
     'nav.selectLang': 'Select language',
+    'copy.title': 'Copy to clipboard',
+    'copy.success': 'Command copied',
+    'copy.error': 'Could not copy. Select the command manually.',
 
     // Hero
     'hero.title': 'Precision skills for AI coding agents.',
@@ -27,6 +30,8 @@ export const UI_TRANSLATIONS = {
     'hero.explore': 'Explore catalogue',
     'hero.pause': 'Pause animation',
     'hero.resume': 'Resume animation',
+    'hero.pauseAction': 'Pause',
+    'hero.resumeAction': 'Resume',
 
     // Catalogue
     'catalogue.title': 'Find the right skill.',
@@ -85,6 +90,9 @@ export const UI_TRANSLATIONS = {
     'nav.skillsShAria': 'Documentation sur skills.sh',
     'nav.githubAria': 'Dépôt GitHub Acrazie Skills',
     'nav.selectLang': 'Changer de langue',
+    'copy.title': 'Copier dans le presse-papiers',
+    'copy.success': 'Commande copiée',
+    'copy.error': 'Copie impossible. Sélectionnez la commande manuellement.',
 
     // Hero
     'hero.title': 'Des skills précis pour vos agents de code.',
@@ -94,6 +102,8 @@ export const UI_TRANSLATIONS = {
     'hero.explore': 'Explorer le catalogue',
     'hero.pause': 'Mettre l’animation en pause',
     'hero.resume': 'Reprendre l’animation',
+    'hero.pauseAction': 'Pause',
+    'hero.resumeAction': 'Reprendre',
 
     // Catalogue
     'catalogue.title': 'Trouvez le bon skill.',
@@ -152,6 +162,9 @@ export const UI_TRANSLATIONS = {
     'nav.skillsShAria': 'skills.sh 文档注册中心',
     'nav.githubAria': 'Acrazie Skills GitHub 仓库',
     'nav.selectLang': '选择语言',
+    'copy.title': '复制到剪贴板',
+    'copy.success': '命令已复制',
+    'copy.error': '无法复制。请手动选择命令。',
 
     // Hero
     'hero.title': '面向 AI 编程 Agent 的高精度技能。',
@@ -161,6 +174,8 @@ export const UI_TRANSLATIONS = {
     'hero.explore': '浏览目录',
     'hero.pause': '暂停动画',
     'hero.resume': '恢复动画',
+    'hero.pauseAction': '暂停',
+    'hero.resumeAction': '继续',
 
     // Catalogue
     'catalogue.title': '查找合适的技能。',
