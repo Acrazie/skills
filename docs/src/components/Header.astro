@@ -35,3 +35,45 @@ const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === 
   </div>
 </header>
 
+<script>
+  const dock = document.querySelector<HTMLElement>('.site-header');
+
+  if (dock) {
+    let lastY = window.scrollY;
+    let travel = 0;
+    let frame = 0;
+
+    const show = () => {
+      dock.classList.remove('site-header--hidden');
+      dock.inert = false;
+    };
+
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - lastY;
+
+      if ((delta > 0 && travel < 0) || (delta < 0 && travel > 0)) travel = 0;
+      travel += delta;
+
+      if (y < 120 || dock.contains(document.activeElement)) {
+        show();
+        travel = 0;
+      } else if (travel > 14) {
+        dock.classList.add('site-header--hidden');
+        dock.inert = true;
+        travel = 0;
+      } else if (travel < -14) {
+        show();
+        travel = 0;
+      }
+
+      lastY = y;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    }, { passive: true });
+    dock.addEventListener('focusin', show);
+  }
+</script>
