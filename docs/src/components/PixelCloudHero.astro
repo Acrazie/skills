@@ -1,0 +1,52 @@
+---
+import CopyButton from './CopyButton.astro';
+import TablerIcon from './TablerIcon.astro';
+
+const installCommand = 'npx skills add Acrazie/skills';
+---
+
+<section class="cloud-hero" aria-labelledby="hero-title">
+  <div class="cloud-hero__art" aria-hidden="true"></div>
+  <div class="cloud-hero__shade" aria-hidden="true"></div>
+  <div class="cloud-hero__inner">
+    <div class="cloud-hero__copy">
+      <h1 id="hero-title">Des skills précis pour vos agents de code.</h1>
+      <p>Explorez des workflows spécialisés, lisez leurs instructions et installez ceux dont votre agent a besoin.</p>
+      <div class="cloud-hero__actions">
+        <div class="cloud-hero__install">
+          <span class="cloud-hero__prompt" aria-hidden="true">$</span>
+          <code>{installCommand}</code>
+          <CopyButton text={installCommand} label="Copier" size="sm" />
+        </div>
+        <a class="cloud-hero__explore" href="#catalogue">
+          Explorer le catalogue <TablerIcon name="arrow-down" size={17} />
+        </a>
+      </div>
+    </div>
+    <button class="cloud-hero__motion" type="button" data-cloud-pause aria-label="Mettre l’animation en pause" aria-pressed="false" hidden>
+      <TablerIcon name="player-pause" class="cloud-hero__pause-icon" size={17} />
+      <TablerIcon name="player-play" class="cloud-hero__play-icon" size={17} />
+      <span>Pause</span>
+    </button>
+  </div>
+</section>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('.cloud-hero');
+  const pauseButton = hero?.querySelector<HTMLButtonElement>('[data-cloud-pause]');
+  if (hero && pauseButton) {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const narrowScreen = window.matchMedia('(max-width: 640px)');
+    const updatePreference = () => { pauseButton.hidden = motionPreference.matches || narrowScreen.matches; };
+    const togglePause = () => {
+      const paused = hero.classList.toggle('cloud-hero--paused');
+      pauseButton.setAttribute('aria-pressed', String(paused));
+      pauseButton.setAttribute('aria-label', paused ? 'Reprendre l’animation' : 'Mettre l’animation en pause');
+      pauseButton.querySelector('span')!.textContent = paused ? 'Reprendre' : 'Pause';
+    };
+    updatePreference();
+    motionPreference.addEventListener('change', updatePreference);
+    narrowScreen.addEventListener('change', updatePreference);
+    pauseButton.addEventListener('click', togglePause);
+  }
+</script>

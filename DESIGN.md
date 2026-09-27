@@ -1,6 +1,6 @@
 ---
 name: Acrazie Skills
-description: Catalogue éditorial sombre avec un hero ASCII photographique distinct.
+description: Catalogue éditorial sombre avec un hero pixel art distinct et navigation liquid glass.
 colors:
   surface: "#151515"
   surface-deep: "#101011"
@@ -8,8 +8,8 @@ colors:
   line: "#38383a"
   ink: "#f3f2f0"
   muted-ink: "#b8b7b5"
-  hero-night: "#081525"
-  hero-ice: "#d6f1fb"
+  hero-sky: "#404f90"
+  hero-ink: "#18191e"
 typography:
   display:
     fontFamily: "Barlow Condensed, sans-serif"
@@ -30,11 +30,11 @@ typography:
 
 **Creative North Star: « Signal Atlas »**
 
-Le hero est un seul moment expressif : photo de nuages, trame de caractères Canvas 2D et lumière froide. Tout le reste du site reste sombre, neutre et calme pour la recherche et la lecture. Les couleurs bleues et la lueur appartiennent exclusivement au hero.
+Le hero est un seul moment expressif : composition pixel art originale de nuages rose-orangé sur ciel indigo, mouvement lent et navigation translucide. Tout le reste du site reste sombre, neutre et calme pour la recherche et la lecture. Les couleurs du ciel appartiennent exclusivement au hero ; la navigation les laisse voir sans les reprendre sur les pages de lecture.
 
 ## Colors
 
-Le catalogue et les pages de lecture emploient charbon, graphite et blanc doux. Contraste assuré par la luminosité, sans accents colorés. Le hero seul emploie nuit indigo et bleu glacé.
+Le catalogue et les pages de lecture emploient charbon, graphite et blanc doux. Contraste assuré par la luminosité, sans accents colorés. Le hero seul emploie indigo, lilas et pêche ; la navigation superposée utilise un verre teinté neutre.
 
 ## Typography
 
@@ -42,15 +42,15 @@ Barlow Condensed porte les grands titres. Inter sert la navigation et le texte c
 
 ## Layout
 
-Hero pleine largeur sous la navigation. Catalogue centré sur 1320 px maximum, présenté en lignes éditoriales plutôt qu'en cartes. Fiches et changelog sur une largeur de lecture de 1120 px maximum ; colonne latérale pour la navigation des fiches sur grand écran. À 640 px, les lignes se réorganisent en liste compacte.
+Hero pleine largeur derrière la navigation liquid glass sur l’accueil ; navigation sur fond neutre translucide ailleurs. Sur mobile, image au-dessus du texte. Catalogue centré sur 1320 px maximum, présenté en lignes éditoriales plutôt qu'en cartes. Fiches et changelog sur une largeur de lecture de 1120 px maximum ; colonne latérale pour la navigation des fiches sur grand écran. À 640 px, les lignes se réorganisent en liste compacte.
 
 ## Elevation & Depth
 
-Pages neutres et plates, séparées par des règles fines. La profondeur photographique et le bloom sont réservés au hero. Les contrôles de lecture ne reçoivent pas de halo.
+Pages neutres et plates, séparées par des règles fines. La profondeur du pixel art et le léger flou du verre sont réservés au hero et à la navigation. Les contrôles de lecture ne reçoivent pas de halo.
 
 ## Shapes
 
-Angles droits et bordures discrètes. Pas de pilules, de cartes flottantes ni de verre décoratif.
+Angles droits et bordures discrètes. Pas de pilules ni de cartes flottantes. Le verre de la navigation sert uniquement à révéler le hero derrière elle.
 
 ## Components
 
@@ -59,6 +59,6 @@ Recherche et filtres restent visibles avant les résultats. Les lignes de skill 
 ## Do's and Don'ts
 
 - Préserver les données réelles de `skills/` et du changelog ; ne pas inventer de métriques, d'usage ou de performances.
-- Garder tous les textes essentiels et les actions en DOM sémantique ; Canvas est décoratif.
+- Garder tous les textes essentiels et les actions en DOM sémantique ; l’image est décorative.
 - Maintenir le hero lisible avec photo statique sans JavaScript, et arrêter l'animation hors écran ou en mouvement réduit.
-- Ne pas faire déborder les couleurs ou effets du hero sur le catalogue, les fiches et le changelog.
+- Ne pas faire déborder les couleurs du hero sur le catalogue, les fiches et le changelog.
