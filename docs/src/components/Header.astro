@@ -1,5 +1,6 @@
 ---
 import TablerIcon from './TablerIcon.astro';
+import BrandLogo from './BrandLogo.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/ui';
 
@@ -19,7 +20,7 @@ const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === 
 <header class:list={["site-header", { "site-header--over-hero": isHome }]}>
   <div class="site-header__inner">
     <a class="site-brand" href={homePath} aria-label={t('nav.brandAria')}>
-      <span class="site-brand__mark" aria-hidden="true">a<span>.</span></span>
+      <span class="site-brand__mark" aria-hidden="true"><BrandLogo size={18} /></span>
       <span>Acrazie <strong>Skills</strong></span>
     </a>
     <nav class="site-nav" aria-label={t('nav.catalogue')}>
