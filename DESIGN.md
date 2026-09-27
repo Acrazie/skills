@@ -42,7 +42,7 @@ Barlow Condensed porte les grands titres. Inter sert la navigation et le texte c
 
 ## Layout
 
-Hero pleine largeur derrière la navigation liquid glass sur l’accueil ; navigation sur fond neutre translucide ailleurs. Sur mobile, image au-dessus du texte. Catalogue centré sur 1320 px maximum, présenté en lignes éditoriales plutôt qu'en cartes. Fiches et changelog sur une largeur de lecture de 1120 px maximum ; colonne latérale pour la navigation des fiches sur grand écran. À 640 px, les lignes se réorganisent en liste compacte.
+Hero pleine largeur derrière un dock liquid glass flottant, centré sur 80 % de la largeur desktop ; le dock suit le défilement, disparaît en descendant et revient en remontant. Sur les pages de lecture, son verre reste neutre. Sur mobile, image au-dessus du texte et dock plus large pour garder les liens lisibles. Catalogue centré sur 1320 px maximum, présenté en lignes éditoriales plutôt qu'en cartes. Fiches et changelog sur une largeur de lecture de 1120 px maximum ; colonne latérale pour la navigation des fiches sur grand écran. À 640 px, les lignes se réorganisent en liste compacte.
 
 ## Elevation & Depth
 
@@ -50,7 +50,7 @@ Pages neutres et plates, séparées par des règles fines. La profondeur du pixe
 
 ## Shapes
 
-Angles droits et bordures discrètes. Pas de pilules ni de cartes flottantes. Le verre de la navigation sert uniquement à révéler le hero derrière elle.
+Angles droits et bordures discrètes dans le contenu. Le dock seul reçoit des coins arrondis et flotte au-dessus du contenu ; son verre révèle le hero et laisse deviner les surfaces neutres pendant le défilement.
 
 ## Components
 
