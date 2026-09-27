@@ -35,6 +35,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check README local links
+        run: python3 scripts/hooks/check-readme-links.py
+
       - name: Verify skill directory structure
         run: ./scripts/hooks/check-skill-structure.sh
 
