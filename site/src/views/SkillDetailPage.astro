@@ -4,7 +4,7 @@ import TablerIcon from '../components/TablerIcon.astro';
 import CopyButton from '../components/CopyButton.astro';
 import { type SkillData } from '../lib/skills';
 import { useTranslations, getLocalizedPath, type Locale } from '../i18n/ui';
-import { marked } from 'marked';
+import { renderMarkdownWithHeadingOffset } from '../lib/markdown';
 
 interface Props {
   skill: SkillData;
@@ -13,10 +13,10 @@ interface Props {
 
 const { skill, lang } = Astro.props;
 const t = useTranslations(lang);
-const contentHtml = marked.parse(skill.content);
+const contentHtml = renderMarkdownWithHeadingOffset(skill.content, 2);
 const renderedReferences = skill.references.map((ref) => ({
   ...ref,
-  html: marked.parse(ref.content),
+  html: renderMarkdownWithHeadingOffset(ref.content, 2),
 }));
 const backUrl = `${getLocalizedPath('/', lang)}#catalogue`;
 ---
@@ -49,6 +49,7 @@ const backUrl = `${getLocalizedPath('/', lang)}#catalogue`;
           text={skill.installCommand}
           label={t('detail.copyCommand')}
           size="sm"
+          lang={lang}
         />
       </div>
     </header>

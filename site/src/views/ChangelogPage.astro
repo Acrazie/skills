@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import TablerIcon from '../components/TablerIcon.astro';
 import { getChangelog } from '../lib/skills';
 import { useTranslations, getLocalizedPath, type Locale } from '../i18n/ui';
-import { marked } from 'marked';
+import { renderMarkdownWithHeadingOffset } from '../lib/markdown';
 
 interface Props {
   lang: Locale;
@@ -11,7 +11,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const changelogHtml = marked.parse(getChangelog());
+const changelogHtml = renderMarkdownWithHeadingOffset(getChangelog(), 1);
 const backUrl = `${getLocalizedPath('/', lang)}#catalogue`;
 ---
 
