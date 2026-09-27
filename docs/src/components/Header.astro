@@ -11,7 +11,7 @@ const { currentPath = '/' } = Astro.props;
     </a>
     <nav class="site-nav" aria-label="Navigation principale">
       <a href="/#catalogue" aria-current={currentPath === '/' ? 'page' : undefined}>Catalogue</a>
-      <a href="/changelog" aria-current={currentPath.startsWith('/changelog') ? 'page' : undefined}>Changelog</a>
+      <a href="/changelog/" aria-current={currentPath.startsWith('/changelog') ? 'page' : undefined}>Changelog</a>
     </nav>
     <div class="site-header__links">
       <a class="site-header__skills" href="https://skills.sh/Acrazie/skills" target="_blank" rel="noopener noreferrer">skills.sh <TablerIcon name="arrow-up-right" size={15} /></a>

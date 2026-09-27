@@ -15,7 +15,7 @@ const { skill } = Astro.props;
   <div class="skill-card__main">
     <span class="skill-card__icon" aria-hidden="true"><TablerIcon name={skill.icon} size={19} /></span>
     <div>
-      <h3><a href={`/skills/${skill.id}`}>{skill.id}</a></h3>
+      <h3><a href={`/skills/${skill.id}/`}>{skill.id}</a></h3>
       <code class="skill-card__invoke">{skill.invocationCommand}</code>
       {skill.disableModelInvocation && <span class="skill-card__restriction">Sur invocation</span>}
     </div>
