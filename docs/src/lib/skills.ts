@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+import { getLocalizedSkillMeta } from '../i18n/skills';
+import type { Locale } from '../i18n/ui';
 
 export interface SkillReference {
   name: string;
@@ -102,6 +104,29 @@ export function getSkillById(id: string): SkillData | undefined {
   return all.find((s) => s.id === id);
 }
 
+export function getLocalizedSkills(lang: Locale = 'en'): SkillData[] {
+  const all = getAllSkills();
+  return all.map((skill) => {
+    const localized = getLocalizedSkillMeta(skill.id, lang, skill.category, skill.description);
+    return {
+      ...skill,
+      category: localized.category,
+      description: localized.description,
+    };
+  });
+}
+
+export function getLocalizedSkillById(id: string, lang: Locale = 'en'): SkillData | undefined {
+  const skill = getSkillById(id);
+  if (!skill) return undefined;
+  const localized = getLocalizedSkillMeta(skill.id, lang, skill.category, skill.description);
+  return {
+    ...skill,
+    category: localized.category,
+    description: localized.description,
+  };
+}
+
 export function getChangelog(): string {
   const changelogPath = path.resolve(process.cwd(), '../CHANGELOG.md');
   if (!fs.existsSync(changelogPath)) {
@@ -109,3 +134,4 @@ export function getChangelog(): string {
   }
   return fs.readFileSync(changelogPath, 'utf-8');
 }
+

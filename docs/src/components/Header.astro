@@ -1,21 +1,36 @@
 ---
 import TablerIcon from './TablerIcon.astro';
-interface Props { currentPath?: string }
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/ui';
+
+interface Props {
+  currentPath?: string;
+}
+
 const { currentPath = '/' } = Astro.props;
+const lang = getLangFromUrl(currentPath);
+const t = useTranslations(lang);
+
+const homePath = getLocalizedPath('/', lang);
+const cataloguePath = `${homePath}#catalogue`;
+const changelogPath = getLocalizedPath('/changelog/', lang);
+const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === '/zh/';
 ---
-<header class:list={["site-header", { "site-header--over-hero": currentPath === "/" }]}>
+<header class:list={["site-header", { "site-header--over-hero": isHome }]}>
   <div class="site-header__inner">
-    <a class="site-brand" href="/" aria-label="Acrazie Skills, accueil">
+    <a class="site-brand" href={homePath} aria-label={t('nav.brandAria')}>
       <span class="site-brand__mark" aria-hidden="true">a<span>.</span></span>
       <span>Acrazie <strong>Skills</strong></span>
     </a>
-    <nav class="site-nav" aria-label="Navigation principale">
-      <a href="/#catalogue" aria-current={currentPath === '/' ? 'page' : undefined}>Catalogue</a>
-      <a href="/changelog/" aria-current={currentPath.startsWith('/changelog') ? 'page' : undefined}>Changelog</a>
+    <nav class="site-nav" aria-label={t('nav.catalogue')}>
+      <a href={cataloguePath} aria-current={isHome ? 'page' : undefined}>{t('nav.catalogue')}</a>
+      <a href={changelogPath} aria-current={currentPath.includes('/changelog') ? 'page' : undefined}>{t('nav.changelog')}</a>
     </nav>
     <div class="site-header__links">
-      <a class="site-header__skills" href="https://skills.sh/Acrazie/skills" target="_blank" rel="noopener noreferrer">skills.sh <TablerIcon name="arrow-up-right" size={15} /></a>
-      <a class="site-header__github" href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer" aria-label="Dépôt GitHub Acrazie Skills"><TablerIcon name="brand-github" size={19} /></a>
+      <LanguageSwitcher currentLang={lang} currentPath={currentPath} />
+      <a class="site-header__skills" href="https://skills.sh/Acrazie/skills" target="_blank" rel="noopener noreferrer" aria-label={t('nav.skillsShAria')}>skills.sh <TablerIcon name="arrow-up-right" size={15} /></a>
+      <a class="site-header__github" href="https://github.com/Acrazie/skills" target="_blank" rel="noopener noreferrer" aria-label={t('nav.githubAria')}><TablerIcon name="brand-github" size={19} /></a>
     </div>
   </div>
 </header>
+
