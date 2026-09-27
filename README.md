@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="docs/public/images/pixel-cloud-hero.webp" alt="Acrazie Skills Pixel Cloud Hero" width="100%" />
+  <img src="site/public/images/pixel-cloud-hero.webp" alt="Acrazie Skills Pixel Cloud Hero" width="100%" />
 </p>
 
 <h1 align="center">
-  <img src="docs/public/logo.svg" alt="Acrazie Skills logo" width="32" height="32" valign="middle" /> Acrazie Skills
+  <img src="site/public/logo.svg" alt="Acrazie Skills logo" width="32" height="32" valign="middle" /> Acrazie Skills
 </h1>
 
 <p align="center">
@@ -90,7 +90,8 @@ skills/
 │   │   └── openai.yaml       # Codex UI metadata and invocation policy
 │   ├── references/           # Detailed domain guides, schemas, recipes
 │   └── assets/               # Visual assets and logos
-docs/                         # Astro documentation site (skills.acrazie.dev)
+site/                         # Astro documentation site (skills.acrazie.dev)
+docs/                         # Architecture decisions and repository documentation
 scripts/                      # Verification hooks and linking utilities
 ```
 
