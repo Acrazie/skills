@@ -216,8 +216,8 @@ main { flex: 1; min-width: 0; }
 .catalogue-search:focus-within { border-color: #f1f0ed; }
 .catalogue-search input { min-width: 0; flex: 1; border: 0; outline: 0; background: transparent; color: white; font: 400 14px Inter, sans-serif; caret-color: #f0efeb; }
 .catalogue-search input::placeholder { color: #a8a7a4; opacity: 1; }
-.catalogue-search kbd { border: 1px solid #777673; padding: 2px 6px; font: 500 11px "JetBrains Mono", monospace; color: #c7c6c2; }
-.catalogue-filters { display: flex; gap: 22px; overflow-x: auto; border-bottom: 1px solid #484848; margin-top: 26px; scrollbar-width: thin; }
+.catalogue-filters { display: flex; gap: 22px; overflow-x: auto; overflow-y: hidden; border-bottom: 1px solid #484848; margin-top: 26px; scrollbar-width: none; -ms-overflow-style: none; }
+.catalogue-filters::-webkit-scrollbar { display: none; }
 .filter-tag { flex: none; appearance: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 0 0 15px; background: none; color: #bcbab6; font: 500 12px Inter, sans-serif; cursor: pointer; }
 .filter-tag:hover, .filter-tag[aria-pressed="true"] { color: #fff; }
 .filter-tag[aria-pressed="true"] { border-color: #f0efec; }

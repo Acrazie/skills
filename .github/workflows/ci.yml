@@ -131,6 +131,12 @@ jobs:
           curl --fail --silent --head "$base_url/" | grep --ignore-case --quiet "content-security-policy:"
           test "$(docker inspect --format '{{.Config.User}}' acrazie-skills-ci)" = "101:101"
 
+          # Verify redirection without trailing slash uses relative redirect and does not leak port 8080
+          changelog_loc=$(curl --silent --head "$base_url/changelog" | awk -F': ' 'tolower($1) == "location" {print $2}' | tr -d '\r\n')
+          test "$changelog_loc" = "/changelog/"
+          skills_loc=$(curl --silent --head "$base_url/skills/canvas-banner-designer-acrazie" | awk -F': ' 'tolower($1) == "location" {print $2}' | tr -d '\r\n')
+          test "$skills_loc" = "/skills/canvas-banner-designer-acrazie/"
+
   deploy-production:
     name: deploy-production
     needs:
