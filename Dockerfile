@@ -1,20 +1,20 @@
-FROM node:25-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4 AS build
+FROM oven/bun:1-alpine AS build
 
 WORKDIR /app
 
-COPY docs/package.json docs/package-lock.json ./docs/
-RUN npm ci --prefix docs
+COPY site/package.json site/bun.lock ./site/
+RUN cd site && bun install --frozen-lockfile
 
-COPY docs ./docs
+COPY site ./site
 COPY skills ./skills
 COPY CHANGELOG.md ./CHANGELOG.md
 
-RUN npm run build --prefix docs
+RUN cd site && bun run build
 
 FROM nginxinc/nginx-unprivileged:alpine@sha256:b54ac358b83fc6c965793fd271839b4ea4cdb6e99895bb19618cbc2ca152d972 AS runtime
 
 COPY --chown=101:101 nginx.conf /etc/nginx/nginx.conf
-COPY --from=build --chown=101:101 /app/docs/dist/ /usr/share/nginx/html/
+COPY --from=build --chown=101:101 /app/site/dist/ /usr/share/nginx/html/
 
 USER 101:101
 EXPOSE 8080

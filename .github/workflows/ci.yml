@@ -81,25 +81,23 @@ jobs:
       - name: Lint GitHub Actions workflows
         uses: raven-actions/actionlint@v2
 
-  build-docs:
-    name: build-docs
+  build-site:
+    name: build-site
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: docs/package-lock.json
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm ci --prefix docs
+        run: cd site && bun install --frozen-lockfile
 
-      - name: Build documentation
-        run: npm run build --prefix docs
+      - name: Build site
+        run: cd site && bun run build
 
       - name: Build production container
         run: docker build --target runtime --tag acrazie-skills-ci .
@@ -142,7 +140,7 @@ jobs:
     needs:
       - validate-skills
       - lint-workflows
-      - build-docs
+      - build-site
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 5

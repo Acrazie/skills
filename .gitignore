@@ -42,9 +42,11 @@ skills/*-workspace/
 .hermes/
 **/.hermes/
 
-# Node & Astro
+# Node, Bun & Astro
 node_modules/
 .astro/
+site/.astro/
+site/dist/
 docs/dist/
 
 

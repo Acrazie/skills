@@ -26,7 +26,7 @@ A formal, read-only technical evaluation artifact created under `docs/audits/` v
 ## Documentation & Deployment Platform
 
 **Skills Documentation Site**:
-The Astro-powered documentation portal compiled into a containerized static site served by an unprivileged Nginx process on port 8080 (`skills.acrazie.dev`).
+The Astro-powered documentation portal located in `site/` and built with Bun, compiled into a containerized static site served by an unprivileged Nginx process on port 8080 (`skills.acrazie.dev`).
 
 **Site UI Chrome**:
 The localized navigational, filtering, search, and layout elements of the Skills Documentation Site presented in the user's selected language.

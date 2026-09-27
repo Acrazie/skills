@@ -40,9 +40,20 @@ function determineCategory(id: string): { category: string; icon: string } {
   return { category: 'Agent & DX Tools', icon: 'tools' };
 }
 
+function getRepoRoot(): string {
+  const cwd = process.cwd();
+  if (fs.existsSync(path.join(cwd, 'skills'))) {
+    return cwd;
+  }
+  if (fs.existsSync(path.join(cwd, '../skills'))) {
+    return path.resolve(cwd, '..');
+  }
+  return cwd;
+}
+
 export function getAllSkills(): SkillData[] {
   // Resolve skills folder relative to project
-  const skillsDir = path.resolve(process.cwd(), '../skills');
+  const skillsDir = path.join(getRepoRoot(), 'skills');
   if (!fs.existsSync(skillsDir)) {
     return [];
   }
@@ -128,7 +139,7 @@ export function getLocalizedSkillById(id: string, lang: Locale = 'en'): SkillDat
 }
 
 export function getChangelog(): string {
-  const changelogPath = path.resolve(process.cwd(), '../CHANGELOG.md');
+  const changelogPath = path.join(getRepoRoot(), 'CHANGELOG.md');
   if (!fs.existsSync(changelogPath)) {
     return '# Changelog\n\nNo changelog found.';
   }

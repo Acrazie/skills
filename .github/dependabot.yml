@@ -12,16 +12,16 @@ updates:
       - "github-actions"
     open-pull-requests-limit: 5
 
-  # Maintain documentation dependencies
-  - package-ecosystem: "npm"
-    directory: "/docs"
+  # Maintain portal dependencies
+  - package-ecosystem: "bun"
+    directory: "/site"
     schedule:
       interval: "weekly"
     commit-message:
       prefix: "chore(deps)"
     labels:
       - "dependencies"
-      - "documentation"
+      - "site"
     open-pull-requests-limit: 5
 
   # Maintain production container images
