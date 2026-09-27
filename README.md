@@ -1,9 +1,24 @@
-# Acrazie Skills
+<p align="center">
+  <img src="docs/public/images/pixel-cloud-hero.webp" alt="Acrazie Skills Pixel Cloud Hero" width="100%" />
+</p>
 
-[![skills.sh](https://skills.sh/b/Acrazie/skills)](https://skills.sh/Acrazie/skills)
-[![Documentation](https://img.shields.io/badge/docs-skills.acrazie.dev-black?style=flat)](https://skills.acrazie.dev)
+<h1 align="center">
+  <img src="docs/public/logo.svg" alt="Acrazie Skills logo" width="32" height="32" valign="middle" /> Acrazie Skills
+</h1>
 
-Focused skills for AI coding agents. Each skill owns one concrete workflow and keeps its instructions, UI metadata, and supporting references together.
+<p align="center">
+  <a href="https://skills.sh/Acrazie/skills"><img src="https://skills.sh/b/Acrazie/skills" alt="skills.sh" /></a>
+  <a href="https://skills.acrazie.dev"><img src="https://img.shields.io/badge/docs-skills.acrazie.dev-black?style=flat" alt="Documentation" /></a>
+  <a href="https://github.com/Acrazie/skills/releases"><img src="https://img.shields.io/github/v/release/Acrazie/skills?style=flat&color=black" alt="Release" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-black?style=flat" alt="License" /></a>
+</p>
+
+<p align="center">
+  <strong>Focused, production-ready skills for AI coding agents.</strong><br />
+  Each skill owns one concrete workflow, maintaining its authoritative instructions, UI metadata, and domain references together.
+</p>
+
+---
 
 ## Install
 
@@ -13,160 +28,101 @@ Browse and select skills interactively:
 npx skills add Acrazie/skills
 ```
 
-Install one skill directly:
+Install a specific skill directly:
 
 ```bash
+npx skills add Acrazie/skills@<skill-id>
+```
+
+#### Examples
+
+```bash
+# Architecture & README design
 npx skills add Acrazie/skills@repository-readme-architect-acrazie
-npx skills add Acrazie/skills@audit-repository-acrazie
-npx skills add Acrazie/skills@repo-modernizer-acrazie
-npx skills add Acrazie/skills@svg-icon-designer-acrazie
-npx skills add Acrazie/skills@svg-banner-designer-acrazie
-npx skills add Acrazie/skills@skill-refiner-acrazie
-npx skills add Acrazie/skills@multi-agent-planner-acrazie
+
+# Jenkins CI/CD pipeline automation
 npx skills add Acrazie/skills@jenkins-devops-acrazie
-npx skills add Acrazie/skills@jenkins-js-ts-acrazie
-npx skills add Acrazie/skills@jenkins-python-acrazie
-npx skills add Acrazie/skills@jenkins-rust-acrazie
-npx skills add Acrazie/skills@jenkins-go-acrazie
-npx skills add Acrazie/skills@jenkins-symfony-php-acrazie
+
+# Interactive HTML canvas banners
+npx skills add Acrazie/skills@canvas-banner-designer-acrazie
+
+# Autonomous git commit & PR shipping
+npx skills add Acrazie/skills@git-ship-acrazie
 ```
 
-The CLI detects supported coding agents and lets you choose where to install each skill.
+The CLI detects your coding agent (Hermes, Codex, Claude Code, Antigravity, Cursor, etc.) and configures the skill automatically.
 
-## Skills
+---
 
-### [Repository README Architect / Acrazie](skills/repository-readme-architect-acrazie/SKILL.md)
+## Skills Catalog
 
-<p align="center">
-  <img src="skills/repository-readme-architect-acrazie/assets/repository-readme-architect-logo.svg" alt="README Architect geometric wordmark" width="520" />
-</p>
+Explore all 17 skills below, or browse the interactive documentation portal at [skills.acrazie.dev](https://skills.acrazie.dev) with full references, search, and multi-language support.
 
-Design, create, restructure, or update a repository's primary README through repository inspection, an adaptive decision-tree interview, architecture options, and an approval-gated edit.
+| Skill | Category | Invocation | Description |
+| :--- | :--- | :--- | :--- |
+| [**repository-readme-architect**](skills/repository-readme-architect-acrazie/SKILL.md) | Architecture & Review | `$repository-readme-architect-acrazie` | Design, restructure, or update a repository primary README via decision-tree interviews. |
+| [**audit-repository**](skills/audit-repository-acrazie/SKILL.md) | Architecture & Review | `$audit-repository-acrazie` | Audit a precise technical decision, integration, stack choice, or subsystem in an existing repo. |
+| [**jenkins-devops**](skills/jenkins-devops-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-devops-acrazie` | Design, modernize, and diagnose repository-owned Jenkins CI/CD pipelines as code. |
+| [**jenkins-go**](skills/jenkins-go-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-go-acrazie` | Specialist: Inspect Go modules, workspaces, `golangci-lint`, and test targets for Jenkins. |
+| [**jenkins-js-ts**](skills/jenkins-js-ts-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-js-ts-acrazie` | Specialist: Inspect Node.js/Bun runtimes, package managers, and scripts for Jenkins. |
+| [**jenkins-python**](skills/jenkins-python-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-python-acrazie` | Specialist: Inspect Python packaging (`uv`, `poetry`), Pytest, and linters for Jenkins. |
+| [**jenkins-rust**](skills/jenkins-rust-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-rust-acrazie` | Specialist: Inspect Cargo workspaces, `--locked` builds, Clippy, and test targets for Jenkins. |
+| [**jenkins-symfony-php**](skills/jenkins-symfony-php-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-symfony-php-acrazie` | Specialist: Inspect Composer lockfiles, Symfony console tasks, and PHPUnit for Jenkins. |
+| [**svg-icon-designer**](skills/svg-icon-designer-acrazie/SKILL.md) | Design & Visuals | `$svg-icon-designer-acrazie` | Design original SVG icons and logos through iterative drafts, ASCII previews, and exports. |
+| [**svg-banner-designer**](skills/svg-banner-designer-acrazie/SKILL.md) | Design & Visuals | `$svg-banner-designer-acrazie` | Design custom vector SVG banners, social cards, and platform header graphics. |
+| [**canvas-banner-designer**](skills/canvas-banner-designer-acrazie/SKILL.md) | Design & Visuals | `$canvas-banner-designer-acrazie` | Build animated HTML Canvas banners, web heroes, and interactive ambient backdrops. |
+| [**immersive-hero-designer**](skills/immersive-hero-designer-acrazie/SKILL.md) | Design & Visuals | `$immersive-hero-designer-acrazie` | Design and build complete immersive web hero sections (video, 3D, Canvas, or CSS). |
+| [**github-repo-init**](skills/github-repo-init-acrazie/SKILL.md) | Git & Governance | `$github-repo-init-acrazie` | Scaffold production-ready GitHub repositories with stack setup, CI/CD, and governance files. |
+| [**git-ship**](skills/git-ship-acrazie/SKILL.md) | Git & Governance | `$git-ship-acrazie` | Finalize, commit, push, and open Pull Requests strictly adhering to repository Git rules. |
+| [**multi-agent-planner**](skills/multi-agent-planner-acrazie/SKILL.md) | Agent & DX Tools | `$multi-agent-planner-acrazie` | Plan single-agent vs multi-agent execution and generate verified copy-paste workflows. |
+| [**repo-modernizer**](skills/repo-modernizer-acrazie/SKILL.md) | Agent & DX Tools | `$repo-modernizer-acrazie` | Audit outdated tools/runtimes and guide safe upgrades across 6 thematic pillars. |
+| [**skill-refiner**](skills/skill-refiner-acrazie/SKILL.md) | Agent & DX Tools | `$skill-refiner-acrazie` | Collect structured user feedback on a skill and record append-only ADR journals. |
 
-```text
-$repository-readme-architect-acrazie
-```
+---
 
-### [Audit Repository / Acrazie](skills/audit-repository-acrazie/SKILL.md)
-
-<p align="center">
-  <img src="skills/audit-repository-acrazie/assets/audit-repository-logo.svg" alt="AUDIT-REPO panoramic geometric wordmark" width="520" />
-</p>
-
-Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. This skill requires explicit invocation and does not perform general, security, documentation, diff, PR, or multi-repository audits.
-
-```text
-$audit-repository-acrazie
-```
-
-### [Repo Modernizer / Acrazie](skills/repo-modernizer-acrazie/SKILL.md)
-
-<p align="center">
-  <img src="skills/repo-modernizer-acrazie/assets/repo-modernizer-logo.svg" alt="MODERNIZE geometric wordmark" width="520" />
-</p>
-
-Audit an existing repository setup, identify outdated tools, frameworks, and runtimes, and guide safe, step-by-step modernizations, upgrades, and paradigm shifts across 6 thematic pillars with automated validation and rollback safeguards.
-
-```text
-$repo-modernizer-acrazie
-```
-
-### [SVG Icon Designer / Acrazie](skills/svg-icon-designer-acrazie/SKILL.md)
-
-<p align="center">
-  <img src="skills/svg-icon-designer-acrazie/assets/svg-icon-designer-logo.svg" alt="SVG-ICON Designer geometric wordmark" width="520" />
-</p>
-
-Design original icons through compact iterative concepts, detailed ASCII previews, selected-direction refinement, clean SVG production, and requested PNG or favicon exports.
-
-```text
-$svg-icon-designer-acrazie
-```
-
-### [SVG Banner Designer / Acrazie](skills/svg-banner-designer-acrazie/SKILL.md)
-
-<p align="center">
-  <img src="skills/svg-banner-designer-acrazie/assets/svg-banner-designer-logo.svg" alt="BANNER DESIGNER geometric wordmark" width="520" />
-</p>
-
-Design custom vector SVG banners, social cards, and header graphics with platform-specific safe zones, typography, and optional PNG exports.
-
-```text
-$svg-banner-designer-acrazie
-```
-
-### [Skill Refiner / Acrazie](skills/skill-refiner-acrazie/SKILL.md)
-
-<p align="center">
-  <img src="skills/skill-refiner-acrazie/assets/skill-refiner-logo.svg" alt="SKILL Refiner geometric wordmark" width="520" />
-</p>
-
-Collect structured feedback while testing one target skill, preserve observations in an append-only journal, and consolidate approved behavioral decisions into a living ADR without editing the target skill.
-
-```text
-$skill-refiner-acrazie
-```
-
-### [Multi-Agent Planner / Acrazie](skills/multi-agent-planner-acrazie/SKILL.md)
-
-<p align="center">
-  <img src="skills/multi-agent-planner-acrazie/assets/multi-agent-planner-logo.svg" alt="MULTI-AGENT-PLANNER panoramic geometric wordmark" width="520" />
-</p>
-
-Decide single-agent vs multi-agent execution through a short option-driven interview, then produce a verified copy-paste workflow for any coding-agent platform. This skill requires explicit invocation and plans only; it never spawns workers itself.
-
-```text
-$multi-agent-planner-acrazie
-```
-
-### [Jenkins DevOps / Acrazie](skills/jenkins-devops-acrazie/SKILL.md)
-
-Design, modernize, and diagnose repository-owned Jenkins CI/CD pipelines through evidence-first inspection, an approval-gated ADR, immutable artifact promotion, deployment safeguards, and explicit validation limits.
-
-```text
-$jenkins-devops-acrazie
-```
-
-### Stack Specialists (invoked by Jenkins DevOps)
-
-Complementary read-only specialists that inspect language-specific toolchains, frozen install commands, test reports, and cache keys:
-
-- **[Jenkins JS/TS Specialist / Acrazie](skills/jenkins-js-ts-acrazie/SKILL.md)**: Node.js and Bun runtimes, package managers (`pnpm`, `npm`, `yarn`, `bun`), and script targets.
-- **[Jenkins Python Specialist / Acrazie](skills/jenkins-python-acrazie/SKILL.md)**: Python environments (`uv`, `poetry`, `pipenv`, `pip`), Pytest, and linters.
-- **[Jenkins Rust Specialist / Acrazie](skills/jenkins-rust-acrazie/SKILL.md)**: Cargo workspaces, `--locked` builds, Clippy, and test targets.
-- **[Jenkins Go Specialist / Acrazie](skills/jenkins-go-acrazie/SKILL.md)**: Go modules, workspaces, `golangci-lint`, and test targets.
-- **[Jenkins Symfony / PHP Specialist / Acrazie](skills/jenkins-symfony-php-acrazie/SKILL.md)**: Composer lockfiles, Symfony console tasks, PHPUnit, and static analysis.
-
-## Naming
-
-Published skill IDs keep the function first for discovery and use `-acrazie` as a consistent author signature. The canonical source is `Acrazie/skills`.
-
-## Repository Structure
+## Monorepo Architecture
 
 ```text
 skills/
-├── repository-readme-architect-acrazie/
-├── audit-repository-acrazie/
-├── repo-modernizer-acrazie/
-├── github-repo-init-acrazie/
-├── svg-icon-designer-acrazie/
-├── svg-banner-designer-acrazie/
-├── skill-refiner-acrazie/
-├── multi-agent-planner-acrazie/
-├── jenkins-devops-acrazie/
-├── jenkins-js-ts-acrazie/
-├── jenkins-python-acrazie/
-├── jenkins-rust-acrazie/
-├── jenkins-go-acrazie/
-└── jenkins-symfony-php-acrazie/
+├── <skill-name>-acrazie/
+│   ├── SKILL.md              # Authoritative instructions and YAML frontmatter
+│   ├── agents/
+│   │   └── openai.yaml       # Codex UI metadata and invocation policy
+│   ├── references/           # Detailed domain guides, schemas, recipes
+│   └── assets/               # Visual assets and logos
+docs/                         # Astro documentation site (skills.acrazie.dev)
+scripts/                      # Verification hooks and linking utilities
 ```
 
-Each directory contains its `SKILL.md`, `agents/openai.yaml`, and only the references required by that workflow.
+### Conventions
 
-## Migrated Repositories
+- **Author Signature**: Every skill identifier and directory ends with `-acrazie` (canonical namespace: `Acrazie/skills`).
+- **Autonomy**: Each skill operates independently, containing all references needed for its workflow.
+- **Invocation Control**: User-invoked skills enforce explicit activation via `disable-model-invocation: true`.
 
-This monorepo supersedes the standalone `Acrazie/readme-architect` and `Acrazie/audit-repo` repositories.
+---
+
+## Local Development
+
+Symlink all skills locally into your installed agent directories (`~/.hermes/skills/`, `~/.agents/skills/`, `~/.gemini/config/skills/`, etc.):
+
+```bash
+./scripts/link-skills.sh
+```
+
+Pre-commit validation hooks can be executed directly:
+
+```bash
+./scripts/hooks/check-skill-structure.sh
+./scripts/hooks/validate-skills.sh skills/<skill-name>-acrazie/SKILL.md
+```
+
+---
 
 ## License
 
-[MIT](LICENSE)
+Distributed under the [MIT License](LICENSE).
+
+---
+
+<sub>*Historical Note: This monorepo supersedes the standalone `Acrazie/readme-architect` and `Acrazie/audit-repo` repositories.*</sub>
