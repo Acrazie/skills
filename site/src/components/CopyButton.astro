@@ -1,5 +1,6 @@
 ---
 import TablerIcon from './TablerIcon.astro';
+import { useTranslations, type Locale } from '../i18n/ui';
 
 interface Props {
   text: string;
@@ -7,16 +8,20 @@ interface Props {
   class?: string;
   size?: 'sm' | 'md';
   ariaLabel?: string;
+  lang?: Locale;
 }
 
-const { text, label, class: className = '', size = 'md', ariaLabel } = Astro.props;
+const { text, label, class: className = '', size = 'md', ariaLabel, lang = 'en' } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <button
   type="button"
   data-copy-text={text}
+  data-copy-success={t('copy.success')}
+  data-copy-error={t('copy.error')}
   class={`copy-btn inline-flex items-center gap-1.5 font-medium rounded-md border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-zinc-100 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-600 ${size === 'sm' ? 'px-2 py-1 text-xs' : 'px-3 py-1.5 text-sm'} ${className}`}
-  title="Copier dans le presse-papiers"
+  title={t('copy.title')}
   aria-label={ariaLabel}
 >
   <span class="icon-copy flex items-center">
@@ -51,7 +56,7 @@ const { text, label, class: className = '', size = 'md', ariaLabel } = Astro.pro
           iconCopy?.classList.add('hidden');
           iconCheck?.classList.remove('hidden');
           const status = btn.querySelector('.copy-status');
-          if (status) status.textContent = 'Commande copiée';
+          if (status) status.textContent = (btn as HTMLElement).dataset.copySuccess || '';
 
           setTimeout(() => {
             iconCopy?.classList.remove('hidden');
@@ -61,7 +66,7 @@ const { text, label, class: className = '', size = 'md', ariaLabel } = Astro.pro
         } catch (err) {
           console.error('Failed to copy to clipboard', err);
           const status = btn.querySelector('.copy-status');
-          if (status) status.textContent = 'Copie impossible. Sélectionnez la commande manuellement.';
+          if (status) status.textContent = (btn as HTMLElement).dataset.copyError || '';
         }
       });
     });

@@ -1,6 +1,6 @@
 ---
 import TablerIcon from './TablerIcon.astro';
-import { LOCALES, getLocalizedPath, type Locale } from '../i18n/ui';
+import { LOCALES, getLocalizedPath, useTranslations, type Locale } from '../i18n/ui';
 
 interface Props {
   currentLang: Locale;
@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { currentLang, currentPath } = Astro.props;
+const t = useTranslations(currentLang);
 
 const localesList: Locale[] = ['en', 'fr', 'zh'];
 ---
@@ -16,8 +17,8 @@ const localesList: Locale[] = ['en', 'fr', 'zh'];
   <button
     type="button"
     class="lang-switcher__btn"
-    aria-label="Changer de langue / Change language / 切换语言"
-    aria-haspopup="true"
+    aria-label={t('nav.selectLang')}
+    aria-controls="language-options"
     aria-expanded="false"
   >
     <TablerIcon name="world" size={15} class="lang-switcher__icon" />
@@ -25,14 +26,13 @@ const localesList: Locale[] = ['en', 'fr', 'zh'];
     <TablerIcon name="chevron-down" size={13} class="lang-switcher__arrow" />
   </button>
 
-  <div class="lang-switcher__dropdown" hidden role="menu">
+  <div id="language-options" class="lang-switcher__dropdown" hidden>
     {localesList.map((locale) => {
       const isCurrent = locale === currentLang;
       const targetUrl = getLocalizedPath(currentPath, locale);
       return (
         <a
           href={targetUrl}
-          role="menuitem"
           class:list={['lang-switcher__option', { 'lang-switcher__option--active': isCurrent }]}
           aria-current={isCurrent ? 'true' : undefined}
         >
@@ -94,7 +94,7 @@ const localesList: Locale[] = ['en', 'fr', 'zh'];
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    height: 1.85rem;
+    min-height: 44px;
     padding: 0 0.55rem;
     border-radius: 6px;
     background: rgba(24, 24, 27, 0.6);
@@ -146,6 +146,7 @@ const localesList: Locale[] = ['en', 'fr', 'zh'];
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    min-height: 44px;
     padding: 0.4rem 0.55rem;
     border-radius: 5px;
     color: #a1a1aa;
