@@ -41,8 +41,8 @@ The four-bar horizontal geometric glyph representing the Acrazie identity, rende
 *Avoid*: Skills logo, hamburger icon.
 
 **Adaptive Favicon**:
-The dynamic SVG favicon (`site/public/favicon.svg`) utilizing embedded `@media (prefers-color-scheme)` queries to invert the Brand Mark ink (`#fafafa` in dark mode, `#151515` in light mode) over a transparent background without container chrome.
-*Avoid*: Static favicon, themed icon container.
+The dual-file SVG favicon strategy (`site/public/favicon.svg` and `site/public/favicon-dark.svg`) synchronized via a client-side `matchMedia` listener, rendering the Brand Mark in `#151515` on light browser chrome and `#fafafa` on dark browser chrome over 100% transparent backgrounds without container chrome or DOM-level `.ico` references.
+*Avoid*: Static favicon, themed icon container, internal SVG media queries.
 
 **Skill Catalog Metadata**:
 The localized high-level properties of a skill (display title, category, concise summary) used for discovery and browsing on the portal.
