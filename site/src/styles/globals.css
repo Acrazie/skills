@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   :root {
@@ -9,7 +7,8 @@
   }
 
   body {
-    @apply bg-[#09090b] text-[#fafafa] antialiased selection:bg-zinc-800 selection:text-zinc-100;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
