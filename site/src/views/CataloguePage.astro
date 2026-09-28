@@ -15,6 +15,8 @@ const t = useTranslations(lang);
 const skills = getLocalizedSkills(lang);
 const allLabel = t('catalogue.allCategories');
 const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))];
+const countOne = t('catalogue.skillsCount')(1).replace('1', '{count}');
+const countMany = t('catalogue.skillsCount')(999).replace('999', '{count}');
 ---
 
 <BaseLayout
@@ -28,7 +30,7 @@ const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))]
         <h2 id="catalogue-title">{t('catalogue.title')}</h2>
         <p>{t('catalogue.subtitle')}</p>
       </div>
-      <p id="results-count" class="catalogue-section__count" data-lang={lang} aria-live="polite">
+      <p id="results-count" class="catalogue-section__count" data-count-one={countOne} data-count-many={countMany} aria-live="polite">
         {t('catalogue.skillsCount')(skills.length)}
       </p>
     </div>
@@ -92,7 +94,8 @@ const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))]
     const count = document.querySelector<HTMLElement>('#results-count');
     const reset = document.querySelector<HTMLButtonElement>('#reset-filters');
     const allLabel = filterContainer?.dataset.allLabel || 'All';
-    const lang = count?.dataset.lang || 'en';
+    const countOne = count?.dataset.countOne || '{count}';
+    const countMany = count?.dataset.countMany || '{count}';
     let activeCategory = allLabel;
 
     function filter() {
@@ -104,13 +107,7 @@ const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))]
         card.hidden = !(matchesCategory && matchesQuery);
         if (!card.hidden) visible++;
       }
-      if (count) {
-        if (lang === 'zh') {
-          count.textContent = `${visible} 个技能`;
-        } else {
-          count.textContent = `${visible} skill${visible === 1 ? '' : 's'}`;
-        }
-      }
+      if (count) count.textContent = (visible === 1 ? countOne : countMany).replace('{count}', String(visible));
       if (empty) empty.hidden = visible !== 0;
     }
 

@@ -355,8 +355,9 @@ main { flex: 1; min-width: 0; }
   .skill-heading, .page-heading { padding-bottom: 38px; margin-bottom: 38px; }
   .skill-heading h1, .page-heading h1 { font-size: clamp(3rem, 13vw, 4.4rem); }
   .skill-heading > p { font-size: 14px; }
-  .install-bar code { white-space: normal; overflow-wrap: anywhere; font-size: 10px; }
-  .install-bar .copy-btn { flex: none; max-width: 96px; }
+  .install-bar { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); }
+  .install-bar code { min-width: 0; white-space: nowrap; font-size: 12px; }
+  .install-bar .copy-btn { grid-column: 1 / -1; justify-content: center; border-left: 0; border-top: 1px solid #70706e; }
   .reading-layout { display: block; }
   .reading-sidebar { display: none; }
   .page-heading { display: block; }

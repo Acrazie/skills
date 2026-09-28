@@ -11,7 +11,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const changelogHtml = renderMarkdownWithHeadingOffset(getChangelog(), 1);
+const changelogHtml = renderMarkdownWithHeadingOffset(getChangelog().replace(/^# Changelog\s*\r?\n/, ''), 0);
 const backUrl = `${getLocalizedPath('/', lang)}#catalogue`;
 ---
 
