@@ -32,6 +32,18 @@ The Astro-powered documentation portal located in `site/` and built with Bun, co
 The localized navigational, filtering, search, and layout elements of the Skills Documentation Site presented in the user's selected language.
 *Avoid*: Application skin, site chrome.
 
+**Browser Color Scheme**:
+The user-agent and operating system display preference (`prefers-color-scheme: light` or `dark`) governing the client chrome (tab strip, window frame), independent of the site's fixed dark visual aesthetic.
+*Avoid*: Site theme, site dark mode.
+
+**Brand Mark**:
+The four-bar horizontal geometric glyph representing the Acrazie identity, rendered with `fill="currentColor"` in UI components and adaptive contrast in favicons.
+*Avoid*: Skills logo, hamburger icon.
+
+**Adaptive Favicon**:
+The dynamic SVG favicon (`site/public/favicon.svg`) utilizing embedded `@media (prefers-color-scheme)` queries to invert the Brand Mark ink (`#fafafa` in dark mode, `#151515` in light mode) over a transparent background without container chrome.
+*Avoid*: Static favicon, themed icon container.
+
 **Skill Catalog Metadata**:
 The localized high-level properties of a skill (display title, category, concise summary) used for discovery and browsing on the portal.
 *Avoid*: Prompt copy, skill specification.
