@@ -23,6 +23,20 @@ The interactive feedback workflow (`skill-refiner-acrazie`) that observes real s
 **Audit Record**:
 A formal, read-only technical evaluation artifact created under `docs/audits/` via `audit-repository-acrazie`.
 
+## Complementary Development Skills
+
+**Interview Foundation**:
+The reusable `interview-acrazie` skill that clarifies user-owned decisions and produces an approved Task Contract without executing the task.
+*Avoid*: Development orchestrator, feature implementer.
+
+**Feature Builder**:
+The explicitly user-invoked `feature-builder-acrazie` skill that realizes new application behavior from an approved Task Contract with criterion-linked evidence.
+*Avoid*: Bug fixer, refactorer, agent reviewer.
+
+**Task Contract**:
+The shared, approved outcome record used by the Interview Foundation and its callers, defining scope, observable success criteria, decisions, and expected evidence, with actual delivery evidence recorded separately.
+*Avoid*: ADR, interview transcript, implementation plan.
+
 ## Documentation & Deployment Platform
 
 **Skills Documentation Site**:
