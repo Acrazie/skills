@@ -1,0 +1,20 @@
+{
+  "skill_name": "interview-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "ambiguous-dashboard-export",
+      "prompt": "Dans un fixture temporaire avec un README indiquant seulement un prototype Python, utilise interview-acrazie : « Je veux pouvoir exporter les données du dashboard, fais quelque chose de simple. » Aucun contrat ni approbation. Réponds jusqu'à la prochaine interaction utilisateur, sans implémentation, réseau ou installation. Puis continue avec des réponses simulées explicites sur données, format, droits et cas limites ; propose le contrat complet et attends approbation avant enregistrement. Après approbation simulée limitée au fixture, enregistre-le et termine sans coder.",
+      "expected_output": "A fact-aware frontier interview with recommendations, followed by an explicitly approved persisted contract; no application implementation or speculative ADR.",
+      "files": [],
+      "expectations": [
+        "The first response does not silently decide material export behavior or implement code.",
+        "Questions address relevant unresolved intent and distinguish unavailable facts from user choices.",
+        "Dependent choices wait for their prerequisites; accepted answers are not repeatedly asked.",
+        "The final contract states scope, exclusions, observable criteria, expected evidence, and explicit approval evidence.",
+        "The contract is persisted only after its complete content and destination are approved, and handoff does not execute the task.",
+        "An ordinary request does not automatically generate an ADR or generic glossary definitions."
+      ]
+    }
+  ]
+}
