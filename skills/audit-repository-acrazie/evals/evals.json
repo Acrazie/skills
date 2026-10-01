@@ -1,0 +1,43 @@
+{
+  "skill_name": "audit-repository-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "native-capability-no-adoption",
+      "prompt": "Bounded fictional evaluation, not a live audit. Explicit human invocation: $audit-repository-acrazie. The human has approved this exact contract: determine whether to add a query-string package to one Node 22 repository for encoding repeated string parameters. Scope: selection only; no integration, installations, network, Git, or record writes. Fixture inspection establishes that the existing URLSearchParams implementation and its tests already cover all required repeated-value behavior; no object nesting is needed. A candidate is advertised as newer and has more features, but no unmet requirement or measured benefit is established. Treat supplied facts as fixture evidence, not current external facts. Follow the skill to produce the audit recommendation; do not request settled contract decisions again. Harness may save response only outside the fictional repository.",
+      "expected_output": "Recommend keeping native URLSearchParams and adding no dependency, based on actual requirements rather than novelty; distinguish recommendation from accepted decision and do not implement or write an Audit Record.",
+      "files": [],
+      "expectations": [
+        "Recommends keeping the existing native capability and adding no dependency.",
+        "Does not equate novelty or unused feature breadth with project benefit.",
+        "Preserves selection-only authority, no record write without exact write approval, and user acceptance before recording a decision."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "larger-tool-better-used-utility",
+      "prompt": "Bounded fictional evaluation, not a live audit. Explicit human invocation: $audit-repository-acrazie. Human approved this contract: compare development-tool choices A and B in one TypeScript repository for dead-code and duplication checks; both capabilities are required. Selection only, no integration, installations, network, Git, or record writes. Fixture evidence establishes both licenses are permitted, both support actual Node/TS versions, no known blocking advisory is identified, and upstream support/release evidence is adequate for both. Reproducible runs on identical fixture revision/hardware/input show A plus the required companion uses 24 MB installed, 210 MB peak memory and 9 seconds CI; B alone uses 32 MB installed, 150 MB peak memory and 3 seconds CI, meets both required checks, and removes companion configuration/custom glue. B's extra unused visualization is not a benefit. Both fit the established 40 MB installed/250 MB memory/15 second CI budgets. Neither ships any code or outputs to production. Treat facts as synthetic measurements, not real vendor results. Follow the skill to recommend one choice with alternatives and trade-offs; settled contract needs no interview. Harness may save response only outside fictional repository.",
+      "expected_output": "Prefer B despite larger installed footprint, explain proportional real utility and trade-offs, compare combined A cost, distinguish local/CI from absent production cost, await decision acceptance and do not integrate.",
+      "files": [],
+      "expectations": [
+        "Recommends B despite its larger installed size, using required capabilities and combined alternative costs.",
+        "Distinguishes development/CI costs from production costs and does not credit unused visualization.",
+        "Uses supplied comparable fixture measurements without claiming a real-world benchmark or choosing by universal size threshold.",
+        "Makes recommendation pending user acceptance and performs no installation, integration, or record write."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "unknown-license-upstream-claim-service-boundary",
+      "prompt": "Bounded fictional evaluation, not a live audit. Explicit human invocation: $audit-repository-acrazie. Human approved this contract: choose a local parser library for one existing Node 22 commercial repository; permitted commercial redistribution is an elimination criterion, compatibility and representative throughput are decisive. No network, installation, repository writes, Git, or trial authorization. Candidate C has unverified redistribution permission; this is missing evidence, not a confirmed prohibition. Upstream says 100x faster in a published synthetic microbenchmark with different hardware/input; no representative project result exists. Candidate D is a tiny SDK for a hosted parsing service; provider selection is outside the approved scope. No candidate has established all gates and no native solution is proven sufficient. Treat supplied facts as fixture evidence. Produce current verdict and next action; do not silently expand into service selection. Harness may save response only outside fictional repository.",
+      "expected_output": "Block adoption on unknown licensing without inventing a violation; distinguish upstream claim from project measurement; exclude service selection despite tiny SDK; propose bounded separately authorized trial only after relevant gates can be resolved, with criteria and rollback/cleanup.",
+      "files": [],
+      "expectations": [
+        "Reports choice blocked by unknown elimination criterion, without asserting a proven license violation.",
+        "Does not claim measured project speedup from the non-comparable upstream benchmark.",
+        "Keeps hosted service selection outside scope despite SDK size.",
+        "Does not run a trial or install anything; any proposed trial requires separate permission, success criteria, side effects and cleanup/rollback."
+      ]
+    }
+  ]
+}

@@ -64,6 +64,12 @@ production deployment; repository Git permissions apply separately.
 
 ## Complementary backlog
 
+- An approved library, framework, and development-tool selection direction owned
+  by the existing `audit-repository-acrazie`, not a new skill. See
+  [the selection ideation](library-selection-ideation.md) for scope, cost/utility
+  criteria, evidence requirements, and approval boundaries. This is a decision
+  specialist alongside implementation skills, not an orchestrator. The selection
+  reference records the subsequent scoped enrichment and its local validation.
 - A dedicated bug-resolution workflow with reproduction, root-cause evidence, and
   regression tests; distinct from adding new behavior.
 - A behavior-preserving refactor workflow with invariants and characterization
