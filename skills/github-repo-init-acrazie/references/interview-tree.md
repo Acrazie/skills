@@ -13,9 +13,12 @@ Use this decision map to interview the user adaptively before any scaffolding oc
    - If the repository is already populated or initialized, settle known decisions as established facts and prune redundant questions according to the table below.
 2. **Progressive Rounds (DEC-002)**:
    - Never dump all interview themes in a single monolithic questionnaire. Structure the interaction into at most 2 to 3 logical rounds (Identity & Stack -> Quality & CI/CD -> Workflow & DX).
-3. **Always Recommend with Rationale**:
+3. **Current Discovery, Not Template Defaults**:
+   - Read [tool-selection.md](tool-selection.md) before each unresolved package/library/tool choice; use current official evidence and include retaining the current approach or no dependency. Preserve settled choices.
+   - Read [github-settings.md](github-settings.md) before proposing Git/GitHub configuration; inventory relevant setting families and access/plan/organization limits, not only `gh repo create` flags.
+4. **Always Recommend with Rationale**:
    - For every question asked, state available options and provide an explicit recommended default with a concise justification.
-4. **Shared Blueprint Approval (DEC-003)**:
+5. **Shared Blueprint Approval (DEC-003)**:
    - When all rounds are completed, synthesize a single **Initialization Blueprint** (bulleted summary + visual ASCII directory structure) and require explicit user sign-off before executing any mutating shell commands or writing files.
 
 ---
@@ -24,13 +27,13 @@ Use this decision map to interview the user adaptively before any scaffolding oc
 
 | Artifact / Environment Detected | Established Fact | Pruned Interview Questions |
 |---|---|---|
-| `pyproject.toml`, `requirements.txt`, `Pipfile` | Stack is **Python** | Do NOT ask between JS/TS, Python, Go, Rust. Recommend `uv` and `Ruff`. |
-| `package.json`, `tsconfig.json` | Stack is **TypeScript/JavaScript** | Do NOT ask between JS/TS, Python, Go, Rust. Recommend `pnpm` and `Biome`. |
-| `go.mod` | Stack is **Go** | Do NOT ask for general stack choice. Recommend `golangci-lint`. |
-| `Cargo.toml` | Stack is **Rust** | Do NOT ask for general stack choice. Recommend `clippy`. |
+| `pyproject.toml`, `requirements.txt`, `Pipfile` | Stack is **Python** | Do NOT ask between JS/TS, Python, Go, Rust. Preserve detected package manager/tools; research only unresolved choices. |
+| `package.json`, `tsconfig.json` | Stack is **TypeScript/JavaScript** | Do NOT ask between JS/TS, Python, Go, Rust. Preserve detected package manager/tools; research only unresolved choices. |
+| `go.mod` | Stack is **Go** | Do NOT ask for general stack choice. Preserve detected tooling; research unresolved quality-tool choices. |
+| `Cargo.toml` | Stack is **Rust** | Do NOT ask for general stack choice. Preserve detected tooling; research unresolved quality-tool choices. |
 | `git remote -v` contains `origin` | Remote repository already exists | Do NOT ask to create a new remote with `gh repo create`. Just confirm keeping `origin`. |
 | `.github/workflows/ci.yml` exists | CI workflow already configured | Do NOT ask if CI is needed. Ask whether to standardize / upgrade existing CI. |
-| `biome.json`, `ruff.toml`, `.eslintrc*` | Linter/formatter already chosen | Do NOT ask to choose between linters. Propose keeping current tool. |
+| `biome.json*`, `eslint.config.*`, `.eslintrc*`, `.prettierrc*`, `prettier.config.*`, `.oxlintrc.json`, `oxlint.config.*`, `.oxfmtrc.json*`, `oxfmt.config.*`, `ruff.toml`, manifest tool sections/scripts | Linter/formatter already chosen | Do NOT ask to choose between linters. Propose keeping current tool. |
 | Directory non-empty & git initialized | Target path is current repo (`.`) | Do NOT ask to create a new subfolder unless explicitly requested. |
 
 ---
@@ -65,7 +68,7 @@ Use this decision map to interview the user adaptively before any scaffolding oc
   - Go module (`go mod init`) with standard Go tooling.
   - Rust binary or library (`cargo`) with Cargo.
   - Custom / Stack-Agnostic (empty skeleton or custom command).
-- **Recommendation**: Stack-specific modern standard (`uv` for Python, `pnpm` + Vite for JS/TS, standard toolchains for Go/Rust).
+- **Recommendation**: Research current stack-compatible options first; justify runtime/package-manager/scaffold choices from project constraints. Preserve authoritative manifests and explicit choices.
 - **Pruning Rule**: Prune entirely if an authoritative manifest (`pyproject.toml`, `package.json`, `go.mod`, `Cargo.toml`) was detected during Step 1.
 
 ---
@@ -75,17 +78,17 @@ Use this decision map to interview the user adaptively before any scaffolding oc
 #### 2.1 Git Hooks Manager
 - **Question**: Which Git hook manager would you like to configure?
 - **Options**: **Lefthook** | Husky | pre-commit | None.
-- **Recommendation**: **Lefthook** (language-agnostic, ultra-fast Go binary, zero-dependency pre-commit runner).
+- **Recommendation**: Compare current compatible managers and no-hooks mode. Lefthook is one language-agnostic candidate; verify installation/runtime and integration costs before recommending.
 - **Pruning Rule**: Prune if `lefthook.yml`, `.husky/`, or `.pre-commit-config.yaml` is already present.
 
 #### 2.2 Linter & Formatter
 - **Question**: Which linter and code formatter should be configured?
 - **Options**:
-  - *JS/TS*: **Biome** (recommended: 30x faster, zero config fatigue) vs ESLint + Prettier.
-  - *Python*: **Ruff** (recommended: Rust-powered, all-in-one linter & formatter) vs Black/Flake8.
+  - *JS/TS*: **Oxlint + Oxfmt**, **Biome**, **ESLint + Prettier**, and other credible candidates discovered from current official sources. Verify required rules/plugins, type-aware checks, framework syntax, formats and editor/CI support; do not assume one replaces all others.
+  - *Python*: Ruff vs Black/Flake8 and other currently relevant candidates; verify required coverage and runtime compatibility.
   - *Go*: `golangci-lint` + `gofmt`.
   - *Rust*: `clippy` + `rustfmt`.
-- **Recommendation**: **Biome** for JS/TS; **Ruff** for Python; native linters for Go/Rust.
+- **Recommendation**: Derive one contextual recommendation from the current comparison, not a fixed winner. Separate upstream benchmark claims from comparable observed results; no unsourced speed multiplier. Research other stacks and all other tooling choices with the same method.
 - **Pruning Rule**: Prune if already configured in existing repo files.
 
 #### 2.3 Commit Linting & Conventions
@@ -98,12 +101,18 @@ Use this decision map to interview the user adaptively before any scaffolding oc
 - **Question**: Which automated GitHub Actions workflows do you want to enable?
 - **Options**:
   - Automated CI (`.github/workflows/ci.yml`: lint, typecheck, test, build).
-  - Automated Releases: **Release Please** (recommended) | Changesets | Tag-based | None.
+  - Automated Releases: Release Please | Changesets | Tag-based | None | other current compatible options.
   - Security & Dependency audits: Dependabot (`.github/dependabot.yml`) | None.
-- **Recommendation**: Automated CI + **Release Please** (Google Action automating changelogs and semver tags).
+- **Recommendation**: Compare current options against deployment/release needs and selected commit policy. Check Actions enablement/allow-list, `GITHUB_TOKEN` job scopes and whether automation may create PRs; do not assume a workflow file grants those permissions.
 - **Pruning Rule**: If `.github/workflows/ci.yml` or `release-please.yml` already exists, offer to update/standardize instead of asking whether to create them from scratch.
 
-#### 2.5 Documentation & Governance
+#### 2.5 GitHub Settings & Permissions
+- **Question**: Which relevant repository options from the discovered inventory should be preserved, configured or deferred?
+- **Options**: Access/teams; Actions defaults, allowed actions and fork policy; branch/tag rulesets and checks/reviews; merge controls; security/dependency features; environments/deployment gates; repository metadata/features. See [github-settings.md](github-settings.md) for discovery sources and limits.
+- **Recommendation**: Least privilege and existing organization policy first; offer useful available options with rationale, consequences and required authority. Distinguish unavailable from inaccessible/unverified. Do not request every possible toggle or silently enable paid/security/access changes.
+- **Pruning Rule**: Prune settled choices, not discovery of effective settings. For local-only mode skip remote settings; for a new remote mark actual values pending post-creation inspection.
+
+#### 2.6 Documentation & Governance
 - **Question**: Which repository governance and documentation files should be generated?
 - **Options**:
   - Standard governance suite (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` [MIT], `docs/git-workflow.md`, `AGENTS.md` [linking to `docs/git-workflow.md`], `.github/ISSUE_TEMPLATE/`, `PULL_REQUEST_TEMPLATE.md`).
@@ -171,7 +180,8 @@ Once all rounds are resolved, compile the agreed configuration into a concise, s
 - **Parallel Dev Workflow**: Situational worktrees (`.worktrees/` in `.gitignore`, `scripts/worktree.sh`), if selected
 - **Git Delivery Policy**: Reviewed targeted staging; coherent commits; approval before push/PR; PR target `main` and Draft default, if selected
 - **Policy Conflicts**: <source, rule, consequence, user decision; omit when none>
-- **Quality & Hooks**: Lefthook + Biome + Commitlint (Conventional Commits)
+- **Quality & Hooks**: Lefthook + Biome + Commitlint (Conventional Commits; illustrative approved choice, not default)
+- **Evidence & GitHub Settings**: Dated tooling comparison; current/proposed settings, authority/plan limits, approved/deferred changes, and readback checks from the inventory
 - **CI/CD Actions**:
   - `ci.yml`: Lint, typecheck, test, build on PR/push
   - `release-please.yml`: Automated semver releases & changelogs

@@ -1,6 +1,6 @@
 # Tooling Recipes: Hooks, Linters, and Quality Guards
 
-Configuration recipes for code quality tools, git hooks, and linters.
+Configuration recipes for code quality tools, git hooks, and linters. Read [tool-selection.md](tool-selection.md) before choosing any tool. These are examples, not defaults: verify current package versions, CLI help, configuration schemas and compatibility before execution; use the approved package manager and keep hooks/scripts/CI consistent.
 
 ---
 
@@ -75,17 +75,17 @@ echo "pnpm lint" > .husky/pre-commit
 
 ## 2. Linters & Formatters
 
-### 2.1 Biome (Recommended for JS/TS)
+### 2.1 Biome (When Selected)
 Install:
 ```bash
 pnpm add -D --save-exact @biomejs/biome
 pnpm biome init
 ```
 
-Optimized `biome.json`:
+Example `biome.json`: generate with the selected version first and use its schema; merge only approved settings. The placeholder below is not executable as-is:
 ```json
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/<selected-version>/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -148,6 +148,48 @@ export default tseslint.config(
   "tabWidth": 2
 }
 ```
+
+### 2.3 Oxlint + Oxfmt (When Selected)
+
+Oxlint is the linter; Oxfmt is the formatter. Verify required rules/plugins, type-aware linting, framework/file support and Oxfmt unsupported features in current official docs before treating the pair as a replacement for an existing setup. Keep any complementary tool only for a demonstrated coverage gap.
+
+Example for an approved pnpm project (verify compatible versions first):
+```bash
+pnpm add -D --save-exact oxlint oxfmt
+pnpm exec oxlint --init
+pnpm exec oxfmt --init
+```
+
+Merge into existing `package.json` scripts; do not replace unrelated scripts:
+```json
+{
+  "scripts": {
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check"
+  }
+}
+```
+
+Initialize and review `.oxlintrc.json` and `.oxfmtrc.json` (or supported equivalent for the chosen versions); configure actual source scope, rules and generated-file ignores. Type-aware linting may need additional documented setup/dependencies; it does not replace a required TypeScript typecheck. Do not enable dangerous fixes implicitly.
+
+For approved Lefthook integration, use check-only commands so formatting and linting do not race or restage unrelated work:
+```yaml
+pre-commit:
+  parallel: true
+  commands:
+    oxlint-check:
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}"
+      run: pnpm exec oxlint {staged_files}
+    oxfmt-check:
+      glob: "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts,json,jsonc,css,md,yaml,yml}"
+      run: pnpm exec oxfmt --check {staged_files}
+```
+
+Adapt globs and quoting to repository filenames and verified support; unsupported formats need an explicitly selected alternative. CI runs `pnpm run lint` and `pnpm run format:check`, never writing files. Oxfmt without `--check` writes files, so it is not a read-only validation command.
+
+Official sources: [Oxlint quickstart](https://oxc.rs/docs/guide/usage/linter/quickstart.html), [Oxfmt quickstart](https://oxc.rs/docs/guide/usage/formatter/quickstart.html), [compatibility matrix](https://oxc.rs/docs/guide/compatibility.html), [Oxfmt unsupported features](https://oxc.rs/docs/guide/usage/formatter/unsupported-features.html). Commands consulted on 2026-10-01; re-verify at use time.
 
 ---
 
