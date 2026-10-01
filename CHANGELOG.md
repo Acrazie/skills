@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.9.0](https://github.com/Acrazie/skills/compare/v1.8.0...v1.9.0) (2026-10-01)
+
+
+### Features
+
+* **product-critic:** add usage-led product critique skill ([#76](https://github.com/Acrazie/skills/issues/76)) ([01cd3e8](https://github.com/Acrazie/skills/commit/01cd3e8ebc9e9bccd0daf3ef6b59582f76b85979))
+* **test-retrofitter:** add scoped testing workflow ([#73](https://github.com/Acrazie/skills/issues/73)) ([9c7d0a4](https://github.com/Acrazie/skills/commit/9c7d0a41ddae8b35b4c71907f401c2af9e7f57b5))
+
+
+### Bug Fixes
+
+* **github-repo-init:** discover permissions and current tooling options ([#74](https://github.com/Acrazie/skills/issues/74)) ([a487478](https://github.com/Acrazie/skills/commit/a487478ed7a8ea915a0bacfa65d501b5e4864b49))
+
 ## [1.8.0](https://github.com/Acrazie/skills/compare/v1.7.0...v1.8.0) (2026-10-01)
 
 
