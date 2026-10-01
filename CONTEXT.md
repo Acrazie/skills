@@ -25,6 +25,10 @@ A formal, read-only technical evaluation artifact created under `docs/audits/` v
 
 ## Complementary Development Skills
 
+**Usage-led Product Critique**:
+A recommendation-only assessment of an existing product's features and codebase against user needs, verifiable benefits, simplicity, and total cost. It distinguishes reasons to retain, simplify, retire, or replace existing behavior from focused technical audits and tooling migrations.
+*Avoid*: Modernization for its own sake, implementation workflow, general code review.
+
 **Interview Foundation**:
 The reusable `interview-acrazie` skill that clarifies user-owned decisions and produces an approved Task Contract without executing the task.
 *Avoid*: Development orchestrator, feature implementer.
