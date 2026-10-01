@@ -1,0 +1,36 @@
+import type { Locale } from './ui';
+export const graphTranslations = {
+  en: {
+    nav: 'Skill map', title: 'Every skill. Its connections.', subtitle: 'Explore the workflows behind your agent. Follow a connection, open the instructions.',
+    search: 'Find a skill', reset: 'Recenter', zoomIn: 'Zoom in', zoomOut: 'Zoom out', pause: 'Pause signals', resume: 'Resume signals',
+    list: 'Skills', skills: 'skills', links: 'documented calls', hint: 'Drag to explore · Scroll to zoom · Select to read',
+    legend: 'Families', incoming: 'Called by', outgoing: 'Calls', conditional: 'Conditional', evidence: 'Source evidence',
+    none: 'No documented calls for this skill.', empty: 'No matching skills. Try another search.',
+    welcome: 'Follow the signal.', intro: 'Select a skill on the map or in the list to reveal its connections and read its complete instructions.',
+    notice: 'Connections describe explicit instructions, not live executions. Conditional calls depend on the skill’s rules and availability. Mere mentions and recommendations are excluded.',
+    details: 'Open full skill page', instructions: 'Instructions', close: 'Clear selection', loading: 'Loading map. The skill list and instructions remain available.',
+    error: 'Map unavailable. Use the skill list to explore the same instructions and connections.', results: 'matching skills', chosen: 'Selected skill',
+  },
+  fr: {
+    nav: 'Carte des skills', title: 'Chaque skill. Ses connexions.', subtitle: 'Explorez les workflows de votre agent. Suivez un lien, ouvrez les instructions.',
+    search: 'Trouver un skill', reset: 'Recentrer', zoomIn: 'Zoom avant', zoomOut: 'Zoom arrière', pause: 'Suspendre les signaux', resume: 'Reprendre les signaux',
+    list: 'Skills', skills: 'skills', links: 'appels documentés', hint: 'Glisser pour explorer · Défiler pour zoomer · Sélectionner pour lire',
+    legend: 'Familles', incoming: 'Appelé par', outgoing: 'Invoque', conditional: 'Conditionnel', evidence: 'Passage source',
+    none: 'Aucun appel documenté pour ce skill.', empty: 'Aucun skill correspondant. Essayez une autre recherche.',
+    welcome: 'Suivez le signal.', intro: 'Sélectionnez un skill sur la carte ou dans la liste pour révéler ses connexions et lire ses instructions complètes.',
+    notice: 'Les connexions décrivent des instructions explicites, pas des exécutions en direct. Les appels conditionnels dépendent des règles et de la disponibilité du skill. Simples mentions et recommandations sont exclues.',
+    details: 'Ouvrir la fiche complète', instructions: 'Instructions', close: 'Effacer la sélection', loading: 'Chargement de la carte. Liste et instructions restent accessibles.',
+    error: 'Carte indisponible. Utilisez la liste pour consulter les mêmes instructions et connexions.', results: 'skills correspondants', chosen: 'Skill sélectionné',
+  },
+  zh: {
+    nav: '技能地图', title: '每个技能，各自的连接。', subtitle: '探索 Agent 的工作流，沿着连接查看完整指令。',
+    search: '查找技能', reset: '重新居中', zoomIn: '放大', zoomOut: '缩小', pause: '暂停信号', resume: '恢复信号',
+    list: '技能', skills: '个技能', links: '条有依据的调用', hint: '拖动探索 · 滚动缩放 · 选择阅读',
+    legend: '分类', incoming: '调用方', outgoing: '调用', conditional: '有条件', evidence: '来源片段',
+    none: '此技能没有已记录的调用。', empty: '没有匹配的技能，请尝试其他搜索。',
+    welcome: '跟随信号。', intro: '在地图或列表中选择技能，查看连接及其完整指令。',
+    notice: '连接表示明确的指令，而非实时执行。有条件的调用取决于技能的规则和可用性。单纯提及和推荐不计入连接。',
+    details: '打开完整技能页面', instructions: '指令', close: '清除选择', loading: '正在加载地图。技能列表和指令仍然可用。',
+    error: '地图不可用。请通过列表查看相同的指令和连接。', results: '个匹配技能', chosen: '已选择技能',
+  },
+} satisfies Record<Locale, Record<string, string>>;

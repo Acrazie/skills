@@ -40,7 +40,7 @@ function determineCategory(id: string): { category: string; icon: string } {
   return { category: 'Agent & DX Tools', icon: 'tools' };
 }
 
-function getRepoRoot(): string {
+export function getRepoRoot(): string {
   const cwd = process.cwd();
   if (fs.existsSync(path.join(cwd, 'skills'))) {
     return cwd;
