@@ -18,7 +18,8 @@ Scaffold and bootstrap a complete, production-grade GitHub repository tailored t
    - **Approval Gate**: Present a consolidated **Repository Blueprint** and obtain explicit user confirmation before creating files or running mutating shell commands.
    - **Tooling Verification**: Verify CLI availability (`node`, `pnpm`, `uv`, `go`, `cargo`, `git`, `gh`) before executing commands. If a tool is missing, report the dependency and offer alternatives.
    - **Git Hygiene**: Always configure `.gitignore` *before* package installations so caches and dependencies (e.g. `node_modules`, `.venv`) are never tracked.
-   - **Conventional Commits**: Format the initial commit using Conventional Commits (`chore: initial repository bootstrap`). Never add co-author attributions.
+   - **Git Policy Belongs to the Repository**: Discover applicable organization/repository rules and relevant available Git skills before proposing a workflow. Present conflicts with their sources and consequences; the user decides whether to preserve, adapt, or request a change to a rule. Until changed through an authorized workflow, obey applicable higher-priority instructions and enforced protections. Never edit an external skill or configuration without specific approval. Generated repository policy must work without invoking another skill.
+   - **Commit Convention**: Follow the convention selected in the interview or already enforced by the repository. Never add co-author attributions.
    - **Non-Destructive Execution**: Never overwrite an existing populated directory without explicit user authorization.
 
 ---
@@ -45,6 +46,7 @@ Before asking questions, thoroughly inspect the working directory and system env
 1. **Directory & Git State**:
    - Check current working directory path.
    - Check if git is initialized (`git status`), check existing remotes (`git remote -v`), and current branch.
+   - If a remote exists, record its prospective base branch and whether freshness is unverified. Fetch only after blueprint approval and before creating a work branch. If the fetch fails, do not call the base current or branch from an unverified remote ref; ask whether to work offline. A brand-new repository without a remote is exempt until first publication.
    - Check whether the directory is empty or populated (`ls -la`).
 2. **Deep Exploration of Existing Stack & Config (if directory is populated or git initialized)**:
    - **Language manifests**:
@@ -59,11 +61,12 @@ Before asking questions, thoroughly inspect the working directory and system env
      - `.github/workflows/` (inspect existing CI, release, and audit workflows).
      - Dependabot: `.github/dependabot.yml`.
    - **Existing Governance & DX**:
-     - `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`.
+     - `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `AGENTS.md`, `docs/git-workflow.md`, branch protection/rulesets, required checks, and merge settings when accessible.
      - `.editorconfig`, `.gitignore`, `.env*`, `scripts/`.
-3. **CLI Tooling Availability**:
+3. **Relevant Available Skills**: Inspect discoverable local skills/configurations governing branches, worktrees, staging, commits, push, or PRs, even for a new empty repository. Do not assume a named skill exists; record its exact source and operative rule. Compare with existing hooks and governance. Surface material conflicts to the user before proposing changes. A skill's presence does not make its invocation mandatory.
+4. **CLI Tooling Availability**:
    - Check installed CLI tools (`node -v`, `pnpm -v`, `uv --version`, `go version`, `cargo --version`, `gh auth status`).
-4. **Fact Consolidation & Pruning Invariant**:
+5. **Fact Consolidation & Pruning Invariant**:
    - Record all discovered facts (stack, package manager, remotes, existing linters/CI).
    - **Hard Invariant**: Never ask the user to choose or confirm a stack, framework, or package manager if authoritative manifests are already present. Treat discovered configuration as settled baseline and prune redundant questions from the interview.
 
@@ -82,12 +85,13 @@ Do **NOT** present all interview themes in a single monolithic questionnaire. Co
 2. **Round 2: Quality Gates, CI/CD & Governance**:
    - Git hook manager: **Lefthook** (recommended), Husky, pre-commit, or None.
    - Linter/Formatter: **Biome** (recommended for JS/TS), **Ruff** (recommended for Python), golangci-lint, clippy. *(Pruned if already configured).*
-   - Commit linting: Conventional Commits via commit-msg hook. **Ecosystem-native Invariant (DEC-004)**: use Commitlint for JS/TS, native Lefthook regex hook or local script for Python/Go/Rust. Never add npm/Node.js to non-JS projects solely for commit linting. *(Recommended: Yes).*
+   - Commit linting: Ask whether to enforce a message convention and which one; preserve an existing convention unless the user elects to change it. **Ecosystem-native Invariant (DEC-004)**: if Conventional Commits is selected, use Commitlint for JS/TS, native Lefthook regex hook or local script for Python/Go/Rust. Never add npm/Node.js to non-JS projects solely for commit linting.
    - CI/CD workflows: Automated CI (`ci.yml`) and **Release Please** (recommended).
    - Governance files: Generate missing files (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE`, `docs/git-workflow.md`, `AGENTS.md`, issue/PR templates). If existing files are detected, ask whether to preserve or overwrite.
 3. **Round 3: Workflow, Worktrees & Developer Experience (DX)**:
-   - Branching model: Trunk-based (`main`) with branch naming conventions (`feat/`, `fix/`, `chore/`). *(Recommended: Yes).*
-   - Git Worktrees: Enable parallel development workflow with `.worktrees/` in `.gitignore` and `scripts/worktree.sh`. *(Recommended: Yes).*
+   - Branching model and target branches: discover organization and repository constraints before recommending trunk-based or multi-environment branches.
+   - Git worktrees: interview for required, situational, or unused mode; location and safe retirement. Generate helper and ignore rule only if chosen.
+   - Git delivery policy: interview for staging method, commit granularity and format, push authorization, PR target/state/checks, and merge method. Record an explicit case-by-case choice where fixed policy is not wanted. Do not silently reuse another skill's rules.
    - Runtime pinning & onboarding: Runtime version file (`.node-version`, `.python-version`) and bootstrap script (`scripts/setup.sh`). *(Recommended: Yes).*
    - **Plain-Language Concept Comparison (DEC-005)**: For abstract or non-basic concepts (Trunk-Based vs GitFlow, Worktrees vs standard branches), provide a compact "Recommendation vs Alternative" comparison in plain language without technical jargon.
 
@@ -98,7 +102,7 @@ Do **NOT** present all interview themes in a single monolithic questionnaire. Co
 ### Step 3: Synthesize Blueprint & Approval Gate
 Synthesize all answers into a clear, structured **Repository Blueprint**:
 1. **Key Decisions Table**: Compact "Recommendation vs Alternative" table in plain language explaining why each key technical choice was selected.
-2. **Configuration Summary**: Bulleted list of target directory, stack, package manager, quality tools, CI/CD actions, governance files, branching model, and worktree/DX setup.
+2. **Configuration Summary**: Bulleted list of target directory, stack, package manager, quality tools, CI/CD actions, governance files, and every Git policy choice (branch/worktree, staging/commit, push/PR). List discovered conflicts, sources, consequences, and the user's resolution.
 3. **Visual Directory Tree**: Visual ASCII directory tree preview showing the expected repository structure.
 4. **Approval Gate**: Stop and ask:
    > "Here is the proposed blueprint for `<repo-name>`. Please review and confirm to start scaffolding, or let me know if you want to tweak any option."
@@ -109,8 +113,9 @@ Do **NOT** write files or run mutating commands before receiving user confirmati
 
 ### Step 4: Execute Scaffolding
 Read [references/stack-recipes.md](references/stack-recipes.md) for precise commands.
+Before scaffolding an existing repository, select the permitted checkout under the approved branch/worktree policy and preserve unrelated changes. If it has a remote, fetch and verify the selected base before creating a work branch/worktree. Stop on failure unless the user explicitly chooses offline work. Never modify a branch where applicable rules prohibit it.
 1. Create and enter target directory if not working in `.`.
-2. Generate curated `.gitignore` (including `.worktrees/` and `.env*`) and `.editorconfig` first.
+2. Generate curated `.gitignore` (including `.env*` and `.worktrees/` only if worktrees use that directory) and `.editorconfig` first.
 3. Run the official initialization command for the chosen stack (e.g. `pnpm create vite . --template react-ts`, `uv init`, `cargo init`, `go mod init`).
 4. Verify the generated skeleton compiles or installs cleanly.
 
@@ -135,13 +140,13 @@ Read [references/governance-templates.md](references/governance-templates.md), [
    - Create `.env.example` (sanitized with dummy values).
    - Create runtime version file (`.node-version`, `.python-version`, or `.tool-versions`).
    - Create `scripts/setup.sh` (executable onboarding script).
-   - If worktrees are enabled, create `scripts/worktree.sh` (executable worktree helper).
+   - If the selected worktree policy calls for a helper, create `scripts/worktree.sh` adapted to its location and base branch; otherwise do not generate it.
 7. Write authoritative documentation:
    - `README.md`: Project title, badges, description, prerequisites, quickstart, available commands, architecture overview.
    - `SECURITY.md`: Vulnerability reporting process and supported versions table.
-   - `docs/git-workflow.md`: Complete Git delivery rules, branching strategy, worktree isolation, commit standards (Conventional Commits, no co-authors), quality gates, and draft PR protocol.
+   - `docs/git-workflow.md`: Authoritative Git policy reflecting the interview and enforced rules: branch freshness, branching/worktrees, staging/commits, quality gates, push/PR, and safe worktree retirement. Check base remote before new work and target branch before push/PR; on fetch failure or divergence, report and ask rather than silently merge/rebase. Do not hard-code Conventional Commits, mandatory worktrees, or Draft PR unless chosen.
    - `AGENTS.md`: Lightweight agent instructions entrypoint containing project overview and concise pointer to `docs/git-workflow.md`. Create relative symlink `CLAUDE.md -> AGENTS.md`.
-   - `CONTRIBUTING.md`: Workflow, branching model & environments, branch naming conventions, worktrees guide, commit conventions, local test steps.
+   - `CONTRIBUTING.md`: Human-facing workflow consistent with `docs/git-workflow.md`, including only selected branch, worktree, commit, and local-test rules.
    - `LICENSE`: Full legal text of the chosen license with current year and author.
    - `CODEOWNERS` (if requested).
 
@@ -150,7 +155,7 @@ Read [references/governance-templates.md](references/governance-templates.md), [
 ### Step 7: Git Init & Verification
 1. If not already a git repository:
    ```bash
-   git init -b main
+   git init -b <selected-initial-branch>
    ```
 2. Activate git hooks:
    ```bash
@@ -160,10 +165,12 @@ Read [references/governance-templates.md](references/governance-templates.md), [
    - Run the linter/formatter on all files (`pnpm biome check .` or `uv run ruff check`).
    - Run test suite if tests exist (`pnpm test` or `uv run pytest`).
    - Run build if build script exists (`pnpm build` or `cargo check`).
-4. Stage all files and create the initial commit:
+4. Review `git status` and the staged diff, exclude secrets/generated artifacts and unrelated pre-existing changes, then stage only intended files. Before committing, apply the discovered/selected commit-authorization policy; if it requires approval at commit time, show the staged summary and ask. Create the initial commit using the selected convention only once authorized:
    ```bash
-   git add .
-   git commit -m "chore: initial repository bootstrap"
+   git add <reviewed-paths>
+   git diff --cached --check
+   git diff --cached --stat
+   git commit -m "<message-following-selected-convention>"
    ```
    *Rule: Never add co-author attributions.*
 
@@ -171,7 +178,8 @@ Read [references/governance-templates.md](references/governance-templates.md), [
 
 ### Step 8: Optional GitHub Remote Creation
 If the user requested remote GitHub creation and `gh` is authenticated:
-1. Create the repository on GitHub:
+1. Show the repository visibility, intended remote, commit, and files to publish. Obtain explicit approval immediately before remote creation/first push; blueprint approval alone is not publication approval.
+2. Create the repository on GitHub:
    ```bash
    # For public repo:
    gh repo create <repo-name> --public --source=. --remote=origin --push

@@ -218,7 +218,7 @@ trim_trailing_whitespace = false
 
 ## 5. Git Worktrees Workflow & Helpers
 
-Using Git Worktrees allows multiple branches to be checked out simultaneously in isolated directories under `.worktrees/`. This prevents branch switching thrashing, keeps dirty states separated, and enables parallel AI agent or developer workflows.
+Use this recipe only when the interview selects `.worktrees/` and a helper script. Replace `<selected-base-branch>` with the chosen branch and `<selected-remote-name>` with the selected remote name, or an empty string for a local-only repository. Worktrees can be required or situational; do not describe them as mandatory unless that policy was selected.
 
 ### 5.1 Ignore Rule
 Add to `.gitignore`:
@@ -232,8 +232,10 @@ Add to `.gitignore`:
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd -P)"
 WORKTREES_DIR="$REPO_ROOT/.worktrees"
+BASE_BRANCH="<selected-base-branch>"
+REMOTE_NAME="<selected-remote-name>"
 
 usage() {
   echo "Usage: $0 {add|list|remove} [branch-name]"
@@ -246,24 +248,47 @@ branch="${2:-}"
 case "$cmd" in
   add)
     [ -z "$branch" ] && usage
-    clean_name="${branch//\//-}"
-    target="$WORKTREES_DIR/$clean_name"
-    mkdir -p "$WORKTREES_DIR"
-    git fetch origin main 2>/dev/null || true
+    git check-ref-format --branch "$branch" >/dev/null
+    target="$WORKTREES_DIR/$branch"
+    if [ -n "$REMOTE_NAME" ]; then
+      git -C "$REPO_ROOT" remote get-url "$REMOTE_NAME" >/dev/null
+      git -C "$REPO_ROOT" fetch "$REMOTE_NAME" "+refs/heads/$BASE_BRANCH:refs/remotes/$REMOTE_NAME/$BASE_BRANCH"
+      start_ref="refs/remotes/$REMOTE_NAME/$BASE_BRANCH"
+    else
+      if [ -n "$(git -C "$REPO_ROOT" remote)" ]; then
+        echo "Remote exists but no base remote was selected" >&2
+        exit 1
+      fi
+      start_ref="refs/heads/$BASE_BRANCH"
+      git -C "$REPO_ROOT" show-ref --verify --quiet "$start_ref" || {
+        echo "Local base branch not found: $BASE_BRANCH" >&2
+        exit 1
+      }
+    fi
+    mkdir -p "$(dirname "$target")"
     echo "Creating worktree at $target for branch $branch..."
-    git worktree add "$target" -b "$branch" origin/main 2>/dev/null || git worktree add "$target" "$branch"
+    git -C "$REPO_ROOT" worktree add "$target" -b "$branch" "$start_ref"
     echo "Worktree ready: $target"
     ;;
   list)
-    git worktree list
+    git -C "$REPO_ROOT" worktree list
     ;;
   remove)
     [ -z "$branch" ] && usage
-    clean_name="${branch//\//-}"
-    target="$WORKTREES_DIR/$clean_name"
-    echo "Removing worktree at $target..."
-    git worktree remove "$target"
-    git worktree prune
+    git check-ref-format --branch "$branch" >/dev/null
+    target="$WORKTREES_DIR/$branch"
+    [ -d "$target" ] || { echo "Worktree not found: $target" >&2; exit 1; }
+    actual_root="$(git -C "$target" rev-parse --show-toplevel)"
+    actual_branch="$(git -C "$target" symbolic-ref --quiet --short HEAD)"
+    [ "$actual_root" = "$target" ] && [ "$actual_branch" = "$branch" ] || {
+      echo "Worktree path/branch mismatch; refusing removal" >&2
+      exit 1
+    }
+    printf 'Confirm PR merged/closed, no task or process uses %s, and all changes are preserved. Remove? [y/N] ' "$target"
+    read -r answer
+    [ "$answer" = y ] || { echo "Removal cancelled" >&2; exit 1; }
+    git -C "$REPO_ROOT" worktree remove "$target"
+    git -C "$REPO_ROOT" worktree prune
     echo "Worktree removed."
     ;;
   *)
@@ -337,4 +362,3 @@ fi
 echo "==> Setup completed successfully!"
 ```
 Make executable: `chmod +x scripts/setup.sh`.
-
