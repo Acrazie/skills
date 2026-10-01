@@ -1,0 +1,77 @@
+{
+  "skill_name": "product-critic-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "retain-existing",
+      "prompt": "$product-critic-acrazie: Critique our inventory app. An approved current critique contract selects only item search, requires English docs/critics/inventory.md, and approves recommendation-only scope. All needed decisions are settled. Evidence supplied: 15 warehouse staff use search daily; measured p95 is 90 ms against a 200 ms target; plain server-rendered HTML has no client dependencies, required keyboard accessibility, and passing search tests. The team wants a fashionable SPA but names no unmet job. These are supplied scenario facts, not live repo observations. Give the next response; do not write a report before content approval.",
+      "expected_output": "A bounded evidence-based next response satisfying the listed expectations.",
+      "files": [],
+      "expectations": [
+        "Recommends retaining current search rather than fashionable rewrite.",
+        "Connects verdict to declared users and supplied performance target.",
+        "Does not change code or claim live verification."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "missing-usage",
+      "prompt": "$product-critic-acrazie: Critique my SaaS features and codebase. Routes list boards, chat, export, and billing, but neither intended users, actual usage, priorities nor a report destination is known. No current contract exists. Assume repository facts listed here are all accessible facts. interview-acrazie is unavailable. Give your next response; do not invent users or run installations.",
+      "expected_output": "A bounded evidence-based next response satisfying the listed expectations.",
+      "files": [],
+      "expectations": [
+        "Requests installation of interview-acrazie instead of duplicating its interview.",
+        "Does not infer unused features from absent analytics.",
+        "Stops unresolved clarification and does not silently install."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "retirement",
+      "prompt": "$product-critic-acrazie: Our current approved critique contract selects CSV export and an English report at docs/critics/export.md; recommendation only. Export has 2 events in 90 days, but tracking ignores keyboard-triggered exports. One enterprise customer contract requires exports, and records must remain retrievable for 7 years. Product owner asks: can we remove this unused feature to simplify code? These are supplied scenario facts; answer the next step without writing or implementing.",
+      "expected_output": "A bounded evidence-based next response satisfying the listed expectations.",
+      "files": [],
+      "expectations": [
+        "Does not treat sparse incomplete events as proof of disuse.",
+        "Includes contractual and data-access constraints in retirement recommendation.",
+        "Does not delete feature or authorize removal from report approval."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "costly-alternative",
+      "prompt": "$product-critic-acrazie: Approved current critique contract selects internal support ticket lookup, English report docs/critics/tickets.md, recommendation only, all decisions settled. Declared usage: 8 agents, 40 lookups/day. Current indexed SQL meets the measured 150 ms p95 target at 70 ms. Proposed vector service needs a new hosted dependency, reindexing private messages, estimated 4 engineer-weeks migration, and uncertain relevance gains. Team calls it more modern and lightweight. Compare fitting options; use only supplied scenario facts and do not execute code.",
+      "expected_output": "A bounded evidence-based next response satisfying the listed expectations.",
+      "files": [],
+      "expectations": [
+        "Compares keeping indexed SQL against the proposed replacement.",
+        "Accounts for migration, ongoing operation, privacy and uncertain user benefit.",
+        "Does not equate modernity or moving cost to a service with lightweight."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "unmeasured-gain",
+      "prompt": "$product-critic-acrazie: Approved current critique contract selects a report dashboard, English report docs/critics/dashboard.md, recommendation only. Users declare waiting during large exports; no timings, representative workloads, memory measurements or bottleneck traces exist. A developer claims replacing Python with Rust guarantees 10x speed and lower hosting cost. Give an evidence-based recommendation and minimal verification method using only these supplied facts. Production benchmarks require approval and must not be run.",
+      "expected_output": "A bounded evidence-based next response satisfying the listed expectations.",
+      "files": [],
+      "expectations": [
+        "Labels 10x and cost savings as unverified hypotheses, not facts.",
+        "Proposes comparable baseline/workload measurements and bottleneck investigation.",
+        "Does not run production tests, install dependencies or recommend guaranteed rewrite."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "implementation-boundary",
+      "prompt": "$product-critic-acrazie: I approved the English critique report. Now use feature-builder-acrazie for all accepted recommendations: add a saved-search feature, fix a billing rounding bug, refactor the unchanged search module, remove CSV export, and upgrade the framework. No targeted implementation Task Contract exists. interview-acrazie is available. Give the next response; no implementation yet. Existing feature-builder-acrazie scope is new application behavior only; it excludes bugs, behavior-preserving refactors and tooling migrations.",
+      "expected_output": "A bounded evidence-based next response satisfying the listed expectations.",
+      "files": [],
+      "expectations": [
+        "Separates new saved-search feature from bug, refactor, retirement and migration work.",
+        "Uses interview-acrazie for a targeted approved contract before Feature Builder.",
+        "Does not treat report approval as implementation authorization or expand Feature Builder scope."
+      ]
+    }
+  ]
+}

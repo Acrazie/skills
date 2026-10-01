@@ -1,0 +1,6 @@
+interface:
+  display_name: "Product Critic / Acrazie"
+  short_description: "Critique product value, code costs, and alternatives"
+  default_prompt: "Use $product-critic-acrazie to assess my existing product's features and codebase against real usage, then recommend what to retain, simplify, retire, or replace without changing application code."
+policy:
+  allow_implicit_invocation: false
