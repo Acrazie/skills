@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.8.0](https://github.com/Acrazie/skills/compare/v1.7.0...v1.8.0) (2026-10-01)
+
+
+### Features
+
+* **audit-repository:** guide library and tool selection ([#71](https://github.com/Acrazie/skills/issues/71)) ([ebdb6b4](https://github.com/Acrazie/skills/commit/ebdb6b40f8b01f0eef2c646b226be07b107764b9))
+* **github-repo-init:** adapt Git governance to repository policy ([#68](https://github.com/Acrazie/skills/issues/68)) ([074b311](https://github.com/Acrazie/skills/commit/074b3117d39d036faa484be1929327f9d081812e))
+* **site:** add interactive skill relationship map ([#72](https://github.com/Acrazie/skills/issues/72)) ([adc1a74](https://github.com/Acrazie/skills/commit/adc1a74a4010b56274c0824830c85e3cb7a46d5f))
+* **skills:** add interview and feature builder workflows ([#70](https://github.com/Acrazie/skills/issues/70)) ([8db4b6e](https://github.com/Acrazie/skills/commit/8db4b6ec519b93c1cf6dfda2da05eebbb82f8832))
+
 ## [1.7.0](https://github.com/Acrazie/skills/compare/v1.6.0...v1.7.0) (2026-09-28)
 
 
