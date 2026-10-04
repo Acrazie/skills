@@ -1,135 +1,167 @@
-# Adversarial Review Rubric
+# Universal Adversarial Review Rubric
 
 This reference defines the 4-pillar audit framework used by `adversarial-reviewer-acrazie`.
-Every check represents a class of defects that compiles cleanly, passes naive tests, and causes
-severe production failures or memory corruption.
+It applies across all programming languages, runtimes, and frameworks. Every check represents
+a class of defects that compiles or passes initial linters cleanly, looks plausible on inspection,
+and causes severe production outages, data corruption, or memory leaks.
 
 ---
 
-## Pillar 1: Resource & Lifetime Hazards
+## Pillar 1: Resource & Lifecycle Hazards
 
 ### 1.1 Asynchronous cleanup & handle retention
-- **Vulnerability**: Freeing a wrapper object or smart pointer while an asynchronous operating
-  system handle or event loop callback holds the underlying raw pointer.
-- **Classic Failure**: In libuv / epoll abstractions, calling an async close routine (e.g. `uv_close`)
-  on a heap-allocated pipe that drops at the end of the enclosing block. When the event loop fires
-  the close callback on the next tick, it accesses freed memory and double-frees the handle.
-- **Proof Requirement**: Trace handle lifetime across event loop ticks. Demonstrate if any owner
-  drops before the asynchronous completion callback runs.
+- **Vulnerability**: Dropping or releasing a parent resource while an asynchronous operation,
+  event loop callback, worker thread, or goroutine still holds raw references to the underlying resource.
+- **Cross-Language Manifestations**:
+  - *Go*: Spawning a goroutine that reads from a `net.Conn` or `http.Response.Body` after the caller
+    has already closed or returned it.
+  - *Node.js / TypeScript*: Attaching event listeners or timers that capture large object contexts
+    without removing them on teardown, or closing a socket while an async write is queued.
+  - *Python*: Creating `asyncio.Task` instances without holding a reference (causing early garbage
+    collection during execution) or closing an event loop with pending asynchronous generators.
+  - *Rust / C++*: Calling an asynchronous completion API (e.g. `uv_close`, `epoll`, `io_uring`) on a
+    buffer that gets dropped at the end of the enclosing scope before the kernel callback runs.
+- **Proof Requirement**: Trace resource lifetime across asynchronous ticks or concurrent thread
+  boundaries. Demonstrate any scenario where the resource is released before the asynchronous consumer finishes.
 
-### 1.2 Early-return & exception allocation leaks
-- **Vulnerability**: Memory or system handles acquired early in a function are not released when
-  subsequent operations fail (error returns, early `?` operator, panics, or C++ exceptions).
-- **Classic Failure**: Allocating a cryptographic context or passphrase buffer, failing on a later
-  output buffer allocation, and returning without deallocating the protected buffer.
-- **Proof Requirement**: Trace every early exit, error propagation (`?`, `if err != null`), and
-  exception point. Check that all resources allocated prior to that point are deterministically freed.
+### 1.2 Early-return & exception leaks
+- **Vulnerability**: Resources acquired early in a function are not released when subsequent operations
+  fail or exit early (via exceptions, error returns, panics, or early `return` statements).
+- **Cross-Language Manifestations**:
+  - *Python*: Opening a database connection or file without a `with` context manager or `try...finally` block,
+    where an intermediary exception aborts execution before `.close()`.
+  - *Go*: Acquiring a mutex or response body before an error check, or forgetting `defer mu.Unlock()` /
+    `defer resp.Body.Close()` prior to early `return nil, err` points.
+  - *Java*: Opening a JDBC `ResultSet`, `Statement`, or file stream without `try-with-resources`.
+  - *C / C++*: Multiple exit labels (`return -1;`) failing to jump to the cleanup/free sequence.
+- **Proof Requirement**: Trace every error propagation path, exception throw, and early return.
+  Verify that all resources acquired up to that point are deterministically released.
 
-### 1.3 Detached buffers during argument coercion
-- **Vulnerability**: Native bindings capturing raw pointers to managed buffers (e.g. JavaScript
-  `ArrayBuffer` or Python bytearrays) while invoking user-defined coercions (`valueOf`, `toString`)
-  prior to transmission.
-- **Classic Failure**: User code executes during argument coercion, detaching or resizing the
-  underlying buffer. The native routine proceeds using the stale cached pointer and length, causing
-  heap out-of-bounds reads or writes.
-- **Proof Requirement**: Identify any point where user code or callbacks can interleave between
-  payload buffer acquisition and actual consumption.
+### 1.3 State mutation & detached buffers under coercion
+- **Vulnerability**: Invoking user-defined callbacks, getters, or string conversions that mutate or
+  detach underlying data structures mid-operation.
+- **Cross-Language Manifestations**:
+  - *JavaScript / TypeScript*: User code inside `valueOf()`, `toString()`, or property getters detaching
+    an `ArrayBuffer` or mutating an array during argument coercion before transmission.
+  - *Python*: Custom `__getitem__` or `__str__` implementations modifying the dictionary or list currently
+    being serialized or iterated.
+- **Proof Requirement**: Identify any point where user callbacks or implicit type coercions can interleave
+  and mutate underlying buffers or collection state.
 
-### 1.4 Reference count underflow and GC root pinning
-- **Vulnerability**: Asymmetric increments and decrements in manual reference counting or managed
-  runtime roots.
-- **Classic Failure**: Decrementing a reference count upon closing a resource without properly
-  removing it from a global GC tracing list, permanently pinning leaked instances in memory.
-- **Proof Requirement**: Check life cycle symmetry: every increment/pinning operation must have
-  an exact, unskippable decrement/unpinning counterpart.
+### 1.4 Reference cycles and uncollected root pinning
+- **Vulnerability**: Circular references in reference-counting runtimes or un-evicted entries in global registries.
+- **Cross-Language Manifestations**:
+  - *Python*: Self-referencing cycles containing custom `__del__` implementations or closures retaining globals.
+  - *TypeScript / JavaScript*: Storing objects in global `Map` or `Set` registries instead of `WeakMap` /
+    `WeakSet`, permanently pinning memory.
+  - *Go*: Registering closures in long-lived event dispatchers that prevent large captured structs from being collected.
+- **Proof Requirement**: Demonstrate whether a resource will be permanently retained in memory even after
+  its primary functional lifecycle has ended.
 
 ---
 
 ## Pillar 2: Concurrency, Re-entrancy & State Invalidation
 
-### 2.1 Re-entrant container mutation
-- **Vulnerability**: Invoking external callbacks while iterating over internal associative arrays,
-  vectors, or linked lists.
-- **Classic Failure**: Inside an HTTP/2 session loop or timeout listener, a user callback triggers
-  a new request. The new request inserts into the session's internal hashmap, triggering a table
-  rehash that invalidates stream pointers currently being traversed.
-- **Proof Requirement**: Verify whether any function call made inside an iteration loop can
-  re-enter the parent structure or trigger structural reallocation.
+### 2.1 Re-entrant collection mutation
+- **Vulnerability**: Mutating collections, maps, or data structures while an outer scope is iterating over them.
+- **Cross-Language Manifestations**:
+  - *Python*: `RuntimeError: dictionary changed size during iteration` when an event listener modifies the registry.
+  - *Java*: `ConcurrentModificationException` during collection traversal.
+  - *Go*: Fatal runtime panic: `concurrent map iteration and map write`.
+  - *C++ / Rust*: Re-hashing a map inside a callback, invalidating internal pointers or references currently in use.
+- **Proof Requirement**: Demonstrate any path where a callback or nested function call executed during
+  iteration can insert, delete, or reallocate the collection.
 
-### 2.2 Torn reads across thread boundaries
-- **Vulnerability**: Accessing compound structures or tagged unions across threads without memory
-  barriers or synchronization primitives.
-- **Classic Failure**: A background garbage collector marker thread inspects an event variant while
-  a worker thread writes a payload, observing a torn discriminator/data pointer mismatch.
-- **Proof Requirement**: Show that non-atomic shared structures are read concurrently without
-  mutual exclusion or synchronization guarantees.
+### 2.2 Data races and un-synchronized mutable state
+- **Vulnerability**: Reading and writing shared memory across concurrent threads or coroutines without
+  synchronization primitives or atomic barriers.
+- **Cross-Language Manifestations**:
+  - *Go*: Concurrent reads/writes to struct fields across goroutines without `sync.Mutex` or `sync/atomic`.
+  - *JavaScript / Node.js*: Async race conditions where shared state is read before an `await` and written after,
+    overwriting intermediate mutations from concurrent requests.
+  - *Python*: Modifying non-thread-safe caches across native worker threads without threading locks.
+- **Proof Requirement**: Construct an interleaved execution trace showing two concurrent contexts corrupting state.
+
+### 2.3 Deadlocks and lock order inversion
+- **Vulnerability**: Acquiring multiple locks in inconsistent order or blocking asynchronous event loops on synchronous locks.
+- **Cross-Language Manifestations**:
+  - *Go*: Sending to an unbuffered channel where no receiver is active, causing permanent goroutine deadlock.
+  - *Node.js / Python asyncio*: Invoking synchronous blocking I/O inside an asynchronous worker, starving the loop.
+  - *Java / C++*: Thread 1 acquiring A then B while Thread 2 acquires B then A.
+- **Proof Requirement**: Identify cyclic lock acquisition patterns or unbuffered channel blockages.
 
 ---
 
 ## Pillar 3: Semantic Drift & False Equivalences
 
-### 3.1 Erased macro assertions vs active function assertions
-- **Vulnerability**: Replacing a function call assertion that always evaluates its arguments with
-  a macro that expands to a no-op in release builds (e.g. Zig `assert(insert())` vs Rust
-  `debug_assert!(insert())`).
-- **Classic Failure**: An assertion argument contains a critical side effect (e.g. registering a
-  node in a hot-reload dependency graph). In debug builds, the test suite passes; in release builds,
-  the expression is erased, breaking state updates.
-- **Proof Requirement**: Inspect all assertions. Demonstrate whether any expression inside an
-  assertion mutates state or produces side effects required at runtime.
+### 3.1 Production-erased assertions & debug dead code
+- **Vulnerability**: Placing critical runtime logic, state mutations, or security checks inside assertion
+  constructs that are stripped in production builds.
+- **Cross-Language Manifestations**:
+  - *Python*: `assert check_permission(user)` where `python -O` strips all `assert` statements unconditionally.
+  - *Rust*: `debug_assert!(cache.insert(key))` where release builds erase the entire expression and its side effect.
+  - *C / C++*: `#ifdef NDEBUG` removing function calls inside `assert()`.
+  - *JavaScript / TypeScript*: Stripping debug logging branches with bundler tree-shaking that contained state updates.
+- **Proof Requirement**: Inspect all assertions. Demonstrate whether any expression inside an assertion
+  mutates state or provides necessary validation in production environments.
 
 ### 3.2 Eager fallback evaluation vs lazy closure execution
-- **Vulnerability**: Using eager fallback evaluators (e.g. `unwrap_or(expr)`) instead of lazy
-  evaluators (e.g. `unwrap_or_else(|| expr)`).
-- **Classic Failure**: When unpacking optional values where the alternative expression computes or
-  panics (e.g. `first.unwrap_or(second.unwrap())`), the fallback is evaluated unconditionally,
-  panicking even when the primary value is valid.
-- **Proof Requirement**: Demonstrate that any expression passed to an eager fallback helper will
-  panic, allocate unnecessarily, or throw when evaluated on the happy path.
+- **Vulnerability**: Unconditionally evaluating expensive or fallible fallback expressions in default-value helpers.
+- **Cross-Language Manifestations**:
+  - *JavaScript / TypeScript*: Using `val || computeExpensiveFallback()` or passing a function invocation
+    `map.get(key) ?? createNew()` where `createNew()` runs on every access regardless of whether `key` exists.
+  - *Python*: Mutable default arguments (`def add_item(val, target=[])`) sharing state across all calls, or
+    `dict.get(key, expensive_call())` evaluating `expensive_call()` unconditionally.
+  - *Java*: `Optional.orElse(computeDefault())` (eager) instead of `Optional.orElseGet(this::computeDefault)` (lazy).
+  - *Rust*: `opt.unwrap_or(panic_expr)` panicking inside the argument evaluation even when `opt` is `Some`.
+- **Proof Requirement**: Demonstrate that an eager fallback creates unnecessary resource allocations, performance
+  cliffs, or crashes on the standard path.
 
-### 3.3 Rounding and integer conversion on negative numbers
-- **Vulnerability**: Inconsistencies between truncation toward zero (`trunc`) and floor division
-  toward negative infinity (`floor`).
-- **Classic Failure**: Splitting a timestamp in seconds (`f64`) into `{sec, nsec}` for a POSIX
-  `timespec`. For timestamps before 1970 (negative `f64`), `trunc` yields a negative nanosecond
-  field (e.g. -500,000,000 ns), violating system invariants. `floor` correctly retains nanoseconds
-  within `[0, 1e9)`.
-- **Proof Requirement**: Test boundary inputs at zero, negative floats, and minimum signed bounds.
+### 3.3 Numeric division, truncation & rounding asymmetries
+- **Vulnerability**: Inconsistencies between floor division, truncation toward zero, and signedness conversions.
+- **Cross-Language Manifestations**:
+  - *Python vs Go/JS/Java*: `-3 // 2` in Python is `-2` (floor toward negative infinity), whereas `Math.trunc(-3 / 2)`
+    or `-3 / 2` in Go/Java is `-1` (truncation toward zero). Porting math logic across this boundary silently corrupts
+    timestamps, coordinate systems, and paginate offsets.
+  - *Floating point precision*: Comparing floats for exact equality (`f == 0.1 + 0.2`).
+  - *Integer overflow*: Silent 32-bit or 64-bit integer wrap-around.
+- **Proof Requirement**: Provide concrete negative, zero, or boundary inputs demonstrating calculation drift.
 
-### 3.4 Slice reinterpretation and odd-byte bounds
-- **Vulnerability**: Differences in slice casting libraries when handling trailing misaligned bytes.
-- **Classic Failure**: A source language ignores trailing odd bytes during 16-bit reinterpretation,
-  while a target language library (e.g. `bytemuck::cast_slice`) panics on unaligned lengths.
-- **Proof Requirement**: Provide an odd-length input buffer and verify whether the routine panics.
-
-### 3.5 Format string marker injection
-- **Vulnerability**: Replacing compile-time template expansions with runtime string post-processing.
-- **Classic Failure**: A formatter replaces color markers (e.g. `<r>`) with ANSI escapes at runtime
-  after user arguments have already been substituted. If a user argument contains special escape
-  sequences (such as OSC 8 hyperlinks ending in backslashes), the marker parser misinterprets the
-  input, corrupting CLI output.
-- **Proof Requirement**: Inject boundary string inputs containing delimiters, backslashes, and ANSI
-  escape sequences into format arguments.
+### 3.4 Slicing, indexing & boundary mismatches
+- **Vulnerability**: Confusions between inclusive vs exclusive end ranges, 0-indexed vs 1-indexed collections,
+  and negative index support.
+- **Cross-Language Manifestations**:
+  - *Python*: `s[-1]` accesses the last element; in Go or C, `s[-1]` panics or reads out-of-bounds memory.
+  - *String lengths*: Measuring length in bytes (Go/Rust UTF-8) vs UTF-16 code units (JS/Java `length`) vs Unicode
+    grapheme clusters (Python `len()`), causing substring slices to cut emojis or multi-byte characters in half.
+- **Proof Requirement**: Provide a multi-byte, empty, or negative boundary input that causes an off-by-one or panic.
 
 ---
 
 ## Pillar 4: Anti-Workaround & Hygiene Invariants
 
-### 4.1 Mocking and stubbing evasion
-- **Vulnerability**: Submitting non-functional placeholder implementations (`todo!()`,
-  `unimplemented!()`, dummy return values like `Ok(())` or `0`) to satisfy compiler errors.
-- **Proof Requirement**: Any stub that bypasses requested domain logic without explicit contract
-  authorization is an immediate, automatic `REJECT`.
+### 4.1 Mocking, stubbing & escape hatches
+- **Vulnerability**: Submitting non-functional placeholder implementations to satisfy compilers, linters, or test suites.
+- **Prohibited Patterns**:
+  - Empty or dummy return values: `return null`, `return nil, nil`, `return {}`, `return Ok(())`, `return 0`.
+  - Stub macros and exceptions: `todo!()`, `unimplemented!()`, `raise NotImplementedError`, `throw new Error("TODO")`.
+  - Placeholder comments: `// TODO: implement later`, `# FIXME`.
+  - Empty callbacks or swallowed errors: `catch (e) {}`, `except Exception: pass`.
+- **Action**: Immediate, automatic **`REJECT`**.
 
 ### 4.2 Explanatory self-justification
-- **Vulnerability**: Authoring extensive comments to explain away architectural shortcomings,
-  leaks, or temporary workarounds.
-- **Rule**: *"If you need a paragraph-long comment to justify why the workaround is OK, the code is
-  wrong — fix the code."*
-- **Proof Requirement**: Any paragraph-length comment explaining why a missing invariant or
-  non-standard patch is acceptable triggers an automatic `REJECT`.
+- **Vulnerability**: Authoring extensive comments explaining why an incomplete workaround or missing requirement
+  is "acceptable" or "can be handled later".
+- **Rule**: *"If you need a paragraph-long comment to justify why the workaround is OK, the code is wrong — fix the code."*
+- **Action**: Immediate, automatic **`REJECT`**.
 
-### 4.3 Unsafe containment audit
-- **Vulnerability**: Broad, multi-line `unsafe` blocks that obscure raw pointer dereferences.
-- **Standard**: Unsafe blocks must be tightly scoped (preferably single-line conversions from
-  FFI or C/C++ boundaries) with clear prerequisite safety invariants documented.
+### 4.3 Static analysis & type safety bypasses
+- **Vulnerability**: Silencing static analyzers and type checkers with unchecked escape hatches instead of fixing
+  the underlying type invariant.
+- **Prohibited Bypasses**:
+  - *TypeScript*: `@ts-ignore`, `@ts-nocheck`, `as any`, non-null assertions `!` without prior checks.
+  - *Python*: `# type: ignore`, `cast(Any, ...)`.
+  - *Go*: `unsafe.Pointer`, swallowing error returns with blank identifiers `_ = fn()`.
+  - *Java*: Raw types, `@SuppressWarnings("unchecked")`.
+  - *Rust / C++*: Expanding `unsafe` scopes beyond single-line FFI boundaries.
+- **Action**: Immediate, automatic **`REJECT`**.
