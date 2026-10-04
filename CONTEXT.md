@@ -45,6 +45,24 @@ The explicitly user-invoked `test-retrofitter-acrazie` skill for adding automate
 The shared, approved outcome record used by the Interview Foundation and its callers, defining scope, observable success criteria, decisions, and expected evidence, with actual delivery evidence recorded separately.
 *Avoid*: ADR, interview transcript, implementation plan.
 
+## Verification & Migration Discipline
+
+**Adversarial Review**:
+A split-context evaluation role where an agent inspects changes under the strict premise that the code is incorrect, seeking memory hazards, concurrency flaws, and semantic drift while explicitly rejecting stub workarounds.
+*Avoid*: General code review, PR summarizer, peer review.
+
+**Semantic Drift**:
+Subtle runtime divergence between syntactically similar constructs across languages, runtimes, or APIs (e.g. macro erasure in release builds, eager argument evaluation in fallbacks, truncation vs flooring).
+*Avoid*: Type error, compile error, syntax mismatch.
+
+**Proof of Flaw**:
+A concrete execution scenario, edge-case input, or state trace provided by an Adversarial Reviewer that conclusively demonstrates why a proposed change fails, without prescribing the implementation patch.
+*Avoid*: Fix suggestion, code recommendation.
+
+**Mechanical Port**:
+A source-to-target language code porting discipline prioritizing 1:1 structural and syntactic mirroring over premature idiomatic refactoring, validated against an existing agnostic test oracle.
+*Avoid*: Rewrite from scratch, architectural redesign, incremental hybrid migration.
+
 ## Documentation & Deployment Platform
 
 **Skills Documentation Site**:
