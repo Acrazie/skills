@@ -1,0 +1,6 @@
+interface:
+  display_name: "Diagnostic Queue Runner / Acrazie"
+  short_description: "Crush massive compiler and linter diagnostic backlogs"
+  default_prompt: "Use $diagnostic-queue-runner-acrazie to ingest and systematically resolve compiler and static analysis errors in topological dependency order."
+policy:
+  allow_implicit_invocation: true
