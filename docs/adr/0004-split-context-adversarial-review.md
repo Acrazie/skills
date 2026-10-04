@@ -4,10 +4,10 @@ We establish the `adversarial-reviewer-acrazie` specialist as an independent, sp
 
 ## Context & Problem
 
-LLM-authored code frequently exhibits confirmation bias: the agent that authored an implementation is psychologically and statistically primed to view its own solution as complete and correct. In complex systems programming and mission-critical codebases (exemplified by the 2026 Bun Zig-to-Rust migration), the most damaging bugs compile cleanly and appear plausible at first glance: asynchronous cleanup double-frees (`uv_close`), incorrect arithmetic rounding on negative inputs (`trunc` vs `floor`), eager evaluation panics in fallback helpers (`unwrap_or`), and release-erased assertions (`debug_assert!`).
+LLM-authored code frequently exhibits confirmation bias: the agent that authored an implementation is psychologically and statistically primed to view its own solution as complete and correct. Across all programming languages and runtimes (from backend microservices in Python or Go to web stacks in TypeScript and systems software in Rust or C++), the most damaging bugs compile cleanly and appear plausible at first glance: asynchronous cleanup double-frees or goroutine leaks, unclosed database or network handles, unhandled exception paths, race conditions across async boundaries, eager evaluation panics in fallback helpers, and assertions erased in production/optimized builds.
 
-When agents encounter compiler errors or subtle behavioral gaps, they frequently resort to anti-patterns:
-1. Inserting silent stubs (`todo!()`, `unimplemented!()`, dummy mock returns).
+When agents encounter compiler errors, linter warnings, or subtle behavioral gaps, they frequently resort to anti-patterns:
+1. Inserting silent stubs (`todo!()`, `unimplemented!()`, `pass`, `return null;`, `return nil`, empty mock returns).
 2. Writing explanatory comments rationalizing why an incomplete workaround is acceptable.
 
 ## Decision
