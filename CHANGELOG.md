@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.9.0](https://github.com/Acrazie/skills/compare/v1.8.0...v1.9.0) (2026-10-04)
+
+
+### Features
+
+* **adversarial-reviewer:** add split-context adversarial review skill ([#77](https://github.com/Acrazie/skills/issues/77)) ([9c76e73](https://github.com/Acrazie/skills/commit/9c76e736c6447a458a8288e68d77baa1a33f28e1))
+* **adversarial-reviewer:** generalize adversarial rubric and instructions across all languages ([#79](https://github.com/Acrazie/skills/issues/79)) ([c1d2cce](https://github.com/Acrazie/skills/commit/c1d2ccebd488e777b34a3840d47cbba036706c86))
+* **migration-suite:** add mechanical-port and diagnostic-queue-runner skills ([#78](https://github.com/Acrazie/skills/issues/78)) ([408bc42](https://github.com/Acrazie/skills/commit/408bc42dd9b36781ac4a5ae6451febaa5e75cd8b))
+* **product-critic:** add usage-led product critique skill ([#76](https://github.com/Acrazie/skills/issues/76)) ([01cd3e8](https://github.com/Acrazie/skills/commit/01cd3e8ebc9e9bccd0daf3ef6b59582f76b85979))
+* **test-retrofitter:** add scoped testing workflow ([#73](https://github.com/Acrazie/skills/issues/73)) ([9c7d0a4](https://github.com/Acrazie/skills/commit/9c7d0a41ddae8b35b4c71907f401c2af9e7f57b5))
+
+
+### Bug Fixes
+
+* **github-repo-init:** discover permissions and current tooling options ([#74](https://github.com/Acrazie/skills/issues/74)) ([a487478](https://github.com/Acrazie/skills/commit/a487478ed7a8ea915a0bacfa65d501b5e4864b49))
+
 ## [1.8.0](https://github.com/Acrazie/skills/compare/v1.7.0...v1.8.0) (2026-10-01)
 
 
