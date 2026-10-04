@@ -1,6 +1,6 @@
 # GitHub Actions Workflows Reference
 
-Standard, secure GitHub Actions workflows for continuous integration, release automation, and dependency management.
+Examples for continuous integration, release automation, and dependency management. Read [github-settings.md](github-settings.md) and [tool-selection.md](tool-selection.md) first. Verify current Actions/runtime versions and allowed-action policy; templates are not evidence that remote settings or permissions are configured.
 
 ---
 
@@ -8,7 +8,9 @@ Standard, secure GitHub Actions workflows for continuous integration, release au
 
 Adapts to the selected branching model (e.g. `[main]` for trunk-based, or `[main, staging, develop]` for multi-environment branches).
 
-### 1.1 Node.js / TypeScript (pnpm + Biome)
+### 1.1 Node.js / TypeScript (pnpm + Approved Tool Scripts)
+
+Define `lint` and `format:check` for the selected tools before using this workflow. Oxlint/Oxfmt uses `oxlint` and `oxfmt --check`; Biome or ESLint/Prettier must define equivalent non-mutating scripts. Do not run an unselected tool.
 ```yaml
 name: CI
 
@@ -17,6 +19,9 @@ on:
     branches: [main, staging, develop] # adjust to selected environment branches
   pull_request:
     branches: [main, staging, develop]
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -44,8 +49,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run Biome (Lint & Format check)
-        run: pnpm biome check .
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Check formatting
+        run: pnpm run format:check
 
       - name: Typecheck
         run: pnpm tsc --noEmit
@@ -69,6 +77,9 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -108,7 +119,7 @@ jobs:
 
 ## 2. Automated Releases (`.github/workflows/release-please.yml`)
 
-Automates semver versioning, changelog generation, and GitHub release creation based on Conventional Commits.
+Automates semver versioning, changelog generation, and GitHub release creation based on Conventional Commits. Verify this fits the approved convention. Inspect Actions permissions, organization restrictions, `can_approve_pull_request_reviews` (the setting for allowing Actions to create/approve PRs), and branch/tag rules before claiming it works. `contents: write` and `pull-requests: write` below are job requirements, not permission to broaden repository defaults. Workflows triggered by `GITHUB_TOKEN` have event-trigger limitations; verify whether required PR checks run, and propose a least-privilege GitHub App or other credential only with explicit approval if needed. Never bypass required checks or request broad PAT scopes automatically.
 
 ```yaml
 name: Release Please
@@ -119,8 +130,7 @@ on:
       - main
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: release-please
@@ -131,6 +141,9 @@ env:
 
 jobs:
   release-please:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4

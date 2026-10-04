@@ -1,6 +1,12 @@
 ---
 name: audit-repository-acrazie
-description: Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. Use only when the user explicitly invokes audit-repository-acrazie; not for general repository audits, diff or PR review, security audits, documentation audits, or multi-repository analysis.
+description: >-
+  Audit a precise technical decision, integration, subsystem, or choice of library,
+  framework, or development tool before adoption in one existing repository. Use
+  only when the user explicitly invokes audit-repository-acrazie; not for general
+  repository audits, diff or PR review, security audits, documentation audits,
+  multi-repository analysis, or external-service selection.
+disable-model-invocation: true
 ---
 
 # Audit Repository / Acrazie
@@ -16,6 +22,7 @@ Run only after explicit user invocation. If the harness activates this skill imp
 - Audit one existing repository, or one subsystem inside it, per invocation.
 - Require a precise question, decision, integration, tool, stack choice, or subsystem. Never perform a general audit. When the request is vague, inspect enough to offer concrete audit angles, then let the user choose.
 - Cover relevant architecture, stack fit, framework or language integration, dependencies, tooling, tests, CI/CD, performance, operations, maintainability, complexity, and unnecessary elements.
+- For adoption decisions, compare libraries, frameworks, and development tools against actual project needs, including retaining the current approach or adding no dependency. External-service selection is excluded: an SDK's size does not establish its provider's suitability, pricing, data handling, or availability.
 - Do not review a diff or PR, audit security, audit documentation quality, or analyze multiple repositories.
 - Documentation may serve as factual evidence. If an obvious committed secret or critical vulnerability appears incidentally, report it briefly and recommend a dedicated security audit; do not expand into one.
 - Keep investigation read-only. Do not install, update, reconfigure, fix, commit, or push. The only allowed write path is an approved final Audit Record under `docs/audits/` as described below.
@@ -36,6 +43,8 @@ When the frontier is empty, summarize the audit question, scope, exclusions, dec
 ## Investigate
 
 Read [references/audit-method.md](references/audit-method.md) and follow its evidence, comparison, materiality, and validation rules.
+
+For dependency or tool selection, apply its adoption criteria and cost/utility rules. Recommend rather than integrate; this workflow grants no installation or implementation authority.
 
 Keep the user's question central. Expand automatically when a discovered signal can change the requested decision, invalidate an assumption, reveal a likely root cause, or show a material impact. Ask before expanding into a different objective or subsystem. Otherwise record one concise out-of-scope lead and offer a separate audit.
 
@@ -63,3 +72,5 @@ After the user validates the report, offer to create or update one Audit Record.
 Use `docs/audits/`; create `docs/` and `docs/audits/` after approval when absent. If the repository already has an equivalent convention, present it and ask before using a path other than `docs/audits/`. Follow [references/audit-record.md](references/audit-record.md).
 
 Record recommendations as decisions only after the user accepts them. Never commit the record.
+
+For adoption, identify the accepted option and any unresolved conditions before handoff to an implementation task. Link the approved Audit Record from that task's contract when applicable; do not edit the contract under audit authority. The audit retains its specialist interview, does not automatically invoke another skill, and does not authorize implementation. An ADR is a separate, explicitly approved activity only when a durable architectural trade-off warrants one.

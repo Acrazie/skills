@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TablerIcon from '../components/TablerIcon.astro';
+import { graphTranslations } from '../i18n/graph';
+import { getLocalizedPath, type Locale } from '../i18n/ui';
+import { getLocalizedSkills } from '../lib/skills';
+import { getSkillGraph } from '../lib/skill-graph';
+import { renderMarkdownWithHeadingOffset } from '../lib/markdown';
+import '../styles/skill-graph.css';
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const t = graphTranslations[lang];
+const graph = getSkillGraph();
+const skills = getLocalizedSkills(lang);
+const families = [...new Set(graph.nodes.map(n => n.category))].map(category => {
+  const node = graph.nodes.find(n => n.category === category)!;
+  return { category: skills.find(s => s.id === node.id)!.category, color: node.color };
+});
+const evidenceUrl = (e: { path: string; line: number; endLine: number }) => `https://github.com/Acrazie/skills/blob/${graph.revision}/${e.path}#L${e.line}-L${e.endLine}`;
+---
+<BaseLayout title={`${t.nav} — Acrazie Skills`} description={t.subtitle}>
+  <section class="skill-map" data-skill-map>
+    <noscript><style is:inline>.map-stage, .map-toolbar { display: none !important; }</style></noscript>
+    <header class="map-heading">
+      <h1>{t.title}</h1>
+      <p>{t.subtitle}</p>
+    </header>
+    <div class="map-workspace">
+      <div class="map-explorer">
+        <div class="map-toolbar">
+          <label class="map-search"><TablerIcon name="search" size={18} /><span class="map-sr-only">{t.search}</span><input type="search" data-search placeholder={t.search} autocomplete="off" /></label>
+          <div class="map-controls" data-controls hidden>
+            <button type="button" data-zoom-out aria-label={t.zoomOut}><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14" /></svg></button>
+            <button type="button" data-zoom-in aria-label={t.zoomIn}><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14" /></svg></button>
+            <button type="button" data-reset>{t.reset}</button>
+            <button type="button" data-pause aria-pressed="false">{t.pause}</button>
+          </div>
+        </div>
+        <div class="map-stage" data-stage>
+          <div class="map-canvas" data-canvas aria-hidden="true"></div>
+          <p class="map-loading" data-loading role="status">{t.loading}</p>
+          <div class="map-stage-meta"><span>{skills.length} {t.skills}</span><span>{graph.links.length} {t.links}</span></div>
+          <p class="map-hint" data-hint hidden>{t.hint}</p>
+        </div>
+        <ul class="map-legend" aria-label={t.legend}>{families.map(family => <li><span style={`--family-color:${family.color}`} aria-hidden="true"></span>{family.category}</li>)}</ul>
+        <details class="map-directory" open>
+          <summary>{t.list} <span data-result-count>{skills.length}</span></summary>
+          <p data-empty hidden>{t.empty}</p>
+          <ul class="map-skill-list">{skills.map(skill => <li data-skill-row data-search-text={`${skill.id} ${skill.description} ${skill.category}`.toLowerCase()}><a href={`#map-skill-${skill.id}`} data-select={skill.id}><span style={`--family-color:${graph.nodes.find(n => n.id === skill.id)!.color}`} aria-hidden="true"></span>{skill.id.replace(/-acrazie$/, '')}<span class="map-sr-only">-acrazie</span></a></li>)}</ul>
+        </details>
+      </div>
+      <aside class="map-reader" aria-label={t.instructions}>
+        <div class="map-welcome" data-welcome>
+          <svg class="map-symbol" aria-hidden="true" viewBox="0 0 160 160" fill="none"><path d="M28 110V50h45m14 0h45v60H87m-14 0H28M80 65v30" stroke="currentColor" stroke-width="1"/><path d="M65 65h30v30H65zM19 101h18v18H19zM123 41h18v18h-18z" stroke="currentColor" stroke-width="3"/></svg>
+          <h2>{t.welcome}</h2><p>{t.intro}</p>
+        </div>
+        <button class="map-clear" type="button" data-clear hidden>{t.close}</button>
+        <p class="map-sr-only" data-selection-status role="status" aria-live="polite"></p>
+        {skills.map(skill => {
+          const outgoing = graph.links.filter(link => link.source === skill.id);
+          const incoming = graph.links.filter(link => link.target === skill.id);
+          return <details class="map-skill-content" id={`map-skill-${skill.id}`} data-content={skill.id}>
+            <summary>{skill.id}</summary>
+            <div class="map-reader-body">
+              <span class="map-category">{skill.category}</span>
+              <h2 tabindex="-1">{skill.id}</h2>
+              <p class="map-description">{skill.description}</p>
+              <a class="map-detail-link" href={getLocalizedPath(`/skills/${skill.id}/`, lang)}>{t.details}<TablerIcon name="arrow-up-right" size={16} /></a>
+              <div class="map-relations">
+                {[{ title: t.outgoing, links: outgoing, outgoing: true }, { title: t.incoming, links: incoming, outgoing: false }].filter(group => group.links.length).map(group => <section>
+                  <h3>{group.title} <span>{group.links.length}</span></h3>
+                  <ul>{group.links.map(link => <li>
+                    <a data-select={group.outgoing ? link.target : link.source} href={`#map-skill-${group.outgoing ? link.target : link.source}`}>{group.outgoing ? link.target : link.source}</a>
+                    {link.conditional && <span class="map-conditional">{t.conditional}</span>}
+                    <details class="map-evidence"><summary>{t.evidence}</summary>{link.evidence.map(e => <div><blockquote>{e.quote}</blockquote><a href={evidenceUrl(e)} target="_blank" rel="noopener noreferrer">{e.path}:{e.line}</a></div>)}</details>
+                  </li>)}</ul>
+                </section>)}
+                {!incoming.length && !outgoing.length && <p>{t.none}</p>}
+              </div>
+              <h3 class="map-instructions-title">{t.instructions} <code>SKILL.md</code></h3>
+              <article class="prose-shadcn" set:html={renderMarkdownWithHeadingOffset(skill.content, 2, `https://github.com/Acrazie/skills/blob/${graph.revision}/skills/${skill.id}/SKILL.md`)} />
+            </div>
+          </details>;
+        })}
+      </aside>
+    </div>
+    <p class="map-notice">{t.notice}</p>
+    <script type="application/json" data-graph-data set:html={JSON.stringify({ ...graph, labels: t }).replace(/</g, '\\u003c')} />
+  </section>
+</BaseLayout>
+<script>
+  import '../scripts/skill-graph';
+</script>

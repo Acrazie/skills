@@ -1,0 +1,31 @@
+{
+  "skill_name": "feature-builder-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "reuse-approved-status-filter-contract",
+      "prompt": "Dans un fixture Python temporaire, list_tasks(tasks) retourne list(tasks), avec un test unittest existant. Une invocation utilisateur explicite et un contrat approuvé avec preuve de cette approbation sont fournis pour ajouter status=None : omission ou None conserve toutes les tâches ; une chaîne filtre par égalité exacte en conservant l'ordre ; statut inconnu ou entrée vide donne une liste vide ; liste et dictionnaires d'entrée restent inchangés. Les statuts sont des chaînes et les tâches ont toutes un champ status valide. UI, stockage, tri, dépendances et refactors sans rapport sont exclus. Utilise feature-builder-acrazie pour réaliser seulement ce contrat et enregistrer preuves dans le même document. Aucun réseau, installation ou Git.",
+      "expected_output": "A minimal optional filter, targeted standard-library tests, reused approval without another interview, and actual criterion-linked evidence.",
+      "files": [],
+      "expectations": [
+        "The current approved contract is reused without a ceremonial interview or approval loop.",
+        "Tests cover omitted/None status, exact matching and order, unknown/empty results, and input preservation.",
+        "The existing behavior's test remains green, and new tests fail for missing behavior before implementation where feasible.",
+        "The implementation adds no unrequested UI, sorting, storage, dependencies, or configuration.",
+        "Delivery evidence maps actual checks to criteria in the original contract, without claiming CI or deployment."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "missing-interview-dependency",
+      "prompt": "Dans un fixture temporaire sans contrat, utilisateur invoque explicitement feature-builder-acrazie : « Ajoute un filtre par statut aux tâches. » Seul feature-builder-acrazie est installé dans ce harness ; interview-acrazie est indisponible. N'accède pas aux autres packages sources pour simuler une installation. Aucun réseau, installation ou Git. Suis le skill et rapporte réponse et actions sans modifier code.",
+      "expected_output": "An implementation stop and explicit user installation request with the Skills CLI command, not an embedded interview or silent installation.",
+      "files": [],
+      "expectations": [
+        "No feature implementation starts without the contract and missing dependency.",
+        "The response asks the user to install interview-acrazie and provides npx skills add Acrazie/skills@interview-acrazie.",
+        "No installation, network operation, or copied interview is performed."
+      ]
+    }
+  ]
+}

@@ -52,6 +52,45 @@ Maturity is a risk input, not a gate. Never equate age or popularity with qualit
 
 Recommend replacement only when net benefit is material for this repository. Include `keep current approach` as a real option.
 
+### Library, framework, and development-tool adoption
+
+Reuse the comparison above; do not run a second interview or a separate generic
+ranking workflow. Inspect actual needs, manifests, lockfiles, and existing native
+or installed capabilities. Include adding no dependency as a real option.
+
+Separate elimination criteria from preferences. Check required capability coverage,
+runtime/framework compatibility, acceptable licensing, and blocking security risks
+against the project's established constraints. Use version-specific upstream
+metadata, release/support information, and relevant advisories for proportionate
+adoption checks; this is not a full security audit. Distinguish confirmed risk from
+unknown information. An unknown elimination criterion blocks the choice until
+resolved; unknown preferences lower confidence or remain explicit reservations.
+Never infer that uncertainty proves a vulnerability or incompatibility.
+
+Evaluate cost in proportion to capabilities actually used, not package size alone.
+A larger candidate may replace several dependencies, remove custom code, or reduce
+maintenance. Unused feature breadth is not a benefit. Account for transitive
+dependencies, integration complexity, API stability, support/release discipline,
+and reversibility. Novelty, popularity, age, or commit frequency alone do not prove
+quality or abandonment. Evaluate the specific package/component, not a family's
+reputation, and discover credible emerging options without assuming they are best.
+
+Distinguish production cost from local/CI cost. For frontend code, inspect the
+actually delivered bundle and runtime cost when relevant, including real import
+paths and tree-shaking behavior. For backend code, use relevant startup, memory,
+throughput, or latency evidence. For development tools, consider installation and
+transitive footprint, CI/runtime cost, configuration, capability coverage, and
+whether outputs or components enter production. No universal weight threshold;
+do not compare published archive size with compressed bundle size or incompatible
+benchmark conditions. Dated upstream claims are not observed project measurements.
+
+Present one argued recommendation with credible alternatives, decisive evidence,
+trade-offs, and unresolved conditions, rather than an artificial numeric ranking.
+If a gate remains unknown, report the choice as blocked, not accepted; a separately
+authorized bounded trial may be the recommended next action. Obtain user acceptance
+before recording a decision or handing it off. Implementation remains a separate
+task, and the Audit Record's write approval remains separate from choice approval.
+
 ## Validate proportionally
 
 Use the smallest sufficient proof for each claim, not the smallest overall investigation.
@@ -62,6 +101,12 @@ Use the smallest sufficient proof for each claim, not the smallest overall inves
 - Do not install dependencies, update lockfiles, reconfigure tools, generate lasting artifacts, or access non-documentation network services without separate permission.
 - If a command may mutate caches or generated files materially, disclose that and ask first.
 - Record commands, relevant output summaries, versions, and failures.
+
+When a decisive adoption claim cannot be established with read-only evidence,
+describe the smallest targeted trial, its success criteria, side effects, and
+cleanup/rollback plan, then request separate permission. Permission for that trial
+does not authorize integration or migration. Prefer an isolated disposable fixture
+when it can answer the question without modifying the repository.
 
 Lack of executable validation lowers confidence; it does not justify inventing certainty.
 

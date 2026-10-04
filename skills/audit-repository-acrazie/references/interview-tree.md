@@ -25,6 +25,15 @@ Ask only unresolved items:
 - **Decision criteria:** Which project-specific constraints dominate, such as compatibility, performance, developer experience, operational simplicity, migration cost, or reversibility?
 - **Change tolerance:** Is the user open to replacement, incremental improvement, or validation of the current choice?
 
+For library, framework, or development-tool adoption, clarify required capabilities
+and actual expected usage, then distinguish elimination criteria from negotiable
+preferences. Functional fit, runtime/framework compatibility, acceptable licensing,
+and blocking security risks are gates; determine relevant license constraints and
+security requirements rather than prescribing a universal policy. Establish any
+project-specific production or local/CI cost budgets. Do not turn "modern",
+"lightweight", or "maintained" into an arbitrary age, size, or commit-frequency
+threshold. Keeping the current solution and adding nothing remain valid outcomes.
+
 Do not offer a general audit. If no focus exists, use preliminary inspection to propose a few concrete audit questions and wait for the user's selection.
 
 ## 3. Dependent decisions
@@ -36,6 +45,7 @@ Activate only after prerequisites settle:
 - resolve a related pending Audit Record after overlap and evidence freshness are known;
 - ask permission to enter another subsystem only after evidence shows it can materially change the answer;
 - decide whether to resume, supersede, or link an old audit only after comparing its scope and repository state.
+- for adoption, propose a separately authorized targeted trial only after a decisive compatibility or performance gap has been identified; explain side effects and preserve the audit's read-only boundary.
 
 Do not ask the user which files, versions, commands, plugins, or framework capabilities exist when these can be inspected or researched.
 

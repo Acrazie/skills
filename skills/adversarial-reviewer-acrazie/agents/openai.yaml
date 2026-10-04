@@ -1,0 +1,6 @@
+interface:
+  display_name: "Adversarial Reviewer / Acrazie"
+  short_description: "Falsify code diffs through language-agnostic split-context adversarial review"
+  default_prompt: "Use $adversarial-reviewer-acrazie to evaluate my code diff under an adversarial lens, searching for resource leaks, concurrency races, semantic drift, and forbidden workarounds."
+policy:
+  allow_implicit_invocation: true

@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.8.0](https://github.com/Acrazie/skills/compare/v1.7.0...v1.8.0) (2026-10-01)
+
+
+### Features
+
+* **audit-repository:** guide library and tool selection ([#71](https://github.com/Acrazie/skills/issues/71)) ([ebdb6b4](https://github.com/Acrazie/skills/commit/ebdb6b40f8b01f0eef2c646b226be07b107764b9))
+* **github-repo-init:** adapt Git governance to repository policy ([#68](https://github.com/Acrazie/skills/issues/68)) ([074b311](https://github.com/Acrazie/skills/commit/074b3117d39d036faa484be1929327f9d081812e))
+* **site:** add interactive skill relationship map ([#72](https://github.com/Acrazie/skills/issues/72)) ([adc1a74](https://github.com/Acrazie/skills/commit/adc1a74a4010b56274c0824830c85e3cb7a46d5f))
+* **skills:** add interview and feature builder workflows ([#70](https://github.com/Acrazie/skills/issues/70)) ([8db4b6e](https://github.com/Acrazie/skills/commit/8db4b6ec519b93c1cf6dfda2da05eebbb82f8832))
+
+## [1.7.0](https://github.com/Acrazie/skills/compare/v1.6.0...v1.7.0) (2026-09-28)
+
+
+### Features
+
+* **docs:** add english, french, and chinese i18n support ([#49](https://github.com/Acrazie/skills/issues/49)) ([27c6a65](https://github.com/Acrazie/skills/commit/27c6a650b919c96e33f102c3470d8752d20a1993))
+* **docs:** add scroll-aware liquid glass dock ([#53](https://github.com/Acrazie/skills/issues/53)) ([88a602a](https://github.com/Acrazie/skills/commit/88a602ae9364d238b8b5815bbe4eb5c7cb771d2f))
+* **docs:** add strata cloud official logo and favicon ([#50](https://github.com/Acrazie/skills/issues/50)) ([af782d2](https://github.com/Acrazie/skills/commit/af782d24cc8c06d6778b0bc5e43def0276d232e9))
+* **docs:** make catalogue skill cards clickable with hover arrow affordance ([#56](https://github.com/Acrazie/skills/issues/56)) ([77b3b97](https://github.com/Acrazie/skills/commit/77b3b9795b25a91167d0907a578f731635f4b6e4))
+* **docs:** redesign skills portal with ASCII cloud hero ([#44](https://github.com/Acrazie/skills/issues/44)) ([a21ffed](https://github.com/Acrazie/skills/commit/a21ffed691deeb1e68d18eaf99208caae2b322af))
+* **docs:** replace ASCII hero with pixel cloud art ([#48](https://github.com/Acrazie/skills/issues/48)) ([c48c282](https://github.com/Acrazie/skills/commit/c48c2828f4b9c85bf1f9b2a1bf3017e3ebf1d18d))
+* **docs:** update site favicon suite with strata cloud logo ([#54](https://github.com/Acrazie/skills/issues/54)) ([fe9a847](https://github.com/Acrazie/skills/commit/fe9a8479c7d6e9c88cc75bf62328accaa87dcd9a))
+* **dx:** support antigravity skills directory in link-skills ([#51](https://github.com/Acrazie/skills/issues/51)) ([9fcf099](https://github.com/Acrazie/skills/commit/9fcf099f014e8a31079e47e3740dd7b73dbfff7a))
+* **site:** amplify pixel cloud hero motion and soften transition ([#62](https://github.com/Acrazie/skills/issues/62)) ([d8bbd68](https://github.com/Acrazie/skills/commit/d8bbd68294271e503a1caa4dcc5afce5f2a82955))
+* **site:** animate hero and catalogue interactions ([#66](https://github.com/Acrazie/skills/issues/66)) ([32dce01](https://github.com/Acrazie/skills/commit/32dce015d3e10f7d4b6209aa4e452ad558f60e14))
+* **site:** relocate frontend portal to site and migrate to bun ([#57](https://github.com/Acrazie/skills/issues/57)) ([45fb42a](https://github.com/Acrazie/skills/commit/45fb42af41d5b70f0d6b568ba399cc5f2ef6440c))
+
+
+### Bug Fixes
+
+* **docs:** align favicon directly with logo.svg and remove dark background ([#55](https://github.com/Acrazie/skills/issues/55)) ([0640a7c](https://github.com/Acrazie/skills/commit/0640a7c45b683d202ccbfa968628091a6f9107df))
+* **docs:** disable absolute redirects and enforce trailing slashes ([#46](https://github.com/Acrazie/skills/issues/46)) ([ea283cd](https://github.com/Acrazie/skills/commit/ea283cd10abc34d97aa1bb2a7a6341a9f2792e9d))
+* **docs:** remove unwanted scrollbar on catalogue filter tabs ([#47](https://github.com/Acrazie/skills/issues/47)) ([3c9abce](https://github.com/Acrazie/skills/commit/3c9abce7350eb4cbf2e6d02b2f6f299863158de6))
+* **site:** add adaptive contrast to favicon for light browser theme ([#63](https://github.com/Acrazie/skills/issues/63)) ([6cafad0](https://github.com/Acrazie/skills/commit/6cafad046220c28ac3f82f624b9ff797592caa0c))
+* **site:** address portal accessibility audit ([#61](https://github.com/Acrazie/skills/issues/61)) ([661122c](https://github.com/Acrazie/skills/commit/661122c89e7a5a961e1540bdda715d5397e48f95))
+* **site:** adopt github-style dual svg favicon with matchmedia sync ([#65](https://github.com/Acrazie/skills/issues/65)) ([bbca96c](https://github.com/Acrazie/skills/commit/bbca96c5515903c2f7fb4f575cb334f2c7cf8d11))
+* **site:** polish catalogue and reading layouts ([#67](https://github.com/Acrazie/skills/issues/67)) ([a6ac825](https://github.com/Acrazie/skills/commit/a6ac82562e765798e40711304effee80c2fd730e))
+* **site:** prioritize adaptive svg favicon and remove ico background box ([#64](https://github.com/Acrazie/skills/issues/64)) ([cac9150](https://github.com/Acrazie/skills/commit/cac91507b61c9446e7d5d8a068b53eb08140ff15))
+* **site:** repair README assets after portal migration ([#60](https://github.com/Acrazie/skills/issues/60)) ([5dcf8e3](https://github.com/Acrazie/skills/commit/5dcf8e30f12a743c7467b073b8f80584fe1cbdc6))
+
 ## [1.6.0](https://github.com/Acrazie/skills/compare/v1.5.1...v1.6.0) (2026-09-24)
 
 

@@ -25,8 +25,22 @@ const lang = getLangFromUrl(currentPath);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" id="site-favicon" type="image/svg+xml" href="/favicon-dark.svg" />
+    <script is:inline>
+      (() => {
+        const link = document.getElementById('site-favicon');
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        const update = (dark) => {
+          if (link) link.href = dark ? '/favicon-dark.svg' : '/favicon.svg';
+        };
+        update(mq.matches);
+        try {
+          mq.addEventListener('change', (e) => update(e.matches));
+        } catch {
+          mq.addListener((e) => update(e.matches));
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />

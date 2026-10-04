@@ -1,0 +1,6 @@
+interface:
+  display_name: "Interview / Acrazie"
+  short_description: "Clarify intent and record an approved task contract"
+  default_prompt: "Use $interview-acrazie to clarify my request and record its approved scope, success criteria, and expected evidence before execution."
+policy:
+  allow_implicit_invocation: true

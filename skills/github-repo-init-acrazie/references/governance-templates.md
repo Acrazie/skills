@@ -61,59 +61,40 @@ Please be respectful and constructive in all interactions.
 
 ## Branching Strategy & Environments
 
-This repository uses **<Trunk-Based Development | Environment Branches>**:
+This repository uses **<selected branch model>**. Full policy: [docs/git-workflow.md](docs/git-workflow.md).
 
-- `main`: <Production stable branch | Production deployment>
-- `staging` *(if applicable)*: Pre-production QA and staging deployment
-- `develop` *(if applicable)*: Integration branch for daily development
+- <list only actual base, environment, and PR target branches>
 
 ### Branch Naming Conventions
-- `feat/<topic>`: New features or capabilities
-- `fix/<topic>`: Bug fixes and patches
-- `chore/<topic>`: Dependencies, tooling, or refactoring
-- `docs/<topic>`: Documentation only changes
+- <selected convention, or link to existing organization rule>
 
-## Parallel Development with Git Worktrees
+## Parallel Development
 
-If you work on multiple features or with AI coding agents in parallel, use Git Worktrees to prevent branch collision:
+<Describe selected required/situational/no-worktree policy. Include this example only if the generated helper and `.worktrees/` location were selected.>
 
 ```bash
-# Using the helper script:
 ./scripts/worktree.sh add feat/<branch-name>
-
-# Or manually:
-git worktree add .worktrees/<branch-name> -b feat/<branch-name> origin/main
-cd .worktrees/<branch-name>
 ```
 
-When work is finished and the PR is merged:
-```bash
-./scripts/worktree.sh remove feat/<branch-name>
-```
+Before removing a worktree, verify no task, process, unmerged PR, or unpreserved changes still need it.
 
 ## Commit Conventions
 
-This project enforces [Conventional Commits](https://www.conventionalcommits.org/):
-
-- `feat:` A new user-facing feature
-- `fix:` A bug fix
-- `docs:` Documentation only changes
-- `refactor:` Code change that neither fixes a bug nor adds a feature
-- `test:` Adding or updating tests
-- `chore:` Routine tasks, dependency updates, tooling
+<Describe selected staging, commit granularity, and message convention. Include Conventional Commits examples only if selected or already enforced.>
 
 *Note: Never add automated co-author attributions.*
 
 ## Pull Request Process
 
-1. Create your branch or worktree (`feat/<branch-name>` or `fix/<branch-name>`).
+1. Verify the remote base where one exists, then create the work branch or worktree according to policy.
 2. Run local tests and linters before committing:
    ```bash
    <lint-command>
    <test-command>
    ```
-3. Open a Pull Request targeting `<main | develop>`.
-4. Ensure CI checks pass.
+3. Before push/PR, fetch and compare with the selected target. On failure or divergence, ask how to proceed rather than silently merge/rebase.
+4. Follow the selected push approval, PR state/target, review, and merge policy in `docs/git-workflow.md`.
+5. Ensure remote CI checks pass before claiming PR readiness.
 ```
 
 ---
@@ -125,37 +106,31 @@ This project enforces [Conventional Commits](https://www.conventionalcommits.org
 
 This document serves as the authoritative source of truth for Git operations, branching strategy, commit standards, quality gates, and Pull Request procedures on this repository. Coding agents and contributors must adhere to these policies.
 
+Adapt every policy below to discovered constraints and explicit interview answers. Omit inapplicable sections rather than publishing contradictory defaults. `AGENTS.md` and `CONTRIBUTING.md` must point to or accurately summarize this document. It must remain usable without invoking any Git skill.
+
 ---
 
 ## 1. Branching Model & Environments
 
-- **Default / Trunk Branch**: <main | master> (reflects production-ready code).
-- **Direct Commits Prohibited**: Committing directly or pushing directly to the default branch is strictly forbidden.
-- **Branch Naming**:
-  - `feat/<topic>`: New features or capabilities
-  - `fix/<topic>`: Bug fixes and patches
-  - `chore/<topic>`: Dependencies, tooling, and refactoring
-  - `docs/<topic>`: Documentation changes only
+- **Base Branch / PR Target**: <selected branches, by change type if needed>.
+- **Direct Commit/Push Policy**: <selected rule, consistent with organization and branch protection>.
+- **Branch Naming**: <selected prefixes or existing convention>.
+- **Before New Work**: If a remote exists, fetch the base branch and verify the remote ref before creating a work branch. If verification fails, stop and ask whether to work offline; never claim that the base is current. A new repository without a remote can begin from its local initial branch.
 
 ## 2. Parallel Development with Git Worktrees
 
-To isolate concurrent tasks and avoid dirty working tree collisions (especially when working with AI agents):
-- All feature work should be conducted inside dedicated worktrees under `.worktrees/<branch-name>`.
-- The directory `.worktrees/` is gitignored.
-- Use `./scripts/worktree.sh add <branch-name>` (or standard `git worktree add .worktrees/<branch-name> -b <branch-name> origin/<default-branch>`).
-- Remove the worktree once the PR is merged: `./scripts/worktree.sh remove <branch-name>`.
+<Include only when worktrees are selected. State required or situational use, location, and whether a clean dedicated checkout suffices. If using `.worktrees/`, ignore it and reference the generated helper. Do not remove a worktree while a task, process, unmerged PR, or unpreserved change still needs it. Do not force removal.>
 
 ## 3. Commit Conventions
 
-This repository strictly enforces [Conventional Commits](https://www.conventionalcommits.org/):
-- **Format**: `<type>(<optional-scope>): <concise description>`
-- **Types**: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, `perf`.
-- **Imperative Mood**: Use present tense ("add feature" instead of "added feature").
+- **Staging**: <selected targeted-path or reviewed-tree policy>. Review status and diff first; exclude secrets, generated artifacts, and unrelated changes.
+- **Commit Granularity**: <selected coherent-intent, per-task, or case-by-case rule>.
+- **Message Convention**: <selected convention; describe Conventional Commits only if selected or already enforced>.
 - **Attribution Invariant**: NEVER include co-author trailers (`Co-authored-by: ...` or equivalent automated attributions).
 
 ## 4. Pre-Commit Quality Gates
 
-Before staging or committing any code:
+Before committing code:
 1. **Hygiene**: Ensure no secrets, `.env*` files, build caches, or temporary directories are staged.
 2. **Quality Verification**: Execute the repository quality checks:
    - `<lint-command>` (e.g. `npx lefthook run pre-commit` or linter/formatter)
@@ -165,17 +140,15 @@ Before staging or committing any code:
 ## 5. Delivery & Pull Request Protocol
 
 When a task is complete:
-1. **Push**: Push the feature branch to the remote: `git push -u origin <branch-name>`.
-2. **PR Creation**: Open a Pull Request using GitHub CLI:
-   - **Default State**: Open as **Draft** (`gh pr create --draft`) for review and verification unless explicitly requested as ready.
-   - **Template**: Populate all sections defined in `.github/pull_request_template.md`.
-   - **Target**: PR must target <main | develop>.
-3. **Merge Strategy**: Squash-merge into the default branch with a clean Conventional Commit title.
+1. **Remote Check**: Fetch and compare the work branch with the selected PR target before push/PR; repeat if a long task may have made this stale. On fetch failure or target divergence, report it and ask how to proceed. Do not silently merge, rebase, or force-push.
+2. **Push Authorization**: <selected policy>. Never push directly to a branch where repository or organization rules prohibit it.
+3. **PR Creation**: <selected authorization, Draft/ready default, target, required checks/review, and template>. Do not claim local checks prove remote CI passed.
+4. **Merge Strategy**: <selected method consistent with branch rules; do not assume squash merge>.
 
 ## 6. Agent Autonomy Boundaries
 
-- **Autonomous Actions**: Creating local branches or worktrees, staging relevant files, running tests/linters, and creating local commits.
-- **Approval-Gated Actions**: Pushing to remote (`git push`), opening Pull Requests (`gh pr create`), deleting branches, or any destructive git operations require explicit confirmation.
+- **Autonomous Actions**: <selected local actions, within repository/organization constraints>.
+- **Approval-Gated Actions**: <selected publication actions>. Destructive Git operations require explicit confirmation. If an external skill or configuration conflicts with this policy, present both sources and ask the user to choose; never edit that external source by implication.
 ```
 
 ---
@@ -282,7 +255,7 @@ Closes #
 - [ ] My code follows the project's style guidelines
 - [ ] I have executed local linters and tests successfully
 - [ ] I have updated documentation where appropriate
-- [ ] My commit messages follow Conventional Commits
+- [ ] My commits follow the repository's selected message convention
 ```
 
 ---
@@ -318,7 +291,7 @@ SOFTWARE.
 
 ## 8. Curated `.gitignore` Base
 
-Always combine common OS / Editor ignores with stack-specific ignores:
+Always combine common OS / Editor ignores with stack-specific ignores. Add `.worktrees/` only if that location was selected:
 
 ```gitignore
 # OS
@@ -340,9 +313,6 @@ Thumbs.db
 .env.*.local
 *.pem
 *.key
-
-# Worktrees for parallel development
-.worktrees/
 
 # Common build & logs
 logs

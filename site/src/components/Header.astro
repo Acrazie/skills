@@ -1,6 +1,7 @@
 ---
 import TablerIcon from './TablerIcon.astro';
 import BrandLogo from './BrandLogo.astro';
+import { graphTranslations } from '../i18n/graph';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/ui';
 
@@ -26,6 +27,7 @@ const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === 
     <nav class="site-nav" aria-label={t('nav.catalogue')}>
       <a href={cataloguePath} aria-current={isHome ? 'page' : undefined}>{t('nav.catalogue')}</a>
       <a href={changelogPath} aria-current={currentPath.includes('/changelog') ? 'page' : undefined}>{t('nav.changelog')}</a>
+      <a href={getLocalizedPath('/graph/', lang)} aria-current={currentPath.includes('/graph') ? 'page' : undefined}>{graphTranslations[lang].nav}</a>
     </nav>
     <div class="site-header__links">
       <LanguageSwitcher currentLang={lang} currentPath={currentPath} />
@@ -77,3 +79,12 @@ const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === 
     dock.addEventListener('focusin', show);
   }
 </script>
+
+<style>
+  @media (max-width: 640px) {
+    .site-header__inner { flex-wrap: wrap; height: auto; min-height: 60px; gap: 0 12px; }
+    .site-nav { order: 3; width: 100%; justify-content: space-between; border-top: 1px solid #454547; }
+    .site-header__links { margin-left: auto; }
+    .site-header--over-hero { margin-bottom: -117px; }
+  }
+</style>

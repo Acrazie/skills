@@ -1,6 +1,6 @@
 ---
 name: github-repo-init-acrazie
-description: Initialize, bootstrap, and scaffold a production-ready GitHub repository tailored to user choices through an adaptive interview, a structured blueprint approval gate, and end-to-end scaffolding. Covers stack setup (React, Vue, Next.js, Vite, Node, Python uv/Poetry, Go, Rust, or agnostic), code quality tools (Lefthook, Biome, ESLint, Ruff), CI/CD workflows, release automation, and complete repository governance (README, SECURITY.md, CONTRIBUTING, LICENSE, templates, CODEOWNERS).
+description: Initialize, bootstrap, and scaffold a production-ready GitHub repository tailored to user choices through an adaptive interview, a structured blueprint approval gate, and end-to-end scaffolding. Covers stack setup (React, Vue, Next.js, Vite, Node, Python uv/Poetry, Go, Rust, or agnostic), evidence-based tooling selection (including Oxlint/Oxfmt, Biome, ESLint, Ruff), Git/GitHub settings and permissions discovery, CI/CD workflows, release automation, and complete repository governance (README, SECURITY.md, CONTRIBUTING, LICENSE, templates, CODEOWNERS).
 disable-model-invocation: true
 ---
 
@@ -17,8 +17,11 @@ Scaffold and bootstrap a complete, production-grade GitHub repository tailored t
    - **Deep Prior Discovery**: If running in an existing populated directory or initialized git repository, thoroughly explore existing manifests, workflows, linters, and tests *before* asking questions, and prune all redundant questions from the interview.
    - **Approval Gate**: Present a consolidated **Repository Blueprint** and obtain explicit user confirmation before creating files or running mutating shell commands.
    - **Tooling Verification**: Verify CLI availability (`node`, `pnpm`, `uv`, `go`, `cargo`, `git`, `gh`) before executing commands. If a tool is missing, report the dependency and offer alternatives.
+   - **Current Option Discovery**: Before recommending any package, library, framework, package manager, hook manager, or CI/release tool, research current credible alternatives using official documentation and registry/release metadata. Templates are examples, not a closed catalog or automatic defaults. Preserve explicit user choices and established tooling; report material incompatibilities without silently replacing them. Read [references/tool-selection.md](references/tool-selection.md).
+   - **Git/GitHub Capability Discovery**: Inspect the installed CLI help, current official API documentation, effective settings and access before proposing Git/GitHub configuration. Distinguish repository settings, caller authorization, and workflow token permissions; inaccessible is not disabled. Read [references/github-settings.md](references/github-settings.md).
    - **Git Hygiene**: Always configure `.gitignore` *before* package installations so caches and dependencies (e.g. `node_modules`, `.venv`) are never tracked.
-   - **Conventional Commits**: Format the initial commit using Conventional Commits (`chore: initial repository bootstrap`). Never add co-author attributions.
+   - **Git Policy Belongs to the Repository**: Discover applicable organization/repository rules and relevant available Git skills before proposing a workflow. Present conflicts with their sources and consequences; the user decides whether to preserve, adapt, or request a change to a rule. Until changed through an authorized workflow, obey applicable higher-priority instructions and enforced protections. Never edit an external skill or configuration without specific approval. Generated repository policy must work without invoking another skill.
+   - **Commit Convention**: Follow the convention selected in the interview or already enforced by the repository. Never add co-author attributions.
    - **Non-Destructive Execution**: Never overwrite an existing populated directory without explicit user authorization.
 
 ---
@@ -33,7 +36,7 @@ flowchart TD
   D --> E["5. Setup Code Quality & Git Hooks"]
   E --> F["6. Generate Governance & Workflows"]
   F --> G["7. Git Init & Initial Verification"]
-  G --> H["8. Optional GitHub Remote Creation"]
+  G --> H["8. Optional GitHub Publication & Approved Settings"]
 ```
 
 ---
@@ -45,6 +48,7 @@ Before asking questions, thoroughly inspect the working directory and system env
 1. **Directory & Git State**:
    - Check current working directory path.
    - Check if git is initialized (`git status`), check existing remotes (`git remote -v`), and current branch.
+   - If a remote exists, record its prospective base branch and whether freshness is unverified. Fetch only after blueprint approval and before creating a work branch. If the fetch fails, do not call the base current or branch from an unverified remote ref; ask whether to work offline. A brand-new repository without a remote is exempt until first publication.
    - Check whether the directory is empty or populated (`ls -la`).
 2. **Deep Exploration of Existing Stack & Config (if directory is populated or git initialized)**:
    - **Language manifests**:
@@ -53,17 +57,20 @@ Before asking questions, thoroughly inspect the working directory and system env
      - Go: `go.mod`, `go.sum`.
      - Rust: `Cargo.toml`, `Cargo.lock`.
    - **Code quality & tooling configurations**:
-     - Linters/Formatters: `biome.json`, `.eslintrc*`, `ruff.toml`, `pyproject.toml` tool sections, `.golangci.yml`.
+     - Linters/Formatters: `biome.json*`, `eslint.config.*`, `.eslintrc*`, `.prettierrc*`, `prettier.config.*`, `.oxlintrc.json`, `oxlint.config.*`, `.oxfmtrc.json*`, `oxfmt.config.*`, `ruff.toml`, `pyproject.toml` tool sections, `.golangci.yml`; inspect manifests/scripts too.
      - Git hooks: `lefthook.yml`, `.husky/`, `.pre-commit-config.yaml`.
    - **CI/CD & Workflows**:
      - `.github/workflows/` (inspect existing CI, release, and audit workflows).
      - Dependabot: `.github/dependabot.yml`.
    - **Existing Governance & DX**:
-     - `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`.
+     - `README.md`, `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `AGENTS.md`, `docs/git-workflow.md`, branch protection/rulesets, required checks, and merge settings when accessible.
      - `.editorconfig`, `.gitignore`, `.env*`, `scripts/`.
-3. **CLI Tooling Availability**:
+3. **Git/GitHub Settings Inventory**: Read [references/github-settings.md](references/github-settings.md). Discover relevant local Git options and GitHub setting families, effective organization constraints, caller role/access, Actions defaults and workflow overrides. Record inspected sources and gaps. For a not-yet-created remote, separate documented possibilities from settings that can only be verified after publication; local-only mode skips remote inspection.
+4. **Relevant Available Skills**: Inspect discoverable local skills/configurations governing branches, worktrees, staging, commits, push, or PRs, even for a new empty repository. Do not assume a named skill exists; record its exact source and operative rule. Compare with existing hooks and governance. Surface material conflicts to the user before proposing changes. A skill's presence does not make its invocation mandatory.
+5. **CLI Tooling Availability**:
    - Check installed CLI tools (`node -v`, `pnpm -v`, `uv --version`, `go version`, `cargo --version`, `gh auth status`).
-4. **Fact Consolidation & Pruning Invariant**:
+6. **Tool/Dependency Alternatives**: Read [references/tool-selection.md](references/tool-selection.md); verify options before each unresolved tooling choice, not only lint/format. Record version, dated official sources, compatibility, costs and uncertainties. If research is blocked, do not call recommendations current; resolve blocking compatibility/security/licensing uncertainty before adoption.
+7. **Fact Consolidation & Pruning Invariant**:
    - Record all discovered facts (stack, package manager, remotes, existing linters/CI).
    - **Hard Invariant**: Never ask the user to choose or confirm a stack, framework, or package manager if authoritative manifests are already present. Treat discovered configuration as settled baseline and prune redundant questions from the interview.
 
@@ -80,14 +87,16 @@ Do **NOT** present all interview themes in a single monolithic questionnaire. Co
    - Remote GitHub repository: Local only vs GitHub remote (Public or Private) via `gh`. *(Pruned if remote `origin` already exists; ask only whether to keep or replace).*
    - Stack preset & package manager: *(Pruned if detected during Step 1; otherwise asked with recommended defaults).*
 2. **Round 2: Quality Gates, CI/CD & Governance**:
-   - Git hook manager: **Lefthook** (recommended), Husky, pre-commit, or None.
-   - Linter/Formatter: **Biome** (recommended for JS/TS), **Ruff** (recommended for Python), golangci-lint, clippy. *(Pruned if already configured).*
-   - Commit linting: Conventional Commits via commit-msg hook. **Ecosystem-native Invariant (DEC-004)**: use Commitlint for JS/TS, native Lefthook regex hook or local script for Python/Go/Rust. Never add npm/Node.js to non-JS projects solely for commit linting. *(Recommended: Yes).*
-   - CI/CD workflows: Automated CI (`ci.yml`) and **Release Please** (recommended).
+   - Git hook manager: compare current compatible candidates such as Lefthook, Husky, pre-commit, or no hooks; recommend from evidence and ecosystem fit.
+   - Linter/Formatter: compare current stack-compatible options. For JS/TS include **Oxlint + Oxfmt**, **Biome**, and **ESLint + Prettier**, verifying exact rule/plugin, framework, type-aware and file-format needs. For other stacks research compatible alternatives too. No unconditional winner or unsupported speed claim. *(Preserve configured or explicitly chosen tools.)*
+   - Commit linting: Ask whether to enforce a message convention and which one; preserve an existing convention unless the user elects to change it. **Ecosystem-native Invariant (DEC-004)**: if Conventional Commits is selected, compare ecosystem-compatible enforcement options (e.g. Commitlint for JS/TS, native Lefthook regex hook or local script for Python/Go/Rust). Never add npm/Node.js to non-JS projects solely for commit linting.
+   - CI/CD workflows: compare compatible CI/release/dependency-update options before recommending; do not treat Release Please or a template as an automatic choice.
+   - GitHub configuration: offer the relevant options found in the settings inventory, including access/teams, Actions and token permissions, protections/rulesets, merge settings, security features, environments and repository features. Group recommendations; expose deferred, unavailable and unverified items without a giant questionnaire.
    - Governance files: Generate missing files (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE`, `docs/git-workflow.md`, `AGENTS.md`, issue/PR templates). If existing files are detected, ask whether to preserve or overwrite.
 3. **Round 3: Workflow, Worktrees & Developer Experience (DX)**:
-   - Branching model: Trunk-based (`main`) with branch naming conventions (`feat/`, `fix/`, `chore/`). *(Recommended: Yes).*
-   - Git Worktrees: Enable parallel development workflow with `.worktrees/` in `.gitignore` and `scripts/worktree.sh`. *(Recommended: Yes).*
+   - Branching model and target branches: discover organization and repository constraints before recommending trunk-based or multi-environment branches.
+   - Git worktrees: interview for required, situational, or unused mode; location and safe retirement. Generate helper and ignore rule only if chosen.
+   - Git delivery policy: interview for staging method, commit granularity and format, push authorization, PR target/state/checks, and merge method. Record an explicit case-by-case choice where fixed policy is not wanted. Do not silently reuse another skill's rules.
    - Runtime pinning & onboarding: Runtime version file (`.node-version`, `.python-version`) and bootstrap script (`scripts/setup.sh`). *(Recommended: Yes).*
    - **Plain-Language Concept Comparison (DEC-005)**: For abstract or non-basic concepts (Trunk-Based vs GitFlow, Worktrees vs standard branches), provide a compact "Recommendation vs Alternative" comparison in plain language without technical jargon.
 
@@ -98,9 +107,10 @@ Do **NOT** present all interview themes in a single monolithic questionnaire. Co
 ### Step 3: Synthesize Blueprint & Approval Gate
 Synthesize all answers into a clear, structured **Repository Blueprint**:
 1. **Key Decisions Table**: Compact "Recommendation vs Alternative" table in plain language explaining why each key technical choice was selected.
-2. **Configuration Summary**: Bulleted list of target directory, stack, package manager, quality tools, CI/CD actions, governance files, branching model, and worktree/DX setup.
-3. **Visual Directory Tree**: Visual ASCII directory tree preview showing the expected repository structure.
-4. **Approval Gate**: Stop and ask:
+2. **Configuration Summary**: Bulleted list of target directory, stack, package manager, quality tools, CI/CD actions, governance files, and every Git policy choice (branch/worktree, staging/commit, push/PR). List discovered conflicts, sources, consequences, and the user's resolution.
+3. **Remote Settings & Tool Evidence**: Include a compact settings inventory (current state/source, desired value or preserve/defer, required authority/plan, local file vs remote mutation, verification), dated tool comparisons and unresolved blockers. A file tree does not configure GitHub settings.
+4. **Visual Directory Tree**: Visual ASCII directory tree preview showing the expected repository structure.
+5. **Approval Gate**: Stop and ask:
    > "Here is the proposed blueprint for `<repo-name>`. Please review and confirm to start scaffolding, or let me know if you want to tweak any option."
 
 Do **NOT** write files or run mutating commands before receiving user confirmation.
@@ -109,8 +119,9 @@ Do **NOT** write files or run mutating commands before receiving user confirmati
 
 ### Step 4: Execute Scaffolding
 Read [references/stack-recipes.md](references/stack-recipes.md) for precise commands.
+Before scaffolding an existing repository, select the permitted checkout under the approved branch/worktree policy and preserve unrelated changes. If it has a remote, fetch and verify the selected base before creating a work branch/worktree. Stop on failure unless the user explicitly chooses offline work. Never modify a branch where applicable rules prohibit it.
 1. Create and enter target directory if not working in `.`.
-2. Generate curated `.gitignore` (including `.worktrees/` and `.env*`) and `.editorconfig` first.
+2. Generate curated `.gitignore` (including `.env*` and `.worktrees/` only if worktrees use that directory) and `.editorconfig` first.
 3. Run the official initialization command for the chosen stack (e.g. `pnpm create vite . --template react-ts`, `uv init`, `cargo init`, `go mod init`).
 4. Verify the generated skeleton compiles or installs cleanly.
 
@@ -118,15 +129,15 @@ Read [references/stack-recipes.md](references/stack-recipes.md) for precise comm
 
 ### Step 5: Code Quality & Git Hooks Setup
 Read [references/tooling-recipes.md](references/tooling-recipes.md).
-1. Install chosen linter/formatter (e.g. `@biomejs/biome` or `ruff`).
-2. Generate configuration file (e.g. `biome.json` or `pyproject.toml` tool sections).
+1. Install only the approved tools at verified compatible versions (e.g. `oxlint` + `oxfmt`, `@biomejs/biome`, or `ruff`); use the chosen package manager. Verify current CLI/config schemas rather than blindly copying recipes.
+2. Generate matching configuration and separate non-mutating lint/format-check scripts. Keep local commands, hooks and CI aligned with the selected tools; do not run a Biome template when Oxlint/Oxfmt was selected.
 3. If Git hooks are selected, install the hook manager (e.g. `lefthook`), write `lefthook.yml`, and configure `commitlint` if requested.
 
 ---
 
 ### Step 6: Generate Governance, DX & Workflows
 Read [references/governance-templates.md](references/governance-templates.md), [references/tooling-recipes.md](references/tooling-recipes.md), and [references/github-workflows.md](references/github-workflows.md).
-1. Create `.github/workflows/ci.yml` adapted to the chosen stack and branch triggers (`main`, `staging`, `develop`).
+1. Create `.github/workflows/ci.yml` adapted to the chosen stack, approved scripts and branch triggers (`main`, `staging`, `develop`). Declare least-privilege `permissions` explicitly; keep CI read-only and grant write scopes only to jobs that need them. Check Actions/org settings and PR-creation permission prerequisites for selected automation; never broaden all workflows to bypass a restriction.
 2. If release automation was requested, add `.github/workflows/release-please.yml` and `release-please-config.json`.
 3. If Dependabot was selected, add `.github/dependabot.yml`.
 4. Generate `.github/ISSUE_TEMPLATE/bug_report.yml` and `feature_request.yml`.
@@ -135,13 +146,13 @@ Read [references/governance-templates.md](references/governance-templates.md), [
    - Create `.env.example` (sanitized with dummy values).
    - Create runtime version file (`.node-version`, `.python-version`, or `.tool-versions`).
    - Create `scripts/setup.sh` (executable onboarding script).
-   - If worktrees are enabled, create `scripts/worktree.sh` (executable worktree helper).
+   - If the selected worktree policy calls for a helper, create `scripts/worktree.sh` adapted to its location and base branch; otherwise do not generate it.
 7. Write authoritative documentation:
    - `README.md`: Project title, badges, description, prerequisites, quickstart, available commands, architecture overview.
    - `SECURITY.md`: Vulnerability reporting process and supported versions table.
-   - `docs/git-workflow.md`: Complete Git delivery rules, branching strategy, worktree isolation, commit standards (Conventional Commits, no co-authors), quality gates, and draft PR protocol.
+   - `docs/git-workflow.md`: Authoritative Git policy reflecting the interview and enforced rules: branch freshness, branching/worktrees, staging/commits, quality gates, push/PR, and safe worktree retirement. Check base remote before new work and target branch before push/PR; on fetch failure or divergence, report and ask rather than silently merge/rebase. Do not hard-code Conventional Commits, mandatory worktrees, or Draft PR unless chosen.
    - `AGENTS.md`: Lightweight agent instructions entrypoint containing project overview and concise pointer to `docs/git-workflow.md`. Create relative symlink `CLAUDE.md -> AGENTS.md`.
-   - `CONTRIBUTING.md`: Workflow, branching model & environments, branch naming conventions, worktrees guide, commit conventions, local test steps.
+   - `CONTRIBUTING.md`: Human-facing workflow consistent with `docs/git-workflow.md`, including only selected branch, worktree, commit, and local-test rules.
    - `LICENSE`: Full legal text of the chosen license with current year and author.
    - `CODEOWNERS` (if requested).
 
@@ -150,28 +161,33 @@ Read [references/governance-templates.md](references/governance-templates.md), [
 ### Step 7: Git Init & Verification
 1. If not already a git repository:
    ```bash
-   git init -b main
+   git init -b <selected-initial-branch>
    ```
 2. Activate git hooks:
    ```bash
    npx lefthook install # or relevant hook install command
    ```
 3. Run local validation:
-   - Run the linter/formatter on all files (`pnpm biome check .` or `uv run ruff check`).
+   - Run the selected non-mutating lint and format checks on applicable files (e.g. `pnpm run lint` and `pnpm run format:check`, or `uv run ruff check` and `uv run ruff format --check`).
    - Run test suite if tests exist (`pnpm test` or `uv run pytest`).
    - Run build if build script exists (`pnpm build` or `cargo check`).
-4. Stage all files and create the initial commit:
+4. Review `git status` and the staged diff, exclude secrets/generated artifacts and unrelated pre-existing changes, then stage only intended files. Before committing, apply the discovered/selected commit-authorization policy; if it requires approval at commit time, show the staged summary and ask. Create the initial commit using the selected convention only once authorized:
    ```bash
-   git add .
-   git commit -m "chore: initial repository bootstrap"
+   git add <reviewed-paths>
+   git diff --cached --check
+   git diff --cached --stat
+   git commit -m "<message-following-selected-convention>"
    ```
    *Rule: Never add co-author attributions.*
 
 ---
 
-### Step 8: Optional GitHub Remote Creation
+### Step 8: Optional GitHub Publication & Approved Settings
+Read [references/github-settings.md](references/github-settings.md). For a local-only repository, report remote configuration as not applicable. For an existing remote, skip creation and preserve it unless replacement was explicitly approved.
+
 If the user requested remote GitHub creation and `gh` is authenticated:
-1. Create the repository on GitHub:
+1. Show the repository visibility, intended remote, commit, and files to publish. Obtain explicit approval immediately before remote creation/first push; blueprint approval alone is not publication approval.
+2. Create the repository on GitHub:
    ```bash
    # For public repo:
    gh repo create <repo-name> --public --source=. --remote=origin --push
@@ -179,7 +195,9 @@ If the user requested remote GitHub creation and `gh` is authenticated:
    # For private repo:
    gh repo create <repo-name> --private --source=. --remote=origin --push
    ```
-2. Present the repository URL and clone URL to the user.
+3. Present the repository URL and clone URL to the user.
+
+For a new or existing remote, inspect effective settings/access and reconcile the approved inventory before changing settings. Show the exact remote, current/proposed values, required authority, costs and consequences; obtain action-time approval for access changes, security/protection changes, visibility, billing or other sensitive settings. Apply only explicitly approved changes using verified CLI flags/API methods; never modify organization policy, token scopes, collaborators or secrets by implication. Re-read each setting after writing; report applied-and-verified, failed and deferred items separately. Missing authority is a blocker, not permission to escalate access automatically.
 
 ---
 
@@ -188,7 +206,8 @@ Provide a concise, direct, and structured 3-part completion summary:
 1. **Installed Artifacts & Governance**:
    - Clean inventory of created/configured files (governance, linter/formatter, CI workflows, DX scripts).
    - Repository status: local path, git branch, remote URL (if connected).
+   - Git/GitHub settings: applied and verified vs preserved, deferred, unavailable or inaccessible, with remaining user/admin actions. Do not claim automation is operational from YAML alone.
 2. **Local Validation Status**:
-   - Explicit confirmation of executed verification checks (e.g. `ruff check .` / `biome check .` and test suite results).
+   - Explicit confirmation of selected lint/format, test and build checks actually executed. Distinguish local proof, remote settings readback and observed CI/release runs.
 3. **Ready-to-Use Commands**:
    - Practical commands for contributor onboarding, linting, running tests, and managing worktrees (`setup.sh`, `test`, `lint`, `worktree.sh`).

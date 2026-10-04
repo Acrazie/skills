@@ -31,8 +31,7 @@ const skillUrl = getLocalizedPath(`/skills/${skill.id}/`, lang);
   <p>{skill.description}</p>
   <span class="skill-card__category">{skill.category}</span>
   <div class="skill-card__actions">
-    <CopyButton text={skill.installCommand} size="sm" ariaLabel={t('card.copyInstallAria')(skill.id)} />
+    <CopyButton text={skill.installCommand} size="sm" ariaLabel={t('card.copyInstallAria')(skill.id)} lang={lang} />
     <TablerIcon name="arrow-right" size={19} class="skill-card__arrow" aria-hidden="true" />
   </div>
 </article>
-

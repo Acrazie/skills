@@ -15,6 +15,8 @@ const t = useTranslations(lang);
 const skills = getLocalizedSkills(lang);
 const allLabel = t('catalogue.allCategories');
 const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))];
+const countOne = t('catalogue.skillsCount')(1).replace('1', '{count}');
+const countMany = t('catalogue.skillsCount')(999).replace('999', '{count}');
 ---
 
 <BaseLayout
@@ -28,7 +30,7 @@ const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))]
         <h2 id="catalogue-title">{t('catalogue.title')}</h2>
         <p>{t('catalogue.subtitle')}</p>
       </div>
-      <p id="results-count" class="catalogue-section__count" data-lang={lang} aria-live="polite">
+      <p id="results-count" class="catalogue-section__count" data-count-one={countOne} data-count-many={countMany} aria-live="polite">
         {t('catalogue.skillsCount')(skills.length)}
       </p>
     </div>
@@ -92,25 +94,35 @@ const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))]
     const count = document.querySelector<HTMLElement>('#results-count');
     const reset = document.querySelector<HTMLButtonElement>('#reset-filters');
     const allLabel = filterContainer?.dataset.allLabel || 'All';
-    const lang = count?.dataset.lang || 'en';
+    const countOne = count?.dataset.countOne || '{count}';
+    const countMany = count?.dataset.countMany || '{count}';
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const revealAnimations = new WeakMap<HTMLElement, Animation>();
     let activeCategory = allLabel;
 
-    function filter() {
+    function filter(animateRevealed = false) {
       const query = searchInput?.value.toLocaleLowerCase().trim() || '';
       let visible = 0;
+      const revealed: HTMLElement[] = [];
       for (const card of cards) {
         const matchesCategory = activeCategory === allLabel || card.dataset.category === activeCategory;
         const matchesQuery = !query || `${card.dataset.name} ${card.dataset.id} ${card.dataset.desc}`.toLowerCase().includes(query);
-        card.hidden = !(matchesCategory && matchesQuery);
-        if (!card.hidden) visible++;
+        const show = matchesCategory && matchesQuery;
+        if (show && card.hidden) revealed.push(card);
+        if (!show) revealAnimations.get(card)?.cancel();
+        card.hidden = !show;
+        if (show) visible++;
       }
-      if (count) {
-        if (lang === 'zh') {
-          count.textContent = `${visible} 个技能`;
-        } else {
-          count.textContent = `${visible} skill${visible === 1 ? '' : 's'}`;
-        }
+      if (animateRevealed && !reducedMotion.matches) {
+        revealed.forEach((card, index) => {
+          revealAnimations.get(card)?.cancel();
+          revealAnimations.set(card, card.animate(
+            [{ opacity: .45, transform: 'translateX(10px)' }, { opacity: 1, transform: 'translateX(0)' }],
+            { duration: 220, delay: Math.min(index * 18, 108), easing: 'cubic-bezier(.16,1,.3,1)' }
+          ));
+        });
       }
+      if (count) count.textContent = (visible === 1 ? countOne : countMany).replace('{count}', String(visible));
       if (empty) empty.hidden = visible !== 0;
     }
 
@@ -118,11 +130,11 @@ const categories = [allLabel, ...new Set(skills.map((skill) => skill.category))]
       button.addEventListener('click', () => {
         activeCategory = button.dataset.category || allLabel;
         buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
-        filter();
+        filter(true);
       })
     );
 
-    searchInput?.addEventListener('input', filter);
+    searchInput?.addEventListener('input', () => filter());
 
     reset?.addEventListener('click', () => {
       if (searchInput) searchInput.value = '';

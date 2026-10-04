@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test:graph": "bun test tests/skill-graph.test.ts tests/graph-output.test.ts"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/vite": "4.3.3",
     "astro": "^7.3.4",
+    "force-graph": "^1.52.0",
     "gray-matter": "^4.0.3",
     "marked": "^18.0.13",
-    "tailwindcss": "3.4.17"
+    "tailwindcss": "4.3.3"
   }
 }

@@ -40,7 +40,69 @@
         "The agent honors the approval gate before creating files.",
         "Lefthook configuration includes hooks for shellcheck and markdownlint.",
         "A worktree helper script scripts/worktree.sh is generated and .worktrees/ is ignored in .gitignore.",
-        "Git is initialized with main branch and an initial commit following Conventional Commits."
+        "Git is initialized on the selected initial branch; the agent asks for a commit-message convention rather than assuming Conventional Commits."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Initialize a repository that already has AGENTS.md requiring approval before commits and a local commit-generating skill that says commits may be created automatically. I have not chosen which rule should win. We do not use worktrees, and our commit messages follow an existing ticket-ID format rather than Conventional Commits. Show me the plan before changing anything.",
+      "expected_output": "The agent inspects and cites the actual accessible rules, surfaces the commit-approval conflict and asks the user to resolve it before changing affected governance. It preserves the chosen no-worktree and ticket-ID policies instead of generating mandatory worktree or Conventional Commits instructions.",
+      "files": [],
+      "expectations": [
+        "The agent does not silently choose between AGENTS.md and the commit skill or assume a named skill exists without finding it.",
+        "The blueprint lists each material conflict with source, consequence, and a decision requested from the user.",
+        "The generated governance does not require worktrees or Conventional Commits when those policies were rejected.",
+        "No external skill or configuration is modified without specific approval."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Bootstrap an existing GitHub repo on a dedicated branch. Its origin/main has advanced, but fetching origin now fails. I still want a worktree and a PR. Also, my local working tree contains unrelated changes. What do you do?",
+      "expected_output": "The agent reports that remote freshness is unverified, does not branch from a stale fallback, asks whether offline work is allowed, preserves unrelated changes, and defers push/PR until target divergence can be checked. It does not silently rebase or merge.",
+      "files": [],
+      "expectations": [
+        "Fetch failure is visible and no fallback silently creates a worktree from an unverified branch.",
+        "Unrelated changes are not staged, committed, reset, or cleaned.",
+        "The agent does not claim the PR branch is current or publish it without target-branch verification and user authorization."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Prepare an initialization blueprint for a new React/TypeScript Vite project using pnpm. I want lightweight fast tooling but have not chosen lint/format, hooks or release tooling. Read-only fixture: current official sources identify Oxlint as linter and Oxfmt as formatter; Biome and ESLint/Prettier are also candidates. Oxfmt quickstart documents oxfmt --check as non-writing, whereas bare oxfmt writes. Upstream publishes speed claims, but no comparable project benchmark exists. I need TSX, Markdown formatting, React rules and typechecking. Explain discovery, compare available options and stop before mutation. Do not invent evidence outside the fixture.",
+      "expected_output": "A contextual comparison including Oxlint/Oxfmt, Biome and ESLint/Prettier, with current discovery for all unresolved tools, compatibility checks and explicit evidence limitations, then a blueprint approval gate.",
+      "files": [],
+      "expectations": [
+        "Includes Oxlint and Oxfmt as separate linter/formatter components alongside credible alternatives; no unconditional Biome or Oxc winner.",
+        "Checks actual file, rule/plugin, framework, type-aware and runtime compatibility; preserves separate typechecking.",
+        "Researches alternatives for hooks and release tools too, rather than only lint/format.",
+        "Does not present upstream speed/lightweight claims as observed project measurements.",
+        "Uses non-mutating lint/format-check scripts consistently for local checks and CI; does not use bare oxfmt as validation.",
+        "Stops before installation, file generation or GitHub mutation pending approval."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Bootstrap CI and Release Please for an existing private organization GitHub repository. Read-only fixture: caller has write but not admin; repository Actions GET is allowed, workflow permissions GET returns 403, rulesets GET returns 404, and security_and_analysis is omitted. Org policy restricts actions; YAML contents/pull-requests write does not grant repository administration. Assess permissions and useful Git/GitHub options using CLI help and official API documentation without executing remote mutations or changing credentials. Show blueprint gaps and next actions.",
+      "expected_output": "A settings inventory covering relevant families and least privilege, explaining authorization vs workflow scopes, inherited restrictions and unknown evidence, with specific approval and readback gates.",
+      "files": [],
+      "expectations": [
+        "Distinguishes caller access, Actions defaults/allow-list, workflow job token scopes and PR creation/approval setting.",
+        "Does not interpret 403, 404 or omitted security fields as disabled or confirmed unavailable.",
+        "Covers useful protections/rulesets, merge controls, access, security, environments and features; CLI create/edit flags are not presented as all options.",
+        "Preserves organization restrictions and least privilege; no credential scope escalation or broad write-all workaround.",
+        "Separates local files from remote changes, identifies blocked/deferred settings and requires approval for sensitive changes plus readback after approved mutations."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Initialize missing governance in my local-only existing Vue/TypeScript project. pnpm lockfile and ESLint/Prettier configs already exist; custom ESLint plugin is required. I explicitly want to keep them. Network/registry research is unavailable. Do not ask stack/package-manager questions or migrate tooling. Explain what can be verified and propose only missing governance, with no execution before approval.",
+      "expected_output": "Preserve authoritative stack/package manager and explicit tooling choices; no remote permission administration or new tools forced; state research limitations and stop at approval.",
+      "files": [],
+      "expectations": [
+        "Preserves pnpm and ESLint/Prettier without re-asking settled choices or imposing Oxlint/Oxfmt/Biome.",
+        "Marks current alternatives research unverified rather than claiming an exhaustive/current comparison.",
+        "Skips GitHub remote settings as not applicable while keeping relevant local Git discovery.",
+        "Does not install tools, migrate configs or create governance before blueprint approval."
       ]
     }
   ]
