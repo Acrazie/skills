@@ -63,6 +63,22 @@ A concrete execution scenario, edge-case input, or state trace provided by an Ad
 A source-to-target language code porting discipline prioritizing 1:1 structural and syntactic mirroring over premature idiomatic refactoring, validated against an existing agnostic test oracle.
 *Avoid*: Rewrite from scratch, architectural redesign, incremental hybrid migration.
 
+**Test Oracle Invariant**:
+A mandatory pre-condition for mechanical porting requiring a language-independent or black-box test suite to exist and pass against the source implementation before code migration begins, preventing unverified functional drift.
+*Avoid*: Synthetic ad-hoc testing, post-hoc test generation.
+
+**Paradigm Mapping**:
+A systematic pre-translation matrix documenting the foundational semantic translations between source and target languages across four dimensions: memory/lifecycle, error handling, concurrency, and type systems/nullability.
+*Avoid*: Informal migration notes, syntax cheat sheet.
+
+**Diagnostic Work Queue**:
+A structured, persisted partition of compiler or linter diagnostic outputs (e.g. JSON/SARIF or POSIX error dumps) grouped by module or crate, dispatched to parallel worker agents without redundant whole-workspace recompilation.
+*Avoid*: Interactive compiler debugging, trial-and-error recompilation loop.
+
+**Isolated Worker Guardrails**:
+Operational constraints placed on parallel coding sub-agents prohibiting workspace-wide mutations (`git stash`, `git reset`, un-scoped checkouts) and slow root build commands within inner iteration loops.
+*Avoid*: Uncoordinated git operations, agent stepping.
+
 ## Documentation & Deployment Platform
 
 **Skills Documentation Site**:
