@@ -5,6 +5,10 @@
 Save project time by preventing untested feature delivery, misinterpretation of
 the user's request, and unrequested additions. Keep the workflow lightweight.
 
+This document records the original two-skill delivery. The subsequent approved
+[optional independent-review extension](feature-adversarial-review.md) adds a
+bounded reviewer handoff without changing the specialists' implementation ownership.
+
 ## Scope
 
 - Deliver `interview-acrazie`, a general reusable clarification and documentation

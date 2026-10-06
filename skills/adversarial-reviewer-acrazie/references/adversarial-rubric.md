@@ -3,7 +3,12 @@
 This reference defines the 4-pillar audit framework used by `adversarial-reviewer-acrazie`.
 It applies across all programming languages, runtimes, and frameworks. Every check represents
 a class of defects that compiles or passes initial linters cleanly, looks plausible on inspection,
-and causes severe production outages, data corruption, or memory leaks.
+and can cause production failures, data corruption, or memory leaks. Before the
+four pillars, check affected behavior against the authoritative contract: incorrect
+outputs, missing required branches, edge cases, and introduced regressions. Require
+a concrete failure scenario and a violated invariant for each rejection; syntax
+matches are investigation leads, not proof. Separate pre-existing issues and do
+not reject contract-valid empty results, test doubles, or authorized operations.
 
 ---
 
@@ -108,8 +113,12 @@ and causes severe production outages, data corruption, or memory leaks.
 ### 3.2 Eager fallback evaluation vs lazy closure execution
 - **Vulnerability**: Unconditionally evaluating expensive or fallible fallback expressions in default-value helpers.
 - **Cross-Language Manifestations**:
-  - *JavaScript / TypeScript*: Using `val || computeExpensiveFallback()` or passing a function invocation
-    `map.get(key) ?? createNew()` where `createNew()` runs on every access regardless of whether `key` exists.
+  - *JavaScript / TypeScript*: Function-call arguments such as
+    `chooseDefault(value, createNew())` evaluate `createNew()` before the helper runs.
+    In contrast, `map.get(key) ?? createNew()` short-circuits: the fallback runs only
+    when the lookup returns `null` or `undefined`. `val || fallback()` also short-circuits,
+    but falls back for every falsy value, which can violate contracts preserving `0`,
+    `false`, or an empty string. See [MDN's operator reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing).
   - *Python*: Mutable default arguments (`def add_item(val, target=[])`) sharing state across all calls, or
     `dict.get(key, expensive_call())` evaluating `expensive_call()` unconditionally.
   - *Java*: `Optional.orElse(computeDefault())` (eager) instead of `Optional.orElseGet(this::computeDefault)` (lazy).
@@ -133,7 +142,10 @@ and causes severe production outages, data corruption, or memory leaks.
 - **Cross-Language Manifestations**:
   - *Python*: `s[-1]` accesses the last element; in Go or C, `s[-1]` panics or reads out-of-bounds memory.
   - *String lengths*: Measuring length in bytes (Go/Rust UTF-8) vs UTF-16 code units (JS/Java `length`) vs Unicode
-    grapheme clusters (Python `len()`), causing substring slices to cut emojis or multi-byte characters in half.
+    code points (Python `len(str)`). None necessarily measures user-perceived grapheme
+    clusters: Python `len("e\u0301")` is 2 for one combining-character cluster.
+    Slicing at the wrong unit can split a user-perceived character. See
+    [Python's text sequence documentation](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str).
 - **Proof Requirement**: Provide a multi-byte, empty, or negative boundary input that causes an off-by-one or panic.
 
 ---
@@ -147,13 +159,15 @@ and causes severe production outages, data corruption, or memory leaks.
   - Stub macros and exceptions: `todo!()`, `unimplemented!()`, `raise NotImplementedError`, `throw new Error("TODO")`.
   - Placeholder comments: `// TODO: implement later`, `# FIXME`.
   - Empty callbacks or swallowed errors: `catch (e) {}`, `except Exception: pass`.
-- **Action**: Immediate, automatic **`REJECT`**.
+- **Action**: **`REJECT`** only with proof of an introduced, unauthorized incomplete
+  implementation; legitimate contract results and test doubles are not violations.
 
 ### 4.2 Explanatory self-justification
 - **Vulnerability**: Authoring extensive comments explaining why an incomplete workaround or missing requirement
   is "acceptable" or "can be handled later".
 - **Rule**: *"If you need a paragraph-long comment to justify why the workaround is OK, the code is wrong — fix the code."*
-- **Action**: Immediate, automatic **`REJECT`**.
+- **Action**: **`REJECT`** when the comment masks a demonstrated introduced contract
+  violation, not merely because it is long or explains a legitimate trade-off.
 
 ### 4.3 Static analysis & type safety bypasses
 - **Vulnerability**: Silencing static analyzers and type checkers with unchecked escape hatches instead of fixing
@@ -164,4 +178,5 @@ and causes severe production outages, data corruption, or memory leaks.
   - *Go*: `unsafe.Pointer`, swallowing error returns with blank identifiers `_ = fn()`.
   - *Java*: Raw types, `@SuppressWarnings("unchecked")`.
   - *Rust / C++*: Expanding `unsafe` scopes beyond single-line FFI boundaries.
-- **Action**: Immediate, automatic **`REJECT`**.
+- **Action**: **`REJECT`** with proof of an introduced unauthorized bypass; respect
+  explicitly approved boundaries rather than rejecting syntax alone.

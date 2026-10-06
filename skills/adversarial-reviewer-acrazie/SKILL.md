@@ -2,7 +2,8 @@
 name: adversarial-reviewer-acrazie
 description: >-
   Evaluate code diffs and pull requests through split-context adversarial verification,
-  seeking latent resource hazards, concurrency flaws, and semantic drift under the premise
+  seeking introduced bugs, regressions, contract violations, resource hazards,
+  concurrency flaws, and semantic drift under the premise
   that the code is incorrect. Applicable across all programming languages, runtimes, and
   frameworks. Use when reviewing code changes, validating refactors or migrations, or when
   another skill requests adversarial verification. Not for implementing fixes, writing replacement
@@ -20,24 +21,34 @@ scenarios without implementing fixes.
 1. **Axiom of Defect**: Approach every change with the premise that it introduces bugs,
    resource leaks, concurrency hazards, subtle regressions, or masked shortcuts.
 2. **Strict No-Fix Separation**: The implementer doesn't review; the reviewer doesn't
-   implement. When a flaw is found, provide a **Proof of Flaw** (concrete failure scenario,
+   implement. Use a fresh agent context without inherited author conversation, or
+   a separate manual reviewer context. If unavailable, report review as blocked;
+   do not substitute implementer self-review or issue `ACCEPT`. When a flaw is found,
+   provide a **Proof of Flaw** (concrete failure scenario,
    interleaved execution trace, or input that triggers failure). Never write replacement
    code, draft patches, or suggest workarounds. Falsification is the sole deliverable.
 3. **Cognitive Isolation**: Review only the code diff and authoritative specification
-   contracts (`Task Contract`, API specifications, or issue requirements). Strip away the
+   contracts (`Task Contract`, API specifications, or issue requirements), plus
+   read-only technical context needed to trace behavior: surrounding code, tests,
+   repository instructions, and API documentation. Strip away the
    author's narrative excuses, commit explanations, and conversational self-justifications
    to eliminate confirmation bias.
 
 ## Hard rejection invariants (Zero-tolerance)
 
-Instantly issue a `REJECT` verdict if any of the following anti-patterns are detected:
+Issue a `REJECT` verdict for demonstrated, change-introduced violations below.
+Prove the violated invariant in context; syntax alone is not proof. Contract-valid
+empty results, test doubles, justified comments, or authorized low-level operations
+are not incomplete workarounds. Report pre-existing and out-of-scope issues separately
+without conflating them with introduced defects or widening the review into an audit.
 
 - **Dummy Stubs**: Any function, method, or branch replaced with placeholder mocks or no-ops
   (e.g. `todo!()`, `unimplemented!()`, `pass`, `return null;`, `return nil, nil;`,
   `throw new NotImplementedError()`, silent empty callbacks) to satisfy compilers, linters, or tests.
-- **Self-Justifying Commentary**: Any paragraph-long comment rationalizing why an incomplete
+- **Self-Justifying Commentary**: A comment rationalizing why an incomplete
   or questionable workaround is "acceptable" (*"If you need a paragraph-long comment to
-  justify why the workaround is OK, the code is wrong — fix the code"*).
+  justify why the workaround is OK, the code is wrong — fix the code"*). Demonstrate
+  the incomplete behavior; do not reject a legitimate explanatory comment by length.
 - **Type-Safety & Linter Bypasses**: Unchecked escapes used to silence static analysis
   without contract authorization (e.g. `as any`, `@ts-ignore`, `# type: ignore`, `unsafe.Pointer`,
   unchecked casts, or unconstrained `unsafe` blocks).
@@ -53,12 +64,24 @@ Follow [references/adversarial-rubric.md](./references/adversarial-rubric.md) ac
 
 ### Phase 1: Context isolation & intake
 - Extract the raw unified diff (`git diff`, PR patch, or staged changes).
+- Include new files and identify the base and exact reviewed snapshot (revision,
+  saved patch, or content digest). Review the supplied task scope only. If its
+  source changes during review, stop and request a stable updated snapshot.
 - Identify the target contract or specification (acceptance criteria, previous behavioral
   semantics, or API contracts).
 - Discard author commentary, PR summaries, and commit messages.
+- If the diff or authoritative requirements are insufficient, request the missing
+  evidence and report review as incomplete; do not issue `ACCEPT` for unseen work.
 
 ### Phase 2: Systematic rubric traversal
-Inspect the diff against the 4 universal pillars of the Adversarial Rubric:
+First trace each affected acceptance criterion and preserved behavioral invariant
+against the changed code and relevant callers. Seek incorrect outputs, missing
+branches, errors and edge cases, regressions, and violations of affected security,
+data integrity, accessibility, or API guarantees. Stay within affected behavior;
+exclude style preferences, speculative redesign, and unrelated repository auditing.
+Existing passing tests are evidence, not a substitute for independently examining
+the contract. Then inspect the diff against the 4 universal pillars of the
+Adversarial Rubric:
 1. **Resource & Lifecycle Hazards**: Unclosed connections, handles, or sockets; asynchronous
    cleanup races; leaks on early returns or error propagation paths; reference cycles.
 2. **Concurrency & Re-entrancy**: Race conditions; data races on un-synchronized state;
@@ -75,30 +98,41 @@ For every candidate defect identified:
 - If an automated test environment is available, optionally provide a minimal failing
   reproduction test case as an appendix.
 - Do NOT provide the implementation fix.
+- Separate demonstrated introduced defects from pre-existing findings, unresolved
+  hypotheses, and evidence gaps. Only demonstrated introduced defects warrant
+  `REJECT`; unresolved material evidence gaps leave review incomplete, not accepted.
 
 ### Phase 4: Structured verdict delivery
 Render the final evaluation using the exact output format defined below.
+Use `ACCEPT` only after completing the affected-contract check and rubric traversal
+with no demonstrated introduced defect. It means none found within the examined
+scope, not a guarantee of bug-free code. The caller owns corrections and re-review;
+do not implement, commit, or ship. An accepted verdict applies only to its snapshot.
 
 ## Deliverable format
 
-Always structure the review output as follows:
+For completed reviews, structure the output as follows. For blocked or incomplete
+reviews, state that status and missing evidence instead of issuing a binary verdict.
 
 ```markdown
 # Adversarial Review Report
 
 **Verdict**: REJECT | ACCEPT
 **Evaluated Changes**: <brief diff scope, e.g. 5 files, +140 lines / -30 lines>
+**Reviewed Snapshot**: <base and revision / saved patch / content digest>
 **Contract Reference**: <Task Contract / specification reference, if provided>
 
 ## Summary of Findings
-- <Total critical defects found>
+- <Total demonstrated introduced defects found>
 - <Total anti-workaround violations found>
+- <Criteria and invariants examined, with material limitations>
+- <Pre-existing or out-of-scope observations, listed separately>
 
 ---
 
 ### [REJECT-N] <Short title of the flaw>
 - **Location**: `<file-path>:<line-number>`
-- **Pillar**: Resource & Lifecycle | Concurrency & Re-entrancy | Semantic Drift | Anti-Workaround
+- **Pillar**: Contract & Regression | Resource & Lifecycle | Concurrency & Re-entrancy | Semantic Drift | Anti-Workaround
 - **Proof of Flaw**:
   <Detailed scenario, input value, or execution sequence demonstrating why and how the code fails>
 - **Mandatory Invariant**:

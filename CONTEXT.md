@@ -34,7 +34,7 @@ The reusable `interview-acrazie` skill that clarifies user-owned decisions and p
 *Avoid*: Development orchestrator, feature implementer.
 
 **Feature Builder**:
-The explicitly user-invoked `feature-builder-acrazie` skill that realizes new application behavior from an approved Task Contract with criterion-linked evidence.
+The explicitly user-invoked `feature-builder-acrazie` specialist that realizes new application behavior from an approved Task Contract with criterion-linked evidence, distinct from its optional independent reviewer.
 *Avoid*: Bug fixer, refactorer, agent reviewer.
 
 **Test Retrofitter**:
@@ -48,7 +48,7 @@ The shared, approved outcome record used by the Interview Foundation and its cal
 ## Verification & Migration Discipline
 
 **Adversarial Review**:
-A split-context evaluation role where an agent inspects changes under the strict premise that the code is incorrect, seeking memory hazards, concurrency flaws, and semantic drift while explicitly rejecting stub workarounds.
+A split-context evaluation role, separate from the implementer, that seeks demonstrated introduced bugs, regressions, violations of authoritative requirements, resource hazards, concurrency flaws, semantic drift, and incomplete workarounds in affected behavior.
 *Avoid*: General code review, PR summarizer, peer review.
 
 **Semantic Drift**:

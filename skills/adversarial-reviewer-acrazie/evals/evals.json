@@ -1,0 +1,41 @@
+{
+  "skill_name": "adversarial-reviewer-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "functional-contract-violation",
+      "prompt": "Read-only independent review; no editing, installation, network or Git. Fixed patch task-filter-v1, base before-v1. Contract: omitted status or None returns every task in order, string status filters exact matches, inputs unchanged. Before: def list_tasks(tasks): return list(tasks). After: def list_tasks(tasks, status=None): return [task for task in tasks if task['status'] == status]. All tasks have valid string status. Review this complete one-function change against its contract; do not produce fixes.",
+      "expected_output": "Evidence-based independent verdict or explicit incomplete status; no fixes.",
+      "files": [],
+      "expectations": [
+        "REJECT identifies the omitted/None status defect with concrete tasks and expected versus actual result.",
+        "Report ties findings to the supplied snapshot and authoritative contract, categorizes Contract & Regression, and provides no replacement implementation.",
+        "No unrelated audit, invented executed tests or guarantee of zero other bugs."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "valid-short-circuit-and-string-count",
+      "prompt": "Read-only independent review; no editing, installation, network or Git. Fixed patch semantics-v1, base before-v1, complete added implementations: JavaScript function lookup(map, key, createNew) { return map.get(key) ?? createNew(); }; Python def count_code_points(text): return len(text). Contract: lookup returns a non-nullish stored value without invoking createNew (including 0, false, empty string), invokes createNew only for null or undefined; count_code_points counts Unicode code points, not grapheme clusters. Neither implementation owns resources; no additional affected callers. Review these functions without author rationale or fixes.",
+      "expected_output": "Evidence-based independent verdict or explicit incomplete status; no fixes.",
+      "files": [],
+      "expectations": [
+        "No false rejection claims ?? eagerly evaluates createNew on non-nullish values.",
+        "Python len(str) is correctly interpreted as code-point count, including len(\"e\\u0301\") == 2, not grapheme counting.",
+        "Completed verdict is ACCEPT limited to supplied scope/snapshot; no bug-free guarantee or replacement code."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "incomplete-and-pre-existing-evidence",
+      "prompt": "Read-only independent review; no editing, installation, network or Git. Intake has a truncated patch missing newly added files and no authoritative acceptance requirements. A visible surrounding pre-existing helper contains a resource leak unchanged by task. Explain review status and what evidence to request; do not invent missing contract or code.",
+      "expected_output": "Evidence-based independent verdict or explicit incomplete status; no fixes.",
+      "files": [],
+      "expectations": [
+        "Review remains incomplete, requests complete stable diff including new files and authoritative requirements, and does not issue ACCEPT.",
+        "Unchanged pre-existing issue is separated from introduced defects and does not become a fabricated change-introduced REJECT.",
+        "No implementation fix, patch, installation, or author-story substitute."
+      ]
+    }
+  ]
+}

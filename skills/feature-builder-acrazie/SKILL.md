@@ -2,8 +2,9 @@
 name: feature-builder-acrazie
 description: >-
   Implement a new application feature from an explicitly approved task contract,
-  with scoped tests and criterion-linked delivery evidence. Use only when the user
-  invokes feature-builder-acrazie. Not for bug fixes, behavior-preserving refactors,
+  with scoped tests, an optional independent adversarial review, and criterion-linked
+  delivery evidence. Use only when the user invokes feature-builder-acrazie.
+  Not for bug fixes, behavior-preserving refactors,
   repository setup, tooling migrations, Jenkins, README design, specialized visual
   workflows, or reviewing another agent's work.
 disable-model-invocation: true
@@ -13,7 +14,9 @@ disable-model-invocation: true
 
 Deliver only the requested new behavior, with enough proof to avoid handing the
 user untested, misinterpreted, or gratuitously expanded work. One sequential
-workflow; no orchestrator and no verification of other agents.
+workflow, not a general orchestrator. Implement and test the feature; delegate any
+user-approved independent review to `adversarial-reviewer-acrazie`, never review
+your own work under that role or duplicate its rubric.
 
 ## Entry and ownership
 
@@ -85,15 +88,67 @@ actions requiring separate permission.
    Obtain renewed approval before implementing that change, not for ordinary
    internal choices already within the contract.
 
+## Offer independent review
+
+After implementation and targeted checks, always offer an independent review
+before declaring delivery complete. Recommend either running or skipping it based
+on the actual diff, affected invariants, regression exposure, and remaining test
+gaps. Explain the concrete benefit and additional cost briefly. Small, well-tested
+changes can justify skipping; concurrency, resource lifetimes, permissions, data
+integrity, and cross-boundary behavior warrant stronger scrutiny. Do not claim
+review is universally necessary or that tests guarantee correctness.
+
+Wait for the user's explicit choice; feature approval alone does not activate
+review. Record the recommendation, rationale, and choice in the same Task Contract.
+If declined, continue ordinary delivery with its existing proof requirements.
+
+If accepted, review becomes a completion gate:
+
+1. Locate and read `adversarial-reviewer-acrazie`. If unavailable, stop and offer
+   user-approved installation using `npx skills add Acrazie/skills@adversarial-reviewer-acrazie`
+   or a manual handoff to a separate context where that skill is available.
+   Never install silently.
+   If a separate context cannot be created, disclose that limitation and stay
+   blocked unless the user explicitly withdraws the review requirement. Reading
+   the skill in the implementer's context is not an independent review.
+2. Invoke that skill in a fresh agent context without inherited conversation
+   history, or use the approved manual handoff. Supply a fixed snapshot of the
+   task's complete diff (including new files), its base revision or before-state,
+   and the authoritative contract/criteria. Exclude unrelated user changes and
+   author explanations. Permit read-only access to relevant surrounding code,
+   tests, repository instructions, and API documentation; freeze the task changes
+   during review. The reviewer does not edit or implement fixes.
+3. Preserve the report and the reviewed snapshot identity in the contract's
+   delivery evidence. An incomplete review or missing verdict is not `ACCEPT`.
+   `ACCEPT` means no demonstrated defect within the reviewed scope, not proof of
+   absence of bugs, and never replaces test evidence. It applies only to the
+   reviewed snapshot; subsequent task changes require another review.
+4. For `REJECT`, correct demonstrated defects introduced by the task only within
+   the approved contract, without requiring approval for each ordinary correction.
+   Add targeted regression evidence, rerun affected checks, and request review of
+   the updated complete task diff in a fresh context. Allow at most two correction
+   and re-review cycles after the initial review. If rejection persists, stop and
+   report the outstanding proofs of flaw for user arbitration; do not loop forever.
+5. Report pre-existing or out-of-scope findings separately without fixing them or
+   treating them as newly introduced defects. For disputed findings or changes
+   requiring a new scope/guarantee, pause for user arbitration and, when needed,
+   renewed contract approval. Never silently override `REJECT`. Explicit withdrawal
+   of the review gate must be recorded; it does not waive unmet feature criteria or
+   make known defects disappear.
+
 ## Delivery
 
 Update the same contract's delivery evidence with checks actually executed, results,
-criterion mappings, and limitations. Report changed behavior, proof for each
+criterion mappings, limitations, and review status (pending choice, declined,
+accepted, rejected, blocked, or explicitly withdrawn). Report changed behavior,
+proof for each
 criterion, relevant regressions checked, and remaining gaps. Distinguish local
 validation, CI, deployment, and live verification; do not infer one from another.
 
 Declare complete only when the approved behavior is implemented, every criterion
-has sufficient evidence, and no unrequested changes remain. Otherwise identify
+has sufficient evidence, no unrequested changes remain, and the review offer has
+an explicit user decision. If review remains required, also require `ACCEPT` on
+the final task snapshot. Otherwise identify
 what is incomplete or blocked. Do not commit, push, open a PR, or deploy merely
 because implementation is finished; follow the user's and repository's separate
 authorization for shipping.
