@@ -1,0 +1,6 @@
+interface:
+  display_name: "Memory Leak Diagnostician / Acrazie"
+  short_description: "Diagnose, trace, and eliminate JavaScript and runtime memory leaks"
+  default_prompt: "Use $memory-leak-diagnostician-acrazie to analyze heap snapshots or memory telemetry, trace retainer chains, and generate surgical un-retention patches."
+policy:
+  allow_implicit_invocation: true
