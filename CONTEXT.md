@@ -93,6 +93,20 @@ The directed acyclic graph of strong references extending from a Garbage Collect
 A minimal structural code change that severs an anchor reference (e.g. unbinding closures, RAII disposal, once listeners, WeakRef/WeakMap) without altering functional domain logic.
 *Avoid*: Functional rewrite, garbage collector tuning, blind cache clearing.
 
+## Script Portability & Shell Hardening
+
+**Script Portability**:
+The specialist skill `script-portability-acrazie` dedicated to eliminating OS-dependent syntax hazards, purging redundant polyfills (`cross-env`, `rimraf`, `shx`), and hardening automation scripts against shell injection.
+*Avoid*: Macro-toolchain modernizer, Jenkins pipeline specialist.
+
+**Polyfill Purge**:
+The systematic elimination of obsolete developer dependency polyfills in favor of native runtime capabilities (e.g. `node --env-file`, `fs.rmSync`, in-process Bun Shell).
+*Avoid*: Dependency update, arbitrary package pruning.
+
+**In-Process Shell**:
+Shell execution that parses and evaluates commands directly within the runtime without spawning OS subshells (`sh -c`, `cmd.exe`), eliminating process startup latency and kernel context switches.
+*Avoid*: Child process execution, subprocess wrapper.
+
 ## Documentation & Deployment Platform
 
 **Skills Documentation Site**:

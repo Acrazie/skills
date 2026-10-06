@@ -1,0 +1,6 @@
+interface:
+  display_name: "Script Portability & Shell Hardening / Acrazie"
+  short_description: "Audit, refactor, and harden cross-platform automation commands and package scripts"
+  default_prompt: "Use $script-portability-acrazie to audit package.json scripts and shell commands for cross-platform compatibility (Linux/macOS/Windows), eliminate redundant polyfills (rimraf, cross-env), and prevent shell injection vulnerabilities."
+policy:
+  allow_implicit_invocation: true
