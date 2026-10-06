@@ -12,14 +12,14 @@ When agents encounter compiler errors, linter warnings, or subtle behavioral gap
 
 ## Decision
 
-1. **Split-Context Cognitive Isolation**: The adversarial reviewer operates in an isolated context window. It receives only the code diff and authoritative specification contracts (e.g. `Task Contract`, `PORTING.md`, or type signatures). It is strictly forbidden from receiving the implementer's narrative reasoning, conversational justifications, or internal chain-of-thought.
+1. **Split-Context Cognitive Isolation**: The adversarial reviewer operates in a fresh context without inherited author history. It receives a fixed task diff, authoritative specification contracts, and read-only technical context needed to trace affected behavior. It does not receive the implementer's narrative reasoning or conversational justifications.
 2. **Strict No-Fix Separation ("The implementer doesn't review; the reviewer doesn't implement")**: When the reviewer finds a defect, it outputs a binary verdict (`REJECT`) accompanied by a concrete **Proof of Flaw** (reproducible edge case input, concurrent race scenario, or lifecycle trace). It does not provide replacement code or patch suggestions, preserving its uncompromising falsification posture.
-3. **Zero-Tolerance Anti-Workaround Invariants**: Any detected dummy stub, omitted error handling branch, or paragraph-long comment rationalizing a workaround triggers an immediate, non-negotiable rejection.
-4. **Dual Invocation Model**: The skill is invocable directly by human developers (`/adversarial-reviewer`) on any git diff or branch, and programmatically as a sub-agent by orchestrators (`multi-agent-planner-acrazie`, `feature-builder-acrazie`) in closed multi-agent verification loops.
+3. **Evidence-Based Rejection**: Demonstrated introduced bugs, regressions, contract violations, and incomplete workarounds trigger `REJECT`. Syntax alone, authorized empty results, or pre-existing findings do not. Missing evidence leaves review incomplete; `ACCEPT` is scoped to the reviewed snapshot, not a guarantee of no bugs.
+4. **Dual Invocation Model**: Humans or other skills may invoke the reviewer. `feature-builder-acrazie` always offers review after implementation and tests with a task-specific run/skip recommendation; it delegates only after explicit user acceptance. This is a bounded specialist handoff, not a general development orchestrator. Accepted review gates completion, with at most two correction/re-review cycles before user arbitration. See [the approved integration contract](../specs/feature-adversarial-review.md).
 
 ## Consequences & Trade-offs
 
-- **Cost of Additional Passes**: Verification requires separate model context windows and an explicit hand-off back to the implementer or a fixer agent. We accept this latency and token overhead to eliminate silent defects before merge.
+- **Cost of Additional Passes**: Verification requires separate context windows and a handoff back to the implementer. Users choose whether the additional latency and token cost are justified; review reduces risk but cannot eliminate all defects. Unavailable independent review blocks an accepted gate unless explicitly withdrawn.
 - **Rejected Alternatives**:
   - *Self-Review by the Implementer*: Rejected because implementers consistently hallucinate compliance with their own unstated assumptions.
   - *Reviewer with Fix Generation*: Rejected because producing replacement code shifts the reviewer into a constructive compromises mindset, creating new blind spots.

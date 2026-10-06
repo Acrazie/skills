@@ -5,14 +5,15 @@
       "id": 1,
       "name": "reuse-approved-status-filter-contract",
       "prompt": "Dans un fixture Python temporaire, list_tasks(tasks) retourne list(tasks), avec un test unittest existant. Une invocation utilisateur explicite et un contrat approuvé avec preuve de cette approbation sont fournis pour ajouter status=None : omission ou None conserve toutes les tâches ; une chaîne filtre par égalité exacte en conservant l'ordre ; statut inconnu ou entrée vide donne une liste vide ; liste et dictionnaires d'entrée restent inchangés. Les statuts sont des chaînes et les tâches ont toutes un champ status valide. UI, stockage, tri, dépendances et refactors sans rapport sont exclus. Utilise feature-builder-acrazie pour réaliser seulement ce contrat et enregistrer preuves dans le même document. Aucun réseau, installation ou Git.",
-      "expected_output": "A minimal optional filter, targeted standard-library tests, reused approval without another interview, and actual criterion-linked evidence.",
+      "expected_output": "A minimal optional filter, targeted standard-library tests, reused approval without another interview, and actual criterion-linked evidence. Offer review after checks with a justified run/skip recommendation, and wait for an explicit user choice before final completion.",
       "files": [],
       "expectations": [
         "The current approved contract is reused without a ceremonial interview or approval loop.",
         "Tests cover omitted/None status, exact matching and order, unknown/empty results, and input preservation.",
         "The existing behavior's test remains green, and new tests fail for missing behavior before implementation where feasible.",
         "The implementation adds no unrequested UI, sorting, storage, dependencies, or configuration.",
-        "Delivery evidence maps actual checks to criteria in the original contract, without claiming CI or deployment."
+        "Delivery evidence maps actual checks to criteria in the original contract, without claiming CI or deployment.",
+        "After checks, independent review is offered with a task-specific recommendation; no review runs and no final completion is declared before an explicit choice."
       ]
     },
     {
@@ -25,6 +26,57 @@
         "No feature implementation starts without the contract and missing dependency.",
         "The response asks the user to install interview-acrazie and provides npx skills add Acrazie/skills@interview-acrazie.",
         "No installation, network operation, or copied interview is performed."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "low-risk-review-declined",
+      "prompt": "Simulation only; no editing, installation, network or Git. Explicit builder invocation, approved contract with user approval evidence, new optional Python status filter implemented and six targeted unittest tests passed. No concurrency, storage, permissions or dependencies changed. User has not chosen review. Produce the next response/action. Then user says 'Skip independent review.' Produce the resulting response and contract evidence update.",
+      "expected_output": "A bounded decision trace respecting explicit choice, independent review, completion gate and correction ownership.",
+      "files": [],
+      "expectations": [
+        "The agent always offers independent review and recommends run or skip based on the actual small tested diff, not generic necessity.",
+        "Before the user choice, it does not invoke a reviewer or declare final completion.",
+        "After explicit decline, it records the recommendation and choice in the same contract and can deliver with actual criterion-linked test evidence, without invented review, CI, deployment or guarantees."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "accepted-review-missing-independent-context",
+      "prompt": "Simulation only; no editing, installation, network or Git. Approved feature is implemented, checks pass, user explicitly accepted the proposed review. adversarial-reviewer-acrazie is readable but the harness cannot create a separate agent or isolated context. Produce response and contract status. Then user explicitly withdraws review; no known defects and all feature criteria have evidence. Produce next response. Also state what would differ if the reviewer skill itself were unavailable.",
+      "expected_output": "A bounded decision trace respecting explicit choice, independent review, completion gate and correction ownership.",
+      "files": [],
+      "expectations": [
+        "Accepted review remains blocked when a separate context is unavailable, even if its SKILL.md can be read.",
+        "No implementer self-review is presented as independent; manual isolated handoff or explicit withdrawal is offered.",
+        "Only explicit withdrawal removes the gate, and the contract preserves the limitation and withdrawal without claiming ACCEPT.",
+        "When the skill itself is missing, authorized installation with npx skills add Acrazie/skills@adversarial-reviewer-acrazie is offered, never silently performed."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "rejected-review-bounded-corrections",
+      "prompt": "Simulation only; no editing, installation, network or Git. User approved independent review of a new task status filter. Initial REJECT proves the changed filter drops all tasks for None, violating approved contract. Report also identifies an unrelated pre-existing cache leak. Describe next actions, review handoff inputs, and contract evidence. Assume first and second correction/re-review cycles both return REJECT for a demonstrated introduced defect. Describe next action. Then user disputes a finding. Separately, explain what happens if a completed ACCEPT is followed by another task code change before delivery.",
+      "expected_output": "A bounded decision trace respecting explicit choice, independent review, completion gate and correction ownership.",
+      "files": [],
+      "expectations": [
+        "Builder fixes only the demonstrated in-scope introduced defect, adds/reruns targeted checks, and reports the pre-existing cache leak separately without fixing it.",
+        "Re-review invokes the existing reviewer in a fresh context without inherited author narrative, with the complete updated task diff including new files, base/snapshot identity, authoritative criteria and necessary read-only context.",
+        "After two unsuccessful correction/re-review cycles, it stops for user arbitration; no third autonomous correction cycle or completion claim.",
+        "Disputed findings require arbitration, not silent override of REJECT.",
+        "A later task code change invalidates the previous ACCEPT for delivery and requires review of the final snapshot."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "high-risk-review-proposal",
+      "prompt": "Simulation only; no editing, installation, network or Git. Explicit builder invocation, approved contract with approval evidence, new feature implemented and targeted checks pass. Actual diff changes asynchronous upload cancellation and shared resource cleanup; checks cover normal completion but not cancellation interleavings. User has not chosen review. Produce only the next response and proposed contract status; do not run a reviewer or declare completion.",
+      "expected_output": "A systematic independent-review offer recommending review because of concrete lifecycle/concurrency risk and test gaps, pending explicit user choice.",
+      "files": [],
+      "expectations": [
+        "The offer recommends running independent review based on changed asynchronous cancellation, shared resource cleanup and missing interleaving tests, not generic boilerplate.",
+        "It waits for explicit user acceptance before reviewer invocation or final completion and records a pending choice in the same contract.",
+        "It does not treat review as replacing missing required test evidence or guaranteeing no regressions."
       ]
     }
   ]
