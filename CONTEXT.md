@@ -79,6 +79,20 @@ A structured, persisted partition of compiler or linter diagnostic outputs (e.g.
 Operational constraints placed on parallel coding sub-agents prohibiting workspace-wide mutations (`git stash`, `git reset`, un-scoped checkouts) and slow root build commands within inner iteration loops.
 *Avoid*: Uncoordinated git operations, agent stepping.
 
+## Runtime & Memory Diagnostics
+
+**Memory Leak Diagnostician**:
+The specialist skill `memory-leak-diagnostician-acrazie` dedicated to isolating monotonic heap and RSS growth, mapping GC retainer trees, and generating surgical un-retention patches.
+*Avoid*: Static linter, feature builder, generic debugger.
+
+**Retainer Tree**:
+The directed acyclic graph of strong references extending from a Garbage Collection root (global scope, timer, DOM node, captive lexical scope) to a target live object, preventing its reclamation by the GC.
+*Avoid*: Call stack, dependency graph, heap profile.
+
+**Un-Retention Patch**:
+A minimal structural code change that severs an anchor reference (e.g. unbinding closures, RAII disposal, once listeners, WeakRef/WeakMap) without altering functional domain logic.
+*Avoid*: Functional rewrite, garbage collector tuning, blind cache clearing.
+
 ## Script Portability & Shell Hardening
 
 **Script Portability**:
