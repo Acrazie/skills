@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.10.0](https://github.com/Acrazie/skills/compare/v1.9.0...v1.10.0) (2026-10-06)
+
+
+### Features
+
+* **memory-leak-diagnostician:** add memory leak diagnostic skill ([#81](https://github.com/Acrazie/skills/issues/81)) ([beb56b1](https://github.com/Acrazie/skills/commit/beb56b1985607f951b0279d0ab1eadce30a84fe9))
+* **script-portability:** add cross-platform script portability skill ([#82](https://github.com/Acrazie/skills/issues/82)) ([b876be9](https://github.com/Acrazie/skills/commit/b876be9876fe76bfca9c9199a1060dbb8b99191e))
+
 ## [1.9.0](https://github.com/Acrazie/skills/compare/v1.8.0...v1.9.0) (2026-10-04)
 
 
