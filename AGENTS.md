@@ -69,7 +69,8 @@ skills/
    - Logos follow the Acrazie retro-tech design language (modular lettering, orange-to-violet palette `#ff6d00` to `#9d4edd`, southeast echoes).
    - Metaphors must be cleanly integrated into letterforms without lookalike glitches or detached noise.
 5. **Invocation Model**:
-   - User-invoked skills require `disable-model-invocation: true` in `SKILL.md` frontmatter and `policy.allow_implicit_invocation: false` in `agents/openai.yaml`.
+   - Default to model-invocable skills within the current requested task. Selection does not approve new objectives, scope expansion, agent spawning, or restricted actions.
+   - Only `skill-refiner-acrazie` is explicit-only because it starts a persistent feedback campaign; synchronize `disable-model-invocation: true` and `policy.allow_implicit_invocation: false` for that exception. Other skills omit the frontmatter flag and allow implicit invocation in `agents/openai.yaml`.
    - Read `.agents/invocation.md` for complete rules.
 6. **Prior Art & Non-Overlap Invariant**:
    - Before designing, creating, or renaming a skill, agents **MUST** inspect all existing skills in `skills/` across local and remote branches (and review their `SKILL.md` scope/exclusions).

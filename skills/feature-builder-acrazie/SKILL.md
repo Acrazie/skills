@@ -3,11 +3,10 @@ name: feature-builder-acrazie
 description: >-
   Implement a new application feature from an explicitly approved task contract,
   with scoped tests, an optional independent adversarial review, and criterion-linked
-  delivery evidence. Use only when the user invokes feature-builder-acrazie.
+  delivery evidence. Use when the user requests new application behavior.
   Not for bug fixes, behavior-preserving refactors,
   repository setup, tooling migrations, Jenkins, README design, specialized visual
   workflows, or reviewing another agent's work.
-disable-model-invocation: true
 ---
 
 # Feature Builder / Acrazie
@@ -20,8 +19,10 @@ your own work under that role or duplicate its rubric.
 
 ## Entry and ownership
 
-Run only after explicit human invocation. If activated implicitly, ask the user to
-invoke `$feature-builder-acrazie`; do not interview or edit yet.
+Select this skill when the user requests a new application feature or authorizes
+a scoped feature handoff. No named skill command is required. Selection permits
+relevant discovery, not implementation before contract approval, new objectives,
+or separately restricted actions.
 
 Read repository instructions and inspect relevant behavior, invariants, tests,
 manifests, Git state, and existing task documents before editing. Reuse behavior

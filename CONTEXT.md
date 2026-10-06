@@ -14,6 +14,24 @@ The `jenkins-symfony-php-acrazie` specialist skill, dedicated to interpreting Sy
 **Python Specialist**:
 The `jenkins-python-acrazie` specialist skill, dedicated to Python packaging, testing (pytest/tox), and runtime containerization for Jenkins pipelines.
 
+## Skill Invocation & Authorization
+
+**Skill Selection**:
+The choice of a matching specialist for the current requested task, made by the user or agent. It does not authorize a new objective or the specialist’s actions.
+*Avoid*: Execution approval, unrestricted autonomy.
+
+**Scope Approval**:
+The user’s acceptance of the task boundary, intended outcome, and applicable criteria, distinct from choosing a skill.
+*Avoid*: Skill invocation, publication permission.
+
+**Action Authorization**:
+Permission for a specific restricted action under applicable user and repository rules, separate from skill selection and scope approval.
+*Avoid*: Automatic permission from skill activation.
+
+**Explicit-Only Campaign**:
+A persistent feedback workflow started only through deliberate activation of `skill-refiner-acrazie`, not inferred from a complaint about a skill.
+*Avoid*: Ordinary task-matching specialist.
+
 ## Skill Lifecycle & Refinement
 
 **Skill Refiner**:
@@ -34,11 +52,11 @@ The reusable `interview-acrazie` skill that clarifies user-owned decisions and p
 *Avoid*: Development orchestrator, feature implementer.
 
 **Feature Builder**:
-The explicitly user-invoked `feature-builder-acrazie` specialist that realizes new application behavior from an approved Task Contract with criterion-linked evidence, distinct from its optional independent reviewer.
+The `feature-builder-acrazie` specialist that realizes new application behavior from an approved Task Contract with criterion-linked evidence, distinct from its optional independent reviewer.
 *Avoid*: Bug fixer, refactorer, agent reviewer.
 
 **Test Retrofitter**:
-The explicitly user-invoked `test-retrofitter-acrazie` skill for adding automated evidence to existing untested or insufficiently tested behavior, distinct from implementing or correcting functionality.
+The `test-retrofitter-acrazie` skill for adding automated evidence to existing untested or insufficiently tested behavior, distinct from implementing or correcting functionality.
 *Avoid*: Feature builder, bug fixer, CI migrator.
 
 **Task Contract**:

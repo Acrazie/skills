@@ -3,10 +3,9 @@ name: product-critic-acrazie
 description: >-
   Critique an existing product's features and codebase against real user needs,
   verifiable benefits, simplicity, and total lifecycle cost. Propose what to retain,
-  simplify, retire, or replace. Use only when the user explicitly invokes
-  product-critic-acrazie; not for focused technical audits, PR review, tooling
+  simplify, retire, or replace. Use when the user requests an assessment of product
+  value, usage fit, or unnecessary behavior; not for focused technical audits, PR review, tooling
   migrations, or implementation.
-disable-model-invocation: true
 ---
 
 # Product Critic / Acrazie
@@ -17,8 +16,10 @@ is not evidence of better performance, lower complexity, or greater user value.
 
 ## Entry and boundaries
 
-Run only after explicit human invocation. If activated implicitly, ask the user
-to invoke `$product-critic-acrazie`; do not investigate or write a report yet.
+Select this skill for a requested usage-led product assessment. No named skill
+command is required. Inspect relevant facts read-only, but do not reinterpret an
+implementation task as permission to reconsider the product. Scope, deep critique,
+report writes, and implementation retain their distinct approval gates below.
 
 - Assess one existing product in one repository, including the implementation
   relevant to its features. Start with a panorama, not an exhaustive health audit.
@@ -124,8 +125,9 @@ request, reuse a sufficient approved targeted Task Contract, or ask
 decisions; scope concrete outcomes and checks rather than copying the entire critique.
 
 - New application features: hand off to `feature-builder-acrazie` only after the
-  human explicitly invokes or authorizes that skill and the targeted contract is
-  approved. Respect its entry guard and specialist exclusions; this critique does
+  human authorizes the feature implementation and the targeted contract is
+  approved. A natural-language request suffices; no named skill command is required.
+  Respect its specialist exclusions; this critique does
   not implement the feature itself.
 - Bug fixes, behavior-preserving refactors, retirement, and migrations: disclose
   the Feature Builder mismatch and agree on a suitable workflow with the user.

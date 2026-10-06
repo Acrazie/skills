@@ -1,38 +1,69 @@
-# Dual-Harness Invocation Model (Claude Code, Codex, Hermes)
+# Skill Selection and Action Authorization
 
-Every skill in this repository defines how it can be invoked: by a human user only, or autonomously by the agent model.
+Skills are model-invocable by default within the current requested task. A clear
+natural-language request is enough; users do not need to know a skill's name.
+Selecting or reading a skill is not approval of its scope or authorization of its
+actions. Skill instructions never override applicable user/repository rules,
+tool permissions, or approval requirements.
 
-## 1. User-Invoked Skills
+## Model-invocable specialists
 
-Reachable **only when explicitly triggered by a human** (e.g. typing `$audit-repository-acrazie` or `/skill-refiner-acrazie`).
+- In `SKILL.md` frontmatter, omit `disable-model-invocation`.
+- In `agents/openai.yaml`, set `policy.allow_implicit_invocation: true` or omit it
+  (the default is `true`).
+- Descriptions must state matching tasks and exclusions, not require a named
+  command. Existing owners retain their specialist scope and approval gates.
+- Read-only discovery may begin when relevant to the authorized task. Do not
+  launch new objectives, unrelated audits, modernization programs, long interviews,
+  or costly campaigns merely because a skill is available.
+- A scoped inter-skill handoff may select its responsible specialist without a
+  named command. It does not expand the authorized objective or bypass the
+  recipient's contract, write, installation, or execution gates.
+- Restricted actions, shipping, sensitive settings, paid services, destructive
+  recovery, production changes, and agent spawning still follow their applicable
+  permissions. Do not infer authorization from skill selection or plan approval.
 
-Configuration:
-- In `SKILL.md` frontmatter:
-  ```yaml
-  disable-model-invocation: true
-  ```
-- In `agents/openai.yaml`:
-  ```yaml
-  policy:
-    allow_implicit_invocation: false
-  ```
-- Description: Human-facing concise summary of the action.
+Examples: a requested Jenkins pipeline task may load a read-only stack specialist;
+"publish these changes" may select `git-ship-acrazie` for preparation, but its
+delivery recap and confirmation remain required. "Implement this feature" does
+not request a multi-agent planning interview or authorize spawning agents.
 
-*Examples*: `audit-repository-acrazie`, `skill-refiner-acrazie`.
+## Explicit-only exception: Skill Refiner
 
-## 2. Model-Invoked Skills
+Only `skill-refiner-acrazie` remains explicit-only. It starts a persistent feedback
+campaign with an append-only journal and indicators on subsequent messages. A
+complaint about another skill is not consent to start that campaign. An agent may
+offer refinement, but the user must deliberately activate Refiner.
 
-Reachable **both autonomously by models and explicitly by users**.
+Synchronize both declarations:
 
-Configuration:
-- In `SKILL.md` frontmatter: omit `disable-model-invocation`.
-- In `agents/openai.yaml`: omit `policy.allow_implicit_invocation` (or set to `true`).
-- Description: Model-facing trigger phrases ("Use when the user wants to...").
+```yaml
+# SKILL.md frontmatter
+disable-model-invocation: true
+```
 
-*Examples*: `svg-icon-designer-acrazie`.
+```yaml
+# agents/openai.yaml
+policy:
+  allow_implicit_invocation: false
+```
 
-## 3. Consistency Invariant
+Do not emulate an implicit Refiner campaign by manually reading its instructions.
+Explicit activation still does not grant permission to edit the target skill.
 
-Both harnesses must stay strictly synchronized:
-- Never set `disable-model-invocation: true` in `SKILL.md` while leaving `policy.allow_implicit_invocation: true` in `openai.yaml`.
-- Never disable model invocation in `openai.yaml` without mirroring it in `SKILL.md`.
+## Consistency and verification
+
+For every published skill, `disable-model-invocation: true` must be equivalent to
+`policy.allow_implicit_invocation: false`; missing fields mean model invocation
+is allowed. Validate metadata as YAML and keep entry instructions and localized
+catalog descriptions consistent. Do not confuse a synchronized flag with proof
+that a host actually selects the skill correctly.
+
+`cd site && bun run test:invocation` checks metadata parity, the single exception,
+stale command-only entry guards, representative retained approval boundaries, and
+localized catalog flags. CI runs this check before building the site. These are
+static regression checks, not live cross-harness triggering evaluations.
+
+Approved rationale: [ADR 0006](../docs/adr/0006-separate-skill-selection-from-action-authorization.md).
+Task scope and evidence: [invocation policy contract](../docs/specs/skill-invocation-policy.md).
+Codex semantics: [official OpenAI documentation](https://learn.chatgpt.com/docs/build-skills).

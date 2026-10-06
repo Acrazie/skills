@@ -6,7 +6,6 @@ description: >-
   and mandatory test oracle verification. Use when migrating a repository or major component
   from one programming language to another. Not for internal refactoring within the same language,
   fixing isolated bugs, or rewriting without an automated test suite.
-disable-model-invocation: true
 ---
 
 # Mechanical Port / Acrazie
@@ -14,14 +13,20 @@ disable-model-invocation: true
 Orchestrate language-to-language mechanical codebase migrations. Prioritize 1:1 structural
 fidelity over premature idiomatic refactoring. Never port without an objective test oracle.
 
+## Entry and authorization
+
+Select this skill only for a requested source-to-target language migration. No named skill command is required. Inspect the source and test oracle read-only first. Confirm the migration boundary, target language, plan, and applicable permissions before generating specifications or translating code. Selection does not authorize a rewrite, dependency installation, shipping, destructive actions, or agent spawning; follow the applicable user/repository rules for each.
+
 ## Core principles & invariants
 
 1. **Test Oracle Invariant (Strict Gating)**:
    A mechanical port is permissible ONLY if an automated, black-box or language-independent
    test suite already exists and passes against the source codebase.
    - If tests are missing, incomplete, or coupled to the source compiler, STOP.
-   - Instruct the user to first invoke `$test-retrofitter-acrazie` to establish end-to-end
-     black-box verification before attempting code translation.
+   - Propose `test-retrofitter-acrazie` to establish end-to-end black-box verification.
+     Obtain authorization for that prerequisite testing work and its approved contract
+     before handing off; no named skill command is required. Do not translate until
+     the oracle is adequate and passes.
 2. **Faithful 1:1 Mirroring (Anti-Premature Redesign)**:
    Translate the codebase preserving identical directory hierarchies, module boundaries,
    naming patterns, and algorithmic flow. Do NOT attempt architectural overhauls, database

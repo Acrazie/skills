@@ -1,7 +1,6 @@
 ---
 name: git-ship-acrazie
-description: Finalize, commit, push, and open Pull Requests for completed tasks based on repository Git rules and governance. Use when explicitly invoked by the user to ship changes, commit completed work, publish a branch, or create a draft PR.
-disable-model-invocation: true
+description: Finalize, commit, push, and open Pull Requests for completed tasks based on repository Git rules and governance. Use when the user asks to ship changes, commit completed work, publish a branch, or create a draft PR; not merely because implementation is complete.
 ---
 
 # Git Ship / Acrazie
@@ -12,7 +11,7 @@ Safely finalize a completed task by validating repository hygiene, enforcing gov
 
 ## 1. Invocation Guard & Autonomy Boundaries
 
-- **Invocation Mode**: Explicit user invocation only (`/git-ship-acrazie`, `$git-ship-acrazie`, or explicit instruction to ship/commit current task).
+- **Selection Boundary**: Select when the user requests shipping, committing, publishing a branch, or opening a PR. A natural-language request suffices; no named skill command is required. Completed implementation alone does not request shipping. Selection permits preparation, not the actions gated below.
 - **Semi-Autonomous Execution with Approval Gate**:
   - The agent autonomously conducts discovery, runs pre-flight quality gates, drafts the commit message, and prepares the PR description.
   - **Hard Invariant (Approval Gate)**: The agent must **NEVER** run `git commit`, `git push`, or `gh pr create` without first presenting the consolidated delivery recap and receiving explicit user confirmation ("Go" or adjustments).
@@ -42,7 +41,7 @@ Safely finalize a completed task by validating repository hygiene, enforcing gov
 
 ```mermaid
 flowchart TD
-  A["1. User Invocation ($git-ship-acrazie)"] --> B["2. Discover Governance (docs/git-workflow.md)"]
+  A["1. Requested Git Delivery"] --> B["2. Discover Governance (docs/git-workflow.md)"]
   B -->|Rules Missing| C["Offer /github-repo-init-acrazie"]
   B -->|Rules Present| D["3. Pre-Flight Safety & Quality Gates"]
   D -->|Failed (main branch or dirty secrets)| E["Halt & Guide User"]

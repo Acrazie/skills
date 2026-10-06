@@ -1,6 +1,6 @@
 ---
 name: multi-agent-planner-acrazie
-description: Decide single-agent vs multi-agent execution through a short option-driven interview and produce a verified copy-paste workflow. Use only when the user explicitly invokes multi-agent-planner-acrazie before spawning parallel subagents, multi-repository work, or large debugging; never for single-file edits, trivial tasks, or execution itself.
+description: Decide single-agent vs multi-agent execution through a short option-driven interview and produce a verified copy-paste workflow. Use when the user asks to plan agent execution, compare single-agent and multi-agent approaches, or partition a task for agents; not merely because a task is large or spans repositories. Never for execution itself.
 ---
 
 # Multi-Agent Planner / Acrazie
@@ -9,9 +9,9 @@ Help the user decide whether a task needs one sequential minimalist agent or a m
 
 Use generic vocabulary only in the core (orchestrator / worker / contract / verification). Never emit platform-specific spawn syntax in the core; delegate that to `references/platforms.md`.
 
-## Invocation guard
+## Entry and authorization
 
-Run only after explicit user invocation. If activated implicitly, do not plan; ask the user to invoke `$multi-agent-planner-acrazie` (or the platform-equivalent explicit command).
+Select this skill for a requested agent-execution plan or single-agent versus multi-agent decision. No named skill command is required. Do not turn a request to implement a feature or debug a large repository into a planning interview. Selection is not permission to spawn agents; this skill remains planning-only.
 
 ## Scope and invariants
 

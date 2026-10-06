@@ -1,7 +1,6 @@
 ---
 name: github-repo-init-acrazie
-description: Initialize, bootstrap, and scaffold a production-ready GitHub repository tailored to user choices through an adaptive interview, a structured blueprint approval gate, and end-to-end scaffolding. Covers stack setup (React, Vue, Next.js, Vite, Node, Python uv/Poetry, Go, Rust, or agnostic), evidence-based tooling selection (including Oxlint/Oxfmt, Biome, ESLint, Ruff), Git/GitHub settings and permissions discovery, CI/CD workflows, release automation, and complete repository governance (README, SECURITY.md, CONTRIBUTING, LICENSE, templates, CODEOWNERS).
-disable-model-invocation: true
+description: Use when the user requests initialization or scaffolding of a GitHub repository; not for unsolicited governance changes during unrelated work. Initialize, bootstrap, and scaffold a production-ready GitHub repository tailored to user choices through an adaptive interview, a structured blueprint approval gate, and end-to-end scaffolding. Covers stack setup (React, Vue, Next.js, Vite, Node, Python uv/Poetry, Go, Rust, or agnostic), evidence-based tooling selection (including Oxlint/Oxfmt, Biome, ESLint, Ruff), Git/GitHub settings and permissions discovery, CI/CD workflows, release automation, and complete repository governance (README, SECURITY.md, CONTRIBUTING, LICENSE, templates, CODEOWNERS).
 ---
 
 # GitHub Repo Init / Acrazie
@@ -11,6 +10,8 @@ Scaffold and bootstrap a complete, production-grade GitHub repository tailored t
 ---
 
 ## 1. Scope & Invariants
+
+Select this skill for requested repository initialization or scaffolding. No named skill command is required. Inspect facts read-only before the interview; selection does not approve the blueprint, publication, sensitive settings, or expansion into unrelated repository governance.
 
 1. **Explicit Invariants**:
    - **No Silent Assumptions**: Never choose a stack, package manager, linter, or repository visibility without asking or obtaining approval.

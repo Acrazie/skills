@@ -3,4 +3,4 @@ interface:
   short_description: "Interprets Python codebases for Jenkins pipelines"
   default_prompt: "Interpret this Python repository for integration with jenkins-devops-acrazie."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

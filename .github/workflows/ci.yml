@@ -99,6 +99,9 @@ jobs:
       - name: Install dependencies
         run: cd site && bun install --frozen-lockfile
 
+      - name: Verify skill invocation policy
+        run: cd site && bun run test:invocation
+
       - name: Build site
         run: cd site && bun run build
 

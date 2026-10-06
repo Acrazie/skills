@@ -36,13 +36,13 @@ export const CATEGORY_TRANSLATIONS: Record<string, Record<Locale, string>> = {
 export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, LocalizedSkillMeta>> = {
   'audit-repository-acrazie': {
     en: {
-      description: 'Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. Use only when the user explicitly invokes audit-repository-acrazie; not for general repository audits, diff or PR review, security audits, documentation audits, or multi-repository analysis.',
+      description: 'Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. Use when the task needs a bounded technical assessment before a decision; not for general repository audits, diff or PR review, security audits, documentation audits, or multi-repository analysis.',
     },
     fr: {
-      description: 'Auditer une décision technique précise, une intégration, un outil, un choix de stack ou un sous-système dans un dépôt existant. À utiliser uniquement sur invocation explicite d’audit-repository-acrazie.',
+      description: 'Auditer une décision technique précise, une intégration, un outil, un choix de stack ou un sous-système dans un dépôt existant. Pour une évaluation technique ciblée nécessaire à la décision demandée, sans commande de skill obligatoire.',
     },
     zh: {
-      description: '针对现有代码库中的具体技术决策、工具集成、技术栈选型或子系统进行针对性审计。仅在显式调用 audit-repository-acrazie 时生效。',
+      description: '针对现有代码库中的具体技术决策、工具集成、技术栈选型或子系统进行针对性审计。适用于当前任务所需的针对性技术评估，无需显式技能命令。',
     },
   },
   'canvas-banner-designer-acrazie': {
@@ -58,7 +58,7 @@ export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, Localize
   },
   'git-ship-acrazie': {
     en: {
-      description: 'Finalize, commit, push, and open Pull Requests for completed tasks based on repository Git rules and governance. Use when explicitly invoked by the user to ship changes, commit completed work, publish a branch, or create a draft PR.',
+      description: 'Finalize, commit, push, and open Pull Requests for completed tasks based on repository Git rules and governance. Use when the user asks to ship changes, commit completed work, publish a branch, or create a draft PR; not merely because implementation is complete.',
     },
     fr: {
       description: 'Finaliser, commiter, pousser et ouvrir des Pull Requests pour des tâches terminées selon les règles Git et la gouvernance du dépôt. À invoquer pour expédier des modifications ou publier une branche.',
@@ -80,7 +80,7 @@ export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, Localize
   },
   'immersive-hero-designer-acrazie': {
     en: {
-      description: 'Design and build an original, complete immersive web hero using the right medium for the effect: supplied or approved video, image sequence, 3D, Canvas, or CSS. Invoke explicitly to create a cinematic, interactive, or scroll-driven section in an existing site; not for copying a reference, redesigning a whole site, or making a standalone video without a web hero.',
+      description: 'Design and build an original, complete immersive web hero using the right medium for the effect: supplied or approved video, image sequence, 3D, Canvas, or CSS. Use when the user requests a cinematic, interactive, or scroll-driven section in an existing site; not for copying a reference, redesigning a whole site, or making a standalone video without a web hero.',
     },
     fr: {
       description: 'Concevoir et réaliser une section hero immersive originale (vidéo, séquence d’images, 3D, Canvas ou CSS). À invoquer pour créer une section cinématique ou interactive.',
@@ -157,18 +157,18 @@ export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, Localize
   },
   'multi-agent-planner-acrazie': {
     en: {
-      description: 'Decide single-agent vs multi-agent execution through a short option-driven interview and produce a verified copy-paste workflow. Use only when the user explicitly invokes multi-agent-planner-acrazie before spawning parallel subagents, multi-repository work, or large debugging; never for single-file edits, trivial tasks, or execution itself.',
+      description: 'Decide single-agent vs multi-agent execution through a short option-driven interview and produce a verified copy-paste workflow. Use when the user asks to plan agent execution, compare single-agent and multi-agent approaches, or partition a task for agents; not merely because a task is large or spans repositories. Never for execution itself.',
     },
     fr: {
-      description: 'Arbitrer entre exécution mono-agent et multi-agents via un court entretien, et produire un workflow prêt à copier-coller. Pour orchestration complexe et sous-agents parallèles.',
+      description: 'Arbitrer entre exécution mono-agent et multi-agents via un court entretien, et produire un workflow prêt à copier-coller. Pour une demande de planification d’agents ; ni entretien imposé sur une tâche d’implémentation, ni lancement d’agents.',
     },
     zh: {
-      description: '通过选项驱动问询评估单 Agent 与多 Agent 协作方案，生成经过验证的执行工作流。用于复杂调试与并行子 Agent 编排。',
+      description: '通过选项驱动问询评估单 Agent 与多 Agent 协作方案，生成经过验证的执行工作流。仅用于用户要求的 Agent 执行规划，不因任务复杂而自动启动，也不启动子 Agent。',
     },
   },
   'repo-modernizer-acrazie': {
     en: {
-      description: 'Audit an existing repository setup, identify outdated tools, frameworks, and runtimes, and guide safe, step-by-step modernizations, upgrades, and paradigm shifts across 6 thematic pillars. Use only when explicitly invoked by the user; not for greenfield repository scaffolding or general code reviews.',
+      description: 'Audit an existing repository setup, identify outdated tools, frameworks, and runtimes, and guide safe, step-by-step modernizations, upgrades, and paradigm shifts across 6 thematic pillars. Use when the user requests upgrades or modernization of an existing repository; not for opportunistic modernization during another task, greenfield scaffolding, or general code reviews.',
     },
     fr: {
       description: 'Auditer la configuration d’un dépôt existant, identifier les outils et frameworks obsolètes, et guider des modernisations progressives et sécurisées selon 6 piliers thématiques.',

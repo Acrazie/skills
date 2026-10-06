@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test:invocation": "bun test tests/invocation-policy.test.ts",
     "test:graph": "bun test tests/skill-graph.test.ts tests/graph-output.test.ts"
   },
   "dependencies": {

@@ -3,4 +3,4 @@ interface:
   short_description: "Execute 1:1 language codebase migrations with test oracle verification"
   default_prompt: "Use $mechanical-port-acrazie to plan and execute a 1:1 mechanical migration of this codebase to a target language, backed by our test suite."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

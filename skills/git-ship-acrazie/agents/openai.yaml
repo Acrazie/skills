@@ -3,4 +3,4 @@ interface:
   short_description: "Finalize task, commit, push, and create PR"
   default_prompt: "Use $git-ship-acrazie to commit, push, and create a PR for the current task."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

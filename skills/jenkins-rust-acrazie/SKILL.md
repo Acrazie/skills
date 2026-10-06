@@ -1,6 +1,6 @@
 ---
 name: jenkins-rust-acrazie
-description: Interpret Rust repositories for Jenkins CI and CD.
+description: Interpret Rust repositories for Jenkins CI and CD. Use when a Jenkins task needs read-only Rust stack evidence, including a handoff from jenkins-devops-acrazie; not for unrelated language work, Jenkinsfile authoring, credentials, or deployment.
 ---
 
 # Jenkins Rust Specialist / Acrazie

@@ -1,19 +1,17 @@
 ---
 name: repo-modernizer-acrazie
-description: Audit an existing repository setup, identify outdated tools, frameworks, and runtimes, and guide safe, step-by-step modernizations, upgrades, and paradigm shifts across 6 thematic pillars. Use only when explicitly invoked by the user; not for greenfield repository scaffolding or general code reviews.
-disable-model-invocation: true
+description: Audit an existing repository setup, identify outdated tools, frameworks, and runtimes, and guide safe, step-by-step modernizations, upgrades, and paradigm shifts across 6 thematic pillars. Use when the user requests upgrades or modernization of an existing repository; not for opportunistic modernization during another task, greenfield scaffolding, or general code reviews.
 ---
 
 # Repo Modernizer / Acrazie
 
-Audit an existing repository's setup, dependencies, runtimes, and developer tooling. Structure modernization opportunities into 6 thematic pillars and 3 ambition tiers, then guide safe, automated, step-by-step migrations with AI assistance, strict validation gates, and automatic rollback safeguards.
+Audit an existing repository's setup, dependencies, runtimes, and developer tooling. Structure modernization opportunities into 6 thematic pillars and 3 ambition tiers, then guide safe, automated, step-by-step migrations with AI assistance, strict validation gates, and approval-gated rollback safeguards.
 
 ---
 
-## 1. Invocation Guard
+## 1. Entry and Authorization
 
-Run **only after explicit user invocation** (e.g. `$repo-modernizer-acrazie` or `/repo-modernizer-acrazie`).
-If the harness activates this skill implicitly, do not start an audit or mutation; ask the user to explicitly invoke `$repo-modernizer-acrazie`.
+Select this skill for requested upgrades or repository modernization. No named skill command is required. Start with relevant read-only discovery, limited to the requested target. Do not turn a bug fix or feature into an opportunistic modernization program. Selection does not approve migration, installation, shipping, or destructive recovery; follow the gates below and applicable repository permissions.
 
 ---
 
@@ -39,9 +37,9 @@ If the harness activates this skill implicitly, do not start an audit or mutatio
    - Mobilize the AI to surgically translate complex configurations, adapt deprecated API calls, and update mocks/tests.
 7. **Automated Validation Gates :**
    - Every modification must pass 4 verification gates: Lockfile integrity, Lint/Format, Typecheck, and Test Suite.
-8. **AI Self-Healing & Automatic Rollback :**
+8. **AI Self-Healing & Approval-Gated Rollback :**
    - If tests or build fail, the AI may attempt up to 3 targeted auto-repair iterations.
-   - If failures persist after 3 attempts, the skill must execute an **automatic rollback** (`git reset --hard`) to the last green commit, provide a detailed diagnostic of the blocker, and prompt the user for arbitration.
+   - If failures persist after 3 attempts, stop and provide a blocker diagnostic. Propose recovery to the last verified green state; preserve unrelated work and obtain separate explicit confirmation before destructive rollback (`git reset --hard` or `git clean -fd`). Migration approval is not destructive-recovery permission.
 9. **Atomic Conventional Commits & ADR Documentation :**
    - Create atomic commits using Conventional Commits (`build:`, `chore:`, `test:`, `feat:`). Never include co-author attributions (`Co-authored-by:`).
    - Any Tier 2 (Major) or Tier 3 (Modern Replacement) migration must generate a formal Architecture Decision Record under `docs/adr/`.
@@ -59,7 +57,7 @@ flowchart TD
   E --> F["6. Automated Validation Gates (Build / Lint / Tests)"]
   F -->|Green| G["7. Atomic Conventional Commit & ADR Generation"]
   F -->|Red (<= 3 attempts)| E
-  F -->|Red (> 3 attempts)| H["8. Automatic Rollback & Blocker Diagnostic"]
+  F -->|Red (> 3 attempts)| H["8. Stop, Diagnose & Request Recovery Approval"]
   G --> I["9. Next Pillar or Completion Summary"]
 ```
 
@@ -139,13 +137,13 @@ Run the 4 validation gates in order:
 - If an error occurs, analyze the stack trace and apply targeted patches.
 - Maximum 3 self-repair attempts allowed.
 - If the suite is not 100% green after 3 attempts:
-  - Run `git reset --hard HEAD` to revert to the last stable state.
-  - Present a **Blocker Diagnostic Report** explaining the failure and request human arbitration.
+  - Stop and present a **Blocker Diagnostic Report** explaining the failure and proposed recovery.
+  - Inspect and preserve unrelated changes; show exact affected paths and target revision. Obtain separate explicit confirmation before any destructive reset or cleanup. If declined, preserve the current state and await arbitration.
 
 ---
 
 ### Step 7: Commit, ADR Documentation & Completion
-1. Once all validation gates are green, stage changes and create an atomic Conventional Commit:
+1. Once all validation gates are green, follow applicable user/repository shipping permissions before staging or creating an atomic Conventional Commit. Skill selection and migration approval alone do not grant shipping authority:
    ```bash
    git commit -m "chore(tooling): migrate from jest to vitest"
    ```

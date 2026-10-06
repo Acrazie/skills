@@ -3,4 +3,4 @@ interface:
   short_description: "Audits one repository decision precisely"
   default_prompt: "Use $audit-repository-acrazie to audit this precise technical decision in the repository."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

@@ -3,4 +3,4 @@ interface:
   short_description: "Build scoped features with acceptance-linked tests"
   default_prompt: "Use $feature-builder-acrazie to implement my new feature from an approved contract, with targeted tests and criterion-linked evidence, then offer an independent adversarial review with a task-specific recommendation."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

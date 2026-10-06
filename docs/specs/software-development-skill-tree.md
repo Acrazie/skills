@@ -1,5 +1,7 @@
 # Complementary software development skills
 
+> Invocation update (2026-10-06): historical explicit-only requirements below are superseded by [the approved invocation policy contract](skill-invocation-policy.md). Ownership, task contracts, and action approvals remain unchanged.
+
 ## Objective
 
 Save project time by preventing untested feature delivery, misinterpretation of

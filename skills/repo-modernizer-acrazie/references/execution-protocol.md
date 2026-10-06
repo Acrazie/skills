@@ -81,7 +81,7 @@ Chaque palier de migration doit franchir avec succès 4 portes de validation con
 
 ---
 
-## 5. Boucle d'Auto-Correction IA & Rollback Automatique
+## 5. Boucle d'Auto-Correction IA & Rollback Approuvé
 
 Si l'une des portes de validation échoue :
 
@@ -93,15 +93,15 @@ flowchart TD
     Loop -- Oui --> Analyze["Analyse des traces d'erreurs par l'IA"]
     Analyze --> Patch["Correction chirurgicale du code / config"]
     Patch --> RunGate
-    Loop -- Non --> Rollback["Rollback Automatique (git reset --hard)"]
-    Rollback --> Report["Rapport détaillé du blocage"]
-    Report --> Arbitrate["Demande d'arbitrage à l'utilisateur"]
+    Loop -- Non --> Report["Arrêt et rapport détaillé du blocage"]
+    Report --> Arbitrate["Demande d'arbitrage et approbation de récupération"]
+    Arbitrate -- Approuvé --> Rollback["Rollback ciblé préservant le travail tiers"]
 ```
 
 ### Mécanisme de Rollback :
 - Si après **3 tentatives d'auto-réparation**, la suite de tests ou le build ne passe toujours pas :
-  1. Le skill exécute un `git reset --hard` vers le dernier commit stable vérifié.
-  2. Le skill nettoie les fichiers temporaires non commités (`git clean -fd`).
+  1. Le skill s'arrête et préserve l'état courant. Il inspecte les modifications et fichiers non suivis, distingue son travail du travail tiers et identifie le dernier commit stable vérifié.
+  2. Il présente les chemins concernés, la révision cible et les conséquences de la récupération proposée. Toute action destructive (`git reset --hard`, `git clean -fd`) exige une confirmation explicite distincte ; l'approbation de migration ne suffit pas. Sans confirmation, aucun reset ni nettoyage destructif n'est exécuté.
   3. Le skill génère un **Rapport de Blocage Technique** indiquant :
      - La commande exacte ayant échoué et la trace d'erreur représentative.
      - L'incompatibilité sous-jacente identifiée (ex: dépendance tierce n'offrant pas encore de support ESM).
@@ -112,6 +112,7 @@ flowchart TD
 ## 6. Commits Atomiques & Documentation ADR
 
 1. **Conventional Commits :**
+   - Respecter les autorisations Git du dépôt et de l’utilisateur avant staging, commit, push ou PR. La sélection du skill et l’approbation de migration ne constituent pas une autorisation de livraison.
    - Chaque couche ou outil modernisé fait l'objet d'un commit unique :
      - `build(deps): update runtime to node 22`
      - `chore(tooling): migrate eslint and prettier to biome`
