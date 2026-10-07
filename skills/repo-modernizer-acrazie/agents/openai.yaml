@@ -3,4 +3,4 @@ interface:
   short_description: "Audits repository setup and guides step-by-step modernizations, upgrades, and paradigm shifts"
   default_prompt: "Use $repo-modernizer-acrazie to scan the repository setup, identify outdated tools or versions, and guide safe upgrades."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

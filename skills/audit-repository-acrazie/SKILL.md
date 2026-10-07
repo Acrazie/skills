@@ -3,19 +3,18 @@ name: audit-repository-acrazie
 description: >-
   Audit a precise technical decision, integration, subsystem, or choice of library,
   framework, or development tool before adoption in one existing repository. Use
-  only when the user explicitly invokes audit-repository-acrazie; not for general
+  when the task needs a bounded technical assessment before a decision; not for general
   repository audits, diff or PR review, security audits, documentation audits,
   multi-repository analysis, or external-service selection.
-disable-model-invocation: true
 ---
 
 # Audit Repository / Acrazie
 
 Audit the question the user actually needs answered. Find material adjacent evidence without turning the task into a general repository health check. Evidence and decision usefulness outrank finding count.
 
-## Invocation guard
+## Entry and authorization
 
-Run only after explicit user invocation. If the harness activates this skill implicitly, do not start an audit; ask the user to invoke `$audit-repository-acrazie` (or the platform-equivalent explicit command).
+Select this skill when a bounded technical assessment is requested or necessary to answer the current task. No named skill command is required. Inspect relevant facts read-only; do not turn an unrelated task into an audit. Selection does not approve deep investigation, record writes, or implementation; preserve the scope and approval gates below.
 
 ## Scope and invariants
 

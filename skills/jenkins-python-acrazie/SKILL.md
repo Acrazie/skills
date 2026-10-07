@@ -1,6 +1,6 @@
 ---
 name: jenkins-python-acrazie
-description: Interpret Python repositories for Jenkins CI and CD.
+description: Interpret Python repositories for Jenkins CI and CD. Use when a Jenkins task needs read-only Python stack evidence, including a handoff from jenkins-devops-acrazie; not for unrelated language work, Jenkinsfile authoring, credentials, or deployment.
 ---
 
 # Jenkins Python Specialist / Acrazie

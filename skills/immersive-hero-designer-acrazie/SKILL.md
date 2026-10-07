@@ -1,8 +1,7 @@
 ---
 name: immersive-hero-designer-acrazie
 description: >-
-  Design and build an original, complete immersive web hero using the right medium for the effect: supplied or approved video, image sequence, 3D, Canvas, or CSS. Invoke explicitly to create a cinematic, interactive, or scroll-driven section in an existing site; not for copying a reference, redesigning a whole site, or making a standalone video without a web hero.
-disable-model-invocation: true
+  Design and build an original, complete immersive web hero using the right medium for the effect: supplied or approved video, image sequence, 3D, Canvas, or CSS. Use when the user requests a cinematic, interactive, or scroll-driven section in an existing site; not for copying a reference, redesigning a whole site, or making a standalone video without a web hero.
 ---
 
 # Immersive Hero Designer / Acrazie
@@ -11,7 +10,7 @@ Build a distinctive, working hero that earns attention without sacrificing the m
 
 ## Invocation and boundary
 
-Run only when the user explicitly invokes this skill. If activated implicitly, ask for explicit invocation before starting. Work on one hero, not a whole-site redesign. Keep existing navigation, brand, content conventions, and framework unless the user requests a change.
+Select this skill for a requested complete immersive web hero. No named skill command is required. Selection allows relevant discovery, not an unsolicited redesign, asset generation, installation, or media integration without the approvals below. Work on one hero, not a whole-site redesign. Keep existing navigation, brand, content conventions, and framework unless the user requests a change.
 
 This skill owns medium selection, art direction, media approval, and integration of a complete hero. For a procedural Canvas scene or pointer-reactive ambient backdrop alone, use `canvas-banner-designer-acrazie` instead; if it is the chosen medium within a complete hero, follow that skill's rendering and lifecycle contract rather than inventing a second one. Do not force video when CSS, images, Canvas, or 3D better serve the approved concept.
 

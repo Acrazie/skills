@@ -99,7 +99,7 @@ scripts/                      # Verification hooks and linking utilities
 
 - **Author Signature**: Every skill identifier and directory ends with `-acrazie` (canonical namespace: `Acrazie/skills`).
 - **Autonomy**: Each skill operates independently, containing all references needed for its workflow.
-- **Invocation Control**: User-invoked skills enforce explicit activation via `disable-model-invocation: true`.
+- **Invocation Control**: Agents may select relevant skills within the requested task; selection never grants action permissions. Only the persistent `skill-refiner-acrazie` campaign requires explicit skill activation. See [the invocation policy](.agents/invocation.md).
 
 ---
 

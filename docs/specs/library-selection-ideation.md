@@ -1,5 +1,7 @@
 # Library and development-tool selection: approved ideation
 
+> Invocation update (2026-10-06): historical explicit-only requirements below are superseded by [the approved invocation policy contract](skill-invocation-policy.md). Ownership, task contracts, and action approvals remain unchanged.
+
 ## Objective and status
 
 Save project time by avoiding poorly fitted, unnecessarily costly, or inadequately

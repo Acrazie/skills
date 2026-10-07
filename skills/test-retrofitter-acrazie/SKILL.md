@@ -4,15 +4,16 @@ description: >-
   Add and execute risk-selected automated tests for existing untested or
   insufficiently tested code, after an approved interview contract. Distinguish
   characterization from requirement conformance without changing functional
-  behavior. Not for new features, bug fixes, tooling migrations, or CI pipelines.
-disable-model-invocation: true
+  behavior. Use when the task requires adding tests to existing behavior.
+  Not for new features, bug fixes, tooling migrations, or CI pipelines.
 ---
 
 # Test Retrofitter / Acrazie
 
-Improve evidence for existing behavior, not the behavior itself. Work only after
-explicit human invocation. If activated implicitly, request
-`$test-retrofitter-acrazie` before interviewing or editing.
+Improve evidence for existing behavior, not the behavior itself. Select this skill
+when adding tests is requested or belongs to the authorized task. No named skill
+command is required. Relevant discovery may start read-only; implementation still
+requires the approved contract below. Do not start an unrelated testing campaign.
 
 ## Discover the testing boundary
 

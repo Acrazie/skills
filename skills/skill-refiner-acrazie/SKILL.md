@@ -1,5 +1,6 @@
 ---
 name: skill-refiner-acrazie
+disable-model-invocation: true
 description: Collect structured feedback while a user tests one target skill, preserve observations in an append-only journal, and consolidate approved behavioral decisions into a living ADR. Use only when the user explicitly invokes skill-refiner-acrazie for an interactive refinement campaign; do not edit the target skill.
 ---
 

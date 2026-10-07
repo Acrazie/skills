@@ -1,5 +1,7 @@
 # Separate reusable task clarification from feature execution
 
+> Invocation policy revised on 2026-10-06 by [ADR 0006](0006-separate-skill-selection-from-action-authorization.md). The foundation/executor ownership split remains accepted; the historical explicit-only executor requirement below no longer applies.
+
 We use an agent-invocable `interview-acrazie` foundation and an explicitly
 human-invoked `feature-builder-acrazie` specialist. The foundation owns user
 clarification and a persisted approved Task Contract; the specialist owns scoped

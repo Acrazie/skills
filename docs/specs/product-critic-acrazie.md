@@ -1,5 +1,7 @@
 # Product Critic Skill
 
+> Invocation update (2026-10-06): historical explicit-only requirements below are superseded by [the approved invocation policy contract](skill-invocation-policy.md). Ownership, task contracts, and action approvals remain unchanged.
+
 ## Objective
 
 Create an explicitly user-invoked skill that critiques an existing product's features and codebase against real user needs, verifiable benefits, simplicity, and total lifecycle cost. Modernity is not an independent goal; retaining the existing solution is a valid recommendation.

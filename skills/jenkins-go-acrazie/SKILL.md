@@ -1,6 +1,6 @@
 ---
 name: jenkins-go-acrazie
-description: Interpret Go repositories for Jenkins CI and CD.
+description: Interpret Go repositories for Jenkins CI and CD. Use when a Jenkins task needs read-only Go stack evidence, including a handoff from jenkins-devops-acrazie; not for unrelated language work, Jenkinsfile authoring, credentials, or deployment.
 ---
 
 # Jenkins Go Specialist / Acrazie

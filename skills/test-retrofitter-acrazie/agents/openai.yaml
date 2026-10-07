@@ -3,4 +3,4 @@ interface:
   short_description: "Add scoped tests to existing untested code"
   default_prompt: "Use $test-retrofitter-acrazie to clarify, write, and execute tests for this existing code without changing its functional behavior."
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

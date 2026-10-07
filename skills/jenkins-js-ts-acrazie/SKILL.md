@@ -1,6 +1,6 @@
 ---
 name: jenkins-js-ts-acrazie
-description: Interpret JS and TS repositories for Jenkins CI and CD.
+description: Interpret JavaScript/TypeScript repositories for Jenkins CI and CD. Use when a Jenkins task needs read-only JavaScript/TypeScript stack evidence, including a handoff from jenkins-devops-acrazie; not for unrelated language work, Jenkinsfile authoring, credentials, or deployment.
 ---
 
 # Jenkins JS/TS Specialist / Acrazie
