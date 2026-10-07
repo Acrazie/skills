@@ -20,7 +20,7 @@ Avant toute interaction, exécuter les recherches de présence de fichiers :
 | **Build & Bundler** | `vite.config.*`, `webpack.config.*`, `rollup.config.*`, `tsup.config.*` | Compilateur / Bundler |
 | **Tests & QA** | `vitest.config.*`, `jest.config.*`, `playwright.config.*`, `cypress.config.*` | Frameworks de tests |
 | **CI/CD & Hooks** | `.github/workflows/*.yml`, `lefthook.yml`, `.husky/`, `.pre-commit-config.yaml` | Automatisation CI/CD |
-| **Gouvernance** | `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE`, `.github/ISSUE_TEMPLATE/` | Briques de gouvernance |
+| **Gouvernance** | `AGENTS.md`, `CONTRIBUTING.md`, `docs/git-workflow.md`, `README.md`, `SECURITY.md`, `LICENSE`, `.github/ISSUE_TEMPLATE/` | Briques de gouvernance |
 
 ---
 
@@ -74,3 +74,11 @@ Vérifier les fichiers absents par rapport aux standards Acrazie (`github-repo-i
 - Fichier `.editorconfig` manquant ?
 - `.gitignore` incomplet (manque `.worktrees/`, `.env*`) ?
 - Documentation de sécurité (`SECURITY.md`) ou contribution (`CONTRIBUTING.md`) absente ?
+
+
+### E. Politique Git et Stratégie de Commit
+Lire [commit-strategy.md](commit-strategy.md) avant toute proposition de gouvernance.
+- Relever les règles organisationnelles et du dépôt, leurs sources, les conventions de messages, signatures et releases, les hooks et permissions de livraison.
+- Examiner l'historique comme indice, jamais comme autorisation. Détecter les conflits et les présenter avec leurs conséquences avant de poursuivre la zone concernée.
+- Inspecter en lecture seule les protections distantes pertinentes si accessibles. Marquer tout état inaccessible comme non vérifié, pas comme absent ; un dépôt local sans distant n'exige pas de réglages GitHub.
+- Si une stratégie manque, proposer sa formalisation, sans créer de fichier ni installer de hook pendant l'inspection. Une absence de hook n'implique pas une absence de politique.

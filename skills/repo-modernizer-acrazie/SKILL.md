@@ -25,9 +25,9 @@ Select this skill for requested upgrades or repository modernization. No named s
 3. **Approval Gate Before Any Mutation :**
    - Present a structured **Modernization Scorecard** and obtain explicit user confirmation on the chosen pillar and tier before creating branches, installing tools, or refactoring code.
 4. **Strict Git & Worktree Isolation :**
-   - **NEVER** modify or commit files directly on `main` or the active working branch. Always perform migrations within a dedicated branch or worktree (`modernize/<theme>`).
+   - **NEVER** modify or commit files directly on `main` or the active working branch. Always perform migrations within a dedicated branch or worktree using the repository-approved naming and isolation rules. Treat `modernize/<theme>` as an example, not an imposed prefix.
 5. **Layered Sequencing :**
-   - Always order upgrades by logical layers:
+   - Plan upgrades by logical layers; group inseparable cross-layer changes into one validated commit rather than producing broken intermediate commits:
      1. Runtime & Package Manager (e.g. Node, pnpm, uv)
      2. Developer Tooling & Quality (Linters, formatters, test runners, git hooks)
      3. Core Framework & Application (React, Next.js, FastAPI, Symfony...)
@@ -39,10 +39,11 @@ Select this skill for requested upgrades or repository modernization. No named s
    - Every modification must pass 4 verification gates: Lockfile integrity, Lint/Format, Typecheck, and Test Suite.
 8. **AI Self-Healing & Approval-Gated Rollback :**
    - If tests or build fail, the AI may attempt up to 3 targeted auto-repair iterations.
-   - If failures persist after 3 attempts, stop and provide a blocker diagnostic. Propose recovery to the last verified green state; preserve unrelated work and obtain separate explicit confirmation before destructive rollback (`git reset --hard` or `git clean -fd`). Migration approval is not destructive-recovery permission.
-9. **Atomic Conventional Commits & ADR Documentation :**
-   - Create atomic commits using Conventional Commits (`build:`, `chore:`, `test:`, `feat:`). Never include co-author attributions (`Co-authored-by:`).
-   - Any Tier 2 (Major) or Tier 3 (Modern Replacement) migration must generate a formal Architecture Decision Record under `docs/adr/`.
+   - Record the SHA and validation evidence for each verified green checkpoint. If failures persist after 3 attempts, stop, preserve the current state, and provide a blocker diagnostic referencing that checkpoint (or explicitly state that none exists). Never infer that `HEAD` is green. For recovery, obtain separate explicit confirmation before destructive rollback, specifying the affected paths, target revision, and consequences; migration approval is not recovery permission.
+9. **Mandatory Approved Commit Strategy & ADR Documentation :**
+   - Discover existing Git policy, resolve conflicts, and approve the migration commit plan before execution. Read [references/commit-strategy.md](references/commit-strategy.md). Follow the approved strategy before every commit; block non-compliance instead of silently relaxing it. Conventional Commits are an option, not a universal requirement. Never include co-author attributions (`Co-authored-by:`).
+   - Control compliance even without hooks or CI; installing enforcement tools and changing remote settings are separate opt-in actions. Commit, push, and PR permissions remain distinct.
+   - Any Tier 2 (Major) or Tier 3 (Modern Replacement) migration must generate its formal Architecture Decision Record under `docs/adr/` before validation and the corresponding commit.
 
 ---
 
@@ -51,13 +52,13 @@ Select this skill for requested upgrades or repository modernization. No named s
 ```mermaid
 flowchart TD
   A["1. Passive Inspection (Read-only)"] --> B["2. Thematic Scorecard & 3-Tier Matrix"]
-  B --> C["3. Interactive Scope & Tier Selection (Approval Gate)"]
+  B --> C["3. Scope, Tier & Commit Strategy Approval"]
   C -->|Approved| D["4. Provision Dedicated Branch / Worktree"]
   D --> E["5. Layered Migration (Codemod + AI Refactoring)"]
   E --> F["6. Automated Validation Gates (Build / Lint / Tests)"]
-  F -->|Green| G["7. Atomic Conventional Commit & ADR Generation"]
-  F -->|Red (<= 3 attempts)| E
-  F -->|Red (> 3 attempts)| H["8. Stop, Diagnose & Request Recovery Approval"]
+  F -->|Green| G["7. Strategy Compliance & Authorized Atomic Commit"]
+  F -->|Red, repairs remaining| E
+  F -->|Red after 3 repairs| H["8. Stop, Diagnose & Request Recovery Approval"]
   G --> I["9. Next Pillar or Completion Summary"]
 ```
 
@@ -73,7 +74,7 @@ Read [references/inspection-checklist.md](references/inspection-checklist.md) be
    - Python: `pyproject.toml`, `requirements.txt`, `poetry.lock`, `uv.lock`.
    - Go / Rust / PHP: `go.mod`, `Cargo.toml`, `composer.json`.
 3. Detect existing linters, formatters, bundlers, and test runners (`.eslintrc*`, `biome.json`, `webpack.config.*`, `vite.config.*`, `jest.config.*`, `vitest.config.*`).
-4. Inspect CI/CD workflows under `.github/workflows/` and git hooks (`lefthook.yml`, `.husky/`).
+4. Inspect CI/CD workflows under `.github/workflows/` and git hooks (`lefthook.yml`, `.husky/`). Inspect Git governance, recent commit messages, release constraints, and accessible remote protections as detailed in [references/commit-strategy.md](references/commit-strategy.md); distinguish inaccessible rules from absent rules.
 5. Check for missing governance or DX assets compared to `github-repo-init-acrazie` standards.
 
 ---
@@ -98,22 +99,16 @@ Highlight any **missing essential blocks** (e.g. no git hooks installed, no auto
 ### Step 3: Interactive Selection & Approval Gate
 Ask the user which pillar and which ambition tier they wish to execute first.
 If the user provided explicit scope upfront (e.g. `$repo-modernizer-acrazie --theme testing`), confirm the plan for that pillar.
-Do **NOT** proceed to file modifications until the user explicitly selects and confirms the target plan.
+Include the approved commit strategy and proposed commit boundaries in that plan. Preserve existing policy; ask only unresolved choices. If policy is missing, propose `docs/git-workflow.md` and obtain approval before creating it, keeping existing `AGENTS.md` and `CONTRIBUTING.md` consistent without overwriting them. Hooks, dependencies, and GitHub settings require separate choices.
+Do **NOT** proceed to file modifications until the user explicitly selects and confirms the target plan, including its commit strategy. An unresolved policy conflict blocks the affected execution.
 
 ---
 
 ### Step 4: Provision Dedicated Branch or Worktree
 Read [references/execution-protocol.md](references/execution-protocol.md).
-1. Ensure the workspace is clean.
-2. If worktrees are supported in the repository:
-   ```bash
-   git worktree add .worktrees/modernize-<theme> -b modernize/<theme>
-   cd .worktrees/modernize/<theme>
-   ```
-3. Otherwise, create a dedicated branch:
-   ```bash
-   git checkout -b modernize/<theme>
-   ```
+1. Verify the repository root, branch, index, and working-tree state. Preserve unrelated changes; never stash, commit, or discard them implicitly.
+2. Provision the approved isolated branch/worktree according to repository policy, using the chosen base, branch name, and path. Respect required worktrees and forbidden branches. If the remote base cannot be refreshed, stop and ask before offline execution; never silently fall back to a stale base.
+3. Run the agreed baseline validations and record the SHA with their results as the initial checkpoint only if they pass. If no verified checkpoint exists, report that fact and arbitrate before migration.
 
 ---
 
@@ -123,11 +118,12 @@ Follow the layered ordering from [references/execution-protocol.md](references/e
 2. **Translate configuration files** (e.g. `vite.config.ts`, `biome.json`, `lefthook.yml`).
 3. **Remove obsolete dependencies and configs** from package manifests.
 4. **Refactor codebase call sites** via targeted AI edits (updating deprecated imports, mocks, and type annotations).
+5. Prepare required ADRs and governance changes within the same coherent unit before validation. Follow approved commit boundaries, not an automatic one-commit-per-tool rule.
 
 ---
 
 ### Step 6: Automated Validation Gates & Self-Healing
-Run the 4 validation gates in order:
+Use the actual repository commands for the 4 validation gates in order; the commands below are examples, not tool installation instructions. Missing, unavailable, or failing required checks block the commit. A genuinely inapplicable gate needs an explicit reason in the approved plan, never an invented success:
 1. `Lockfile & Install` : `pnpm install --frozen-lockfile` / `uv sync`
 2. `Linter & Formatter` : `pnpm biome check .` / `uv run ruff check`
 3. `Typecheck` : `pnpm tsc --noEmit` / `cargo check`
@@ -137,16 +133,13 @@ Run the 4 validation gates in order:
 - If an error occurs, analyze the stack trace and apply targeted patches.
 - Maximum 3 self-repair attempts allowed.
 - If the suite is not 100% green after 3 attempts:
-  - Stop and present a **Blocker Diagnostic Report** explaining the failure and proposed recovery.
+  - Stop, preserve the current state, and present a **Blocker Diagnostic Report** with the failing command, evidence, repair count, and recorded verified checkpoint SHA (or its absence).
   - Inspect and preserve unrelated changes; show exact affected paths and target revision. Obtain separate explicit confirmation before any destructive reset or cleanup. If declined, preserve the current state and await arbitration.
 
 ---
 
 ### Step 7: Commit, ADR Documentation & Completion
-1. Once all validation gates are green, follow applicable user/repository shipping permissions before staging or creating an atomic Conventional Commit. Skill selection and migration approval alone do not grant shipping authority:
-   ```bash
-   git commit -m "chore(tooling): migrate from jest to vitest"
-   ```
-2. For Tier 2 and Tier 3 migrations, create a formal Architecture Decision Record under `docs/adr/YYYY-MM-DD-<title>.md` using [references/adr-template.md](references/adr-template.md).
-3. If missing governance/CI bricks from `github-repo-init-acrazie` were backfilled, verify their validity.
-4. Present a concise summary of the achievements, test execution metrics, and offer to proceed to the next pillar or open a Pull Request.
+1. Follow [references/commit-strategy.md](references/commit-strategy.md): verify authorization, exact staged scope, coherent boundaries, the selected message convention, and validation evidence for the staged snapshot. Include required ADRs prepared in Step 5. Any failed or unresolved check blocks the commit; do not bypass hooks or weaken policy.
+2. Commit only if authorized by applicable user/repository rules; otherwise present the reviewed scope, proposed message, and proof and request approval. Approval of migration or policy alone grants no shipping authority.
+3. After a successful commit, record its SHA with validation evidence as a checkpoint. If hooks changed files, recheck scope and validation before marking that revision green.
+4. Summarize achieved migration units, compliance, checkpoint SHAs, and actual checks. Apply push and PR permissions separately; do not infer them from commit permission. Distinguish local validation, pending CI, PR state, and deployment. Offer the next pillar or PR only within the authorized scope.

@@ -9,24 +9,19 @@ Ce document détaille les règles opérationnelles strictes que le skill `repo-m
 Ne **JAMAIS** appliquer de modifications directement sur la branche principale (`main` ou `master`).
 
 1. **Vérification de l'état Git :**
-   Avant toute action, vérifier que le dépôt est propre (`git status --porcelain`). Si des modifications non commitées existent, demander à l'utilisateur de les stasher ou de les commiter.
+   Avant toute action, inspecter branche, index, fichiers modifiés et non suivis (`git status --porcelain`). Préserver le travail tiers ; ne jamais le stasher, commiter, désindexer ou supprimer implicitement. Isoler la migration conformément à la politique du dépôt ; demander arbitrage si cette isolation est impossible.
 2. **Création d'une branche dédiée ou d'un worktree :**
-   - Nommage de la branche : `modernize/<theme>` (ex: `modernize/testing-vitest`, `modernize/linter-biome`, `modernize/runtime-node22`).
-   - Si les worktrees sont utilisés dans le dépôt :
-     ```bash
-     git worktree add .worktrees/modernize-<theme> -b modernize/<theme>
-     cd .worktrees/modernize-<theme>
-     ```
-   - Sinon, sur branche dédiée standard :
-     ```bash
-     git checkout -b modernize/<theme>
-     ```
+   - Appliquer le nom, la base et le chemin approuvés selon la politique du dépôt. `modernize/<theme>` n'est qu'un exemple ; respecter les préfixes imposés et les worktrees obligatoires.
+   - Vérifier la fraîcheur de la base distante choisie avant création. Si cette vérification échoue, demander accord pour un travail hors ligne ; ne jamais utiliser silencieusement une base obsolète.
+3. **Stratégie et état initial :**
+   - Approuver la stratégie et le plan de commits selon [commit-strategy.md](commit-strategy.md) avant migration.
+   - Exécuter les validations de référence et enregistrer le SHA avec leurs résultats uniquement si elles réussissent. Sans point de contrôle vérifié, signaler son absence et demander arbitrage avant migration.
 
 ---
 
 ## 2. Ordonnancement par Couches Logiques
 
-Pour éviter les conflits de dépendances croisées (dependency hell) et les régressions en cascade, les modifications doivent être séquencées par couches strictes :
+Pour éviter les conflits de dépendances croisées (dependency hell) et les régressions en cascade, planifier les modifications par couches logiques :
 
 ```text
   ┌───────────────────────────────────────────────────────────┐
@@ -50,7 +45,7 @@ Pour éviter les conflits de dépendances croisées (dependency hell) et les ré
   └───────────────────────────────────────────────────────────┘
 ```
 
-Chaque couche doit être totalement validée et commitée de manière atomique avant de passer à la couche suivante.
+Valider chaque unité cohérente avant commit et avant une unité indépendante suivante. Si plusieurs outils ou couches sont indissociables pour obtenir un état valide, les regrouper dans une unité approuvée. Ne pas créer de commits intermédiaires cassés pour respecter artificiellement une frontière de couche.
 
 ---
 
@@ -70,7 +65,7 @@ Lors d'une montée majeure (Tier 2) ou d'un remplacement d'outil (Tier 3), la re
 
 ## 4. Portes de Validation Automatisées (Validation Gates)
 
-Chaque palier de migration doit franchir avec succès 4 portes de validation consécutives :
+Chaque unité de migration doit franchir les 4 portes de validation applicables avec les commandes réelles du dépôt. Les exemples ci-dessous n'autorisent aucune installation. Une porte véritablement inapplicable nécessite une justification approuvée dans le plan ; une vérification requise absente, indisponible ou en échec bloque le commit.
 
 | Porte | Intitulé | Commandes Types | Critère de Succès |
 | :--- | :--- | :--- | :--- |
@@ -88,7 +83,7 @@ Si l'une des portes de validation échoue :
 ```mermaid
 flowchart TD
     RunGate["Exécution de la Porte de Validation (Build / Test / Lint)"] --> Check{"Succès ?"}
-    Check -- Oui --> Commit["Commit Atomique & ADR"]
+    Check -- Oui --> Commit["Contrôle stratégie et commit autorisé (ADR inclus)"]
     Check -- Non --> Loop{"Tentative < 3 ?"}
     Loop -- Oui --> Analyze["Analyse des traces d'erreurs par l'IA"]
     Analyze --> Patch["Correction chirurgicale du code / config"]
@@ -100,7 +95,7 @@ flowchart TD
 
 ### Mécanisme de Rollback :
 - Si après **3 tentatives d'auto-réparation**, la suite de tests ou le build ne passe toujours pas :
-  1. Le skill s'arrête et préserve l'état courant. Il inspecte les modifications et fichiers non suivis, distingue son travail du travail tiers et identifie le dernier commit stable vérifié.
+  1. Le skill s'arrête et préserve l'état courant. Il inspecte les modifications et fichiers non suivis, distingue son travail du travail tiers et cite le SHA du dernier point de contrôle enregistré avec ses preuves de validation. `HEAD` seul ne prouve pas un état vert ; sans point de contrôle enregistré, signaler son absence et ne pas inventer de cible de récupération.
   2. Il présente les chemins concernés, la révision cible et les conséquences de la récupération proposée. Toute action destructive (`git reset --hard`, `git clean -fd`) exige une confirmation explicite distincte ; l'approbation de migration ne suffit pas. Sans confirmation, aucun reset ni nettoyage destructif n'est exécuté.
   3. Le skill génère un **Rapport de Blocage Technique** indiquant :
      - La commande exacte ayant échoué et la trace d'erreur représentative.
@@ -109,14 +104,10 @@ flowchart TD
 
 ---
 
-## 6. Commits Atomiques & Documentation ADR
+## 6. Stratégie de Commit Obligatoire & Documentation ADR
 
-1. **Conventional Commits :**
-   - Respecter les autorisations Git du dépôt et de l’utilisateur avant staging, commit, push ou PR. La sélection du skill et l’approbation de migration ne constituent pas une autorisation de livraison.
-   - Chaque couche ou outil modernisé fait l'objet d'un commit unique :
-     - `build(deps): update runtime to node 22`
-     - `chore(tooling): migrate eslint and prettier to biome`
-     - `test(runner): migrate unit tests from jest to vitest`
-   - Ne jamais inclure de mentions de co-auteur (`Co-authored-by:`).
-2. **Génération d'ADR :**
-   - Pour toute décision de Tier 2 (changement majeur) ou Tier 3 (remplacement d'outil), créer un fichier sous `docs/adr/YYYY-MM-DD-<titre>.md` à partir de [references/adr-template.md](references/adr-template.md).
+Appliquer [commit-strategy.md](commit-strategy.md) avant chaque commit : autorisation, périmètre exact de l'index, cohérence, format du message et preuves de validation. Toute non-conformité bloque le commit, même en l'absence de hooks ou CI. Aucun contournement silencieux n'est permis.
+
+Pour Tier 2 ou Tier 3, préparer l'ADR selon [adr-template.md](adr-template.md) avant les validations et l'inclure dans le commit de migration concerné. Vérifier également les fichiers de gouvernance et d'automatisation approuvés.
+
+Après chaque commit réussi, enregistrer son SHA et les résultats des validations comme point de contrôle ; si un hook a modifié le contenu, recontrôler périmètre et validations avant d'enregistrer un état vert. Respecter séparément les permissions de staging, commit, push et PR. Ne jamais ajouter de mention `Co-authored-by:`.
