@@ -63,6 +63,16 @@ The `test-retrofitter-acrazie` skill for adding automated evidence to existing u
 The shared, approved outcome record used by the Interview Foundation and its callers, defining scope, observable success criteria, decisions, and expected evidence, with actual delivery evidence recorded separately.
 *Avoid*: ADR, interview transcript, implementation plan.
 
+## Modernization Commit Discipline
+
+**Approved Modernization Commit Strategy**:
+The binding agreement for a scoped modernization, combining the target repository's Git policy with the agreed coherent migration units and their acceptance conditions.
+*Avoid*: Optional commit recommendation, universal Git convention.
+
+**Validated Migration Checkpoint**:
+A committed modernization state identified by its revision and evidence that the agreed checks passed for that exact content.
+*Avoid*: Latest commit, assumed-green HEAD, unverified rollback target.
+
 ## Verification & Migration Discipline
 
 **Adversarial Review**:
