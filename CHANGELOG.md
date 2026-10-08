@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.11.0](https://github.com/Acrazie/skills/compare/v1.10.0...v1.11.0) (2026-10-07)
+
+
+### Features
+
+* **feature-builder:** add optional independent adversarial review ([#84](https://github.com/Acrazie/skills/issues/84)) ([15f2e0f](https://github.com/Acrazie/skills/commit/15f2e0f29a8b09bfff0df888e9c4f7e6cead61b2))
+* **repo-modernizer:** enforce approved commit strategies ([#87](https://github.com/Acrazie/skills/issues/87)) ([02c15b5](https://github.com/Acrazie/skills/commit/02c15b5df8d96e8206c93558bc2dfccfe118554f))
+* **skills:** allow task-scoped implicit invocation ([#86](https://github.com/Acrazie/skills/issues/86)) ([92a022c](https://github.com/Acrazie/skills/commit/92a022cd0be4b57b0cb8ef94fd48d6baa17bd0eb))
+
 ## [1.10.0](https://github.com/Acrazie/skills/compare/v1.9.0...v1.10.0) (2026-10-06)
 
 
