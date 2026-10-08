@@ -35,6 +35,37 @@ Canvas/hero/SVG design belongs to the corresponding visual skill; ordinary UI
 features remain in scope and retain accessibility and responsive requirements.
 Do not implement a domain specialist's excluded workflow under this entry point.
 
+## Subagent model selection
+
+Apply this gate only when the workflow calls for an authorized subagent; loading a
+skill in the current context is not a spawn. A planner carries the gate into its
+generated workflow without executing it.
+
+1. Verify available models and explicit model-selection support in the current
+   runtime/account, using exposed tools/configuration and current official
+   documentation when needed. Do not infer availability from a provider's catalog.
+2. Propose 2–3 verified options in the user's language, with exactly one recommended option
+   justified by the lot's work, complexity, risk, and required capabilities. Compare
+   cost, capacity, and latency only where supported by evidence; disclose unknowns.
+   Prefer an economical model when sufficient; never apply a fixed two-tier downgrade
+   or equate generation, price, and capability. If fewer options are verified, show only those.
+   If no selectable option can be verified, ask rather than inventing a recommendation.
+3. Wait for explicit user validation before spawning. A homogeneous lot comprises
+   agents with the same role, bounded mission/scope, risk level, and selected model.
+   State that boundary and the proposed agent count. Validation covers that lot,
+   including already-scoped retries, not unrelated later work. Request new validation
+   if the role, mission/scope, risk level, or model changes.
+4. If the chosen model is unavailable or model selection is unsupported or unverifiable, stop and ask
+   whether to use a verified alternative, explicitly accept inheritance, or use a
+   permitted non-spawn path. Never silently inherit, substitute, or claim an override.
+5. Model validation does not authorize delegation or waive contracts, permissions,
+   tests, worker limits, or fresh-context reviewer isolation. Pass only the approved
+   model through the runtime's supported mechanism; preserve required context isolation.
+   Record the lot, options/recommendation, user choice, and actual model if the runtime reports it
+   in the existing task/workflow evidence. If actual model identity is not reported,
+   record it as unverified rather than claiming the requested model ran.
+   If the runtime reports a different model, stop the lot and ask before further delegation.
+
 ## Obtain the contract
 
 Reuse an explicitly approved Task Contract if it covers the current request, has
@@ -104,6 +135,11 @@ review. Record the recommendation, rationale, and choice in the same Task Contra
 If declined, continue ordinary delivery with its existing proof requirements.
 
 If accepted, review becomes a completion gate:
+
+Validate the reviewer lot through the subagent model-selection gate before creating
+its fresh context. Accepting review is not selecting its model. Approval may cover
+the already-bounded re-review cycles when role, mission/scope, risk, and model stay
+unchanged; each review still requires a fresh context and a fixed snapshot.
 
 1. Locate and read `adversarial-reviewer-acrazie`. If unavailable, stop and offer
    user-approved installation using `npx skills add Acrazie/skills@adversarial-reviewer-acrazie`

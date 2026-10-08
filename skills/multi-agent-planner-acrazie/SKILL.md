@@ -28,6 +28,37 @@ Select this skill for a requested agent-execution plan or single-agent versus mu
 
 Determine facts the environment can answer before asking: repository roots involved, file counts, languages, test setups, current Git state, existing specs or ADRs, and whether subagents are even available on the current platform. Read [references/interview-tree.md](references/interview-tree.md) before the first round. Do not ask the user for anything discoverable.
 
+## Subagent model selection
+
+Apply this gate only when the workflow calls for an authorized subagent; loading a
+skill in the current context is not a spawn. A planner carries the gate into its
+generated workflow without executing it.
+
+1. Verify available models and explicit model-selection support in the current
+   runtime/account, using exposed tools/configuration and current official
+   documentation when needed. Do not infer availability from a provider's catalog.
+2. Propose 2–3 verified options in the user's language, with exactly one recommended option
+   justified by the lot's work, complexity, risk, and required capabilities. Compare
+   cost, capacity, and latency only where supported by evidence; disclose unknowns.
+   Prefer an economical model when sufficient; never apply a fixed two-tier downgrade
+   or equate generation, price, and capability. If fewer options are verified, show only those.
+   If no selectable option can be verified, ask rather than inventing a recommendation.
+3. Wait for explicit user validation before spawning. A homogeneous lot comprises
+   agents with the same role, bounded mission/scope, risk level, and selected model.
+   State that boundary and the proposed agent count. Validation covers that lot,
+   including already-scoped retries, not unrelated later work. Request new validation
+   if the role, mission/scope, risk level, or model changes.
+4. If the chosen model is unavailable or model selection is unsupported or unverifiable, stop and ask
+   whether to use a verified alternative, explicitly accept inheritance, or use a
+   permitted non-spawn path. Never silently inherit, substitute, or claim an override.
+5. Model validation does not authorize delegation or waive contracts, permissions,
+   tests, worker limits, or fresh-context reviewer isolation. Pass only the approved
+   model through the runtime's supported mechanism; preserve required context isolation.
+   Record the lot, options/recommendation, user choice, and actual model if the runtime reports it
+   in the existing task/workflow evidence. If actual model identity is not reported,
+   record it as unverified rather than claiming the requested model ran.
+   If the runtime reports a different model, stop the lot and ask before further delegation.
+
 ## Interview as a decision tree
 
 Separate verified facts from user-owned decisions. The frontier is every unresolved decision whose prerequisites are settled. Ask the whole frontier in one round.
@@ -39,6 +70,8 @@ Interview rules:
 3. Normally one round settles the verdict. Ask a second round only when answers unblock a material dependent decision (coherence mechanism, worker split, verification path).
 4. Stop as soon as verdict (single vs multi) plus task split plus worker contracts are settled. Remaining details fall back to sensible defaults; state them plainly.
 5. Offer a fast path once per campaign: "décide seul avec des défauts raisonnables" for users in a hurry. If chosen, decide autonomously and mark every assumption as such.
+   The fast path does not waive model validation: leave each proposed lot pending
+   explicit user choice before execution.
 6. Never continue interviewing for completeness after the decision is clear. Interaction is cheap but not free.
 
 Stop criterion: verdict plus split plus contracts settled, or user chose the fast path. Then emit the deliverable and wait for explicit approval.
@@ -83,12 +116,16 @@ Single-agent | Multi-agent + pattern name. Two to four sentences: why, on which 
 
 ## 2. Workflow architecture
 Pattern, phases in order, per-phase agent, inputs, outputs, and where verification happens.
+For each homogeneous lot: boundary and count, verified model options, recommendation
+and rationale, selected model (if validated), and validation status. When the target
+runtime is unknown, carry discovery and selection as a pending pre-spawn gate.
 
 ## 3. Worker prompts (copy-paste)
 One fenced block per worker:
 - Goal (one sentence)
 - Scope (included / excluded paths)
 - Context (minimal excerpts or spec pointer only)
+- Lot identity, model options/recommendation, and validation status
 - Steps (numbered, bounded)
 - Return contract (changed files, diff, verifiable handles, test output)
 - Stop condition and forbidden actions
@@ -99,3 +136,8 @@ Adapt spawn syntax per platform only at copy time using [references/platforms.md
 ## Verification before handoff
 
 Before presenting, check: verdict follows the four axes, every worker has a bounded scope plus a return contract, no platform syntax leaked into the core, coherence phase present when needed, worker count and retry limits respected. Fix silently, then present. Wait for explicit user approval before any execution.
+
+Also check that every proposed lot carries the model-selection gate, unsupported
+selection requires a user decision, and plan approval is not presented as model
+validation unless it explicitly includes the model and lot boundary. Do not infer
+approval from a preselected recommendation.
