@@ -32,6 +32,23 @@ Permission for a specific restricted action under applicable user and repository
 A persistent feedback workflow started only through deliberate activation of `skill-refiner-acrazie`, not inferred from a complaint about a skill.
 *Avoid*: Ordinary task-matching specialist.
 
+## Subagent Model Selection
+
+**Homogeneous Lot**:
+A bounded group of subagents sharing the same role, mission/scope, risk level, and
+selected model for the current authorized workflow.
+*Avoid*: All future agents, all agents using one provider.
+
+**Model Validation**:
+The user's explicit acceptance of a model for a stated homogeneous lot, distinct
+from approval of a task, review, or delegation.
+*Avoid*: Recommended option, implicit inheritance, plan approval alone.
+
+**Recommended Model Option**:
+The single proposed model choice judged most suitable for a lot's work among the
+verified available options, not a universal provider ranking.
+*Avoid*: Always cheapest, fixed two-tier downgrade.
+
 ## Skill Lifecycle & Refinement
 
 **Skill Refiner**:

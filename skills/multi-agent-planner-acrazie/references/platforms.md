@@ -2,6 +2,17 @@
 
 The skill core stays platform-agnostic. Apply these notes only at copy time, when adapting worker prompts to where they will run.
 
+## Model selection at execution time
+
+Carry the core's user-validated homogeneous lot boundary and model choice into
+each platform adaptation. Before execution, revalidate available models and override support
+for the target runtime/account. Use its actual documented selection mechanism,
+not a generic tool name or a prompt merely asking the worker to become a model.
+Do not assume an alias or model identifier transfers between platforms or accounts.
+If selection or required context isolation cannot be honored, ask for an explicit
+alternative or inheritance decision; never silently substitute or relax reviewer
+isolation. An unknown target platform leaves this gate pending, not auto-approved.
+
 ## Generic fallback (unknown platform)
 
 Present each worker as a fenced block with goal, scope, context, steps, return contract, and stop condition. The user spawns workers with whatever mechanism their agent offers. Never invent platform syntax.
@@ -21,3 +32,5 @@ Same treatment: self-contained fenced prompts, no assumed shared memory between 
 ## What never changes per platform
 
 Verdict logic, coherence rule, token rules, guardrails (max ~5 workers, no cascade, one retry), and verification on handles. Only the spawning gesture adapts.
+The model-selection and per-lot validation gate also remains unchanged; available
+identifiers and the supported selection mechanism are runtime-specific.
