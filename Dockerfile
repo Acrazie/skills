@@ -11,7 +11,7 @@ COPY CHANGELOG.md ./CHANGELOG.md
 
 RUN cd site && bun run build
 
-FROM nginxinc/nginx-unprivileged:alpine@sha256:6a23acdfca2b9cfbcec61419e3f1426bcbedb91362f2f19306a8567423bb4612 AS runtime
+FROM nginxinc/nginx-unprivileged:alpine@sha256:b9241c6e7b8e9a862f129d8d4199ab64b10390949a78bdd5603379b32c844083 AS runtime
 
 COPY --chown=101:101 nginx.conf /etc/nginx/nginx.conf
 COPY --from=build --chown=101:101 /app/site/dist/ /usr/share/nginx/html/
