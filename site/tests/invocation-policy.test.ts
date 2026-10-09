@@ -35,7 +35,10 @@ describe('skill invocation policy', () => {
   });
 
   test('selection does not remove action, contract, or ownership gates', () => {
-    expect(readSkill('git-ship-acrazie')).toContain('receiving explicit user confirmation');
+    const gitShip = readSkill('git-ship-acrazie');
+    expect(gitShip).toMatch(/Before delivery mutations, present\s+one consolidated recap and obtain explicit approval/);
+    expect(gitShip).toContain('Do not commit before the delivery recap.');
+    expect(gitShip).toContain('Execute only approved steps with boundary checks');
     expect(readSkill('github-repo-init-acrazie')).toContain('blueprint approval alone is not publication approval');
     expect(readSkill('feature-builder-acrazie')).toContain('Approval of the feature contract allows scoped implementation');
     expect(readSkill('test-retrofitter-acrazie')).toContain('No implementation begins without applicable explicit approval evidence');
