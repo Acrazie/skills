@@ -1,0 +1,7 @@
+# Keep GitHub administration as a bounded Repo Init mode
+
+Accepted on 2026-10-09. Extend `github-repo-init-acrazie` with a third mode for GitHub.com repository settings and personal Developer Settings instead of creating another overlapping settings owner or forcing administration through scaffolding. Initialization and engineering activation remain separate workflows; personal Developer Settings do not require a local repository.
+
+Sharing capability discovery keeps repository settings and integration prerequisites coherent, but widens a skill named for initialization. Explicit routing and exclusions prevent this from becoming unrestricted account or organization administration. GitHub Enterprise Server, other personal settings, organization-wide administration and App implementation remain outside this mode. A settings catalog expresses coverage and known limitations, not universal automation.
+
+Every administration mutation requires prior user approval of exact actions, targets, proposed values and consequences, individually or in a finite enumerated batch. Read-only discovery is permitted within the requested task. This mode cannot borrow repository delivery preauthorization to administer accounts, and credential-producing steps remain user-operated through a secure channel. Those boundaries preserve the distinction between skill selection, scope approval and action authorization.

@@ -1,6 +1,6 @@
 interface:
   display_name: "GitHub Repo Init / Acrazie"
-  short_description: "Initialize repositories or activate a project-local engineering skill kit"
-  default_prompt: "Use $github-repo-init-acrazie to inspect the repository and interview me for the requested initialization or project-local engineering activation. Present the exact plan and wait for approval before changes."
+  short_description: "Initialize repos, activate kits, or administer GitHub settings"
+  default_prompt: "Use $github-repo-init-acrazie for the requested repository initialization, project-local engineering activation, or GitHub.com repository/personal Developer Settings administration. Discover read-only, identify exact targets, present a bounded action plan and wait for my approval before every mutation. Keep secrets out of chat, files and logs."
 policy:
   allow_implicit_invocation: true
