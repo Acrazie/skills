@@ -10,7 +10,7 @@ export interface InvocationDeclaration extends Omit<Invocation, 'evidence'> { ev
 const declarations: InvocationDeclaration[] = [
   {
     source: 'feature-builder-acrazie', target: 'interview-acrazie', conditional: true,
-    evidence: [{ path: 'skills/feature-builder-acrazie/SKILL.md', quote: 'Otherwise use `$interview-acrazie`.' }],
+    evidence: [{ path: 'skills/feature-builder-acrazie/SKILL.md', quote: 'Interview is mandatory only when no applicable approved contract can be reused.\nWhen required, propose `interview-acrazie`, applying the project loading boundary before\nreading or invoking it.' }],
   },
   {
     source: 'immersive-hero-designer-acrazie', target: 'canvas-banner-designer-acrazie', conditional: true,

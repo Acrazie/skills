@@ -1,0 +1,41 @@
+{
+  "skill_name": "test-retrofitter-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "engineering-core-reusable-oracle-contract",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Explicit kit activated Test Retrofitter. Approved applicable contract with independent approval evidence covers characterization and conformance scenarios, environment, paths, setup, and checks. Interview is absent. Describe next steps.",
+      "expected_output": "Reuse the contract without loading Interview; keep oracles and production behavior unchanged.",
+      "files": [],
+      "expectations": [
+        "No systematic Interview invocation or duplicate approval.",
+        "Check all required testing decisions are covered.",
+        "No functional fix or inferred shipping permission."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "engineering-core-stale-oracle-unactivated",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Explicit kit activated Test Retrofitter. Previous contract exists, but a new requirement contradicts its characterization oracle. Interview is available only as metadata, not activated. Describe next action.",
+      "expected_output": "Reopen only affected oracle decisions through proposed Interview activation; do not read its body or implement tests assuming intent.",
+      "files": [],
+      "expectations": [
+        "A status label is not approval evidence.",
+        "Keep settled unaffected choices; do not redefine bugs as intended behavior.",
+        "Required unactivated Interview blocks realization only, without installation or substitute interview."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "engineering-core-missing-dependency-managed-kit",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Explicit kit activated Test Retrofitter. No applicable approved contract; Interview is not installed. User permits discovery only. Describe next action.",
+      "expected_output": "Block test implementation; propose separately approved managed-kit update and activation, not direct unpinned installation.",
+      "files": [],
+      "expectations": [
+        "No installer execution, source edits or global writes.",
+        "Use Repo Init approved pinned project update flow when kit is managed.",
+        "Do not copy Interview instructions or discard settled answers."
+      ]
+    }
+  ]
+}

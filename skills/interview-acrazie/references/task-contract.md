@@ -47,3 +47,27 @@ materially changed contract. Internal choices within scope need no new interview
 Keep secrets and unnecessary personal information out of all records. A task
 contract describes the desired outcome; an ADR explains a durable architectural
 trade-off; a glossary defines project-specific terms. Do not conflate them.
+
+## Scoped handoff and dependency gates
+
+Keep loading approval, outcome approval and execution authorization distinct in
+the same contract. Record the responsible specialist and whether the final user
+approval explicitly permits its scoped realization; do not infer authority from a
+status label or from approval of an unrelated snapshot. A contract may authorize
+realization under the user's request, but does not activate a dependency or waive
+installation, spawning, Git shipping or production permissions.
+
+Interview persists the contract and stops. In an explicit project kit, disclose
+the next specialist's command and wait for a new explicit invocation to resume.
+This also applies when returning to a specialist used before Interview. Reuse the
+same approved contract and answers at that return, unless material facts changed.
+
+A mandatory dependency has a trigger, named owner, required result, success proof
+and a blocked step. For Feature Builder and Test Retrofitter, missing/stale contract
+triggers Interview; its approved persisted contract is the required result. A
+current applicable contract with independent approval evidence satisfies that gate
+without loading Interview. Unavailable or unactivated Interview blocks realization,
+not authorized read-only discovery or unrelated work. Do not duplicate the missing
+workflow or silently install it. Optional review becomes mandatory if accepted or
+required by repository policy, with independent proof on the final task snapshot;
+review activation and agent/model authorization remain separate.
