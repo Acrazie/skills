@@ -15,6 +15,30 @@
         "The contract is persisted only after its complete content and destination are approved, and handoff does not execute the task.",
         "An ordinary request does not automatically generate an ADR or generic glossary definitions."
       ]
+    },
+    {
+      "id": 2,
+      "name": "engineering-core-four-fields-frontier",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. User explicitly invoked Interview in French for a search bar. Repository confirms an in-memory product list, but matching rules and empty-query behavior are unresolved. Ask the current decision frontier only.",
+      "expected_output": "Localized questions with exactly four fields and numbered options; no assumed behavior or implementation.",
+      "files": [],
+      "expectations": [
+        "Each question has only État actuel, Options, Recommandation, Réponse; options are numbered.",
+        "No added question IDs or decision fields; recommendation does not prefill user response.",
+        "Inspect available facts and do not ask dependent questions prematurely."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "engineering-core-explicit-return",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. An explicit project kit requires a separate command for each skill. Feature Builder handed off to Interview; user explicitly activated Interview and approved its complete contract/destination, explicitly authorizing realization by Feature Builder. Describe the handoff without implementation.",
+      "expected_output": "Return the same contract and execution authority; stop and request Feature Builder command.",
+      "files": [],
+      "expectations": [
+        "Interview does not implement or reactivate Feature Builder.",
+        "An earlier Feature Builder invocation does not cover the return after Interview.",
+        "Preserve the approved contract and settled answers; separate scoped execution authority from skill activation and shipping."
+      ]
     }
   ]
 }

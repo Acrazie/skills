@@ -78,6 +78,42 @@
         "It waits for explicit user acceptance before reviewer invocation or final completion and records a pending choice in the same contract.",
         "It does not treat review as replacing missing required test evidence or guaranteeing no regressions."
       ]
+    },
+    {
+      "id": 7,
+      "name": "engineering-core-contract-reuse-no-interview",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. An explicit kit has activated Feature Builder. A persisted current contract has independent user approval evidence and explicit scoped realization authority. Interview is not installed. Describe next steps.",
+      "expected_output": "Reuse the contract and plan scoped tests/implementation; no unnecessary dependency activation or installation.",
+      "files": [],
+      "expectations": [
+        "No ceremonial Interview call, duplicate contract or missing-Interview blocker for a reusable contract.",
+        "Check current scope, approval and context rather than trusting an approved label.",
+        "Feature tests belong to Builder, not automatic Test Retrofitter activation."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "engineering-core-pending-interview-activation",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. An explicit kit has activated Feature Builder only. Search matching and permissions are unresolved; Interview is listed in metadata but not activated. Describe next action.",
+      "expected_output": "Propose Interview and wait for its separate command without reading its body or implementing.",
+      "files": [],
+      "expectations": [
+        "No loading Interview via direct read or tool until its command.",
+        "No embedded substitute interview or automatic chain activation.",
+        "Upon approved Interview handoff, request a renewed Builder invocation."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "engineering-core-review-required-not-activated",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Feature is implemented and targeted checks passed. Repository policy requires independent review. User says skip review; Reviewer metadata is present but no Reviewer command or model selection was given. Describe next action.",
+      "expected_output": "Keep completion blocked on required review and request resolution/activation without reviewer dispatch.",
+      "files": [],
+      "expectations": [
+        "Do not let skip waive required repository policy.",
+        "Review authorization, Reviewer activation, spawning and model validation are distinct.",
+        "No self-review, invented ACCEPT or final completion."
+      ]
     }
   ]
 }

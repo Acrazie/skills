@@ -36,6 +36,20 @@ describe('documented invocations', () => {
     expect(graph.nodes.every(n => Number.isFinite(n.x) && Number.isFinite(n.y))).toBe(true);
     expect(graph.nodes.some(n => !graph.links.some(l => l.source === n.id || l.target === n.id))).toBe(true);
   });
+  test('builder Interview edge records the reusable-contract and loading gates', () => {
+    const link = getSkillGraph().links.find(link =>
+      link.source === 'feature-builder-acrazie' && link.target === 'interview-acrazie');
+    expect(link).toBeDefined();
+    expect(link!.conditional).toBe(true);
+    expect(link!.evidence).toHaveLength(1);
+    const evidence = link!.evidence[0];
+    expect(evidence.path).toBe('skills/feature-builder-acrazie/SKILL.md');
+    expect(evidence.quote).toContain('no applicable approved contract can be reused');
+    expect(evidence.quote).toContain('propose `interview-acrazie`');
+    expect(evidence.quote).toContain('project loading boundary before\nreading or invoking it');
+    const lines = fs.readFileSync(`${getRepoRoot()}/${evidence.path}`, 'utf8').split('\n');
+    expect(lines.slice(evidence.line - 1, evidence.endLine).join('\n')).toContain(evidence.quote);
+  });
   test('real edges are reviewed calls, never recommendation-only git shipping', () => {
     const graph = getSkillGraph();
     expect(graph.links).toHaveLength(7);
