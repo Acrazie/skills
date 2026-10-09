@@ -14,6 +14,19 @@ Turn an underspecified request into one concise, documented Task Contract that
 another workflow can execute without guessing. Stay persistent about relevant
 ambiguity, not exhaustive about hypothetical possibilities.
 
+## Project loading boundary
+
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency, including a
+reviewer dispatched to another context. One invocation does not activate the chain.
+Use `$skill-name` in Codex or `/skill-name` in Claude Code; do not silently read a
+missing or unactivated dependency as a workaround. These gates are not filesystem
+access controls and do not prove live host behavior. Global homonyms may remain a
+blocker. Loading approval never grants execution, installation, spawning or shipping
+permission. Under ordinary library defaults, retain scoped implicit handoffs.
+
 ## Boundaries and reuse
 
 - Work directly with the user. Do not create an orchestrator or require subagents.
@@ -46,8 +59,21 @@ If stale or incomplete, reopen only affected branches.
 Maintain a small decision tree. The frontier contains unresolved decisions whose
 prerequisites are settled; ask the whole current frontier in one round.
 
-1. Number questions and group related ones. Give a concrete recommendation and a
-   short context-specific reason for each.
+1. Group related decisions; each displayed question has only the following four
+   fields. Translate the four labels and content into the user's language. Keep
+   options numbered and give one recommendation with a short context-specific
+   reason. Do not add question IDs, titles, decision fields or a fixed questionnaire.
+   A recommendation is not a selected answer or approval.
+
+```text
+Current state: <verified context and the unresolved decision>
+Options:
+1. <choice and consequence>
+2. <alternative and consequence>
+Recommendation: option <N> — <reason>.
+Response: <await the user's choice; do not fill it in for them>
+```
+
 2. Never ask a dependent question before its unresolved prerequisite is answered.
 3. After each response, record accepted decisions and recompute the frontier.
    A batch acceptance settles the recommendations it actually refers to.
@@ -82,6 +108,11 @@ contract format and approval/reuse rules.
 - Create an ADR only for an approved, costly-to-reverse, non-obvious decision with
   real alternatives. Use the repository's convention or `docs/adr/` with the next
   unused number. Never turn every task contract into an ADR.
-- Return the contract path, approval evidence, relevant glossary/ADR links, and
-  any blocked condition to the caller. Stop here. Approval of a contract does not
-  authorize execution, deployment, installation, or Git shipping by this skill.
+- Return the same contract path, approval evidence, relevant glossary/ADR links,
+  blocked conditions, and the responsible specialist. Separate outcome approval
+  from any explicit authorization to resume scoped realization. Stop here; this
+  skill never implements or activates its caller. In an explicit project kit,
+  request a new explicit invocation of the specialist to resume, even if it was
+  active before the interview. Preserve answers and the approved contract rather
+  than restarting the interview. Neither handoff nor outcome approval grants
+  deployment, installation, spawning or Git shipping permissions.

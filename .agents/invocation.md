@@ -1,10 +1,28 @@
 # Skill Selection and Action Authorization
 
-Skills are model-invocable by default within the current requested task. A clear
-natural-language request is enough; users do not need to know a skill's name.
+Published-library defaults keep skills model-invocable within the current requested
+task. Under those defaults a clear natural-language request is enough; users do not
+need to know a skill's name.
 Selecting or reading a skill is not approval of its scope or authorization of its
 actions. Skill instructions never override applicable user/repository rules,
 tool permissions, or approval requirements.
+
+## Explicit project kits and stricter instructions
+
+An explicit project kit or stricter current instruction overrides the permissive
+published defaults for that task. Propose names from available metadata; wait for
+the user's explicit skill command before reading its body. Apply this gate to each
+dependency and to the returning specialist after Interview. Do not use implicit
+handoffs, manually read an unactivated skill, or dispatch its instructions to a
+subagent as a bypass. Contract/review approval is not a skill command.
+
+Project adapters may set both explicit-only metadata flags on installed copies;
+this does not change published-library metadata or global installations. Native
+flags and instruction tests are not filesystem controls or live host proof.
+Unresolved implicitly invocable global homonyms block a strict gate claim.
+Installation, scoped realization, agent spawning/model choice and shipping retain
+their separate permissions. An absent dependency blocks only its dependent step;
+an applicable approved contract can satisfy Interview's result without loading it.
 
 ## Model-invocable specialists
 

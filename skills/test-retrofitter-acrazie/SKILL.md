@@ -11,9 +11,31 @@ description: >-
 # Test Retrofitter / Acrazie
 
 Improve evidence for existing behavior, not the behavior itself. Select this skill
-when adding tests is requested or belongs to the authorized task. No named skill
-command is required. Relevant discovery may start read-only; implementation still
+when adding tests is requested or belongs to the authorized task. Under published
+library defaults no named skill command is required; explicit kits follow the
+project loading boundary below. Relevant discovery may start read-only; implementation still
 requires the approved contract below. Do not start an unrelated testing campaign.
+
+## Project loading boundary
+
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency, including a
+reviewer dispatched to another context. One invocation does not activate the chain.
+Use `$skill-name` in Codex or `/skill-name` in Claude Code; do not silently read a
+missing or unactivated dependency as a workaround. These gates are not filesystem
+access controls and do not prove live host behavior. Global homonyms may remain a
+blocker. Loading approval never grants execution, installation, spawning or shipping
+permission. Under ordinary library defaults, retain scoped implicit handoffs.
+
+## User decision format
+
+For any user-owned choice, including execution/setup permission, review and model
+selection, display only Current state, numbered Options, Recommendation and
+Response. Translate labels/content into the user's language; do not add question
+IDs, preselect an answer as consent or treat a recommendation as approval. Ask only
+unresolved decisions, with their verified context and concrete consequences.
 
 ## Discover the testing boundary
 
@@ -36,27 +58,42 @@ that a behavior is intended.
 
 ## Obtain the approved contract
 
-Use `interview-acrazie` on every invocation, including its approved-contract reuse
-path. Supply the objective, verified behavior and baseline, narrower exclusions,
-known oracle conflicts, relevant risks, material decisions, and expected handoff.
-Let the foundation own clarification and persist one approved Task Contract; do
-not embed another interview or create a duplicate contract.
+Reuse an explicitly approved Task Contract if it covers the current test request,
+has approval evidence beyond a status label, and no material discovery invalidates
+it. Verify it covers the target behavior and scenarios, oracle for each, test types
+and rationale, environment, permissible files/setup, and completion criteria.
+Reusing a contract does not require Interview to be installed or loaded. If stale
+or incomplete, reopen only affected decisions rather than restarting settled ones.
+
+Interview is mandatory only when no applicable approved contract can be reused.
+When required, propose `interview-acrazie`, applying the project loading boundary before
+reading or invoking it. Supply objective, verified behavior/baseline, exclusions,
+oracle conflicts, risks, missing decisions and expected handoff. Let the foundation
+own clarification and persistence; do not embed another interview or create a
+duplicate contract. After handoff, resume only under applicable execution authority
+and the explicit kit's renewed specialist invocation requirement.
 
 Resolve the target behavior and scenarios, oracle for each, test types selected
 with reasons, execution environment, permissible files and setup, and observable
 completion criteria. Reuse settled answers. Reopen only materially stale choices.
 No implementation begins without applicable explicit approval evidence.
 
-Locate and read the installed foundation or use the harness's supported invocation.
-If unavailable, stop and ask the user to install it:
+When required Interview is unavailable or not activated, block test implementation
+only; request the missing activation or separately approved installation. Locate
+it through metadata first, then read/invoke only after the applicable loading gate.
+In an explicit kit, use Repo Init's approved project update flow and the project's
+pinned selection rather than an unpinned overwrite. Outside a managed kit, propose:
 
 ```bash
 npx skills add Acrazie/skills@interview-acrazie
 ```
 
-Do not install silently, copy the foundation, or continue if installation fails.
-Contract approval authorizes only the scoped work in the user's request; it does
-not authorize shipping or otherwise restricted actions.
+Do not install silently, copy the foundation, or continue if required installation
+fails.
+Contract approval authorizes scoped realization only when that authorization is
+explicitly evidenced and the applicable loading gate is satisfied. Otherwise ask
+for scoped execution authorization before editing. It does not authorize shipping
+or otherwise restricted actions.
 
 ## Select and build the smallest sufficient proof
 
