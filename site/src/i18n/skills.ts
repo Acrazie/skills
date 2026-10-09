@@ -69,13 +69,13 @@ export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, Localize
   },
   'github-repo-init-acrazie': {
     en: {
-      description: 'Initialize, bootstrap, and scaffold a production-ready GitHub repository tailored to user choices through an adaptive interview, a structured blueprint approval gate, and end-to-end scaffolding. Covers stack setup (React, Vue, Next.js, Vite, Node, Python uv/Poetry, Go, Rust, or agnostic), code quality tools (Lefthook, Biome, ESLint, Ruff), CI/CD workflows, release automation, and complete repository governance (README, SECURITY.md, CONTRIBUTING, LICENSE, templates, CODEOWNERS).',
+      description: 'Initialize repositories, activate an approved project-local engineering kit, or administer GitHub.com repository settings and personal Developer Settings (GitHub Apps, OAuth Apps, PATs). Discover read-only; every mutation requires prior approval. Includes verified automation and guided manual steps, not organization-wide administration, Enterprise Server, Git shipping or deployment.',
     },
     fr: {
-      description: 'Initialiser et échafauder un dépôt GitHub prêt pour la production selon un entretien adaptatif, validation de blueprint et génération de bout en bout (stacks modernes, linters, CI/CD et gouvernance).',
+      description: 'Initialiser un dépôt, activer un kit engineering local approuvé ou administrer les paramètres des dépôts GitHub.com et les Developer Settings personnels (GitHub Apps, OAuth Apps, PAT). Découverte en lecture seule ; toute modification nécessite une validation préalable. Automatisation vérifiée ou étapes manuelles guidées, sans administration globale des organisations, Enterprise Server, livraison Git ni déploiement.',
     },
     zh: {
-      description: '通过自适应问询、蓝图审批及端到端脚手架，初始化符合生产规范的 GitHub 仓库（涵盖多语言技术栈、质量工具、CI/CD 与完整治理规范）。',
+      description: '初始化仓库、启用经批准的项目本地工程技能包，或管理 GitHub.com 仓库设置和个人 Developer Settings（GitHub Apps、OAuth Apps、PAT）。仅允许只读发现；任何修改都须事先批准。提供经过验证的自动化或人工操作指引，不包括组织级管理、Enterprise Server、Git 发布或部署。',
     },
   },
   'immersive-hero-designer-acrazie': {

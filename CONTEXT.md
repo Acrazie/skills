@@ -229,3 +229,29 @@ The containerized service hosted on the Netcup VPS, connected to Traefik via `do
 **Dokploy Deployment Webhook**:
 The protected endpoint (`deploy.acrazie.dev`) authenticated via Cloudflare Zero Trust Service Token headers (`CF-Access-Client-Id` and `CF-Access-Client-Secret`), triggered by the GitHub Actions `deploy-production` job only after CI validation succeeds.
 *Avoid*: Enabling Auto Deploy in Dokploy UI (which would bypass CI tests).
+
+## GitHub Administration
+
+**GitHub Administration**:
+The bounded management of GitHub.com repository settings and personal Developer Settings, distinct from repository initialization and engineering activation.
+*Avoid*: Organization administration, unrestricted account management.
+
+**Settings Coverage Catalog**:
+The inventory of GitHub settings families and their documented capabilities, distinct from proof that every setting was inspected or can be automated.
+*Avoid*: Universal settings API, exhaustive verified configuration.
+
+**Approved Action Batch**:
+A finite set of individually identified changes whose targets, proposed values and consequences the user has explicitly accepted.
+*Avoid*: Permanent authorization, inferred approval from a blueprint title.
+
+**App Registration**:
+The owned GitHub App or OAuth App definition, distinct from its installation or a user's authorization grant.
+*Avoid*: Installed integration, token.
+
+**App Installation**:
+The grant of a GitHub App's permissions to a selected account and repository set, distinct from ownership of its registration.
+*Avoid*: App creation, OAuth user authorization.
+
+**Credential Lifecycle**:
+The creation, replacement, verification and revocation of an App credential or personal access token, distinct from configuration of an App registration.
+*Avoid*: Permission escalation, secret disclosure.

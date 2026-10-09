@@ -1,13 +1,20 @@
 ---
 name: github-repo-init-acrazie
-description: Initialize or scaffold a repository, or activate an approved project-local Acrazie engineering skill kit for Codex and Claude Code in an existing repository. Owns adaptive configuration, agent instructions, and repository action policy. Engineering activation preserves the existing stack and governance; ordinary initialization covers stack, tooling, CI/CD, Git/GitHub settings, and scaffolding. Not for unsolicited governance changes, application features, Git shipping, automatic merging, or deployment.
+description: Initialize or scaffold a repository, activate an approved project-local Acrazie engineering kit, or administer GitHub.com repository settings and personal Developer Settings (GitHub Apps, OAuth Apps, fine-grained and classic PATs). Discover capabilities, recommend and apply only user-approved actions with verification or guided manual steps. Preserve existing stack and governance. Not for organization-wide administration, other personal settings, Enterprise Server, application implementation, unsolicited changes, Git shipping, merging, or deployment.
 ---
 
 # GitHub Repo Init / Acrazie
 
-Scaffold and bootstrap a complete, production-grade GitHub repository tailored to explicit user requirements. Every repository must start with a clean architecture, robust governance, automated quality gates, and maintainable configuration.
+Initialize repositories, activate project-local engineering kits, or administer explicitly targeted GitHub.com settings. Route to the requested mode before proposing changes; administration is not scaffolding.
 
 ## Choose the requested mode
+
+- **GitHub administration**: inventory, recommend and manage repository settings or
+  personal Developer Settings on GitHub.com, including existing resources and
+  credential lifecycles. Read [github-administration.md](references/github-administration.md)
+  instead of the scaffolding workflow. A local repository is not required for
+  personal Developer Settings. Do not initialize a project, install a kit, change
+  stack, build App code or perform Git delivery by implication.
 
 - **Engineering activation**: configure and install a selected, versioned Acrazie
   skill kit inside an existing repository for Codex + Claude Code. Read
@@ -28,7 +35,7 @@ own activation. Selection or completion never authorizes Git delivery.
 
 ## 1. Scope & Invariants
 
-Select this skill for requested repository initialization or scaffolding. No named skill command is required. Inspect facts read-only before the interview; selection does not approve the blueprint, publication, sensitive settings, or expansion into unrelated repository governance.
+Select this skill for requested initialization, engineering activation or GitHub administration. No named skill command is required. Inspect facts read-only within the requested scope; selection does not approve changes or expand the objective. For GitHub administration and remote settings in initialization, every mutation requires prior user approval of its exact action, target and proposed values, individually or in an explicitly enumerated bounded batch. Never infer approval from a recommendation, available credential or repository preauthorization. The engineering activation workflow retains its separately approved project action policy.
 
 1. **Explicit Invariants**:
    - **No Silent Assumptions**: Never choose a stack, package manager, linter, or repository visibility without asking or obtaining approval.
@@ -215,7 +222,7 @@ If the user requested remote GitHub creation and `gh` is authenticated:
    ```
 3. Present the repository URL and clone URL to the user.
 
-For a new or existing remote, inspect effective settings/access and reconcile the approved inventory before changing settings. Show the exact remote, current/proposed values, required authority, costs and consequences; obtain action-time approval for access changes, security/protection changes, visibility, billing or other sensitive settings. Apply only explicitly approved changes using verified CLI flags/API methods; never modify organization policy, token scopes, collaborators or secrets by implication. Re-read each setting after writing; report applied-and-verified, failed and deferred items separately. Missing authority is a blocker, not permission to escalate access automatically.
+For a new or existing remote, inspect effective settings/access and reconcile the approved inventory before changing settings. Use the approval and verification rules in [references/github-administration.md](references/github-administration.md) for every remote mutation; a blueprint must explicitly identify the action batch to authorize it. Show the exact remote, current/proposed values, required authority, costs and consequences; obtain action-time approval for access changes, security/protection changes, visibility, billing or other sensitive settings. Apply only explicitly approved changes using verified CLI flags/API methods; never modify organization policy, token scopes, collaborators or secrets by implication. Re-read each setting after writing; report applied-and-verified, failed and deferred items separately. Missing authority is a blocker, not permission to escalate access automatically.
 
 ---
 
