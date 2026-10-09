@@ -106,7 +106,10 @@ jobs:
         run: cd site && bun run build
 
       - name: Build production container
-        run: docker build --target runtime --tag acrazie-skills-ci .
+        run: >-
+          docker build --target runtime-prebuilt
+          --build-context site-dist=./site/dist
+          --tag acrazie-skills-ci .
 
       - name: Smoke test production container
         run: |
