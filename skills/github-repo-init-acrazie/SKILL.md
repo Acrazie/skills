@@ -1,11 +1,28 @@
 ---
 name: github-repo-init-acrazie
-description: Use when the user requests initialization or scaffolding of a GitHub repository; not for unsolicited governance changes during unrelated work. Initialize, bootstrap, and scaffold a production-ready GitHub repository tailored to user choices through an adaptive interview, a structured blueprint approval gate, and end-to-end scaffolding. Covers stack setup (React, Vue, Next.js, Vite, Node, Python uv/Poetry, Go, Rust, or agnostic), evidence-based tooling selection (including Oxlint/Oxfmt, Biome, ESLint, Ruff), Git/GitHub settings and permissions discovery, CI/CD workflows, release automation, and complete repository governance (README, SECURITY.md, CONTRIBUTING, LICENSE, templates, CODEOWNERS).
+description: Initialize or scaffold a repository, or activate an approved project-local Acrazie engineering skill kit for Codex and Claude Code in an existing repository. Owns adaptive configuration, agent instructions, and repository action policy. Engineering activation preserves the existing stack and governance; ordinary initialization covers stack, tooling, CI/CD, Git/GitHub settings, and scaffolding. Not for unsolicited governance changes, application features, Git shipping, automatic merging, or deployment.
 ---
 
 # GitHub Repo Init / Acrazie
 
 Scaffold and bootstrap a complete, production-grade GitHub repository tailored to explicit user requirements. Every repository must start with a clean architecture, robust governance, automated quality gates, and maintainable configuration.
+
+## Choose the requested mode
+
+- **Engineering activation**: configure and install a selected, versioned Acrazie
+  skill kit inside an existing repository for Codex + Claude Code. Read
+  [engineering-activation.md](references/engineering-activation.md) and follow
+  that workflow instead of the scaffolding steps below. Preserve existing stack,
+  tooling and governance; never create a remote, hooks or an initial commit by
+  implication. Keep project activation separate from global contributor linking.
+- **Repository initialization**: use the existing workflow below. Offer engineering
+  activation only when requested or explicitly accepted; its installation has its
+  own scoped approval. Do not silently add a skill bundle to a new repository.
+
+In engineering mode, questions have only Current state, numbered Options,
+Recommendation and Response, translated into the user's language. Explicit user
+invocation confirms this skill only; each complementary skill still requires its
+own activation. Selection or completion never authorizes Git delivery.
 
 ---
 

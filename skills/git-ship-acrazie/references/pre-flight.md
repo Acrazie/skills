@@ -1,65 +1,63 @@
-# Pre-Flight Safety, Hygiene & Quality Checks
+# Exact Snapshot and Freshness Controls
 
-Before any commit or staging takes place, `git-ship-acrazie` performs rigorous safety verification to protect repository integrity.
+## Ownership and content
 
----
+Review status and full staged/unstaged diffs, untracked files, and task-owned paths
+or hunks. `git diff --cached` reviews the index; a stat or file list is insufficient.
+An existing third-party index blocks a commit that would absorb it. Do not silently
+unstage, stash, reset, clean, or commit other sessions' work. Whole-file staging is
+unsafe when a file contains unrelated edits. Obtain an approved isolation/scope plan.
 
-## 1. Branch Safety Check
+Use the required isolated worktree and avoid sharing a checkout/index during
+mutation. If another writer cannot be excluded, stop; repeated checks alone cannot
+close the check-to-action race. Different worktrees still share relevant refs and
+configuration, so inspect those separately.
 
-1. **Detect Current Branch**:
-   ```bash
-   git branch --show-current
-   ```
-2. **Default Branch Protection**:
-   - If the current branch matches the default branch (`main`, `master`, or production branch):
-     - **HALT IMMEDIATELY**.
-     - Direct commits to the default branch violate trunk-based stability and branch protection rules.
-     - Propose:
-       - Creating a new feature branch:
-         ```bash
-         git checkout -b feat/<topic>
-         ```
-       - Or provisioning a dedicated Git Worktree:
-         ```bash
-         git worktree add .worktrees/<topic> -b feat/<topic> origin/main
-         ```
-     - Await user choice before continuing.
+Inspect exact candidate content for credentials and transient artifacts, using
+available repository controls. File-name patterns are signals, not a guarantee of
+zero secret leaks. Assess legitimate non-secret example files by content and policy.
+Never print secret values; redact findings. A suspected secret blocks delivery of
+the affected content. Do not automatically edit .gitignore or untrack files; leaked
+credentials may require separate rotation/remediation, beyond this delivery scope.
 
----
+## Snapshot proof
 
-## 2. Secrets & Repository Hygiene Audit
+After authorized targeted staging, inspect the complete index and identify the
+candidate tree with `git write-tree`, plus HEAD and intended paths/hunks. An
+unmerged index or unresolved Git operation blocks ordinary delivery.
 
-1. **Check Status**:
-   ```bash
-   git status -s
-   ```
-2. **Scan for Forbidden & Sensitive Files**:
-   Inspect untracked (`??`) and modified (`M`) files against known dangerous patterns:
-   - **Environment files & secrets**: `.env`, `.env.*`, `*.pem`, `*.key`, `id_rsa*`, `credentials.json`.
-   - **Worktrees & internal tool dirs**: `.worktrees/`, `.hermes/`, `.skill-refiner/`, `.skill-improver/`, `.impeccable/`.
-   - **Build artifacts & caches**: `node_modules/`, `dist/`, `build/`, `__pycache__/`, `.cache/`, `.pytest_cache/`, `target/`.
-   - **OS metadata**: `.DS_Store`, `Thumbs.db`.
-3. **Action on Violation**:
-   - If a forbidden file is untracked: ensure it is **NEVER** added with `git add`. Add it to `.gitignore` if appropriate.
-   - If a sensitive file is already tracked: alert the user immediately and request untracking (`git rm --cached <file>`) before proceeding.
+Run required, inspected repository checks on the exact candidate snapshot using an
+approved existing isolation method. A test of a working tree containing unstaged
+dependencies does not validate a different index. If exact-snapshot proof is not
+available, stop and explain; do not substitute a stat or an unrelated green run.
+Do not install dependencies or execute unfamiliar/untrusted scripts without the
+necessary permission. Use approved repository commands, not guessed package-manager
+commands. Record checks, their results and relevant validation configuration.
 
----
+After every content change, including formatter or hook edits, invalidate affected
+proof and rerun affected checks. Keep hooks enabled; never use `--no-verify`, disable
+hooks, or waive required red/unavailable checks as an emergency fast-path.
 
-## 3. Pre-Commit Quality Gates
+## Before each mutation
 
-1. **Determine Quality Gate Command**:
-   - Check `docs/git-workflow.md` for defined pre-commit commands.
-   - If not specified in the workflow doc, inspect project configuration:
-     - `lefthook.yml` present $\rightarrow$ `npx lefthook run pre-commit` (or `lefthook run pre-commit`).
-     - `package.json` with `test` or `lint` scripts $\rightarrow$ `npm test` / `pnpm test` / `pnpm lint`.
-     - Python with `pyproject.toml` $\rightarrow$ `uv run ruff check` / `uv run pytest`.
-     - Go with `go.mod` $\rightarrow$ `go test ./...` / `golangci-lint run`.
-     - Rust with `Cargo.toml` $\rightarrow$ `cargo test` / `cargo clippy`.
-2. **Execution & Failure Handling**:
-   - Run the command.
-   - If the check passes: proceed to Step 3 (Delivery Synthesis).
-   - If the check fails:
-     - Output the failing test/linter logs clearly.
-     - **DO NOT** commit broken code.
-     - Ask the user whether they want to fix the issues now, or if an intentional override is requested.
-     - Never pass `--no-verify` to `git commit`.
+Recheck applicable assumptions immediately before staging, committing, pushing,
+editing a PR, or restacking:
+- repository/worktree identity, branch, HEAD, index and Git-operation state;
+- task-owned content and approved candidate tree;
+- material instructions, validation configuration, hooks and effective Git policy;
+- for remote mutations, destination, observed remote branch SHA, PR head/base/state,
+  and relevant stack parent/descendant state.
+
+Refresh the affected evidence rather than rerunning unrelated scans. If HEAD/index
+or content differs, inspect and revalidate the new candidate. If configuration
+changes, reevaluate rules and affected checks. Changes in intended content, action,
+destination, base/dependency, or destructive/shared-branch risk are material and
+require renewed approval. Unrelated remote movement does not invalidate a local-only
+commit; changes to its actual rules or content do.
+
+After commit, compare the committed tree with the validated candidate and inspect
+hook-modified files and remaining status. A mismatch is partial/unverified delivery,
+not a green checkpoint. Preserve it for review; do not auto-amend, reset, or push.
+Store the verified commit SHA and proof in the existing task record, not a new journal
+framework. For push-only/PR-only requests, validate the relevant committed content
+and reuse prior evidence only when it still applies to that exact snapshot.
