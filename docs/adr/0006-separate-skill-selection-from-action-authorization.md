@@ -1,5 +1,10 @@
 # Separate skill selection from action authorization
 
+> Architecture update (2026-10-09): [ADR 0007](0007-confirmed-skill-chains-and-repository-bootstrap.md)
+> partially supersedes unconfirmed implicit loading with confirmed, announced
+> skill chains. Selection and action authorization remain separate. This target
+> architecture does not change active skill instructions or host behavior yet.
+
 On 2026-10-06, we chose model-invocable specialists for tasks already requested by
 the user, including scoped inter-skill handoffs. A natural-language request should
 not require knowledge of a skill identifier. Scope approval and action

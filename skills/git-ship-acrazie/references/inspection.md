@@ -1,53 +1,63 @@
-# Repository Governance & Rule Inspection
+# Repository Identity, Policy, and Scope
 
-This document defines how `git-ship-acrazie` inspects the repository to discover delivery rules, branch policies, commit standards, and when to trigger the fallback to `github-repo-init-acrazie`.
+## Discover before choosing
 
----
+Read all applicable instructions, AGENTS.md, CONTRIBUTING.md, docs/git-workflow.md
+or its equivalent, templates, hooks, CI, release/signing rules and relevant task
+proof. A workflow document does not excuse skipping applicable higher-priority
+instructions. Recent commits are evidence of convention, not authorization.
 
-## 1. Governance Discovery Order
+Record the repository root, worktree path, current branch or detached HEAD, HEAD
+SHA, index/working status, active merge/rebase/cherry-pick, and other worktrees.
+Establish task ownership and delivery scope; do not steal a branch checked out by
+another session or modify its worktree. A detached HEAD or uncertain ownership
+requires an approved branch/isolation plan before delivery.
 
-When invoked, the skill inspects the repository in the following cascade:
+When `.acrazie/engineering.json` exists, also read
+[repository-action-policy.md](repository-action-policy.md). Establish its approval
+and reconcile all current policy sources before using any preauthorization. Keep
+action-specific permissions distinct from the requested shipping objective.
 
-1. **Authoritative Workflow Document**:
-   - Check if `docs/git-workflow.md` exists.
-   - If present, parse:
-     - Default branch name (`main`, `master`).
-     - Allowed branch prefixes (`feat/`, `fix/`, `chore/`, `docs/`, `refactor/`).
-     - Commit format requirements (Conventional Commits, scope rules).
-     - Co-author prohibition invariant.
-     - Pre-commit quality gate command (e.g. `lefthook run pre-commit`, `pnpm test`, `uv run ruff check`).
-     - PR template location and default state (`--draft`).
-     - Autonomy boundaries.
+Inspect effective relevant Git configuration and hooks, not just tracked files:
+configuration, hooks, refs, and remote changes can affect multiple worktrees.
+Record only non-secret relevant values; redact credentials in URLs/output.
 
-2. **Agent Guidelines Entrypoint**:
-   - If `docs/git-workflow.md` is not in the default location, check `AGENTS.md` (or `CLAUDE.md`).
-   - Look for a link to an alternate workflow document (e.g. `docs/delivery.md`, `docs/development-workflow.md`).
-   - If found, read that referenced document.
+For every relevant rule, identify source and scope. Apply Conventional Commits only
+when required or selected; do not impose a branch prefix, Draft state, or merge
+method against repository policy. No co-author trailers. Identify the actual default
+and protected branches, not only main/master; block unauthorized direct delivery.
+Do not change repository or organization settings to bypass protections.
 
-3. **Contribution Guidelines**:
-   - If still not found, inspect `CONTRIBUTING.md` for documented git rules, branch models, and commit conventions.
+Distinguish absent rules from inaccessible remote rules. With no documented policy,
+propose a minimal explicit delivery strategy using verified facts and ask for
+approval: no mandatory initialization or new governance file. Repository setup is
+optional, separately requested work. On a policy conflict, block the affected action
+and request resolution; a user preference cannot override enforced restrictions.
 
----
+## Resolve destinations and capabilities
 
-## 2. Fallback to `github-repo-init-acrazie`
+Inspect remotes, effective push URLs/refspecs, upstream, fork relationships, remote
+branch state and PR identity. Never assume origin, the current tracking branch, or
+the CLI-selected repository is the intended destination. Confirm the PR base/head
+repository and branch explicitly. Check the installed CLI's supported flags before
+using examples; unavailable tools do not authorize installation or fallback mutations.
 
-If neither `docs/git-workflow.md` nor equivalent documented rules exist on the repository:
+Refresh only relevant remote refs when authorized. If refresh/read fails, record
+unverified state; stale cached refs are not current remote evidence. A commit-only
+request in a local-only repository needs no imaginary remote gate. Block a remote
+action when its destination or necessary remote safety evidence is unavailable.
 
-1. **Do NOT guess or invent arbitrary rules**:
-   - Do not assume branch naming conventions or commit formats without documented consensus.
-2. **Halt and propose setup**:
-   - Stop execution cleanly.
-   - Inform the user:
-     ```text
-     ⚠️ Aucune règle de gouvernance Git trouvée sur ce dépôt (docs/git-workflow.md introuvable).
+Inspect relevant protections/permissions and existing PRs read-only when accessible.
+Do not treat missing access as absence of protections. Determine what checks apply
+to the chosen action and destination; do not invent broad remote administration.
 
-     Pour standardiser les branches, les conventions de commit, les quality gates et le template de PR, vous pouvez invoquer le skill parent :
-     👉 /github-repo-init-acrazie
-     ```
-3. **Offer an Emergency Fast-Path (if user insists on shipping without full init)**:
-   - If the user explicitly asks to bypass setup ("force commit", "just commit anyway"):
-     - Apply minimal safe defaults:
-       - Ensure not on `main`.
-       - Conventional Commits without co-author.
-       - Stage only modified tracked files.
-       - Open Draft PR with a generic summary.
+## Bound action scope
+
+Separate staging, commit, push, PR creation/update, and stack restructuring in the
+recap. Explicitly exclude unrequested steps. PR updates include base/body/state
+changes; existing PRs are not blanket edit authorization. Merge, branch deletion,
+force-push and destructive recovery need their own authorization.
+
+Default to a proposed Draft PR only when repository policy and user intent permit;
+ready requests or repository rules take precedence. A Draft PR can still trigger CI
+and notifications; it is not a security or deployment barrier.
