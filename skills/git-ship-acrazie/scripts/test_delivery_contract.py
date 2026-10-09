@@ -41,6 +41,10 @@ class DeliveryContractTests(unittest.TestCase):
     def test_explicit_rewrite_lease(self):
         self.require(self.refs["stacking"], "separate authorization", "--force-with-lease=refs/heads/<branch>:<expected-remote-SHA>", "background fetch", "do not refresh", "rollback")
 
+    def test_repository_preauthorization_is_not_self_granted(self):
+        self.require(self.main, "independently evidenced", "Restrictive current instructions prevail", "not proof of")
+        self.require(self.refs["repository-action-policy"], "forbidden", "confirm", "preauthorized", "policy_unchanged", "approval_evidenced", "proposed policy", "exact current candidate", "not a capability token")
+
     def test_links_and_invocation(self):
         for p in [ROOT / "SKILL.md", *(ROOT / "references").glob("*.md")]:
             for link in re.findall(r"\]\(([^)#]+)(?:#[^)]*)?\)", p.read_text()):

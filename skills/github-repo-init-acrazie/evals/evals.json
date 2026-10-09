@@ -104,6 +104,42 @@
         "Skips GitHub remote settings as not applicable while keeping relevant local Git discovery.",
         "Does not install tools, migrate configs or create governance before blueprint approval."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Engineering activation only in an existing repository for Codex and Claude Code. Preserve the current stack and Git governance. Recommend a selectable engineering kit; use the four-field question format. I have not yet approved source revision, installation or action permissions. Do not scaffold, install globally or ship changes.",
+      "expected_output": "Discover facts, ask unresolved choices in Current state / numbered Options / Recommendation / Response format, disclose dependencies and strict per-skill commands, present scoped blueprint and wait before mutations.",
+      "files": [],
+      "expectations": [
+        "Engineering activation routes to the existing Repo Init owner, not mandatory scaffolding or a new CLI.",
+        "Only the four approved question fields appear, localized to the user.",
+        "Pins, selection, action permissions, conflicts and exact project destinations require approval.",
+        "No package execution, writes or shipping before applicable approval."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Simulation only: the approved engineering kit is staged outside the target repository. CLAUDE.md points outside the project, one selected canonical skill has local edits, and skills-lock.json contains an unrelated installed skill. Do not execute network or Git mutations. Explain integration and recovery.",
+      "expected_output": "Block affected activation on external symlink/customized content, preserve unrelated lock entries and files, propose explicit conflict resolution rather than overwrite or global modification.",
+      "files": [],
+      "expectations": [
+        "No external symlink target or customized skill is overwritten.",
+        "Staging and plan preserve unrelated lock entries and personal instructions.",
+        "No fallback copies, forced cleanup, silent adoption or global configuration changes.",
+        "A partial failure is reported as partial state, not atomic success or automatic rollback."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Simulation only: source and installer are pinned and the unchanged project activation plan is approved. A global homonym remains model-invocable. Automated tests pass but neither Codex nor Claude Code was launched. I want a strict before-load confirmation gate. Explain what can be claimed without activating a real project.",
+      "expected_output": "Explain explicit-only adapters and separate activation per dependency, block strict-gate claim until homonym resolved, distinguish automated installation/configuration checks from unverified live host behavior.",
+      "files": [],
+      "expectations": [
+        "Explicit per-skill user commands replace automatic chain handoffs.",
+        "Does not silently modify the global installation or treat passing tests as live host proof.",
+        "A global implicit-enabled homonym is a disclosed blocker for a strict project gate.",
+        "No merge/deployment executor is inferred from stored policy modes."
+      ]
     }
   ]
 }

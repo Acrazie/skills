@@ -13,6 +13,11 @@ Establish task ownership and delivery scope; do not steal a branch checked out b
 another session or modify its worktree. A detached HEAD or uncertain ownership
 requires an approved branch/isolation plan before delivery.
 
+When `.acrazie/engineering.json` exists, also read
+[repository-action-policy.md](repository-action-policy.md). Establish its approval
+and reconcile all current policy sources before using any preauthorization. Keep
+action-specific permissions distinct from the requested shipping objective.
+
 Inspect effective relevant Git configuration and hooks, not just tracked files:
 configuration, hooks, refs, and remote changes can affect multiple worktrees.
 Record only non-secret relevant values; redact credentials in URLs/output.
