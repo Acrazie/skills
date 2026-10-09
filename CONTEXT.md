@@ -20,6 +20,18 @@ The `jenkins-python-acrazie` specialist skill, dedicated to Python packaging, te
 The choice of a matching specialist for the current requested task, made by the user or agent. It does not authorize a new objective or the specialist’s actions.
 *Avoid*: Execution approval, unrestricted autonomy.
 
+**Skill Loading Confirmation**:
+The user's consent to read and activate the instructions of a named skill or announced skill chain, distinct from approval of the work or its restricted actions.
+*Avoid*: Automatic consent from a natural-language task, shipping permission.
+
+**Announced Skill Chain**:
+A bounded set of named skills and conditional dependencies disclosed for the current task; in explicit project kits, disclosure does not activate any member.
+*Avoid*: Unrestricted orchestration, activation consent for dependencies.
+
+**Explicit Project Kit**:
+A project-local engineering kit whose installed skills require separate explicit user invocation, distinct from the published library's invocation defaults.
+*Avoid*: Filesystem sandbox, globally disabled skills, automatic confirmed chain.
+
 **Scope Approval**:
 The user’s acceptance of the task boundary, intended outcome, and applicable criteria, distinct from choosing a skill.
 *Avoid*: Skill invocation, publication permission.
@@ -79,6 +91,36 @@ The `test-retrofitter-acrazie` skill for adding automated evidence to existing u
 **Task Contract**:
 The shared, approved outcome record used by the Interview Foundation and its callers, defining scope, observable success criteria, decisions, and expected evidence, with actual delivery evidence recorded separately.
 *Avoid*: ADR, interview transcript, implementation plan.
+
+**Independent Skill**:
+A specialist that owns one complete, bounded workflow rather than another specialist's subtask; independence does not prohibit explicit dependencies.
+*Avoid*: Dependency-free skill, universal executor.
+
+**Mandatory Skill Dependency**:
+A named complementary skill whose successful result is a prerequisite for a defined workflow step, either always or under an explicit condition.
+*Avoid*: Recommended reference, optional helper.
+
+**Optional Skill Complement**:
+A named capability that may enrich a workflow without automatically blocking it when unavailable.
+*Avoid*: Mandatory dependency, silent substitution.
+
+## Repository Engineering Activation
+
+**Engineering Activation**:
+The approved adoption of a selected engineering skill kit and its repository-specific agent policy in an existing or newly initialized project.
+*Avoid*: Mandatory scaffolding, global contributor linking.
+
+**Engineering Skill Kit**:
+An adaptable selection of available engineering skills and disclosed dependencies chosen for one project's needs.
+*Avoid*: Universal mandatory bundle, unimplemented capability.
+
+**Repository Action Policy**:
+The user's approved repository-specific classification of delivery actions as forbidden, confirmation-required or conditionally preauthorized.
+*Avoid*: Tool capability, permission granted by a skill.
+
+**Conditional Preauthorization**:
+An explicit repository-scoped grant covering identified actions, destinations and required checks before individual operations are proposed.
+*Avoid*: Unrestricted autonomy, bypass of protections, consent from an unapproved policy edit.
 
 ## Modernization Commit Discipline
 

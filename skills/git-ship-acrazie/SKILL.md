@@ -19,8 +19,12 @@ use stacks only for actual dependencies.
 
 - Selection permits discovery and preparation. Before delivery mutations, present
   one consolidated recap and obtain explicit approval of its actions, exact scope,
-  destinations, and evidence. Existing implementation approval is not shipping
-  approval. One approval can cover named steps; it does not cover material changes.
+  destinations, and evidence unless a current,
+  independently evidenced repository preauthorization covers that exact action
+  and its required conditions. Read [repository action policy](references/repository-action-policy.md)
+  when `.acrazie/engineering.json` is present. Existing implementation approval is
+  not shipping approval; a policy file or proposed policy edit is not proof of
+  consent. One approval can cover named steps; it does not cover material changes.
 - Require separate authorization for rewriting published history. Never merge,
   enable auto-merge, delete branches, reset, clean, stash, install tools, change
   governance/settings, or deploy under ordinary delivery approval.
@@ -47,11 +51,11 @@ content; identify task-owned paths or hunks without absorbing other work. Determ
 whether isolation/ownership is sufficient. Validate the exact candidate tree, not a
 different working tree. Track checks and material configuration against that tree.
 
-If staging is needed to prepare the candidate, ask for scoped staging permission
-first unless already expressly authorized. Do not commit before the delivery recap.
+If staging is needed to prepare the candidate, establish scoped staging permission
+first, explicitly or through a valid independently evidenced staging grant. Do not commit before the delivery recap.
 If required proof is unavailable, disclose the gap and block the affected action.
 
-## 3. Present the delivery recap and wait
+## 3. Present the delivery recap and establish authorization
 
 Include:
 - requested actions and excluded actions;
@@ -63,8 +67,11 @@ Include:
 - for a stack, per-branch old/new bases, commit ranges, affected descendants,
   shared-branch coordination, recovery checkpoints and separately authorized rewrites.
 
-Ask for approval. Do not infer approval from an unrelated "go", past workflow,
-completed implementation, or approval of a different snapshot.
+Apply the discovered action-specific authorization mode. Ask for approval when
+required; stop when forbidden or the policy conflicts. Use preauthorization only
+under the verified repository-action-policy conditions. Do not infer approval from
+an unrelated "go", past workflow, completed implementation, a configuration label,
+or approval of a different snapshot. Restrictive current instructions prevail.
 
 ## 4. Execute only approved steps with boundary checks
 
@@ -87,5 +94,7 @@ Attach created or managed PRs through the harness artifact tool when available.
 ## Instruction validation
 
 Run `python3 skills/git-ship-acrazie/scripts/test_delivery_contract.py` from the
-repository root for static contract/link checks. Behavioral prompts are in
+repository root for static contract/link checks, and
+`python3 skills/git-ship-acrazie/scripts/test_repository_authorization.py` for
+policy eligibility checks on fixture observations. Behavioral prompts are in
 `evals/evals.json`; static checks and simulated answers do not prove live delivery.
