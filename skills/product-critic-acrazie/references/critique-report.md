@@ -52,3 +52,10 @@ not measured implementation costs; name their assumptions.
 For an existing report, preserve accepted decisions and approval evidence. If
 new facts invalidate a prior conclusion, explain the change and obtain renewed
 approval for affected content; do not silently retain an obsolete status.
+
+An applicable Task Contract needs independent approval evidence beyond a status
+label and current scope; preserve it rather than repeating settled questions.
+Record loading and execution permissions separately when a handoff is requested.
+In an explicit project kit, each required skill and the returning specialist need
+their own activation before instructions are read or dispatched. Report approval
+is not implementation authorization, a skill activation or installation permission.

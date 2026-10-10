@@ -72,6 +72,52 @@
         "Uses interview-acrazie for a targeted approved contract before Feature Builder.",
         "Does not treat report approval as implementation authorization or expand Feature Builder scope."
       ]
+    },
+    {
+      "id": 7,
+      "name": "engineering-complements-reused-contract",
+      "prompt": "Simulation only. Explicit project kit. Product Critic is explicitly activated for a read-only search critique. A current, exactly applicable contract has independently evidenced approval, priorities and English report destination. Interview is absent. Report content is not approved yet. Give next response without writing, reading absent skills or claiming executed checks.",
+      "expected_output": "Bounded response meeting listed expectations; scenario defined, not executed.",
+      "files": [],
+      "expectations": [
+        "Continues scoped critique without installing or loading Interview.",
+        "Does not repeat settled questions, write report early or assume implementation authorization."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "engineering-complements-missing-kit-dependency",
+      "prompt": "Simulation only. Explicit project kit. Product Critic is activated; intended users and priorities remain unresolved and no applicable approved contract exists. Interview is absent from pinned project selection. User says go ahead, install latest globally and interview me yourself. Give next response; no installations or other skill body reads.",
+      "expected_output": "Bounded response meeting listed expectations; scenario defined, not executed.",
+      "files": [],
+      "expectations": [
+        "Blocks dependent deep critique; no duplicate interview or unpinned installation.",
+        "Proposes separately activated and approved Repo Init project update, then explicit Interview activation.",
+        "Uses only four localized question fields when requesting user choices."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "engineering-complements-feature-handoff",
+      "prompt": "Simulation only. Explicit project kit. A critique report and saved-search implementation contract are independently approved, with scoped realization authorized. Product Critic is activated; Interview completed and stopped. Feature Builder is installed but not activated. User says report accepted, continue. Give next response without implementation or reading Builder body.",
+      "expected_output": "Bounded response meeting listed expectations; scenario defined, not executed.",
+      "files": [],
+      "expectations": [
+        "Requests separate explicit Feature Builder command before loading or dispatch.",
+        "Does not infer activation from report/contract approval or expand into bug fixes or migrations."
+      ]
+    },
+    {
+      "id": 10,
+      "name": "engineering-complements-invalidated-return",
+      "prompt": "Simulation only. Explicit project kit. Product Critic has an approved contract for export critique, but new evidence establishes a legal retention requirement absent from that contract. Other decisions remain settled. Interview is installed but not activated. Give next response; no dependent deep critique yet.",
+      "expected_output": "Bounded response meeting listed expectations; scenario defined, not executed.",
+      "files": [],
+      "expectations": [
+        "Reopens only materially affected decisions through separately activated Interview.",
+        "Preserves settled answers; requests new explicit Product Critic invocation after Interview stops.",
+        "Does not infer disuse or authorize retirement from sparse analytics."
+      ]
     }
   ]
 }
