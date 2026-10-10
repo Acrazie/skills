@@ -16,6 +16,35 @@ Falsify code diffs through split-context adversarial review across any programmi
 framework, or runtime. Assume the code is broken until proven otherwise. Deliver concrete failure
 scenarios without implementing fixes.
 
+## Project loading boundary
+
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency before reading
+or dispatching its instructions, including review in another context.
+Use `$skill-name` in Codex or `/skill-name` in Claude Code. One invocation does not
+activate a chain; do not read an unactivated skill or delegate its body as a bypass.
+These gates are not filesystem access controls or proof of live host behavior.
+Global homonyms may remain a blocker. Loading does not grant spawning and model
+choice, installation, implementation or shipping permission; verify their separate
+applicable approvals. Ordinary library defaults retain scoped implicit handoffs.
+
+If unavailable or not activated under the applicable gate, block review only.
+In a managed kit, propose Repo Init's separately approved project update flow and
+pinned selection, not an unpinned install or copied substitute. Missing activation,
+dependency or reviewer context is not an accepted review and does not waive a
+review required by repository policy. In an explicit kit, each re-review of a new
+snapshot needs a new reviewer activation before reading or dispatching instructions.
+Review completion does not activate the returning implementer or authorize fixes.
+
+## User decision format
+
+For any user-owned choice, display only Current state, numbered Options,
+Recommendation and Response. Translate labels/content into the user's language;
+do not add question IDs, preselect an answer as consent or treat a recommendation
+as approval. This format does not replace the structured verdict below.
+
 ## Core stance & separation of roles
 
 1. **Axiom of Defect**: Approach every change with the premise that it introduces bugs,
@@ -63,6 +92,12 @@ without conflating them with introduced defects or widening the review into an a
 Follow [references/adversarial-rubric.md](./references/adversarial-rubric.md) across all phases:
 
 ### Phase 1: Context isolation & intake
+- An explicit objective and review scope suffice for read-only intake; a full
+  Task Contract is not universally required. Do not require Interview or invent a
+  contract for ceremony. Authoritative requirements may come from an approved
+  contract, specification or issue; a status label alone does not establish approval.
+  If requirements are missing, request that evidence and remain incomplete without
+  writing requirements, loading Interview implicitly or widening the task.
 - Extract the raw unified diff (`git diff`, PR patch, or staged changes).
 - Include new files and identify the base and exact reviewed snapshot (revision,
   saved patch, or content digest). Review the supplied task scope only. If its
