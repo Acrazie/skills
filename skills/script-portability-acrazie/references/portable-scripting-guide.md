@@ -1,6 +1,6 @@
 # Cross-Platform Script Portability & Shell Hardening Guide
 
-Comprehensive reference for eliminating operating system hazards in `package.json` scripts, purging third-party polyfills, and hardening command execution against shell injection vulnerabilities.
+Hazard categories and illustrative alternatives for the selected scripts only. Apply the entry skill's approved scope, target matrix and separate execution, installation and report-write gates first. Recipes below are not certified by instruction tests: verify current runtime documentation and actual behavior before application. Unknown compatibility remains a gap, not permission to remove a helper.
 
 ---
 
@@ -21,10 +21,10 @@ Automation scripts written casually on macOS or Linux frequently fail when execu
 
 ## 2. The Cost of Polyfills & The Modern Alternatives
 
-For years, the JavaScript ecosystem relied on micro-packages to smooth over these differences. However, modern Node.js and Bun have made these polyfills entirely obsolete:
+Compatibility helpers may still be needed for supported runtimes, external commands or behavior not covered by a proposed replacement. Retain a compatibility dependency when equivalence is unproven. The candidates below are not a mandatory purge list; any removal and lockfile synchronization require applicable approval.
 
 ### 1. `rimraf` (Elimination)
-* **The Problem**: Installed tens of millions of times weekly; pulls in transitive dependencies just to delete a directory.
+* **Assessment**: Inspect the installed dependency tree and required deletion semantics; popularity alone is not an adoption or removal criterion.
 * **The Native Alternative** (Available since Node.js v14.14.0):
   ```json
   "clean": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\""
@@ -58,21 +58,21 @@ For years, the JavaScript ecosystem relied on micro-packages to smooth over thes
   ```
 
 ### 4. `shx` (Elimination)
-* **The Problem**: Bundles ShellJS inside `node_modules`. Invoking `shx` spawns a heavy Node runtime instance for simple file operations, adding 50–150ms per script command.
+* **Assessment**: Inspect actual helper/runtime use and measure overhead on a comparable workload before claiming a gain.
 * **The Native Alternative**: Create a small, dedicated JavaScript script under `scripts/` (e.g. `scripts/bundle.js`) using standard `node:fs` methods.
 
 ---
 
 ## 3. High-Performance Shell Execution with The Bun Shell (`$`)
 
-When running inside the Bun runtime, Bun integrates a native, cross-platform shell interpreter written in Zig/Rust. It completely bypasses the operating system's subshell (`sh -c` or `cmd.exe`) and executes commands in-process with zero subprocess spawn overhead.
+An in-process shell can avoid an extra operating-system shell layer for some commands. That is not proof of no external child process, identical behavior on every OS or measured latency savings. Check built-ins and external commands separately against the actual supported runtime and target matrix.
 
 ### Key Capabilities of `bun:shell`
 
 ```typescript
 import { $ } from "bun";
 
-// 1. Cross-platform filesystem commands work identically on Windows and Linux
+// 1. Illustrative filesystem commands; verify behavior on the approved target matrix
 await $`rm -rf ./dist && mkdir -p ./dist`;
 
 // 2. Direct streaming into JavaScript memory without temporary files
@@ -88,8 +88,7 @@ await $`FOO=bar bun run ./service.ts`;
 ```
 
 ### Syscall Reduction & Performance Impact
-* **OS Fork/Spawn**: Spawning a shell subprocess costs **7 to 10 milliseconds** and thousands of context switches.
-* **The Bun Shell**: In-process execution reduces latency to **microseconds** ($O(1)$ syscalls).
+Do not assign universal timing, syscall or process-count savings. Record comparable baseline/workload measurements when actually performed; otherwise label expected impacts as hypotheses or not measured.
 
 ---
 
@@ -111,7 +110,7 @@ function checkout(branchName: string) {
 ```typescript
 import { execFileSync } from "node:child_process";
 
-// SAFE: Arguments are passed as an array to execve, bypassing shell interpolation
+// No shell-string interpolation; validate option-like arguments and operation scope separately
 function checkout(branchName: string) {
   execFileSync("git", ["checkout", branchName], { stdio: "inherit" });
 }
@@ -121,7 +120,7 @@ function checkout(branchName: string) {
 ```typescript
 import { $ } from "bun";
 
-// SAFE: Bun Shell template literals automatically escape and sanitize variables
+// Template escaping is not validation of executable options, paths or operation scope
 function checkout(branchName: string) {
   return $`git checkout ${branchName}`;
 }
@@ -132,9 +131,11 @@ function checkout(branchName: string) {
 ## 5. Verification Checklist for Cross-Platform Automation
 
 Before approving automation scripts:
-- [ ] No hardcoded backslashes `\` in path arguments; use forward slashes `/` universally.
+- [ ] Validate paths for the actual target tools/shells; do not impose one separator universally.
 - [ ] No inline Unix assignments (`FOO=bar`) in `package.json` scripts targeting Node unless wrapped in a cross-platform helper.
-- [ ] No deprecated polyfills (`rimraf`, `cross-env`, `shx`, `mkdirp`) present in `devDependencies`.
-- [ ] All deletions use recursive force parameters (`fs.rmSync(dir, { recursive: true, force: true })` or `rm -rf`).
+- [ ] Retain helpers unless an approved replacement covers required runtime compatibility and behavior.
+- [ ] Deletions affect only approved paths; inspect symlink/path effects and preserve required failure behavior. Recursive/force flags are not mandatory.
 - [ ] Quotes inside `package.json` scripts are escaped with `\"`.
-- [ ] Dry-run executions return exit code `0` on clean state and appropriately bubble non-zero codes on failure.
+- [ ] Confirm whether a dry-run actually avoids mutations before using it. Test approved success/error exit codes and side effects only in authorized fixtures.
+- [ ] Record actual OS/shell/runtime/runner executions. Syntax or emulation alone is not native OS proof; unexecuted targets remain not verified.
+- [ ] Obtain separate installation/network/destructive-test permissions and exact content/destination approval before any report-file write.

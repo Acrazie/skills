@@ -2,6 +2,11 @@
 
 Use these as conditional heuristics after the interview, never as a universal template.
 
+Reuse a current independently approved architecture when it still fits verified
+facts and reader goals; do not manufacture competing variants or repeat settled
+selection. Reopen only materially invalidated decisions. The exact README candidate
+and destination still require explicit approval immediately before writing.
+
 ## Reader-flow patterns
 
 ### Evaluation-first
