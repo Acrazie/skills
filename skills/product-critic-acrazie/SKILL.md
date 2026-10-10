@@ -14,10 +14,24 @@ Challenge the fit between an existing product's uses and its implementation, not
 its age. Keeping the current solution can be the best outcome. A newer technology
 is not evidence of better performance, lower complexity, or greater user value.
 
+## Project loading boundary
+
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency before reading
+or dispatching its instructions. One invocation does not activate the chain.
+Use `$skill-name` in Codex or `/skill-name` in Claude Code; do not silently read a
+missing or unactivated dependency as a workaround. These gates are not filesystem
+access controls and do not prove live host behavior. Global homonyms may remain a
+blocker. Loading approval never grants execution, installation, spawning or shipping
+permission. Under ordinary library defaults, retain scoped implicit handoffs.
+
 ## Entry and boundaries
 
-Select this skill for a requested usage-led product assessment. No named skill
-command is required. Inspect relevant facts read-only, but do not reinterpret an
+Select this skill for a requested usage-led product assessment. Under published
+defaults no named skill command is required; the project loading boundary above
+governs explicit kits. Inspect relevant facts read-only, but do not reinterpret an
 implementation task as permission to reconsider the product. Scope, deep critique,
 report writes, and implementation retain their distinct approval gates below.
 
@@ -34,6 +48,14 @@ report writes, and implementation retain their distinct approval gates below.
 - Persist all reports and task documents in English. Converse in the user's
   language. Keep secrets, personal data, and unnecessary analytics out of records.
 
+## User decision format
+
+For any user-owned choice, display only Current state, numbered Options,
+Recommendation and Response. Translate labels/content into the user's language;
+do not add question IDs, preselect an answer as consent or treat a recommendation
+as approval. Ask only unresolved decisions with their verified context. This format
+does not replace the report structure or authorize a parallel interview here.
+
 ## Inspect facts and establish intent
 
 Read repository instructions, Git state, task documents, glossary, prior reports,
@@ -46,24 +68,38 @@ and material implementation costs. Distinguish repository evidence from user
 declarations and unknowns. Code shows what exists, not whether people need it.
 Analytics may be incomplete; absent events do not establish absent usage.
 
-Reuse settled answers and an explicitly approved, current Task Contract. When
-users, jobs, constraints, priorities, or the report destination are unresolved,
-use `interview-acrazie`. Supply verified facts, existing answers, the panorama,
+Reuse an explicitly approved Task Contract covering the current critique, with
+approval evidence beyond a status label and no materially invalidated decisions.
+Continue without installing or loading Interview when that contract suffices.
+If new facts invalidate it, reopen only affected decisions and preserve settled answers.
+Interview is mandatory only when no applicable approved critique contract can be
+reused and user-owned decisions remain unresolved, including users, jobs,
+constraints, priorities or report destination. Propose `interview-acrazie`, applying
+the project loading boundary before reading or invoking it.
+Supply verified facts, existing answers, the panorama,
 remaining user-owned decisions, scope exclusions, English document requirements,
 and expected handoff: an approved persisted contract for this critique.
 Let the foundation own clarification; do not duplicate its interview here.
 
-Locate and read the installed skill, using the harness's supported invocation or
-following its `SKILL.md` if no Skill tool exists. If clarification is needed but
-the foundation is unavailable, ask the user to install it and stop that branch:
+If required Interview is unavailable or not activated under the applicable gate,
+block only the dependent step: deep critique or the unresolved implementation
+handoff. Request activation or separately approved installation, not a replacement
+interview. Do not silently install or copy it. In an explicit kit, use Repo Init's
+approved project update flow and the project's pinned selection; do not bypass
+managed packages with an unpinned install. Outside a managed kit, propose:
 
 ```bash
 npx skills add Acrazie/skills@interview-acrazie
 ```
 
-Do not silently install or copy it. Resume from existing answers after installation.
-A sufficient approved contract permits continuing without a new interview.
-Foundation use does not relax the caller's permissions or scope.
+Locate the dependency from metadata without reading its body when a loading gate
+applies. After activation, use the harness's supported invocation or follow its
+installed `SKILL.md` if no Skill tool exists. Failed installation leaves the dependent
+step blocked. Resume from existing answers after installation and activation.
+In an explicit kit, request a new explicit invocation of Product Critic after
+Interview persists the contract and stops. Contract approval is not a skill command
+and does not activate the returning specialist. Foundation use does not relax
+the caller's permissions or scope.
 
 Before deep critique, obtain the user's selection of priorities from the panorama
 and confirm the scope and decision criteria through that contract. A global scan
@@ -121,14 +157,19 @@ record a recommendation as an accepted decision without evidence of acceptance.
 
 Report approval never authorizes implementation. On an explicit implementation
 request, reuse a sufficient approved targeted Task Contract, or ask
-`interview-acrazie` to prepare one linked to the accepted report. Preserve settled
+`interview-acrazie` to prepare one linked to the accepted report, applying the same
+loading and availability gates above. Preserve settled
 decisions; scope concrete outcomes and checks rather than copying the entire critique.
 
 - New application features: hand off to `feature-builder-acrazie` only after the
   human authorizes the feature implementation and the targeted contract is
-  approved. A natural-language request suffices; no named skill command is required.
-  Respect its specialist exclusions; this critique does
-  not implement the feature itself.
+  approved with independent approval evidence. Under ordinary library defaults a
+  natural-language request suffices; in an explicit kit request a separate explicit
+  activation of Feature Builder before reading or dispatching its instructions.
+  If it is unavailable, block this handoff and request the separately approved
+  installation flow above. Report, contract and option approvals do not activate
+  it or grant execution, spawning or shipping permissions. Respect its specialist
+  exclusions; this critique does not implement the feature itself.
 - Bug fixes, behavior-preserving refactors, retirement, and migrations: disclose
   the Feature Builder mismatch and agree on a suitable workflow with the user.
   Do not disguise these as features or expand another skill's scope.

@@ -1,5 +1,11 @@
 # Universal Adversarial Review Rubric
 
+Apply this rubric only after the caller satisfies the applicable project loading
+boundary and independent-context requirements in `SKILL.md`. The rubric does not
+grant activation, spawning, installation or implementation permission. Review
+authoritative requirements and the exact stable snapshot; do not manufacture a
+Task Contract or require Interview for a sufficiently specified read-only review.
+
 This reference defines the 4-pillar audit framework used by `adversarial-reviewer-acrazie`.
 It applies across all programming languages, runtimes, and frameworks. Every check represents
 a class of defects that compiles or passes initial linters cleanly, looks plausible on inspection,
