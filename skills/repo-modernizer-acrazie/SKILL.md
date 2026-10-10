@@ -9,21 +9,45 @@ Audit an existing repository's setup, dependencies, runtimes, and developer tool
 
 ---
 
+## Project loading boundary
+
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency before reading
+or dispatching its instructions; one invocation does not activate a chain.
+Use `$skill-name` in Codex or `/skill-name` in Claude Code. These gates are not
+filesystem access controls or proof of live host behavior. Global homonyms may
+remain a blocker. Do not read an unactivated skill or delegate its body as a bypass.
+Loading grants no migration, installation, spawning, shipping or recovery permission.
+Under ordinary library defaults retain scoped implicit handoffs. Conceptual
+references to Repo Init's standards are not a mandatory skill dependency and do
+not authorize reading or invoking it; this workflow keeps its specialist interview.
+
+## User decision format
+
+For any user-owned choice, display only Current state, numbered Options,
+Recommendation and Response. Translate labels/content into the user's language;
+do not add question IDs, preselect an answer as consent or treat a recommendation
+as approval. Apply this to pillar/tier, plan, installation, governance, Git and
+recovery decisions. The scorecard, validation evidence and reports retain their
+own structures; do not replace them with the question format.
+
 ## 1. Entry and Authorization
 
-Select this skill for requested upgrades or repository modernization. No named skill command is required. Start with relevant read-only discovery, limited to the requested target. Do not turn a bug fix or feature into an opportunistic modernization program. Selection does not approve migration, installation, shipping, or destructive recovery; follow the gates below and applicable repository permissions.
+Select this skill for requested upgrades or repository modernization. Under published defaults no named skill command is required; the project loading boundary governs explicit kits. Start with relevant read-only discovery, limited to the requested target. Do not turn a bug fix or feature into an opportunistic modernization program. Selection does not approve migration, installation, shipping, or destructive recovery; follow the gates below and applicable repository permissions.
 
 ---
 
 ## 2. Scope, Invariants & Hard Rules
 
 1. **Brownfield Specialization & Complementarity with `github-repo-init-acrazie` :**
-   - `github-repo-init-acrazie` operates at **Day 0** (scaffolding a brand-new repository from scratch).
+   - `github-repo-init-acrazie` owns new-repository scaffolding and approved engineering activation in existing repositories, preserving their stack. Activating a kit is not a stack migration.
    - `repo-modernizer-acrazie` operates at **Day 2+** (taking an existing repository, auditing its setup, modernizing legacy configurations to target the same modern standards, and offering to backfill missing bricks like CI workflows, Lefthook hooks, and governance files).
 2. **Read-Only Inspection First :**
    - The initial scan must be strictly passive and non-destructive. Never modify files, install packages, or mutate git state during the diagnosis phase.
 3. **Approval Gate Before Any Mutation :**
-   - Present a structured **Modernization Scorecard** and obtain explicit user confirmation on the chosen pillar and tier before creating branches, installing tools, or refactoring code.
+   - Present a structured **Modernization Scorecard** and obtain explicit user confirmation on the chosen pillar, tier and plan before migration; reuse independently evidenced current approval as described in Step 3. Branch/worktree creation and installation retain their applicable separate permissions.
 4. **Strict Git & Worktree Isolation :**
    - **NEVER** modify or commit files directly on `main` or the active working branch. Always perform migrations within a dedicated branch or worktree using the repository-approved naming and isolation rules. Treat `modernize/<theme>` as an example, not an imposed prefix.
 5. **Layered Sequencing :**
@@ -97,10 +121,19 @@ Highlight any **missing essential blocks** (e.g. no git hooks installed, no auto
 ---
 
 ### Step 3: Interactive Selection & Approval Gate
-Ask the user which pillar and which ambition tier they wish to execute first.
+Reuse an explicitly approved migration plan when pillar, tier, scope, exclusions,
+commit strategy and required validations remain applicable, with approval evidence
+beyond a status label. Revalidate repository facts and required checks; an approved
+plan is not evidence of a green checkpoint. Do not repeat settled choices or
+require Interview/Git Ship to recreate this specialist's plan. If new evidence
+invalidates it, reopen only affected decisions before the dependent execution.
+Plan reuse does not grant loading, installation, staging/commit/push/PR or
+destructive recovery permissions; evaluate those independently at their boundaries.
+
+Ask the user only unresolved pillar and ambition-tier choices.
 If the user provided explicit scope upfront (e.g. `$repo-modernizer-acrazie --theme testing`), confirm the plan for that pillar.
 Include the approved commit strategy and proposed commit boundaries in that plan. Preserve existing policy; ask only unresolved choices. If policy is missing, propose `docs/git-workflow.md` and obtain approval before creating it, keeping existing `AGENTS.md` and `CONTRIBUTING.md` consistent without overwriting them. Hooks, dependencies, and GitHub settings require separate choices.
-Do **NOT** proceed to file modifications until the user explicitly selects and confirms the target plan, including its commit strategy. An unresolved policy conflict blocks the affected execution.
+Do **NOT** proceed to file modifications without independently evidenced explicit approval covering the current target plan and realization, including its commit strategy. An unresolved policy conflict blocks the affected execution.
 
 ---
 
