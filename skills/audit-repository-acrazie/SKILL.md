@@ -12,9 +12,32 @@ description: >-
 
 Audit the question the user actually needs answered. Find material adjacent evidence without turning the task into a general repository health check. Evidence and decision usefulness outrank finding count.
 
+## Project loading boundary
+
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency before reading
+or dispatching its instructions; one invocation does not activate a chain.
+Use `$skill-name` in Codex or `/skill-name` in Claude Code. These gates are not
+filesystem access controls or proof of live host behavior. Global homonyms may
+remain a blocker. Do not read an unactivated skill or delegate its body as a bypass.
+Loading grants no investigation, writing, installation, spawning or shipping
+authority beyond the separately approved scope. Ordinary library defaults retain
+scoped implicit handoffs; this audit introduces no mandatory skill dependency.
+
 ## Entry and authorization
 
-Select this skill when a bounded technical assessment is requested or necessary to answer the current task. No named skill command is required. Inspect relevant facts read-only; do not turn an unrelated task into an audit. Selection does not approve deep investigation, record writes, or implementation; preserve the scope and approval gates below.
+Select this skill when a bounded technical assessment is requested or necessary to answer the current task. Under published defaults no named skill command is required; the project loading boundary governs explicit kits. Inspect relevant facts read-only; do not turn an unrelated task into an audit. Selection does not approve deep investigation, record writes, or implementation; preserve the scope and approval gates below.
+
+## User decision format
+
+For any user-owned choice, display only Current state, numbered Options,
+Recommendation and Response. Translate labels/content into the user's language;
+do not add question IDs, preselect an answer as consent or treat a recommendation
+as approval. This format governs scope, record lifecycle and write choices, not
+the report structure. Keep the specialist interview below; do not duplicate it
+through another skill.
 
 ## Scope and invariants
 
@@ -35,9 +58,18 @@ Inspect `docs/audits/` and equivalent decision or audit directories before start
 
 ## Establish the audit contract
 
+Reuse an explicitly approved audit contract, including an existing task record or
+conversation agreement, when it covers the current question, scope, exclusions,
+criteria and permitted validations with approval evidence beyond a status label.
+Recheck material repository facts and evidence freshness before relying on it.
+Do not repeat an applicable approved shared-understanding checkpoint or create a
+second contract for ceremony. If new evidence invalidates it, reopen only affected
+decisions through this skill's specialist interview. Contract reuse grants neither
+record-write permission nor implementation, installation or shipping authority.
+
 Read [references/interview-tree.md](references/interview-tree.md). Ask only unresolved user-owned decisions whose prerequisites are settled. Normally one compact round is enough; ask another only when an answer exposes a material unresolved branch.
 
-When the frontier is empty, summarize the audit question, scope, exclusions, decision criteria, and relevant existing Audit Records. Get explicit confirmation before deep investigation.
+When the frontier is empty, summarize the audit question, scope, exclusions, decision criteria, and relevant existing Audit Records. Get explicit confirmation before deep investigation unless applicable independent approval evidence already covers that exact investigation.
 
 ## Investigate
 

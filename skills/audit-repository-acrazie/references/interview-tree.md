@@ -2,6 +2,10 @@
 
 Use this map as decision dependencies, not as a fixed questionnaire. Skip anything already explicit or discoverable from the repository.
 
+Reuse an applicable independently approved audit contract after checking material
+facts and scope. Reopen only invalidated decisions. Do not require Interview or
+a new persisted Task Contract when this specialist's current agreement suffices.
+
 ## 1. Establish facts first
 
 Inspect before asking:
@@ -51,7 +55,20 @@ Do not ask the user which files, versions, commands, plugins, or framework capab
 
 ## 4. Rounds
 
-Ask the whole current frontier in one numbered round. Give a recommended answer and short repository-specific reason for every question.
+Ask the whole current frontier, but format each user-owned decision with exactly
+four fields, translated into the user's language:
+
+```text
+Current state: <verified context and unresolved decision>
+Options:
+1. <choice and consequences>
+2. <choice and consequences>
+Recommendation: <one choice and repository-specific reason>
+Response: <await the user's answer>
+```
+
+Do not add question IDs, extra fields or automatic answers. Number options, not
+questions; a recommendation is not consent. Keep reports outside this format.
 
 Normally one round should settle the contract. A second round is warranted only when answers unblock a material dependent decision. Do not continue interviewing for completeness after the audit decision is clear.
 
@@ -67,4 +84,6 @@ The frontier is empty when every relevant decision is settled, excluded, or bloc
 6. related Audit Records and intended treatment;
 7. permitted validations and forbidden side effects.
 
-Wait for explicit confirmation before deep investigation.
+Wait for explicit confirmation before deep investigation unless independently
+evidenced current approval already covers this exact scope. A historical Audit
+Record or status alone is not that evidence; record writing retains its own gate.
