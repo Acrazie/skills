@@ -2,6 +2,13 @@
 
 An Audit Record preserves what was examined and decided. It is not an ADR: an audit may end without an architectural decision.
 
+A `resolved` status is not approval evidence for the current audit scope, content
+and destination of a new write, implementation or migration. Reuse independently
+approved current decisions only after checking scope and evidence freshness;
+reopen affected decisions without silently changing the lifecycle of old records.
+For user-owned lifecycle or writing choices, use the four localized fields from
+[interview-tree.md](interview-tree.md), not a second questionnaire or assumed consent.
+
 ## Discover existing records
 
 Before a new audit, inspect `docs/audits/` and any repository-equivalent convention. Read metadata first, then open records related by scope, topics, components, or decision.
@@ -90,7 +97,7 @@ Omit empty optional sections rather than inventing content. `Decisions confirmed
 1. Present the completed audit in chat.
 2. Let the user correct findings and confirm decisions.
 3. Show the exact proposed record or material update.
-4. Ask for explicit approval immediately before writing.
+4. Ask for explicit approval of content and destination immediately before writing.
 5. Write only the approved Audit Record and any missing parent directories.
 6. Show the final diff or file content and validation result.
 

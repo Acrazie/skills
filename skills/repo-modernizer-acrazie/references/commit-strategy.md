@@ -4,13 +4,23 @@ Cette stratégie couvre deux responsabilités distinctes : respecter ou formalis
 
 ## 1. Découvrir avant de choisir
 
-Lire les instructions applicables, `AGENTS.md`, `CONTRIBUTING.md`, `docs/git-workflow.md` s'il existe, les configurations de hooks, CI et releases. Examiner les messages récents comme indice, pas comme permission. Identifier les contraintes pertinentes de branche, signatures, format, granularité et livraison. Inspecter les protections distantes accessibles en lecture seule ; distinguer absence, inaccessibilité et non-vérification. Pour un dépôt local sans distant, les règles distantes ne s'appliquent pas.
+Lire les instructions applicables, `AGENTS.md`, `CONTRIBUTING.md`, `docs/git-workflow.md` et `.acrazie/engineering.json` s'ils existent, les configurations de hooks, CI et releases. Un fichier de politique ne constitue pas une preuve de consentement : vérifier séparément l'autorisation applicable au dépôt, à l'action, au contenu, à la destination et aux conditions actuelles. Ne pas créer de nouveau mécanisme de préautorisation ici. Examiner les messages récents comme indice, pas comme permission. Identifier les contraintes pertinentes de branche, signatures, format, granularité et livraison. Inspecter les protections distantes accessibles en lecture seule ; distinguer absence, inaccessibilité et non-vérification. Pour un dépôt local sans distant, les règles distantes ne s'appliquent pas.
 
 Pour chaque règle, conserver source, portée et statut vérifié. Présenter tout conflit entre sources avec ses conséquences ; bloquer l'action concernée jusqu'à résolution autorisée. Une préférence utilisateur ne permet pas de contourner une restriction organisationnelle ou technique. Une instruction de ce skill ne remplace jamais la politique du dépôt.
 
 Ne pas imposer Conventional Commits, un préfixe de branche, un hook, une PR Draft ou une méthode de merge. Préserver une politique existante cohérente. L'historique ou la présence d'un skill de livraison ne confère aucune autorisation.
 
 ## 2. Approuver politique et plan de commits
+
+Réutiliser les décisions d'un plan explicitement approuvé et encore applicable,
+avec preuve d'accord indépendante d'un simple statut. Réouvrir seulement les choix
+invalidés ; revérifier les règles et validations actuelles. Cette réutilisation ne
+transforme pas l'accord de migration en permission de livraison. Les actions
+interdites ou soumises à confirmation restent telles quelles ; une instruction
+ponctuelle plus restrictive prime sur une autorisation antérieure.
+
+Chaque choix utilisateur suit uniquement état actuel, options numérotées,
+recommandation et réponse, localisés ; pas d'ID de question ni réponse présumée.
 
 Poser seulement les questions non résolues :
 - Quels périmètres indexer, quelles unités cohérentes et quel format de message respecter ?

@@ -2,6 +2,14 @@
 
 Ce document détaille les règles opérationnelles strictes que le skill `repo-modernizer-acrazie` applique lors de la phase de modification du code et des configurations.
 
+Appliquer d'abord la frontière de chargement du `SKILL.md` : dans un kit explicite,
+une référence conceptuelle à un autre skill ne permet pas de lire ou déléguer ses
+instructions. Réutiliser un plan actuel indépendamment approuvé évite un nouveau
+questionnaire cérémoniel mais ne dispense jamais de revalider les faits, règles,
+validations de référence et checkpoints. Réouvrir uniquement les décisions invalidées.
+L'accord sur le plan ne vaut pas permission d'installation, de livraison ou de
+récupération destructive. Toute question suit les quatre champs localisés du skill.
+
 ---
 
 ## 1. Règle d'Or : Isolation Git Obligatoire
