@@ -1,5 +1,7 @@
 # Task Contract
 
+Apply [portable-practice.md](portable-practice.md) before recording facts or handoff.
+
 Use one short document. Follow the repository's equivalent convention when it
 exists; otherwise use `docs/specs/<subject>.md`. Update the same contract when
 material scope changes. Do not create another approval workflow or document tree.
@@ -20,7 +22,9 @@ material scope changes. Do not create another approval workflow or document tree
 
 ## Decisions and context
 <Accepted user choices, essential verified facts, and links to an existing ticket,
-glossary, or ADR when relevant. Separate unknowns from established facts.>
+glossary, or ADR when relevant. Separate unknowns from established facts. Include
+source locators, checked date, version applicability and dependent steps for changing
+technical facts.>
 
 ## Approval
 Status: draft | approved | blocked | superseded
@@ -30,7 +34,9 @@ Do not fabricate identifiers, timestamps, approval, or a signature.>
 
 ## Delivery evidence
 <Initially pending. The executor later records checks actually run, their results,
-criterion mappings, and residual limitations. Expected evidence is not proof.>
+criterion mappings, and residual limitations. Expected evidence is not proof.
+Separate Evidence and Limits in the delivery record; include unverified facts and
+blocked dependent steps. Static checks do not prove cross-harness behavior.>
 ```
 
 These are content requirements, not a mandatory heading structure when an
