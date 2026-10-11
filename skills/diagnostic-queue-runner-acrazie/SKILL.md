@@ -10,8 +10,74 @@ description: >-
 
 # Diagnostic Queue Runner / Acrazie
 
-Crush massive compiler, type-checker, and linter diagnostic backlogs through structured
-batching, topological dependency ordering, and zero-tolerance adversarial verification.
+Resolve a selected mass diagnostic backlog through bounded batches, observed
+dependency ordering and independent verification. Do not turn a backlog request
+into an architectural rewrite or an automatic Git delivery workflow.
+
+## Project loading boundary
+
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency before reading
+or dispatching its instructions. Use `$skill-name` in Codex or `/skill-name` in
+Claude Code. One invocation does not activate a chain; do not read or delegate
+an unactivated skill as a bypass. Each re-review of a new snapshot requires a new
+reviewer activation in an explicit kit, and returning to the implementer requires
+its explicit activation. Ordinary library defaults retain scoped implicit handoffs.
+These gates are not filesystem access controls or proof of live host behavior;
+unresolved global homonyms may block a strict gate claim.
+
+Loading grants no writing, execution, installation, network, spawning, staging or
+shipping permission. An unavailable mandatory dependency blocks only its dependent
+step; never imitate it or silently install a substitute. In a managed kit, propose
+Repo Init's separately approved project update and pinned selection after its own
+activation, not copied or unpinned substitutes.
+
+## User decision format
+
+For user-owned choices, display only Current state, numbered Options,
+Recommendation and Response. Translate labels/content into the user's language;
+do not add question IDs, preselect an answer as consent or treat a recommendation
+as approval. Ask only unresolved decisions, not a fixed survey. Reports and
+verification records retain their own structures.
+
+## Contract and permissions
+
+Start with read-only discovery of instructions, repository state, selected paths,
+existing tests and relevant tools. Do not execute unfamiliar commands for discovery.
+Reuse a current applicable Task Contract or agreement with independently evidenced
+approval, not a status label. It must cover outcome, paths, preserved behavior,
+checks, acceptance gates and allowed actions. Reopen only materially invalidated
+user decisions through bounded clarification; no new mandatory Interview dependency
+or duplicate contract for ceremony. Obtain explicit scoped realization approval
+before editing, unless a current applicable agreement already covers it.
+
+Approve artifact content/destinations and write scope before creating specifications,
+backlogs or reports; preserve existing files and unrelated work. Execution may have
+filesystem, network or destructive effects: inspect commands and obtain applicable
+permission. Installation, lockfile changes, credentials, network and destructive
+fixtures are separate permissions, not consequences of an approved plan. No implicit
+staging, commit, push, PR, merge or deployment. Follow applicable repository action
+policy for any separately authorized delivery; never bypass hooks or protections.
+
+## Independent verification gate
+
+Every affected unit/fix needs `adversarial-reviewer-acrazie` evidence before it is
+accepted. A review may cover a coherent batch only if it explicitly covers every
+changed unit/fix; omission is not acceptance. Provide base and exact candidate
+snapshot, authoritative contract, scoped diff and relevant read-only technical
+context to a fresh agent context without inherited author conversation, or a
+separate manual reviewer context. Never substitute implementer self-review.
+Validate required spawning permissions and the separate reviewer model lot first.
+If isolation or the activated reviewer is unavailable, report review as blocked.
+
+Require `ACCEPT` for that exact snapshot. `REJECT` or `INCOMPLETE` blocks affected
+acceptance/progression; missing review is not `ACCEPT`. Corrections invalidate
+review of affected content and require fresh verification before proceeding. The
+reviewer reports demonstrated introduced violations without implementing fixes;
+empty returns, comments, test doubles or low-level operations are not defects by
+syntax alone. Review and passing checks reduce risk, not guarantee zero defects.
 
 ## Subagent model selection
 
@@ -44,82 +110,83 @@ generated workflow without executing it.
    record it as unverified rather than claiming the requested model ran.
    If the runtime reports a different model, stop the lot and ask before further delegation.
 
-## Core principles & worker guardrails
 
-1. **Ingest-Once Partitioning (Anti-Thrashing Invariant)**:
-   Extract compiler diagnostics **once** into an isolated backlog (`diagnostics.json` or
-   `errors.txt`). Do NOT run slow root builds (`cargo build`, `mvn compile`, `tsc --build`)
-   inside the inner loop of worker agents. Recompilation occurs only between major topological tiers.
-2. **Strict Worker Isolation Guardrails**:
-   Worker agents are strictly forbidden from executing destructive or global Git operations:
-   - **Banned Commands**: `git stash`, `git stash pop`, `git reset`, `git checkout .`, `git clean`.
-   - All commits must be scoped to specific, verified files or modules.
-3. **Bottom-Up Topological Ordering**:
-   Resolve errors in dependency order: leaves (primitive types, core utilities, domain models)
-   must compile cleanly before attempting downstream consumers (runtimes, HTTP servers, CLI commands).
-   Circular dependencies must be decoupled before tackling standard compiler errors.
-4. **Adversarial Gate on Every Fix**:
-   Every diagnostic resolution must be vetted by `$adversarial-reviewer-acrazie`. Stubs
-   (`todo!()`, empty mock returns, swallowed errors) and explanatory excuse comments are
-   instantly rejected.
+## Queue and worker invariants
+
+- Ingest once per snapshot/checkpoint, not once forever. Record tool/version,
+  configuration, command, environment, snapshot, exit status, raw output and parse
+  coverage. Revalidate diagnostics after affected changes and between tiers; never
+  dispatch stale diagnostics as current failures. A lower count alone is not proof
+  of correction when checks, inputs or configuration changed.
+- No slow root builds in worker inner loops. Coordinator performs approved
+  checkpoint/tier validations. Workers may run approved scoped checks that preserve
+  project configuration; a guessed single-file compiler command is not proof of a
+  module build. Never drop required final checks to save time.
+- Workers may edit only assigned paths under approved realization. Preserve shared
+  interfaces, others' work and repository isolation. Ban `git stash`, `git reset`,
+  `git checkout .` and `git clean`. Scoped editing never authorizes staging/commits.
+- The independent verification gate covers every fix; reject demonstrated stubs,
+  swallowed errors or unauthorized bypasses that violate the contract, not syntax
+  alone. Do not suppress diagnostics, loosen checks or change expected behavior to
+  fake progress.
 
 ## Execution workflow
 
-Follow [references/queue-guardrails.md](./references/queue-guardrails.md) across all phases:
+Follow [queue guardrails](references/queue-guardrails.md). Obtain the contract and
+execution/write permissions before ingestion or correction.
 
-### Phase 1: Diagnostic ingestion & normalization
-Extract and persist diagnostics from the project's build tool:
-- **Structured JSON/SARIF**: Run compiler or linter with machine-readable output:
-  - TypeScript: `tsc --noEmit`
-  - Rust: `cargo check --message-format=json`
-  - Python: `pyright --outputjson` or `mypy`
-  - Go: `golangci-lint run --out-format json`
-  - Linter: `eslint -f json`
-- **Universal POSIX Fallback**: Parse standard compiler output matching:
-  `^([^:]+):([0-9]+):([0-9]+):\s*(error|warning|info):\s*(.+)$`
-- Partition the resulting diagnostic list by target module / package / crate.
+### 1. Ingest and normalize
 
-### Phase 2: Dependency topology & cycle detection
-1. Parse project manifests (`package.json`, `Cargo.toml`, `go.mod`, `pom.xml`, or directory tree).
-2. Construct the dependency Directed Acyclic Graph (DAG).
-3. If circular dependencies exist between compilation units:
-   - Halt normal error fixing.
-   - Open a targeted cycle-breaking task (extract shared types to a lower leaf module or invert interfaces).
-4. Order compilation units from deepest dependency (leaf) to top-level entry point.
+Use repository-supported installed tools and current documented options. Historical
+recipes are illustrations, not certified commands or approval to execute/install.
+Do not use `npx` or similar resolution as a silent download. Capture stdout/stderr
+and expected diagnostic exit codes without masking tool failure as an empty queue.
+Persist only at approved destinations; protect secrets in captured output.
+Prefer supported machine-readable formats. Text parsing is tool/version-specific,
+not universal: preserve raw output and unmatched/multiline diagnostics, Windows
+paths and paths with spaces. Report parse coverage and block assignments dependent
+on missing/unrecognized data rather than dropping it silently.
 
-### Phase 3: Batched queue dispatch
-Approve separate worker and reviewer lots through the subagent model-selection gate
-before dispatch. Group only comparable work within the declared scope and risk;
-one worker-model approval never covers the independent reviewer role.
+### 2. Establish dependency order
 
-For each compilation unit in topological order:
-1. Dispatch errors for that unit to a worker agent.
-2. The worker inspects the diagnostic, fixes the root type/interface mismatch, and stages only the touched file.
-3. Submit the diff to `$adversarial-reviewer-acrazie`.
-4. If approved, commit atomically with Conventional Commits (`fix(<module>): resolve diagnostic <id>`).
-5. Once a tier is clear, re-run the targeted module compiler to verify error reduction before moving up the DAG.
+Trace actual imports/build configuration as well as manifests. Process leaves
+before consumers where dependencies permit. Manifests or directory names alone
+are not a complete graph. Detect strongly connected components; do not assume the
+whole project is a DAG or that every cycle is illegal in the target toolchain.
+If a cycle prevents safe ordering, block that component and propose a separately
+approved cycle-breaking task. Do not automatically extract types, invert interfaces
+or violate a mechanical port's 1:1 boundary. Unaffected independent components may
+proceed under their existing approval and checks.
 
-## Deliverable format
+### 3. Resolve bounded batches
 
-Deliver a live diagnostic queue burn-down summary:
+Approve separate worker and reviewer lots through the subagent model-selection
+gate before dispatch; model choice is not delegation permission. Declare assigned
+paths, diagnostics/snapshot, permitted checks, interfaces, concurrency constraints
+and acceptance criteria. Avoid overlapping writes; dependent changes are sequential
+or coordinated under explicit ownership, not concurrent shared-file edits.
+Workers implement root-cause corrections only within the approved behavior contract.
+Submit a scoped candidate to the independent gate; `ACCEPT` plus required checks
+permits affected progress, not a commit. A permitted non-spawn implementation path
+still needs independent review; if required worker capability is absent, disclose
+and obtain approval for a changed execution plan rather than silently substituting.
 
-```markdown
-# Diagnostic Queue Burn-Down Report
+### 4. Refresh and close
 
-**Diagnostic Tool**: <e.g. tsc, cargo check, pyright, golangci-lint>
-**Total Diagnostics Ingested**: <Initial error count>
-**Active Phase**: Ingestion | Cycle Breaking | Topological Tier Processing | Final Verification
+At each approved tier/checkpoint, rerun relevant validations and refresh the queue
+against the current snapshot. Separate resolved, remaining, new, blocked and not
+revalidated diagnostics; record changes of tool/configuration so counts remain
+interpretable. New out-of-scope causes require new scope approval.
+Perform required final project checks and behavioral regression tests on the final
+snapshot, with fresh review covering any later changes. No backlog closure on
+stale counts, disabled rules, parser gaps, pending review or failed/unavailable
+required checks. Shipping remains separately authorized.
 
-## Topological Tier Progress
-- [x] Tier 0 (Core Primitives / Types): 0 errors remaining (was 420)
-- [ ] Tier 1 (Domain Models & Storage): 45 errors remaining (was 1,200)
-- [ ] Tier 2 (Application Runtime & Services): Pending
-- [ ] Tier 3 (CLI & Entry Points): Pending
+## Delivery evidence
 
-## Guardrail Compliance
-- Destructive Git operations: ZERO (clean)
-- Stub rejections by Adversarial Reviewer: <count of rejected shortcuts>
-
-## Next Tier Target
-<Target module and next error batch to assign>
-```
+Report in chat by default; files require approved content/destination. Include
+initial/current snapshot and tool/configuration, raw/parsed/unmatched counts,
+actual commands/exit results, observed tier progress, scoped corrections, review
+snapshot/verdict and required final checks. Distinguish resolved, remaining, new,
+blocked and not revalidated states. Report actual guardrail evidence and limits,
+not assumed `ZERO (clean)` compliance or invented burn-down progress.
