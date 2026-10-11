@@ -262,3 +262,20 @@ The grant of a GitHub App's permissions to a selected account and repository set
 **Credential Lifecycle**:
 The creation, replacement, verification and revocation of an App credential or personal access token, distinct from configuration of an App registration.
 *Avoid*: Permission escalation, secret disclosure.
+
+## Portable Skill Practice
+
+**Version-Applicable Evidence**:
+A traceable technical fact checked against documentation for the project's version
+or proposed target, with its applicability and verification limits recorded.
+*Avoid*: Latest documentation by default, remembered fact, universal compatibility proof.
+
+**Dependent-Step Suspension**:
+Pausing only a decision or action whose required fact remains unverified while
+continuing authorized work independent of that fact.
+*Avoid*: Global task cancellation, permission to proceed on model memory.
+
+**Skill Reproducibility**:
+Repeatable required steps, traceable decisions, observable criteria and stable
+output structure across skill executions.
+*Avoid*: Guaranteed identical wording or results across models and harnesses.

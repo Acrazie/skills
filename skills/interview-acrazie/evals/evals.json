@@ -39,6 +39,54 @@
         "An earlier Feature Builder invocation does not cover the return after Interview.",
         "Preserve the approved contract and settled answers; separate scoped execution authority from skill activation and shipping."
       ]
+    },
+    {
+      "id": 4,
+      "name": "portable-pilot-version-applicable-evidence",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Use interview-acrazie within its existing scope and read its local portable-practice reference. Repository declares Tool A version 2, locks 2.4 and observed environment reports 2.4. Supplied official fixture source docs://tool-a/2.4/guide states option --safe exists in 2.4; docs://tool-a/5/guide states a different --safe-mode option for 5. Target is still 2.4, not an upgrade to 5. No live docs lookup allowed; these synthetic sources are the entire available evidence.",
+      "expected_output": "A bounded response meeting the listed expectations; fixture evidence is not live verification. Defined scenario, not an executed result.",
+      "files": [],
+      "expectations": [
+        "Separates declared/locked/observed versions and uses the supplied 2.4 docs, not latest 5 docs.",
+        "Records fact, source locator, applicable version, checked date or unavailable date, limits and dependent step.",
+        "Does not claim fixture documentation is a live upstream verification or execute/install anything."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "portable-pilot-unavailable-documentation",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Use interview-acrazie within its existing scope and read its local portable-practice reference. A planned compatibility decision requires Tool A version 2.4 official docs. Docs are inaccessible; only model memory and a latest-version search snippet exist. Local repository inventory and an unrelated scope question remain possible.",
+      "expected_output": "A bounded response meeting the listed expectations; fixture evidence is not live verification. Defined scenario, not an executed result.",
+      "files": [],
+      "expectations": [
+        "Marks required compatibility fact unverified; memory/search snippet does not become evidence.",
+        "Suspends only dependent compatibility decision/action; continues independent inventory or scope clarification.",
+        "Records evidence gap and what would unblock the dependent step, without pretending a user preference verifies support."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "portable-pilot-contradictory-documentation",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Use interview-acrazie within its existing scope and read its local portable-practice reference. Two supplied official fixture sources disagree about Tool A 2.4 supporting runtime R: docs://tool-a/2.4/support says supported, docs://tool-a/2.4/migration says unsupported, with no date or scope explanation. Further retrieval is unavailable. Unrelated local state is safely inspectable.",
+      "expected_output": "A bounded response meeting the listed expectations; fixture evidence is not live verification. Defined scenario, not an executed result.",
+      "files": [],
+      "expectations": [
+        "Records both claims/source locators/version scopes and unresolved contradiction.",
+        "Keeps compatibility unverified and dependent decision/action blocked, while preserving independent work.",
+        "Does not select the preferred claim, model memory, or a user-approved hypothesis as current evidence."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "portable-pilot-localized-choice-and-portability",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. Use interview-acrazie within its existing scope and read its local portable-practice reference. Only this skill directory is installed; no repository AGENTS.md, standard document, native choice picker or preferred connector exists. User speaks French. An unresolved user-owned scope choice has two viable options, with local context favoring narrower scope. Display the question only.",
+      "expected_output": "A bounded response meeting the listed expectations; fixture evidence is not live verification. Defined scenario, not an executed result.",
+      "files": [],
+      "expectations": [
+        "Reads local portable-practice reference without requiring external shared document or particular connector.",
+        "Uses exactly État actuel, Options, Recommandation, Réponse with consecutively numbered options and exactly one motivated recommendation.",
+        "Recommendation names one valid option; Response awaits choice and does not prefill consent; no question ID or fifth field."
+      ]
     }
   ]
 }

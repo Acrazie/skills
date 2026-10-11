@@ -1,5 +1,14 @@
 # Protocole d'Exécution, Validation & Rollback
 
+Apply [portable-practice.md](portable-practice.md) before using this reference.
+Technical commands, flags, APIs and compatibility claims require official docs
+for the applicable version at each use; examples below are non-authoritative.
+Record source/version/date/limits in the existing plan. Inaccessible or
+contradictory docs suspend only the dependent step; do not replace proof with
+model memory. Final reports include Decisions, Evidence and Limits alongside
+required checkpoint and blocker sections. All user-owned choices have numbered
+options and exactly one context-specific recommendation; no prefilled consent.
+
 Ce document détaille les règles opérationnelles strictes que le skill `repo-modernizer-acrazie` applique lors de la phase de modification du code et des configurations.
 
 Appliquer d'abord la frontière de chargement du `SKILL.md` : dans un kit explicite,
@@ -34,7 +43,7 @@ Pour éviter les conflits de dépendances croisées (dependency hell) et les ré
 ```text
   ┌───────────────────────────────────────────────────────────┐
   │ COUCHE 1 : Runtime & Gestionnaire de Paquets              │
-  │ (.nvmrc, .python-version, passage à pnpm / uv)            │
+  │ (Déclarations runtime et gestionnaire détectés)          │
   └─────────────────────────────┬─────────────────────────────┘
                                 │ (Valider build & install)
   ┌─────────────────────────────▼─────────────────────────────┐
@@ -62,7 +71,7 @@ Valider chaque unité cohérente avant commit et avant une unité indépendante 
 Lors d'une montée majeure (Tier 2) ou d'un remplacement d'outil (Tier 3), la refactorisation suit une démarche en 3 temps :
 
 1. **Étape A : Exécution des outils et codemods officiels**
-   - Lorsqu'un outil officiel existe (ex: `biome migrate`, `vitest-codemod`, `rector process`, `cargo fix`), le lancer en priorité pour transformer la masse du code de manière déterministe.
+   - Vérifier existence, source officielle, versions source/cible, invocation, effets et limites du codemod avant utilisation autorisée. Aucun outil vérifié : prévoir adaptations manuelles bornées, sans commande devinée ni promesse de déterminisme universel.
 2. **Étape B : Traduction chirurgicale des configurations par l'IA**
    - L'IA traduit les fichiers de configuration spécifiques (ex: adaptation fine de `vite.config.ts`, `tsconfig.json`, `lefthook.yml`).
    - Nettoyage des anciennes dépendances devenues obsolètes dans le manifest (`package.json`, `pyproject.toml`, etc.).
@@ -77,10 +86,10 @@ Chaque unité de migration doit franchir les 4 portes de validation applicables 
 
 | Porte | Intitulé | Commandes Types | Critère de Succès |
 | :--- | :--- | :--- | :--- |
-| **Gate 1** | **Installation & Lockfile** | `pnpm install --frozen-lockfile` / `uv sync` | Code retour 0, pas d'erreurs de résolution |
-| **Gate 2** | **Formatage & Linting** | `pnpm biome check .` / `uv run ruff check` | Code retour 0, zéro violation bloquante |
-| **Gate 3** | **Vérification de Types** | `pnpm tsc --noEmit` / `cargo check` | Code retour 0, zéro erreur de typage |
-| **Gate 4** | **Suite de Tests** | `pnpm test` / `uv run pytest` | 100% des tests existants passent au vert |
+| **Gate 1** | **Installation & Lockfile** | `<commande vérifiée du dépôt ; effets sur installation et lockfile connus>` | Code retour 0, pas d'erreurs de résolution |
+| **Gate 2** | **Formatage & Linting** | `<checks vérifiés du dépôt ; effets d’écriture connus>` | Code retour 0, zéro violation bloquante |
+| **Gate 3** | **Vérification de Types** | `<analyse statique applicable vérifiée>` | Code retour 0, zéro erreur de typage |
+| **Gate 4** | **Suite de Tests** | `<suite vérifiée et critères approuvés>` | 100% des tests existants passent au vert |
 
 ---
 

@@ -1,84 +1,54 @@
-# Checklist d'Inspection Passive en Lecture Seule
+# Passive Inspection Checklist
 
-Ce document détaille les points de contrôle et commandes d'investigation en lecture seule utilisés lors de la phase de scan initial.
+Apply [portable-practice.md](portable-practice.md) before discovery. Inspection is
+read-only: no installation, file modification or Git mutation. Even an information
+command may resolve dependencies, write a cache, access the network or run scripts;
+verify its documented effects and applicable permissions before execution.
 
----
+## 1. Local inventory
 
-## 1. Inventaire des Fichiers Clés à Détecter
+Inspect applicable instructions and the smallest useful set of manifests,
+lockfiles, runtime declarations, tool configuration, scripts and CI definitions.
+Names below are non-authoritative discovery examples, not an exhaustive list or
+a prescribed stack. Do not infer the active tool solely from a leftover file.
 
-Avant toute interaction, exécuter les recherches de présence de fichiers :
-
-| Domaine | Fichiers Cibles | Indice Détecté |
+| Area | Illustrative files | Verify locally |
 | :--- | :--- | :--- |
-| **Package Managers & Lockfiles** | `pnpm-lock.yaml`, `package-lock.json`, `yarn.lock`, `bun.lockb` | Gestionnaire JS/TS actif |
-| | `uv.lock`, `poetry.lock`, `Pipfile.lock`, `requirements.txt` | Gestionnaire Python actif |
-| | `Cargo.lock`, `go.mod`, `composer.lock` | Rust, Go, PHP |
-| **Runtime & Engines** | `.nvmrc`, `.node-version`, `.python-version`, `mise.toml`, `.tool-versions` | Version déclarée du runtime |
-| **Linters & Formatters** | `biome.json`, `biome.jsonc`, `eslint.config.*`, `.eslintrc*`, `.prettierrc*` | Stack de qualité JS/TS |
-| | `ruff.toml`, `.flake8`, `.isort.cfg`, `pyproject.toml` | Stack de qualité Python |
-| | `.golangci.yml`, `phpstan.neon`, `.php-cs-fixer.*` | Go / PHP |
-| **Build & Bundler** | `vite.config.*`, `webpack.config.*`, `rollup.config.*`, `tsup.config.*` | Compilateur / Bundler |
-| **Tests & QA** | `vitest.config.*`, `jest.config.*`, `playwright.config.*`, `cypress.config.*` | Frameworks de tests |
-| **CI/CD & Hooks** | `.github/workflows/*.yml`, `lefthook.yml`, `.husky/`, `.pre-commit-config.yaml` | Automatisation CI/CD |
-| **Gouvernance** | `AGENTS.md`, `CONTRIBUTING.md`, `docs/git-workflow.md`, `README.md`, `SECURITY.md`, `LICENSE`, `.github/ISSUE_TEMPLATE/` | Briques de gouvernance |
+| Dependencies | `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `composer.json`; associated lockfiles | Active manifests, workspace boundaries, declared and locked dependencies |
+| Runtime | `.nvmrc`, `.node-version`, `.python-version`, `mise.toml`, `.tool-versions`, container/CI definitions | Declared versus observed runtime and deployment requirements |
+| Quality/build/tests | Tool configuration, scripts, test directories | Actual invoked tools, plugins, versions, required checks and their effects |
+| CI/CD/hooks | Provider workflows, `lefthook.yml`, `.husky/`, `.pre-commit-config.yaml` | Current behavior, permissions, required checks and release constraints |
+| Governance | `AGENTS.md`, `CONTRIBUTING.md`, `docs/git-workflow.md`, `SECURITY.md`, `LICENSE` | Applicable instructions, not presumed consent from file presence |
 
----
+Report inaccessible areas separately from absent ones. Preserve index, tracked and
+untracked work. Inspect root, branch and status using verified read-only means.
 
-## 2. Commandes d'Inspection Non-Destructives
+## 2. Upstream evidence
 
-### A. Détection des Dépendances Obsolètes
-- **Node.js (pnpm / npm) :**
-  ```bash
-  pnpm outdated || npm outdated
-  ```
-  *Analyse :* repérer les écarts de versions majeures (colonne `Current` vs `Latest`).
-- **Python (uv / pip) :**
-  ```bash
-  uv pip list --outdated || pip list --outdated
-  ```
-- **Go :**
-  ```bash
-  go list -u -m all
-  ```
-- **Rust :**
-  ```bash
-  cargo outdated || true
-  ```
-- **PHP :**
-  ```bash
-  composer outdated --direct
-  ```
+For the facts used, consult official documentation matching observed and proposed
+versions: lifecycle/support policies, advisories, deprecations, migration guides,
+plugin support and command effects. Derive safe inspection commands from those
+docs and repository configuration; do not execute a fallback chain of guessed
+commands or suppress failure as success. A newer release is a candidate, not an
+automatic target; a legacy-looking configuration is a cue, not proof of deprecation.
 
----
+Record sources, applicable versions, actual check date, limits and dependent steps.
+If docs are unavailable or contradictory, suspend the dependent recommendation or
+action while continuing independent inventory. Do not use remembered support
+cutoffs or fixed action tags as evidence. Registry freshness or lack of releases
+alone does not prove abandonment. Measure project-specific performance claims.
 
-### B. Détection des Actions GitHub Obsolètes
-Scanner les workflows pour relever les versions des actions officielles :
-```bash
-grep -E 'uses: actions/[a-zA-Z0-9_-]+@(v1|v2|v3)' .github/workflows/*.yml || true
-```
-*Alerte :* Les versions `@v2` et `@v3` reposent souvent sur des environnements Node 12/16 dépréciés.
+## 3. Git policy and governance
 
----
+Read [commit-strategy.md](commit-strategy.md) before proposing governance changes.
+Collect rule sources, scope, verification status, message/signature/release
+constraints and distinct delivery permissions. Remote protections may be absent,
+inaccessible or unverified; these are different states. History is evidence of
+practice, not authorization. Resolve conflicts before the affected action.
 
-### C. Détection des Configurations de Linters Dépréciées
-Vérifier si le projet utilise les formats legacy :
-- En JS/TS : présence de fichiers `.eslintrc*` (format déprécié depuis ESLint v9).
-- En Python : présence conjointe de `.flake8`, `.isort.cfg` et `black` (remplaçables par `ruff`).
+Une absence de hook n'implique pas une absence de politique.
 
----
-
-### D. Détection des Gaps de Gouvernance & Hygiène
-Vérifier les fichiers absents par rapport aux standards Acrazie (`github-repo-init-acrazie`) :
-- Hook manager moderne (**Lefthook**) absent ?
-- Workflow de release automatisée (**Release Please**) absent ?
-- Fichier `.editorconfig` manquant ?
-- `.gitignore` incomplet (manque `.worktrees/`, `.env*`) ?
-- Documentation de sécurité (`SECURITY.md`) ou contribution (`CONTRIBUTING.md`) absente ?
-
-
-### E. Politique Git et Stratégie de Commit
-Lire [commit-strategy.md](commit-strategy.md) avant toute proposition de gouvernance.
-- Relever les règles organisationnelles et du dépôt, leurs sources, les conventions de messages, signatures et releases, les hooks et permissions de livraison.
-- Examiner l'historique comme indice, jamais comme autorisation. Détecter les conflits et les présenter avec leurs conséquences avant de poursuivre la zone concernée.
-- Inspecter en lecture seule les protections distantes pertinentes si accessibles. Marquer tout état inaccessible comme non vérifié, pas comme absent ; un dépôt local sans distant n'exige pas de réglages GitHub.
-- Si une stratégie manque, proposer sa formalisation, sans créer de fichier ni installer de hook pendant l'inspection. Une absence de hook n'implique pas une absence de politique.
+Do not install enforcement tools or create governance files during inspection.
+Only propose missing assets when justified by repository requirements and user
+needs, not to impose a preferred stack. Modernization owns inspection and planning;
+substantial CI/CD work is handed off to the CI/CD owner under its loading boundary.

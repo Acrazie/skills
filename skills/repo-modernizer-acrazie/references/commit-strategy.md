@@ -1,5 +1,14 @@
 # Stratégie de commit des modernisations
 
+Apply [portable-practice.md](portable-practice.md) before using this reference.
+Technical commands, flags, APIs and compatibility claims require official docs
+for the applicable version at each use; examples below are non-authoritative.
+Record source/version/date/limits in the existing plan. Inaccessible or
+contradictory docs suspend only the dependent step; do not replace proof with
+model memory. Final reports include Decisions, Evidence and Limits alongside
+required checkpoint and blocker sections. All user-owned choices have numbered
+options and exactly one context-specific recommendation; no prefilled consent.
+
 Cette stratégie couvre deux responsabilités distinctes : respecter ou formaliser la politique Git du dépôt existant, puis découper et contrôler les commits de la migration approuvée. Elle reprend le modèle adaptable de `github-repo-init-acrazie` pour le brownfield, sans invoquer ce skill ni dépendre de son installation. Elle ne lance pas un chantier de gouvernance hors du périmètre demandé.
 
 ## 1. Découvrir avant de choisir
@@ -71,4 +80,4 @@ Push et PR restent soumis à leurs propres autorisations et contrôles distants.
 
 Ces scénarios et les tests structurels vérifient le contrat documentaire ; ils ne constituent pas une preuve du comportement réel d'un agent sur un dépôt cible.
 
-Documentation Git consultée pour le contrôle de l'index : [git diff](https://git-scm.com/docs/git-diff) (`--cached` compare l'index au commit de référence, `HEAD` par défaut).
+Source Git à consulter pour la version applicable avant utilisation ; ce lien seul ne constitue pas une vérification actuelle : [git diff](https://git-scm.com/docs/git-diff) (`--cached` compare l'index au commit de référence, `HEAD` par défaut).
