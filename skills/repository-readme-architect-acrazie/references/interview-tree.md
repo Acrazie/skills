@@ -2,6 +2,22 @@
 
 Use this map as decision dependencies, not as a fixed questionnaire. Skip decisions already explicit in the request or settled by verified repository evidence. Ask only user-owned decisions; discover facts yourself.
 
+Reuse independently approved current scope and architecture after checking material
+facts; reopen only affected decisions. Do not require a new Interview or persisted
+contract for ceremony. Exact candidate-write approval remains distinct.
+
+Each user-owned decision uses only these four fields, translated into the user's
+language; number options, not questions, and never infer an answer:
+
+```text
+Current state: <verified context and unresolved choice>
+Options:
+1. <choice and consequences>
+2. <choice and consequences>
+Recommendation: <one choice and project-specific reason>
+Response: <await user answer>
+```
+
 ## 1. Establish facts
 
 Before questions, inspect enough of the repository to record:
@@ -124,4 +140,7 @@ The frontier is empty only when every relevant branch is settled, excluded, or b
 4. unresolved factual gaps and their effect;
 5. planned write target and forbidden side effects.
 
-Wait for explicit confirmation before proposing README architectures.
+Wait for explicit confirmation before proposing README architectures unless
+independently evidenced current agreement covers that scope. Reuse an applicable
+approved architecture without reproposing variants. Never infer approval of the
+exact candidate and destination from agreement on scope, structure or content goals.
