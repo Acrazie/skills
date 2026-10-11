@@ -10,12 +10,74 @@ description: >-
 
 # Mechanical Port / Acrazie
 
-Orchestrate language-to-language mechanical codebase migrations. Prioritize 1:1 structural
-fidelity over premature idiomatic refactoring. Never port without an objective test oracle.
+Port a selected source-to-target language boundary with faithful structural
+mirroring and an objective test oracle. Do not redesign or introduce hybrid FFI
+as an unapproved shortcut.
 
-## Entry and authorization
+## Project loading boundary
 
-Select this skill only for a requested source-to-target language migration. No named skill command is required. Inspect the source and test oracle read-only first. Confirm the migration boundary, target language, plan, and applicable permissions before generating specifications or translating code. Selection does not authorize a rewrite, dependency installation, shipping, destructive actions, or agent spawning; follow the applicable user/repository rules for each.
+Published-library defaults remain model-invocable within the requested task. An
+explicit project kit or stricter current instruction takes precedence: propose
+this skill from available metadata and wait for the user's explicit command before
+reading its instructions. Apply the same gate to each dependency before reading
+or dispatching its instructions. Use `$skill-name` in Codex or `/skill-name` in
+Claude Code. One invocation does not activate a chain; do not read or delegate
+an unactivated skill as a bypass. Each re-review of a new snapshot requires a new
+reviewer activation in an explicit kit, and returning to the implementer requires
+its explicit activation. Ordinary library defaults retain scoped implicit handoffs.
+These gates are not filesystem access controls or proof of live host behavior;
+unresolved global homonyms may block a strict gate claim.
+
+Loading grants no writing, execution, installation, network, spawning, staging or
+shipping permission. An unavailable mandatory dependency blocks only its dependent
+step; never imitate it or silently install a substitute. In a managed kit, propose
+Repo Init's separately approved project update and pinned selection after its own
+activation, not copied or unpinned substitutes.
+
+## User decision format
+
+For user-owned choices, display only Current state, numbered Options,
+Recommendation and Response. Translate labels/content into the user's language;
+do not add question IDs, preselect an answer as consent or treat a recommendation
+as approval. Ask only unresolved decisions, not a fixed survey. Reports and
+verification records retain their own structures.
+
+## Contract and permissions
+
+Start with read-only discovery of instructions, repository state, selected paths,
+existing tests and relevant tools. Do not execute unfamiliar commands for discovery.
+Reuse a current applicable Task Contract or agreement with independently evidenced
+approval, not a status label. It must cover outcome, paths, preserved behavior,
+checks, acceptance gates and allowed actions. Reopen only materially invalidated
+user decisions through bounded clarification; no new mandatory Interview dependency
+or duplicate contract for ceremony. Obtain explicit scoped realization approval
+before editing, unless a current applicable agreement already covers it.
+
+Approve artifact content/destinations and write scope before creating specifications,
+backlogs or reports; preserve existing files and unrelated work. Execution may have
+filesystem, network or destructive effects: inspect commands and obtain applicable
+permission. Installation, lockfile changes, credentials, network and destructive
+fixtures are separate permissions, not consequences of an approved plan. No implicit
+staging, commit, push, PR, merge or deployment. Follow applicable repository action
+policy for any separately authorized delivery; never bypass hooks or protections.
+
+## Independent verification gate
+
+Every affected unit/fix needs `adversarial-reviewer-acrazie` evidence before it is
+accepted. A review may cover a coherent batch only if it explicitly covers every
+changed unit/fix; omission is not acceptance. Provide base and exact candidate
+snapshot, authoritative contract, scoped diff and relevant read-only technical
+context to a fresh agent context without inherited author conversation, or a
+separate manual reviewer context. Never substitute implementer self-review.
+Validate required spawning permissions and the separate reviewer model lot first.
+If isolation or the activated reviewer is unavailable, report review as blocked.
+
+Require `ACCEPT` for that exact snapshot. `REJECT` or `INCOMPLETE` blocks affected
+acceptance/progression; missing review is not `ACCEPT`. Corrections invalidate
+review of affected content and require fresh verification before proceeding. The
+reviewer reports demonstrated introduced violations without implementing fixes;
+empty returns, comments, test doubles or low-level operations are not defects by
+syntax alone. Review and passing checks reduce risk, not guarantee zero defects.
 
 ## Subagent model selection
 
@@ -48,85 +110,62 @@ generated workflow without executing it.
    record it as unverified rather than claiming the requested model ran.
    If the runtime reports a different model, stop the lot and ask before further delegation.
 
-## Core principles & invariants
 
-1. **Test Oracle Invariant (Strict Gating)**:
-   A mechanical port is permissible ONLY if an automated, black-box or language-independent
-   test suite already exists and passes against the source codebase.
-   - If tests are missing, incomplete, or coupled to the source compiler, STOP.
-   - Propose `test-retrofitter-acrazie` to establish end-to-end black-box verification.
-     Obtain authorization for that prerequisite testing work and its approved contract
-     before handing off; no named skill command is required. Do not translate until
-     the oracle is adequate and passes.
-2. **Faithful 1:1 Mirroring (Anti-Premature Redesign)**:
-   Translate the codebase preserving identical directory hierarchies, module boundaries,
-   naming patterns, and algorithmic flow. Do NOT attempt architectural overhauls, database
-   swaps, or stylistic idiomatization during the port. Make it compile, pass tests, and
-   resemble the source first; idiomatize later.
-3. **All-At-Once over Hybrid Glue**:
-   Avoid creating temporary FFI wrappers or bi-directional runtime bindings that pollute
-   the architecture. Execute the translation cleanly across the target boundary.
-4. **Adversarial Verification Loop**:
-   Every canary file and translated module must be falsified by `adversarial-reviewer-acrazie`
-   to ensure zero stubs, zero explanatory excuse comments, and zero unverified semantic drift.
+## Migration invariants
 
-## Universal 4-phase migration workflow
+- Require an adequate language-independent or black-box automated oracle that
+  already exists and passes against the source codebase
+  on the identified snapshot before any target code is written. Record command, source
+  revision, environment, results and coverage limits. Compilation alone is not an
+  oracle; missing, incomplete or compiler-coupled tests block translation.
+- Propose `test-retrofitter-acrazie` when oracle work is needed.
+  Obtain authorization for that prerequisite testing work; its loading,
+  contract and realization permissions remain separate. Do not manufacture a
+  passing oracle by changing expected behavior or translating first.
+- Preserve directory hierarchy, module boundaries, naming patterns, algorithms,
+  observable behavior and resource semantics across the approved boundary. Do not
+  change database, architecture or idioms to hide translation problems.
+- Respect required isolation. Preserve unrelated files; approve target destinations
+  and any necessary language-specific layout exception before implementation.
 
-Apply the subagent model-selection gate before any spawned translation workers,
-independent reviewers, or diagnostic workers. These are distinct roles and need
-separate lot validation. A same-context skill handoff is not a spawn; pass any
-approved lot boundary and choice to the recipient so it can reuse valid approval
-or request new validation rather than silently changing models.
+## Four-phase migration workflow
 
-Follow [references/migration-pipeline.md](./references/migration-pipeline.md) across all phases:
+Follow [migration pipeline](references/migration-pipeline.md) for details.
+A same-context skill handoff is not a spawn; pass applicable lot approval to a
+recipient without granting new roles, scope or model choices. Apply the subagent
+model-selection gate to separately authorized translation, reviewer and diagnostic
+worker lots. No automatic worker spawning from migration approval.
 
-### Phase 1: Paradigm mapping (`PARADIGM-MAPPING.md`)
-Before writing any target code, produce a formal cross-language translation specification
-at the root of the port workspace covering the 4 core paradigm dimensions:
-- **Memory & Resource Lifecycle**: Garbage collection, RAII, manual allocation, reference
-  counting, file descriptor / socket / connection closing semantics.
-- **Error Model**: Exceptions vs return codes vs `(value, err)` tuples vs `Result`/`Option`.
-- **Concurrency & Asynchrony**: Event loops, promises, OS threads, coroutines, actors, channels.
-- **Type Systems & Nullability**: Dynamic vs static typing, duck typing vs explicit interfaces,
-  nullable pointers vs algebraic optionals.
+1. **Paradigm mapping**: after artifact/write approval, produce `PARADIGM-MAPPING.md`
+   at the approved destination. Cover memory/resource lifecycle, error model,
+   concurrency/asynchrony and types/nullability. Trace actual source semantics;
+   examples are prompts for investigation, not universal translations.
+2. **Ownership matrix**: produce `OWNERSHIP-MATRIX.tsv` within approved write scope.
+   Inventory fields/resources, allocation locus, owner lifetime, cleanup trigger,
+   aliases and concurrency boundaries needed for the selected migration.
+3. **Canary trial**: select 3–5 representative files (or approve a smaller set for
+   a smaller boundary). Translate according to the mapping, run applicable checks
+   and oracle, and obtain independent `ACCEPT` covering every canary. Refine mapping
+   on discovered semantic issues and revalidate affected code before full translation.
+4. **Full translation**: mirror remaining units, verify each through the independent
+   gate and run the authorized target validations plus unchanged behavioral oracle.
+   For a mass compiler/linter backlog, propose `diagnostic-queue-runner-acrazie`;
+   activate it under the applicable gate and pass snapshot, scope, mapping, queue
+   evidence and permissions. A small or empty backlog does not require Queue.
+   If required mass-queue dependency is unavailable, block that dependent resolution
+   step, not unrelated discovery. Do not silently substitute a generic fixer.
 
-### Phase 2: Ownership and resource matrix (`OWNERSHIP-MATRIX.tsv`)
-Perform an inventory across all data structures and boundary interfaces. Map:
-- Struct/Class identifier and field names.
-- Allocation locus and primary owner.
-- Deterministic deallocation / cleanup trigger.
-- Concurrency and thread-boundary status.
+After Queue changes, revalidate affected reviews and run final target checks and
+oracle against the final snapshot. Queue completion, fewer errors or a prior
+source pass does not prove target equivalence. If checks cannot run, record the
+blocked gate; never declare the migration verified or complete.
 
-### Phase 3: Canary trial run (3–5 files)
-Select 3–5 representative files of varying complexity (e.g. one primitive type/utility, one
-stateful data structure, one async/I/O handler):
-1. Translate them following `PARADIGM-MAPPING.md`.
-2. Submit the diff to `adversarial-reviewer-acrazie`.
-3. If defects or ambiguities emerge, refine `PARADIGM-MAPPING.md` before proceeding.
+## Delivery evidence
 
-### Phase 4: Full mechanical translation & diagnostic handoff
-1. Translate remaining files mechanically, matching the source topology 1:1.
-2. Validate each translated file through `adversarial-reviewer-acrazie`.
-3. Once all files are placed, hand off the compilation and static analysis errors to
-   `$diagnostic-queue-runner-acrazie` for systematic, topological error crushing.
-
-## Deliverable format
-
-Always deliver a structured migration status report:
-
-```markdown
-# Mechanical Port Status Report
-
-**Source Language / Environment**: <e.g. Python 3.12 / Zig 0.13 / Java 17>
-**Target Language / Environment**: <e.g. Go 1.22 / Rust 2021 / TypeScript 5.4>
-**Test Oracle Status**: VERIFIED (<test suite command and assertion count>)
-**Current Phase**: Paradigm Mapping | Ownership Matrix | Canary Trial | Full Translation
-
-## Artifacts Produced
-- `PARADIGM-MAPPING.md`: <status / key decisions>
-- `OWNERSHIP-MATRIX.tsv`: <status / structs inventoried>
-- Canary Files: <list of files translated and reviewed>
-
-## Next Actions
-<Specific instruction: proceed to canary, full translation, or handoff to diagnostic-queue-runner>
-```
+Report in chat by default; file writing requires approved content/destination.
+Include source/target environments, contract and snapshots, oracle command/results
+and coverage limits, mapping/matrix/canary status, reviewed units and exact review
+snapshot/verdict, target checks, queue handoff status and remaining authorized step.
+Distinguish passed, failed, blocked, not executed and unverified states. Do not
+force `VERIFIED` when the oracle is absent or the target was never tested. Report
+actual artifacts and outcomes only, not intended actions as completed work.

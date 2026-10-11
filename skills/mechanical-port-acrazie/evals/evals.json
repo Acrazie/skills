@@ -1,0 +1,33 @@
+{
+  "skill_name": "mechanical-port-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "current-contract-missing-oracle",
+      "prompt": "Simulation only, no live project actions. Explicit project kit; Mechanical explicitly activated. Current independently approved agreement permits a Python-to-Go port of selected modules and approved artifact writes, but the only source tests are compiler-coupled unit tests. No installation, target-code or spawning permission beyond the stated migration. Give next step, do not mutate.",
+      "expected_output": "Reuse current scope, block translation on inadequate oracle; propose Test Retrofitter activation and separate prerequisite contract/realization, without reading its body or installing it.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "canary-review-unavailable",
+      "prompt": "Simulation only, no live project actions. Mechanical activated under explicit kit. Source black-box oracle passed with recorded revision/command. Canary checks pass. Independent reviewer skill exists but has not been activated; no fresh reviewer context or spawning permission is available. Author offers self-review ACCEPT. Give gate status.",
+      "expected_output": "Block canary acceptance/full translation, reject self-review substitute; ask reviewer activation and required context/permissions with four fields, no spawning.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "stale-review-after-queue",
+      "prompt": "Simulation only, no live project actions. Mechanical is explicitly reactivated. A required mass backlog was fixed by activated Queue under scoped permission. Reviewer ACCEPT covered a prior target snapshot, not the corrected final files. Source oracle was green, final target oracle has not run. Report current migration status.",
+      "expected_output": "Do not claim verified equivalence; require fresh affected review activation and final target checks/unchanged oracle. Queue success is not migration closure.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "artifact-conflict-small-backlog",
+      "prompt": "Simulation only, no live project actions. Mechanical explicitly activated. Current approved port contract selects four modules; mapping artifact write path is not approved and root PARADIGM-MAPPING.md belongs to another project task. There are only two compiler errors. No staging/commit permission. Give bounded next steps without edits.",
+      "expected_output": "Preserve existing mapping, ask precise write/destination approval; do not force mass Queue on small backlog, do not stage/commit or load a dependency implicitly.",
+      "files": []
+    }
+  ]
+}
