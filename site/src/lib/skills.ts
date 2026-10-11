@@ -25,7 +25,7 @@ export interface SkillData {
 
 // Categorization helper based on skill ID
 function determineCategory(id: string): { category: string; icon: string } {
-  if (id.startsWith('jenkins-')) {
+  if (id === 'ci-cd-acrazie') {
     return { category: 'CI/CD & DevOps', icon: 'server' };
   }
   if (id.startsWith('svg-') || id.startsWith('canvas-') || id.startsWith('immersive-')) {

@@ -50,9 +50,19 @@ describe('documented invocations', () => {
     const lines = fs.readFileSync(`${getRepoRoot()}/${evidence.path}`, 'utf8').split('\n');
     expect(lines.slice(evidence.line - 1, evidence.endLine).join('\n')).toContain(evidence.quote);
   });
+  test('CI/CD owner uses real conditional handoffs, not internal-reference edges', () => {
+    const graph = getSkillGraph();
+    expect(graph.nodes.some(node => node.id === 'ci-cd-acrazie')).toBe(true);
+    expect(graph.nodes.some(node => node.id.startsWith('jenkins-'))).toBe(false);
+    const incoming = graph.links.filter(link => link.target === 'ci-cd-acrazie');
+    expect(incoming.map(link => link.source).sort()).toEqual(['github-repo-init-acrazie', 'repo-modernizer-acrazie']);
+    expect(incoming.every(link => link.conditional)).toBe(true);
+    expect(incoming.every(link => link.evidence[0].quote.includes('project loading boundary'))).toBe(true);
+    expect(graph.links.some(link => link.source === 'ci-cd-acrazie')).toBe(false);
+  });
   test('real edges are reviewed calls, never recommendation-only git shipping', () => {
     const graph = getSkillGraph();
-    expect(graph.links).toHaveLength(7);
+    expect(graph.links).toHaveLength(4);
     expect(graph.links.some(l => l.source === 'feature-builder-acrazie' && l.target === 'interview-acrazie')).toBe(true);
     expect(graph.links.some(l => l.source === 'git-ship-acrazie')).toBe(false);
     for (const link of graph.links) for (const evidence of link.evidence) {

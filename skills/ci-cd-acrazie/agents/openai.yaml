@@ -1,0 +1,6 @@
+interface:
+  display_name: "CI/CD / Acrazie"
+  short_description: "Designs and repairs repository CI/CD workflows"
+  default_prompt: "Use $ci-cd-acrazie to inspect this repository, reuse its approved decisions and propose or implement only the authorized CI/CD work."
+policy:
+  allow_implicit_invocation: true

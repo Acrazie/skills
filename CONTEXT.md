@@ -2,17 +2,24 @@
 
 This document defines the ubiquitous language and domain vocabulary across the skills repository.
 
-## Jenkins Family
+## Repository CI/CD Ownership
 
-**Jenkins Parent**:
-The `jenkins-devops-acrazie` skill, responsible for approving, orchestrating, and validating pipeline modifications and production deployments across application repositories.
+**Repository CI/CD Owner**:
+The specialist `ci-cd-acrazie`, owning substantial pipeline design,
+repair, modernization and explicitly authorized delivery operations for one repository,
+independently of language or CI provider.
+*Avoid*: Jenkins-only orchestrator, platform administrator, universal deployment permission.
 
-**Symfony Specialist**:
-The `jenkins-symfony-php-acrazie` specialist skill, dedicated to interpreting Symfony application architecture, CI requirements, and runtime dependencies for the Jenkins Parent. It provides CI constraints without directly executing deployment stages.
-*Avoid*: Generic PHP specialist, Symfony deployer.
+**CI/CD Technical Reference**:
+Knowledge scoped to a detected tool, application stack or deployment interface,
+used by the CI/CD owner rather than exposed as another independently invocable skill.
+*Avoid*: Stack specialist skill, plugin, executable adapter engine.
 
-**Python Specialist**:
-The `jenkins-python-acrazie` specialist skill, dedicated to Python packaging, testing (pytest/tox), and runtime containerization for Jenkins pipelines.
+**CI/CD Operation Envelope**:
+An independently authorized bounded operation or sequence identifying its target,
+submitted data, permitted effects, checks and validity conditions; it is distinct
+from pipeline-edit approval and technical execution capability.
+*Avoid*: Automatic consent from pipeline creation, unrestricted production access.
 
 ## Skill Invocation & Authorization
 
