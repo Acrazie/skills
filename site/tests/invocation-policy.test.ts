@@ -48,9 +48,9 @@ describe('skill invocation policy', () => {
     expect(readSkill('mechanical-port-acrazie')).toContain('Obtain authorization for that prerequisite testing work');
     expect(readSkill('repo-modernizer-acrazie')).toContain('obtain separate explicit confirmation before destructive rollback');
     expect(readSkill('repo-modernizer-acrazie')).not.toContain('Run `git reset --hard HEAD`');
-    for (const stack of ['go', 'js-ts', 'python', 'rust']) {
-      expect(readSkill(`jenkins-${stack}-acrazie`)).toContain('Work strictly in read-only analysis mode');
-    }
+    expect(readSkill('ci-cd-acrazie')).toContain('No implicit');
+    expect(readSkill('ci-cd-acrazie')).toContain('Masking is not isolation');
+    expect(readSkill('ci-cd-acrazie')).toContain('Never invent build');
   });
 
   test('localized catalogues show the same single explicit-only exception', () => {
@@ -58,6 +58,29 @@ describe('skill invocation policy', () => {
       const localized = getLocalizedSkills(locale);
       expect(localized.filter(skill => skill.disableModelInvocation).map(skill => skill.id)).toEqual(['skill-refiner-acrazie']);
       expect(localized.find(skill => skill.id === 'audit-repository-acrazie')?.description).not.toMatch(/use only when|invocation explicite|仅在显式调用/i);
+    }
+  });
+});
+
+
+describe('single repository CI/CD owner', () => {
+  test('catalogue replaces six packages with one correctly categorized owner', () => {
+    expect(skills.filter(skill => skill.id.startsWith('jenkins-'))).toHaveLength(0);
+    const owner = skills.find(skill => skill.id === 'ci-cd-acrazie');
+    expect(owner).toBeDefined();
+    expect(owner!.category).toBe('CI/CD & DevOps');
+    expect(owner!.disableModelInvocation).toBe(false);
+    expect(owner!.installCommand).toContain('ci-cd-acrazie');
+    expect(owner!.references.some(ref => ref.name === 'stack-evidence.md')).toBe(true);
+  });
+  test('all locales disclose cross-tool ownership and separate operations', () => {
+    for (const locale of ['en', 'fr', 'zh'] as const) {
+      const local = getLocalizedSkills(locale);
+      expect(local.filter(skill => skill.id.startsWith('jenkins-'))).toHaveLength(0);
+      const owner = local.find(skill => skill.id === 'ci-cd-acrazie');
+      expect(owner).toBeDefined();
+      expect(owner!.description.length).toBeGreaterThan(50);
+      expect(owner!.description).toMatch(/authorization|autorisations|授权/);
     }
   });
 });

@@ -115,3 +115,12 @@ Emit a markdown diagnostic artifact `script-portability-report.md` structured as
 - **Disk / Syscall Savings**: ~450 fewer files in `node_modules`, 0 subprocess spawns during clean step.
 - **Verification Result**: Exit code 0 across POSIX and Windows test matrix.
 ```
+
+## CI/CD boundary
+
+Substantive pipeline creation, modernization and causal repair belong to
+`ci-cd-acrazie`, not this skill. Keep this owner's assessment, application, test
+or selected-script work within its approved boundary. A CI/CD recommendation is
+not implementation permission; propose the recipient and apply its loading gate.
+Reuse applicable decisions/contract without a second interview. No implicit
+pipeline execution, publication, promotion, deployment, rollback or Git delivery.

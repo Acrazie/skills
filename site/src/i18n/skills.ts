@@ -89,70 +89,15 @@ export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, Localize
       description: '运用视频、图像序列、3D、Canvas 或 CSS 设计并构建引人入胜的沉浸式网页 Hero 模块。用于创建具有电影质感或交互动效的网页视觉模块。',
     },
   },
-  'jenkins-devops-acrazie': {
+  'ci-cd-acrazie': {
     en: {
-      description: 'Design, modernize, and debug repository-owned Jenkins CI/CD pipelines. Use for substantial Jenkinsfile, Pipeline as Code, Multibranch, build/test/artifact, promotion, deployment, or pipeline-failure work. Do not use for controller administration, plugin installation, global agents, Jenkins Configuration as Code, or trivial Jenkins questions.',
+      description: 'Design, modernize and diagnose repository CI/CD across tools and languages. Runs, publication, promotion, deployment and rollback require separate authorization. Not platform or cloud administration.',
     },
     fr: {
-      description: 'Concevoir, moderniser et déboguer les pipelines CI/CD Jenkins hébergés dans le dépôt. Pour Jenkinsfile, Pipeline as Code, builds multi-branches et automatisation de déploiement.',
+      description: 'Concevoir, moderniser et diagnostiquer la CI/CD du dépôt, indépendamment du langage et de l’outil. Exécution, publication, promotion, déploiement et rollback sous autorisations distinctes. Hors administration plateformes/cloud.',
     },
     zh: {
-      description: '设计、现代化并调试由仓库管理的 Jenkins CI/CD 流水线。适用于 Jenkinsfile、代码化流水线、多分支构建与发布部署流程。',
-    },
-  },
-  'jenkins-go-acrazie': {
-    en: {
-      description: 'Interpret Go repositories for Jenkins CI and CD.',
-    },
-    fr: {
-      description: 'Interpréter les dépôts Go pour l’intégration et le déploiement continus avec Jenkins.',
-    },
-    zh: {
-      description: '针对 Go 语言仓库解析并配置 Jenkins CI/CD 构建与测试环境。',
-    },
-  },
-  'jenkins-js-ts-acrazie': {
-    en: {
-      description: 'Interpret JS and TS repositories for Jenkins CI and CD.',
-    },
-    fr: {
-      description: 'Interpréter les dépôts JavaScript et TypeScript pour l’intégration et le déploiement continus avec Jenkins.',
-    },
-    zh: {
-      description: '针对 JavaScript 与 TypeScript 仓库解析并配置 Jenkins CI/CD 流水线。',
-    },
-  },
-  'jenkins-python-acrazie': {
-    en: {
-      description: 'Interpret Python repositories for Jenkins CI and CD.',
-    },
-    fr: {
-      description: 'Interpréter les dépôts Python pour l’intégration et le déploiement continus avec Jenkins.',
-    },
-    zh: {
-      description: '针对 Python 仓库解析构建打包、测试验证及 Jenkins CI/CD 容器化流程。',
-    },
-  },
-  'jenkins-rust-acrazie': {
-    en: {
-      description: 'Interpret Rust repositories for Jenkins CI and CD.',
-    },
-    fr: {
-      description: 'Interpréter les dépôts Rust pour l’intégration et le déploiement continus avec Jenkins.',
-    },
-    zh: {
-      description: '针对 Rust 仓库解析 Cargo 构建与缓存策略，构建高效 Jenkins CI/CD 流水线。',
-    },
-  },
-  'jenkins-symfony-php-acrazie': {
-    en: {
-      description: 'Analyze Symfony applications for Jenkins CI and delivery.',
-    },
-    fr: {
-      description: 'Analyser les applications Symfony (PHP) pour la CI et la livraison continue avec Jenkins.',
-    },
-    zh: {
-      description: '深入分析 Symfony (PHP) 应用架构，为 Jenkins CI/CD 提供准确的构建与运行约束。',
+      description: '跨语言与工具设计、现代化和诊断仓库 CI/CD。运行、发布、晋级、部署及回滚须分别授权。不负责平台或云基础设施管理。',
     },
   },
   'multi-agent-planner-acrazie': {

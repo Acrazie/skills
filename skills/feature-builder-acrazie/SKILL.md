@@ -5,7 +5,7 @@ description: >-
   with scoped tests, an optional independent adversarial review, and criterion-linked
   delivery evidence. Use when the user requests new application behavior.
   Not for bug fixes, behavior-preserving refactors,
-  repository setup, tooling migrations, Jenkins, README design, specialized visual
+  repository setup, tooling migrations, CI/CD pipelines, README design, specialized visual
   workflows, or reviewing another agent's work.
 ---
 
@@ -232,3 +232,12 @@ the final task snapshot. Otherwise identify
 what is incomplete or blocked. Do not commit, push, open a PR, or deploy merely
 because implementation is finished; follow the user's and repository's separate
 authorization for shipping.
+
+## CI/CD boundary
+
+Substantive pipeline creation, modernization and causal repair belong to
+`ci-cd-acrazie`, not this skill. Keep this owner's assessment, application, test
+or selected-script work within its approved boundary. A CI/CD recommendation is
+not implementation permission; propose the recipient and apply its loading gate.
+Reuse applicable decisions/contract without a second interview. No implicit
+pipeline execution, publication, promotion, deployment, rollback or Git delivery.

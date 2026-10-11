@@ -34,7 +34,7 @@ skills/
      - Never add co-author attributions (`Co-authored-by:`) to commit messages.
    - **Mandatory PR Workflow**:
      - All material changes (adding, updating, or deleting a skill) must go through a dedicated branch and Pull Request. Direct commits or pushes to `main` are strictly forbidden (except for emergency hotfixes or automated release PRs).
-     - PRs should be **squash-merged** into `main` using a single Conventional Commit message (e.g. `feat(jenkins-go): add go specialist skill`).
+     - PRs should be **squash-merged** into `main` using a single Conventional Commit message (e.g. `feat(ci-cd): update pipeline evidence`).
      - Release Please tracks commits on `main` and manages the release PR + version tag, while `git-cliff` generates rich release notes and maintains `CHANGELOG.md`.
    - **Standard Worktree Lifecycle**:
      ```bash
@@ -76,7 +76,7 @@ skills/
    - Before designing, creating, or renaming a skill, agents **MUST** inspect all existing skills in `skills/` across local and remote branches (and review their `SKILL.md` scope/exclusions).
    - A new skill is only admissible if its target workflow is distinctly unaddressed by existing skills.
    - If a capability partially overlaps an existing skill, the agent must evaluate whether it belongs as:
-     a) an explicit sub-specialist under a parent orchestrator (e.g. `jenkins-*-acrazie`),
+     a) an explicit sub-specialist under a parent orchestrator (only when it owns a genuinely separate workflow; CI/CD stack knowledge belongs in internal references),
      b) an extension of the existing skill's scope (if coherent),
      c) or a strictly partitioned, independent skill with documented mutual exclusions.
 

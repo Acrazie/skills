@@ -105,3 +105,12 @@ Use `docs/audits/`; create `docs/` and `docs/audits/` after approval when absent
 Record recommendations as decisions only after the user accepts them. Never commit the record.
 
 For adoption, identify the accepted option and any unresolved conditions before handoff to an implementation task. Link the approved Audit Record from that task's contract when applicable; do not edit the contract under audit authority. The audit retains its specialist interview, does not automatically invoke another skill, and does not authorize implementation. An ADR is a separate, explicitly approved activity only when a durable architectural trade-off warrants one.
+
+## CI/CD boundary
+
+Substantive pipeline creation, modernization and causal repair belong to
+`ci-cd-acrazie`, not this skill. Keep this owner's assessment, application, test
+or selected-script work within its approved boundary. A CI/CD recommendation is
+not implementation permission; propose the recipient and apply its loading gate.
+Reuse applicable decisions/contract without a second interview. No implicit
+pipeline execution, publication, promotion, deployment, rollback or Git delivery.

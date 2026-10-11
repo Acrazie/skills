@@ -1,6 +1,7 @@
 import { test, expect } from 'bun:test';
 import fs from 'node:fs';
 import { getAllSkills, getRepoRoot } from '../src/lib/skills';
+import { getSkillGraph } from '../src/lib/skill-graph';
 import { renderMarkdownWithHeadingOffset } from '../src/lib/markdown';
 const dist = `${getRepoRoot()}/site/dist`;
 const skills = getAllSkills();
@@ -8,7 +9,7 @@ for (const [locale, route, label] of [['en', 'graph', 'Skill map'], ['fr', 'fr/g
   test(`${locale}: localized static page, every skill and full instructions without JS`, () => {
     const html = fs.readFileSync(`${dist}/${route}/index.html`, 'utf8');
     const data = JSON.parse(html.match(/<script\b[^>]*data-graph-data[^>]*>([\s\S]*?)<\/script>/)![1]);
-    expect(data.nodes).toHaveLength(skills.length); expect(data.links).toHaveLength(7);
+    expect(data.nodes).toHaveLength(skills.length); expect(data.links).toEqual(getSkillGraph().links);
     expect(data.labels.nav).toBe(label);
     const details = html.match(/<details[^>]*data-content="[^"]+"[^>]*>/g)!;
     expect(details).toHaveLength(skills.length); expect(details.every(tag => !/\bhidden\b/.test(tag))).toBe(true);

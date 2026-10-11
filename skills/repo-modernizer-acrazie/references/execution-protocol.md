@@ -119,3 +119,13 @@ Appliquer [commit-strategy.md](commit-strategy.md) avant chaque commit : autoris
 Pour Tier 2 ou Tier 3, préparer l'ADR selon [adr-template.md](adr-template.md) avant les validations et l'inclure dans le commit de migration concerné. Vérifier également les fichiers de gouvernance et d'automatisation approuvés.
 
 Après chaque commit réussi, enregistrer son SHA et les résultats des validations comme point de contrôle ; si un hook a modifié le contenu, recontrôler périmètre et validations avant d'enregistrer un état vert. Respecter séparément les permissions de staging, commit, push et PR. Ne jamais ajouter de mention `Co-authored-by:`.
+
+
+## Unités CI/CD substantielles
+
+Modernizer conserve inspection et plan global. Réalisation d'une unité pipeline,
+promotion/publication ou diagnostic CI/CD substantiel : proposer `ci-cd-acrazie`,
+appliquer son activation avant lecture/délégation et transmettre contrat actuel,
+décisions et checks autorisés. Pas d'implémentation concurrente sous le seul plan
+Modernizer, ni réinterview des décisions valides. Autorisations distantes/Git restent
+séparées ; une recette du catalogue ne constitue ni preuve de version ni consentement.

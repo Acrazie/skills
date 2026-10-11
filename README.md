@@ -40,8 +40,8 @@ npx skills add Acrazie/skills@<skill-id>
 # Architecture & README design
 npx skills add Acrazie/skills@repository-readme-architect-acrazie
 
-# Jenkins CI/CD pipeline automation
-npx skills add Acrazie/skills@jenkins-devops-acrazie
+# Repository CI/CD across tools and languages
+npx skills add Acrazie/skills@ci-cd-acrazie
 
 # Interactive HTML canvas banners
 npx skills add Acrazie/skills@canvas-banner-designer-acrazie
@@ -56,18 +56,13 @@ The CLI detects your coding agent (Hermes, Codex, Claude Code, Antigravity, Curs
 
 ## Skills Catalog
 
-Explore all 17 skills below, or browse the interactive documentation portal at [skills.acrazie.dev](https://skills.acrazie.dev) with full references, search, and multi-language support.
+Browse selected skills below, or explore the interactive documentation portal at [skills.acrazie.dev](https://skills.acrazie.dev) with full references, search, and multi-language support.
 
 | Skill | Category | Invocation | Description |
 | :--- | :--- | :--- | :--- |
 | [**repository-readme-architect**](skills/repository-readme-architect-acrazie/SKILL.md) | Architecture & Review | `$repository-readme-architect-acrazie` | Design, restructure, or update a repository primary README via decision-tree interviews. |
 | [**audit-repository**](skills/audit-repository-acrazie/SKILL.md) | Architecture & Review | `$audit-repository-acrazie` | Audit a precise technical decision, integration, stack choice, or subsystem in an existing repo. |
-| [**jenkins-devops**](skills/jenkins-devops-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-devops-acrazie` | Design, modernize, and diagnose repository-owned Jenkins CI/CD pipelines as code. |
-| [**jenkins-go**](skills/jenkins-go-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-go-acrazie` | Specialist: Inspect Go modules, workspaces, `golangci-lint`, and test targets for Jenkins. |
-| [**jenkins-js-ts**](skills/jenkins-js-ts-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-js-ts-acrazie` | Specialist: Inspect Node.js/Bun runtimes, package managers, and scripts for Jenkins. |
-| [**jenkins-python**](skills/jenkins-python-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-python-acrazie` | Specialist: Inspect Python packaging (`uv`, `poetry`), Pytest, and linters for Jenkins. |
-| [**jenkins-rust**](skills/jenkins-rust-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-rust-acrazie` | Specialist: Inspect Cargo workspaces, `--locked` builds, Clippy, and test targets for Jenkins. |
-| [**jenkins-symfony-php**](skills/jenkins-symfony-php-acrazie/SKILL.md) | CI/CD & DevOps | `$jenkins-symfony-php-acrazie` | Specialist: Inspect Composer lockfiles, Symfony console tasks, and PHPUnit for Jenkins. |
+| [**ci-cd**](skills/ci-cd-acrazie/SKILL.md) | CI/CD & DevOps | `$ci-cd-acrazie` | Design, modernize and diagnose repository pipelines across tools/languages; remote operations require separate authority. |
 | [**svg-icon-designer**](skills/svg-icon-designer-acrazie/SKILL.md) | Design & Visuals | `$svg-icon-designer-acrazie` | Design original SVG icons and logos through iterative drafts, ASCII previews, and exports. |
 | [**svg-banner-designer**](skills/svg-banner-designer-acrazie/SKILL.md) | Design & Visuals | `$svg-banner-designer-acrazie` | Design custom vector SVG banners, social cards, and platform header graphics. |
 | [**canvas-banner-designer**](skills/canvas-banner-designer-acrazie/SKILL.md) | Design & Visuals | `$canvas-banner-designer-acrazie` | Build animated HTML Canvas banners, web heroes, and interactive ambient backdrops. |
@@ -127,3 +122,12 @@ Distributed under the [MIT License](LICENSE).
 ---
 
 <sub>*Historical Note: This monorepo supersedes the standalone `Acrazie/readme-architect` and `Acrazie/audit-repo` repositories.*</sub>
+
+### CI/CD skill consolidation
+
+The six former `jenkins-*-acrazie` packages are replaced by `ci-cd-acrazie` in the
+current catalogue. Stack/Jenkins knowledge is internal reference material, not
+additional skills. Existing pinned kits and global links are not automatically
+migrated. Review selection, destinations and permissions before an explicit update;
+do not run the contributor link script to clean up old links implicitly. See the
+[consolidation decision](docs/adr/0010-consolidate-repository-cicd-ownership.md).
