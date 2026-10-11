@@ -2,6 +2,15 @@
 
 Read this only when raster or favicon files are requested.
 
+## Export authority
+
+Use only approved formats, sizes and exact output/replacement paths. Verify installed
+renderer/version and current command documentation before execution. Download-capable
+wrappers such as `npx` are not an installation bypass. Inspect SVG references/fonts;
+conversion must not fetch private or external resources or execute untrusted scripts
+implicitly. Application manifest/HTML edits need their own scoped realization
+approval. Report unsupported dimensions/formats and unexecuted checks honestly.
+
 ## Choose a renderer
 
 Inspect available local tools before choosing commands. Prefer a renderer with reliable SVG support, such as `resvg`, `rsvg-convert`, Inkscape, Sharp, or CairoSVG. Use ImageMagick only after confirming its SVG delegate renders the source correctly.

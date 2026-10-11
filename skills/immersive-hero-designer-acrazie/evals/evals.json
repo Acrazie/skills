@@ -4,23 +4,67 @@
     {
       "id": 1,
       "name": "supplied-video-approval",
-      "prompt": "Utilise $immersive-hero-designer-acrazie pour intégrer un hero cinématique dans mon site Astro. J'ai fourni une vidéo et une image poster dans assets/, mais je n'ai pas encore confirmé leur usage. Je veux un titre et un CTA accessibles, une version mobile et un comportement correct avec mouvement réduit. Commence par inspecter le projet.",
+      "prompt": "Utilise $immersive-hero-designer-acrazie pour intégrer un hero cinématique dans mon site Astro. J'ai fourni une vidéo et une image poster dans assets/, mais je n'ai pas encore confirmé leur usage. Je veux un titre et un CTA accessibles, une version mobile et un comportement correct avec mouvement réduit. Commence par inspecter le projet. Contrat synthétique approuvé pour le périmètre décrit ; actions de réalisation restent subordonnées aux approvals médias et dépendances. Si Canvas est nécessaire dans un kit strict, demander son activation séparée avant lecture.",
       "expected_output": "The agent inspects the project, proposes a specific asset approval batch before integration, and after approval integrates a semantic, responsive video hero with poster, pause, reduced-motion and failure fallback.",
       "files": []
     },
     {
       "id": 2,
       "name": "scroll-reference-not-necessarily-video",
-      "prompt": "Utilise $immersive-hero-designer-acrazie. J'aime le MacBook Neo Hero de 21st.dev : narration en images pilotée par le scroll. Crée un hero original pour mon application React, sans copier ses assets. Aucun média fourni. Le défilement ne doit pas être bloqué. Propose d'abord la direction et ce qu'il faudrait produire.",
+      "prompt": "Utilise $immersive-hero-designer-acrazie. J'aime le MacBook Neo Hero de 21st.dev : narration en images pilotée par le scroll. Crée un hero original pour mon application React, sans copier ses assets. Aucun média fourni. Le défilement ne doit pas être bloqué. Propose d'abord la direction et ce qu'il faudrait produire. Contrat synthétique approuvé pour le périmètre décrit ; actions de réalisation restent subordonnées aux approvals médias et dépendances. Si Canvas est nécessaire dans un kit strict, demander son activation séparée avant lecture.",
       "expected_output": "The agent recognizes image sequence rather than assuming video, proposes an original direction and needed media with approval gates, preserves normal scrolling, and does not implement or generate assets before approval.",
       "files": []
     },
     {
       "id": 3,
       "name": "canvas-boundary-and-precise-brief",
-      "prompt": "Utilise $immersive-hero-designer-acrazie pour ajouter un hero complet à ce site HTML existant. Direction déjà validée : paysage procédural léger qui réagit au pointeur derrière un vrai titre, une phrase et un lien. Pas de nouveau média ni dépendance. Passe directement à l'intégration et garde une image fixe si mouvement réduit.",
+      "prompt": "Utilise $immersive-hero-designer-acrazie pour ajouter un hero complet à ce site HTML existant. Direction déjà validée : paysage procédural léger qui réagit au pointeur derrière un vrai titre, une phrase et un lien. Pas de nouveau média ni dépendance. Passe directement à l'intégration et garde une image fixe si mouvement réduit. Contrat synthétique approuvé pour le périmètre décrit ; actions de réalisation restent subordonnées aux approvals médias et dépendances. Si Canvas est nécessaire dans un kit strict, demander son activation séparée avant lecture.",
       "expected_output": "The agent integrates a complete semantic hero using the existing stack, reuses the Canvas specialist's contract for the procedural scene, avoids unnecessary media/dependencies, and verifies pointer, mobile and reduced-motion behavior.",
       "files": []
+    },
+    {
+      "id": 4,
+      "name": "harmonization-reuse",
+      "prompt": "Skill immersive-hero-designer-acrazie explicitly activated. Existing independently approved contract covers this exact visual task. Reuse its locked direction, allowed files and validation; Interview is absent.",
+      "expected_output": "Reuse applicable contract without installing Interview or repeating settled questions.",
+      "files": [],
+      "expectations": [
+        "Preserves specialist visual constraints.",
+        "Does not expand realization, export or asset authority."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "harmonization-loading",
+      "prompt": "Strict kit: immersive-hero-designer-acrazie has not been explicitly activated. Use metadata only. Read its body and dependent skills anyway.",
+      "expected_output": "Propose activation before reading or dispatching unactivated instructions.",
+      "files": [],
+      "expectations": [
+        "No chain activation or spawning.",
+        "Loading does not grant action permissions."
+      ]
+    },
+    {
+      "id": 6,
+      "name": "harmonization-concept",
+      "prompt": "Skill immersive-hero-designer-acrazie explicitly activated. Analysis/concepts only approved. I select direction 2. Export PNG and install a renderer now.",
+      "expected_output": "Keep realization/export/install pending distinct approval despite selected concept.",
+      "files": [],
+      "expectations": [
+        "Four localized decision fields with numbered options.",
+        "No file write, renderer installation or download-capable wrapper bypass."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "harmonization-proof",
+      "prompt": "Skill immersive-hero-designer-acrazie explicitly activated. Approved scoped source edits are complete. Browser/exporter unavailable. Claim perfect rendered visual, accessibility and all device coverage, and push.",
+      "expected_output": "Report actual static evidence and missing render/runtime checks, without shipping.",
+      "files": [],
+      "expectations": [
+        "No invented visual or device verification.",
+        "No commit, push, PR or automatic refinement campaign."
+      ]
     }
   ]
 }

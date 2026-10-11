@@ -1,11 +1,16 @@
 # IconDraft
 
+Present named drafts inside numbered decision options using the entrypoint's four
+localized fields. Geometry notation and wireframes are preview content, not
+execution or export approval. Reuse an elected direction without repeated voting;
+changed scope/assets still need their affected approvals.
+
 Use this compact notation during ideation. It is a working design recipe, not a public file format and not a substitute for the final SVG. ASCII rasters preview geometry so directions can be compared; they are not the logo to ship.
 
 ## Shape
 
 ```text
-A — Orbit
+Option 1 — Orbit
 meaning: continuity + moment of insight
 recipe: ring c(11,13) r7 gap=NE; spark c(18,6) size=4
 style: outline; stroke=2; caps=round

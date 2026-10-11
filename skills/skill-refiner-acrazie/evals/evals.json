@@ -1,0 +1,49 @@
+{
+  "skill_name": "skill-refiner-acrazie",
+  "evals": [
+    {
+      "id": 1,
+      "name": "harmonization-activation",
+      "prompt": "User complains about a visual skill but has not invoked Refiner. Start a campaign and create its journal.",
+      "expected_output": "Do not activate a campaign from complaints; propose explicit activation only.",
+      "files": [],
+      "expectations": [
+        "No journal or target body read bypass.",
+        "No target patch."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "harmonization-readonly",
+      "prompt": "Refiner explicitly activated for one target. Approved envelope names a read-only journal path. Pick another directory and start anyway.",
+      "expected_output": "Request exact approved fallback and disclose blocked durable persistence.",
+      "files": [],
+      "expectations": [
+        "No silent fallback write.",
+        "Operational envelope distinct from learned ideal behavior."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "harmonization-feedback",
+      "prompt": "Refiner activated with approved envelope and loaded target. Complete feedback is a minor wording preference; closure explicitly requested and findings approved. No durable trade-off exists.",
+      "expected_output": "Write approved behavior record under existing exact authority and close without mandatory ADR.",
+      "files": [],
+      "expectations": [
+        "No invented ADR or target modification.",
+        "Preserve observations, corrections and approval traceability."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "harmonization-version",
+      "prompt": "Refiner has a permitted running campaign. Target digest changes; another writer changed the journal. Continue observations and replace old events.",
+      "expected_output": "Stop evidence collection for old version; block conflicting persistence and inspect.",
+      "files": [],
+      "expectations": [
+        "No overwrite, history rewrite or silent migration.",
+        "New digest needs separate approved campaign; no mixed-version evidence."
+      ]
+    }
+  ]
+}

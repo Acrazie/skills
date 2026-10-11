@@ -135,13 +135,13 @@ export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, Localize
   },
   'skill-refiner-acrazie': {
     en: {
-      description: 'Collect structured feedback while a user tests one target skill, preserve observations in an append-only journal, and consolidate approved behavioral decisions into a living ADR. Use only when the user explicitly invokes skill-refiner-acrazie for an interactive refinement campaign; do not edit the target skill.',
+      description: 'Collect structured feedback while a user tests one target skill, preserve observations in an append-only journal, and consolidate approved feedback into a behavior record, with ADRs only for durable nontrivial trade-offs. Use only when the user explicitly invokes skill-refiner-acrazie for an interactive refinement campaign; do not edit the target skill.',
     },
     fr: {
-      description: 'Recueillir des retours structurés lors du test d’un skill cible, consigner les observations dans un journal immuable et consolider les décisions validées dans un ADR vivant.',
+      description: 'Recueillir des retours structurés lors du test d’un skill cible, consigner les observations dans un journal immuable et consolider les retours validés dans un registre comportemental ; réserver les ADR aux arbitrages durables non triviaux. Activation explicite uniquement ; ne modifie pas le skill cible.',
     },
     zh: {
-      description: '在用户测试目标技能时收集结构化实测反馈，以追加式日志归档并在活态 ADR 中固化经审批的行为决策。',
+      description: '在用户测试一个目标技能时收集结构化反馈，以追加式日志保留观察，并在行为记录中汇总经批准的反馈；仅将长期且非平凡的权衡写入 ADR。仅显式启用，不修改目标技能。',
     },
   },
   'svg-banner-designer-acrazie': {
