@@ -1,229 +1,91 @@
-# Memory Anti-Patterns & Retainer Diagnostic Reference
+# Retention investigation reference
 
-Comprehensive technical guide to diagnosing, classifying, and resolving JavaScript and runtime memory leaks across V8 (Node.js, Chrome) and JavaScriptCore (Bun, Safari).
+These are investigation hypotheses, not certified fixes or an exhaustive taxonomy.
+Use only sections relevant to observed evidence. This reference supplies no runnable
+runtime recipes; consult current documentation for the actual engine and version
+before choosing APIs, commands or disposal syntax.
 
----
+## Measurement boundaries
 
-## 1. Engine Memory Fundamentals
+RSS describes process residency, not just reachable JavaScript objects. Heap
+measurements may include garbage not yet collected. External buffers, native
+allocations, fragmentation, caches and runtime reservations require separate
+interpretation. Virtual address space is not physical RSS. Do not add metric fields
+without checking whether their accounting overlaps.
 
-### V8 vs. JavaScriptCore (JSC) Metrics
-* **V8 (Node.js)**:
-  - `process.memoryUsage()` returns:
-    - `rss`: Resident Set Size (total physical memory in RAM occupied by the process).
-    - `heapTotal`: V8's allocated heap space.
-    - `heapUsed`: Actual memory occupied by live objects, strings, and closures.
-    - `external`: Memory bound to C++ objects linked to JS (Buffers, TypedArrays).
-    - `arrayBuffers`: Memory allocated for `ArrayBuffer` and `SharedArrayBuffer`.
-  - Snapshots generated via `v8.writeHeapSnapshot('dump.heapsnapshot')`.
-* **JavaScriptCore (Bun)**:
-  - `import { heapStats } from 'bun:jsc'` provides:
-    - `heapSize`: Active memory consumed by JavaScript values.
-    - `extraMemorySize`: Native off-heap allocations associated with JS objects (buffers, DOM/native structures).
-    - `objectTypeCounts`: Instance count for each JSC cell type.
-    - `protectedObjectTypeCounts`: Objects protected from garbage collection (e.g. active timers, roots).
-  - High virtual memory in Bun/JSC often reflects security "moats" (guard pages), not physical RSS.
+Shallow size describes an object's own represented allocation. Retained size is
+an estimate of memory made collectible if that object no longer retains it, based
+on the snapshot's graph and dominators. Other retaining paths matter; deleting one
+reference does not guarantee immediate collection or release of resident pages.
+Snapshots from different engines/formats are not interchangeable, and may omit
+native allocations. Snapshot capture can itself perturb the measurements.
 
-### Shallow Size vs. Retained Size
-* **Shallow Size**: The memory held by the object itself (primitive fields, immediate pointers). Typically small (32 to 64 bytes for ordinary objects).
-* **Retained Size**: The total memory freed if this specific object were deleted and collected by GC. Includes the object's shallow size plus all children reachable *only* through this object.
+Warm up the same workload, complete relevant lifecycles and compare repeated
+cycles under matched concurrency, data size and collection conditions. Agree
+acceptable trend/tolerance and measurement uncertainty before declaring success.
+A stable graph count can support a lifecycle hypothesis but does not certify all
+memory paths. Neither a plateau nor non-monotonic samples settle every leak claim.
 
----
+## Closures and timers
 
-## 2. The 5 Canonical Memory Anti-Patterns
+A reachable callback can retain captured values. Do not assume every closure
+retains every unused variable in its outer scope: engine optimizations and actual
+reference paths matter. Confirm a path from a surviving owner to the unexpected
+object before assigning causality.
 
-### Anti-Pattern 1: Lexical Scope Retention (`JSLexicalScope`)
+Identify who owns the timer/callback and when its lifetime ends. Moving a callback
+to another function does not clean up an accumulating interval. Check teardown on
+success, error and cancellation and whether repeated registration is intended.
+Changing lexical structure is a candidate experiment, not proof of collection.
 
-**The Mechanism**:  
-In JavaScript, an inner closure retains the entire lexical environment of its enclosing function, not just the variables it references. If an inner closure outlives the outer function (e.g. attached to an event, timer, or exported callback), all variables in that outer scope remain pinned in memory.
+## Listeners and subscriptions
 
-#### Leaking Example
-```typescript
-// ❌ ANTI-PATTERN: largeBuffer retained by the timer closure
-function processRequest(req: Request) {
-  const largeBuffer = new Uint8Array(50 * 1024 * 1024); // 50 MB
-  const requestId = req.headers.get("x-request-id");
+A long-lived publisher may retain listeners and their captured owners. Compare
+registrations with removals across completed subscriber lifecycles. Cleanup must
+use the intended handler identity and occur at the actual ownership boundary.
+Verify that duplicate registrations and repeated delivery remain correct.
 
-  // This small closure keeps largeBuffer alive for 1 hour!
-  setInterval(() => {
-    console.log(`Status for ${requestId}`);
-  }, 3600_000);
-}
-```
+Replacing `.on()` with `.once()` changes delivery semantics; it is not a default
+leak fix. Anonymous arrows and bound functions can both retain objects. Switching
+between them does not by itself remove retention. Verify runtime/transpiler support
+and actual lifecycle invocation before proposing disposal syntax.
 
-#### Surgical Fix
-```typescript
-// ✅ FIXED: Isolate the retained primitive into its own unencumbered scope
-function scheduleLogger(requestId: string | null) {
-  setInterval(() => {
-    console.log(`Status for ${requestId}`);
-  }, 3600_000);
-}
+## Cancellation listeners
 
-function processRequest(req: Request) {
-  const largeBuffer = new Uint8Array(50 * 1024 * 1024);
-  const requestId = req.headers.get("x-request-id");
-  
-  scheduleLogger(requestId);
-  // largeBuffer is eligible for GC immediately when processRequest finishes
-}
-```
+A listener on a long-lived signal may survive a completed operation. `{ once: true }`
+removes it after the event fires, not when an operation completes without aborting.
+Verify cleanup in completion/error paths as well as cancellation, including already
+aborted signals and relevant races. Cancellation must reach the underlying operation;
+standard `Request` has no `cancel()` method. Do not invent an API from its name.
 
----
+## Buffers, streams and backpressure
 
-### Anti-Pattern 2: Orphan Event Listeners
+Measure actual allocation, lifetime, concurrency and queue growth. Duplication or
+large temporary working sets are not automatically unreachable-memory leaks.
+Check buffering, stream consumption/cancellation and backpressure before changing
+representations. `Blob` is not a universal zero-copy guarantee; neither a constructor
+name nor an illustrative RSS multiplier proves allocation behavior. Confirm actual
+engine/version semantics and compare equivalent response behavior and throughput.
 
-**The Mechanism**:  
-Registering a listener on a long-lived publisher (`EventEmitter`, WebSocket client, DOM element) pins both the listener function and whatever it captures in its closure. If the subscriber object is destroyed without unregistering, it leaks permanently.
+## Pending work and caches
 
-#### Leaking Example
-```typescript
-// ❌ ANTI-PATTERN: Handler accumulates on global messageBroker
-class UserSession {
-  private cache = new Map<string, any>();
+An unresolved Promise is not automatically a permanent GC root. Trace reachable
+pending operations, callbacks, queues and their owners. `Promise.race` does not
+cancel the losing operation or clean its timers, listeners and resources. Timeouts
+need defined cancellation/cleanup semantics and must preserve expected outcomes.
 
-  constructor(broker: EventEmitter) {
-    broker.on("user:logout", (userId) => {
-      this.cache.delete(userId); // 'this' is permanently captured!
-    });
-  }
-}
-```
+For caches, establish intended ownership, eviction, size/lifetime limits and key
+retention. WeakRef and FinalizationRegistry have nondeterministic collection timing;
+they are not deterministic cleanup or resource-release mechanisms. Weak values do
+not bound a strongly held key map. Do not introduce them without an approved
+semantic requirement and evidence that they address the actual retaining path.
 
-#### Surgical Fix
-```typescript
-// ✅ FIXED: Explicit cleanup or Symbol.dispose (RAII pattern)
-class UserSession implements Disposable {
-  private cache = new Map<string, any>();
-  private readonly handler = (userId: string) => this.cache.delete(userId);
+## Correction checks
 
-  constructor(private broker: EventEmitter) {
-    broker.on("user:logout", this.handler);
-  }
-
-  [Symbol.dispose]() {
-    this.broker.removeListener("user:logout", this.handler);
-    this.cache.clear();
-  }
-}
-
-// In consumer:
-{
-  using session = new UserSession(globalBroker);
-  // session automatically cleaned up when leaving block scope
-}
-```
-
----
-
-### Anti-Pattern 3: Lingering AbortSignal Listeners
-
-**The Mechanism**:  
-`AbortSignal` listeners attach to the `AbortController`. If a singleton controller is reused or a signal has a long lifespan, adding `'abort'` listeners on individual transient requests without unregistering causes memory to grow monotonically.
-
-#### Leaking Example
-```typescript
-// ❌ ANTI-PATTERN: Listener stays attached if signal does not abort
-async function fetchWithTimeout(url: string, parentSignal: AbortSignal) {
-  const req = new Request(url);
-  parentSignal.addEventListener("abort", () => {
-    req.cancel();
-  });
-  return fetch(req);
-}
-```
-
-#### Surgical Fix
-```typescript
-// ✅ FIXED: Clean up the listener in finally or use { once: true }
-async function fetchWithTimeout(url: string, parentSignal: AbortSignal) {
-  const req = new Request(url);
-  const abortHandler = () => req.cancel();
-
-  parentSignal.addEventListener("abort", abortHandler, { once: true });
-  try {
-    return await fetch(req);
-  } finally {
-    parentSignal.removeListener?.("abort", abortHandler);
-  }
-}
-```
-
----
-
-### Anti-Pattern 4: Buffer Duplication in Streams
-
-**The Mechanism**:  
-Passing raw typed arrays or buffers to constructors like `new Response(uint8Array)` or through unoptimized serialization copies the buffer into internal memory structures. When done frequently under high concurrency, memory usage explodes (e.g. 22x multiplier).
-
-#### Leaking / Wasteful Example
-```typescript
-// ❌ INEFFICIENT: Uint8Array forces eager internal duplication (~1GB RSS)
-export function serveFile(buffer: Uint8Array) {
-  return new Response(buffer, {
-    headers: { "Content-Type": "application/octet-stream" },
-  });
-}
-```
-
-#### Surgical Fix
-```typescript
-// ✅ FIXED: Zero-copy Blob representation preserves memory footprint (~60MB RSS)
-export function serveFile(buffer: Uint8Array) {
-  const blob = new Blob([buffer]);
-  return new Response(blob, {
-    headers: { "Content-Type": "application/octet-stream" },
-  });
-}
-```
-
----
-
-### Anti-Pattern 5: Zombie Promises & Function Binds
-
-**The Mechanism**:  
-- Creating a `Promise` that never resolves or rejects retains all chained `.then()` callbacks and their associated lexical closures in the microtask / GC root queue indefinitely.
-- `Function.prototype.bind()` creates an internal bound function object holding a strong reference to the target function, `this`, and all arguments.
-
-#### Surgical Fix
-- Always ensure promises have a bounded timeout race: `Promise.race([work, timeout(30_000)])`.
-- Prefer arrow functions or explicit instance methods over dynamic `.bind()`.
-- Use `WeakRef` and `FinalizationRegistry` when caching object references that should not prevent GC:
-```typescript
-const cache = new Map<string, WeakRef<LargeObject>>();
-```
-
----
-
-## 3. Automated Non-Regression Test Harness
-
-To verify that a memory leak fix is robust and persistent, write an automated non-regression test:
-
-```typescript
-import { test, expect } from "bun:test";
-import { gc } from "bun:jsc";
-
-test("memory-leak non-regression: session cache cleans up after disposal", () => {
-  // 1. Warm-up
-  for (let i = 0; i < 100; i++) {
-    const s = new UserSession();
-    s[Symbol.dispose]();
-  }
-  gc();
-
-  const baselineMemory = process.memoryUsage().heapUsed;
-
-  // 2. High-iteration cycling load
-  for (let i = 0; i < 50_000; i++) {
-    const s = new UserSession();
-    s[Symbol.dispose]();
-  }
-
-  // 3. Force garbage collection
-  gc();
-  const postLoadMemory = process.memoryUsage().heapUsed;
-
-  // 4. Verify no monotonic growth (allow modest buffer variance < 5MB)
-  const growthBytes = postLoadMemory - baselineMemory;
-  expect(growthBytes).toBeLessThan(5 * 1024 * 1024);
-});
-```
+Check lifecycle completion, failure, cancellation and repeated use, then repeat
+comparable memory measurements. Functional delivery assertions and ownership
+counts can provide focused regression evidence alongside runtime measurements.
+Forced GC is neither production remediation nor a substitute for correct cleanup;
+use it only when authorized and supported, under comparable conditions. No universal
+60-second reproduction requirement, 5 MB threshold or 50,000-iteration proof applies.
+Never report exact recovery or global leak freedom from one passing sample.
