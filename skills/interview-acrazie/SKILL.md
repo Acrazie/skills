@@ -14,6 +14,19 @@ Turn an underspecified request into one concise, documented Task Contract that
 another workflow can execute without guessing. Stay persistent about relevant
 ambiguity, not exhaustive about hypothetical possibilities.
 
+## Portable evidence and outputs
+
+Read [references/portable-practice.md](references/portable-practice.md) before
+starting this workflow. At each execution, verify changing technical facts used
+for decisions or actions against official documentation for the project or target
+version, not automatically the latest. Record sources, versions and limits;
+inaccessible or contradictory documentation blocks only the dependent step, not
+independent work. Model memory is not a substitute for missing proof.
+Use the four-field choice format with numbered options and exactly one motivated
+recommendation, never prefilled consent. Include Decisions, Evidence and Limits
+in the final handoff or report alongside the existing domain-specific sections.
+These rules are local to this skill and do not require the repository's AGENTS.md.
+
 ## Project loading boundary
 
 Published-library defaults remain model-invocable within the requested task. An
@@ -61,7 +74,7 @@ prerequisites are settled; ask the whole current frontier in one round.
 
 1. Group related decisions; each displayed question has only the following four
    fields. Translate the four labels and content into the user's language. Keep
-   options numbered and give one recommendation with a short context-specific
+   options numbered and give exactly one recommendation with a short context-specific
    reason. Do not add question IDs, titles, decision fields or a fixed questionnaire.
    A recommendation is not a selected answer or approval.
 

@@ -2,17 +2,24 @@
 
 This document defines the ubiquitous language and domain vocabulary across the skills repository.
 
-## Jenkins Family
+## Repository CI/CD Ownership
 
-**Jenkins Parent**:
-The `jenkins-devops-acrazie` skill, responsible for approving, orchestrating, and validating pipeline modifications and production deployments across application repositories.
+**Repository CI/CD Owner**:
+The specialist `ci-cd-acrazie`, owning substantial pipeline design,
+repair, modernization and explicitly authorized delivery operations for one repository,
+independently of language or CI provider.
+*Avoid*: Jenkins-only orchestrator, platform administrator, universal deployment permission.
 
-**Symfony Specialist**:
-The `jenkins-symfony-php-acrazie` specialist skill, dedicated to interpreting Symfony application architecture, CI requirements, and runtime dependencies for the Jenkins Parent. It provides CI constraints without directly executing deployment stages.
-*Avoid*: Generic PHP specialist, Symfony deployer.
+**CI/CD Technical Reference**:
+Knowledge scoped to a detected tool, application stack or deployment interface,
+used by the CI/CD owner rather than exposed as another independently invocable skill.
+*Avoid*: Stack specialist skill, plugin, executable adapter engine.
 
-**Python Specialist**:
-The `jenkins-python-acrazie` specialist skill, dedicated to Python packaging, testing (pytest/tox), and runtime containerization for Jenkins pipelines.
+**CI/CD Operation Envelope**:
+An independently authorized bounded operation or sequence identifying its target,
+submitted data, permitted effects, checks and validity conditions; it is distinct
+from pipeline-edit approval and technical execution capability.
+*Avoid*: Automatic consent from pipeline creation, unrestricted production access.
 
 ## Skill Invocation & Authorization
 
@@ -255,3 +262,20 @@ The grant of a GitHub App's permissions to a selected account and repository set
 **Credential Lifecycle**:
 The creation, replacement, verification and revocation of an App credential or personal access token, distinct from configuration of an App registration.
 *Avoid*: Permission escalation, secret disclosure.
+
+## Portable Skill Practice
+
+**Version-Applicable Evidence**:
+A traceable technical fact checked against documentation for the project's version
+or proposed target, with its applicability and verification limits recorded.
+*Avoid*: Latest documentation by default, remembered fact, universal compatibility proof.
+
+**Dependent-Step Suspension**:
+Pausing only a decision or action whose required fact remains unverified while
+continuing authorized work independent of that fact.
+*Avoid*: Global task cancellation, permission to proceed on model memory.
+
+**Skill Reproducibility**:
+Repeatable required steps, traceable decisions, observable criteria and stable
+output structure across skill executions.
+*Avoid*: Guaranteed identical wording or results across models and harnesses.

@@ -41,7 +41,8 @@ an applicable approved contract can satisfy Interview's result without loading i
   recovery, production changes, and agent spawning still follow their applicable
   permissions. Do not infer authorization from skill selection or plan approval.
 
-Examples: a requested Jenkins pipeline task may load a read-only stack specialist;
+Examples: a requested CI/CD task may select `ci-cd-acrazie` and read its matching
+internal stack/tool references after the applicable loading gate;
 "publish these changes" may select `git-ship-acrazie` for preparation, but its
 delivery recap and confirmation remain required. "Implement this feature" does
 not request a multi-agent planning interview or authorize spawning agents.

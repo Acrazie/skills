@@ -1,6 +1,0 @@
-interface:
-  display_name: "Jenkins Symfony Specialist / Acrazie"
-  short_description: "Analyzes Symfony CI and delivery constraints for Jenkins"
-  default_prompt: "Use $jenkins-symfony-php-acrazie to inspect this Symfony application statically and return evidence-based CI and delivery constraints to jenkins-devops-acrazie, without executing application commands or changing files."
-policy:
-  allow_implicit_invocation: true

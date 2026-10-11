@@ -16,13 +16,14 @@ const declarations: InvocationDeclaration[] = [
     source: 'immersive-hero-designer-acrazie', target: 'canvas-banner-designer-acrazie', conditional: true,
     evidence: [{ path: 'skills/immersive-hero-designer-acrazie/SKILL.md', quote: 'For a procedural Canvas scene or pointer-reactive ambient backdrop alone, use `canvas-banner-designer-acrazie` instead; if it is the chosen medium within a complete hero, follow that skill\'s rendering and lifecycle contract rather than inventing a second one.' }],
   },
-  ...['js-ts', 'python', 'rust', 'go', 'symfony-php'].map(stack => ({
-    source: 'jenkins-devops-acrazie', target: `jenkins-${stack}-acrazie`, conditional: true,
-    evidence: [
-      { path: 'skills/jenkins-devops-acrazie/SKILL.md', quote: 'When the runtime exposes a native installed-skill catalog and loader, use them to find and load the exact specialist.' },
-      { path: 'skills/jenkins-devops-acrazie/references/specialist-contract.md', quote: `- \`jenkins-${stack}-acrazie\`:` },
-    ],
-  })),
+  {
+    source: 'github-repo-init-acrazie', target: 'ci-cd-acrazie', conditional: true,
+    evidence: [{ path: 'skills/github-repo-init-acrazie/SKILL.md', quote: 'For substantive CI/CD work beyond minimal bootstrap, propose `ci-cd-acrazie`;\napply its project loading boundary before reading or handing off implementation.' }],
+  },
+  {
+    source: 'repo-modernizer-acrazie', target: 'ci-cd-acrazie', conditional: true,
+    evidence: [{ path: 'skills/repo-modernizer-acrazie/SKILL.md', quote: 'For substantive CI/CD work beyond minimal bootstrap, propose `ci-cd-acrazie`;\napply its project loading boundary before reading or handing off implementation.' }],
+  },
 ];
 
 export function resolveInvocations(ids: string[], definitions: InvocationDeclaration[], read: (file: string) => string): Invocation[] {
@@ -61,9 +62,8 @@ export function createGraphNodes(skills: SkillData[]) {
     const style = familyStyle[category] ?? { color: '#c7c7c7', x: 0, y: 0 };
     return members.map((skill, index) => {
       const angle = index * Math.PI * 2 / members.length - Math.PI / 2;
-      const hub = skill.id === 'jenkins-devops-acrazie';
-      const x = style.x + (members.length === 1 || hub ? 0 : Math.cos(angle) * 145);
-      const y = style.y + (members.length === 1 || hub ? 0 : Math.sin(angle) * (members.length < 3 ? 55 : 110));
+      const x = style.x + (members.length === 1 ? 0 : Math.cos(angle) * 145);
+      const y = style.y + (members.length === 1 ? 0 : Math.sin(angle) * (members.length < 3 ? 55 : 110));
       return { id: skill.id, category, color: style.color, x, y, fx: x, fy: y };
     });
   });

@@ -9,6 +9,19 @@ Audit an existing repository's setup, dependencies, runtimes, and developer tool
 
 ---
 
+## Portable evidence and outputs
+
+Read [references/portable-practice.md](references/portable-practice.md) before
+starting this workflow. At each execution, verify changing technical facts used
+for decisions or actions against official documentation for the project or target
+version, not automatically the latest. Record sources, versions and limits;
+inaccessible or contradictory documentation blocks only the dependent step, not
+independent work. Model memory is not a substitute for missing proof.
+Use the four-field choice format with numbered options and exactly one motivated
+recommendation, never prefilled consent. Include Decisions, Evidence and Limits
+in the final handoff or report alongside the existing domain-specific sections.
+These rules are local to this skill and do not require the repository's AGENTS.md.
+
 ## Project loading boundary
 
 Published-library defaults remain model-invocable within the requested task. An
@@ -27,7 +40,9 @@ not authorize reading or invoking it; this workflow keeps its specialist intervi
 ## User decision format
 
 For any user-owned choice, display only Current state, numbered Options,
-Recommendation and Response. Translate labels/content into the user's language;
+Recommendation and Response. Provide exactly one recommendation with a short
+context-specific reason, using the template in the local portable-practice reference.
+Translate labels/content into the user's language;
 do not add question IDs, preselect an answer as consent or treat a recommendation
 as approval. Apply this to pillar/tier, plan, installation, governance, Git and
 recovery decisions. The scorecard, validation evidence and reports retain their
@@ -57,7 +72,7 @@ Select this skill for requested upgrades or repository modernization. Under publ
      3. Core Framework & Application (React, Next.js, FastAPI, Symfony...)
      4. Secondary & utility dependencies.
 6. **Hybrid Refactoring Protocol :**
-   - Run official, battle-tested migration tools and codemods first (e.g. `biome migrate`, `vitest-codemod`, `pyupgrade`, `rector process`).
+   - Prefer applicable official migration tools and codemods after verifying their version support, documented invocation, effects and coverage; do not assume a tool exists or fully preserves semantics.
    - Mobilize the AI to surgically translate complex configurations, adapt deprecated API calls, and update mocks/tests.
 7. **Automated Validation Gates :**
    - Every modification must pass 4 verification gates: Lockfile integrity, Lint/Format, Typecheck, and Test Suite.
@@ -92,7 +107,7 @@ flowchart TD
 
 ### Step 1: Passive Environmental Inspection
 Read [references/inspection-checklist.md](references/inspection-checklist.md) before inspecting.
-1. Check repository root, current git branch, and clean status (`git status --porcelain`).
+1. Check repository root, current git branch, index and working-tree state using verified read-only inspection.
 2. Identify active manifests, lockfiles, and runtimes:
    - Node/JS/TS: `package.json`, lockfile type, `.nvmrc`, `tsconfig.json`.
    - Python: `pyproject.toml`, `requirements.txt`, `poetry.lock`, `uv.lock`.
@@ -107,16 +122,15 @@ Read [references/inspection-checklist.md](references/inspection-checklist.md) be
 Read [references/taxonomy-matrix.md](references/taxonomy-matrix.md) and [references/modernization-catalog.md](references/modernization-catalog.md).
 Structure findings across the 6 thematic pillars and present a compact Markdown table:
 
-| Pilier | Outil Actuel | Statut / Version | Recommandation Tier 1 (Drop-in) | Recommandation Tier 2 (Majeur) | Recommandation Tier 3 (Remplacement Moderne) | Effort / Gain |
+| Pillar | Observed tool / version | Verified status and source | Tier 1 candidate | Tier 2 candidate | Tier 3 candidate | Effort / measured benefit / limits |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Runtime** | Node 18 | EOL proche | Node 20 LTS | Node 22 Current | - | Faible / Fiabilité |
-| **Qualité & Lint** | ESLint legacy + Prettier | Format .eslintrc déprécié | Bump patch | ESLint 9 Flat Config | **Biome** (vitesse x25, zéro config) | Moyen / DX x10 |
-| **Build & Bundler** | Webpack 4 / CRA | Build lent (>45s) | Bump Webpack 5 | - | **Vite** (HMR instantané, TS natif) | Modéré / Gain maximal |
-| **Tests & QA** | Jest (`ts-jest`) | ESM complexe, lent | Jest 29 + SWC | - | **Vitest** (partage config Vite, x5 rapide) | Modéré / Vitesse |
-| **CI/CD & DevOps** | GH Actions v2/v3, sans hooks | Actions dépréciées | Bump actions@v4 | - | **Lefthook** + **Release Please** | Faible / Automatisation |
-| **Dépendances** | npm standard | Dépendances obsolètes | `npm update` (patch/minor) | Upgrades majeures ciblées | Migration vers **pnpm** ou **uv** | Modéré / Espace disque |
+| `<detected pillar>` | `<local evidence>` | `<version-matched documentation or unverified>` | `<maintenance path, or not applicable>` | `<major path, or not applicable>` | `<replacement, or not justified>` | `<project evidence; unknown if not measured>` |
 
-Highlight any **missing essential blocks** (e.g. no git hooks installed, no automated release pipeline, missing security policy).
+This is a structural template, not a predetermined tool ranking. Keeping the
+existing setup is valid. Do not invent a candidate for every tier or infer
+obsolescence from age, a filename, or absence of a preferred tool. Include source,
+version applicability and limits for each changing claim. Highlight missing blocks
+only when their value or requirement is established for this repository.
 
 ---
 
@@ -131,7 +145,7 @@ Plan reuse does not grant loading, installation, staging/commit/push/PR or
 destructive recovery permissions; evaluate those independently at their boundaries.
 
 Ask the user only unresolved pillar and ambition-tier choices.
-If the user provided explicit scope upfront (e.g. `$repo-modernizer-acrazie --theme testing`), confirm the plan for that pillar.
+If the user provided explicit scope upfront (e.g. modernization of testing only), confirm the plan for that pillar.
 Include the approved commit strategy and proposed commit boundaries in that plan. Preserve existing policy; ask only unresolved choices. If policy is missing, propose `docs/git-workflow.md` and obtain approval before creating it, keeping existing `AGENTS.md` and `CONTRIBUTING.md` consistent without overwriting them. Hooks, dependencies, and GitHub settings require separate choices.
 Do **NOT** proceed to file modifications without independently evidenced explicit approval covering the current target plan and realization, including its commit strategy. An unresolved policy conflict blocks the affected execution.
 
@@ -147,7 +161,7 @@ Read [references/execution-protocol.md](references/execution-protocol.md).
 
 ### Step 5: Execute Migration (Codemods + AI Refactoring)
 Follow the layered ordering from [references/execution-protocol.md](references/execution-protocol.md):
-1. **Run official codemods / migration CLI first** (e.g. `pnpm biome migrate eslint --write`, `npx vitest-codemod`, `uv init --bare`, `rector process`).
+1. **Prefer a documented applicable migration tool** after checking source/target support, invocation, mutation scope and limitations. If none is verified, plan bounded manual changes; do not install or run a guessed command.
 2. **Translate configuration files** (e.g. `vite.config.ts`, `biome.json`, `lefthook.yml`).
 3. **Remove obsolete dependencies and configs** from package manifests.
 4. **Refactor codebase call sites** via targeted AI edits (updating deprecated imports, mocks, and type annotations).
@@ -156,11 +170,14 @@ Follow the layered ordering from [references/execution-protocol.md](references/e
 ---
 
 ### Step 6: Automated Validation Gates & Self-Healing
-Use the actual repository commands for the 4 validation gates in order; the commands below are examples, not tool installation instructions. Missing, unavailable, or failing required checks block the commit. A genuinely inapplicable gate needs an explicit reason in the approved plan, never an invented success:
-1. `Lockfile & Install` : `pnpm install --frozen-lockfile` / `uv sync`
-2. `Linter & Formatter` : `pnpm biome check .` / `uv run ruff check`
-3. `Typecheck` : `pnpm tsc --noEmit` / `cargo check`
-4. `Test Suite` : `pnpm test` / `uv run pytest`
+Use verified actual repository commands for the 4 validation gates in order; the gate descriptions below are not tool installation instructions. Missing, unavailable, or failing required checks block the commit. A genuinely inapplicable gate needs an explicit reason in the approved plan, never an invented success:
+1. `Lockfile & Install`: verified repository command and lockfile-preservation expectations.
+2. `Linter & Formatter`: verified repository checks, with write effects disclosed.
+3. `Typecheck`: verified applicable static-analysis command.
+4. `Test Suite`: verified repository suite and agreed acceptance criteria.
+
+Derive exact commands from repository configuration and version-matched official
+documentation before use; these gate names are not executable recipes.
 
 **Self-Healing Loop :**
 - If an error occurs, analyze the stack trace and apply targeted patches.
@@ -176,3 +193,14 @@ Use the actual repository commands for the 4 validation gates in order; the comm
 2. Commit only if authorized by applicable user/repository rules; otherwise present the reviewed scope, proposed message, and proof and request approval. Approval of migration or policy alone grants no shipping authority.
 3. After a successful commit, record its SHA with validation evidence as a checkpoint. If hooks changed files, recheck scope and validation before marking that revision green.
 4. Summarize achieved migration units, compliance, checkpoint SHAs, and actual checks. Apply push and PR permissions separately; do not infer them from commit permission. Distinguish local validation, pending CI, PR state, and deployment. Offer the next pillar or PR only within the authorized scope.
+
+## Repository CI/CD ownership
+
+For substantive CI/CD work beyond minimal bootstrap, propose `ci-cd-acrazie`;
+apply its project loading boundary before reading or handing off implementation.
+Minimal bootstrap reuses an established simple template with existing decisions;
+new provider integration, release/promotion architecture or causal pipeline repair
+belongs to the CI/CD owner. Modernization may inspect and plan CI/CD globally,
+but does not implement a competing substantive pipeline workflow. Pass the current
+approved contract, decisions, evidence and allowed actions; do not repeat settled
+interviews or infer recipient activation, remote actions or Git shipping permission.

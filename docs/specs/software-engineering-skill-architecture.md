@@ -1,5 +1,10 @@
 # Architecture des skills software engineering
 
+> Consolidation réalisée dans le lot courant : `ci-cd-acrazie` remplace les six
+> packages Jenkins. Les références historiques ci-dessous restent liées à la base
+> observée, pas présentées comme packages encore disponibles. Voir
+> [contrat et preuves](cicd-consolidation-implementation.md).
+
 ## Contrat et approbation
 
 Statut : architecture approuvée, implémentation non autorisée par ce document.
@@ -86,8 +91,7 @@ Ce classement est conceptuel. Les 26 identifiants et chemins restent inchangés.
 | Migration de langage | [mechanical-port-acrazie](../../skills/mechanical-port-acrazie/SKILL.md) | Port mécanique avec oracle ; pas réécriture ou refactor dans un même langage. |
 | Diagnostics massifs | [diagnostic-queue-runner-acrazie](../../skills/diagnostic-queue-runner-acrazie/SKILL.md) | Files massives de diagnostics ; pas débogage ponctuel. |
 | Mémoire runtime | [memory-leak-diagnostician-acrazie](../../skills/memory-leak-diagnostician-acrazie/SKILL.md) | Fuites runtime démontrées ; pas audit statique ou bug-fix général. |
-| CI/CD Jenkins | [jenkins-devops-acrazie](../../skills/jenkins-devops-acrazie/SKILL.md) | Pipelines du dépôt ; pas administration du contrôleur. |
-| Interprétation Jenkins | [jenkins-go-acrazie](../../skills/jenkins-go-acrazie/SKILL.md), [jenkins-js-ts-acrazie](../../skills/jenkins-js-ts-acrazie/SKILL.md), [jenkins-python-acrazie](../../skills/jenkins-python-acrazie/SKILL.md), [jenkins-rust-acrazie](../../skills/jenkins-rust-acrazie/SKILL.md), [jenkins-symfony-php-acrazie](../../skills/jenkins-symfony-php-acrazie/SKILL.md) | Spécialistes de stack pour Jenkins ; pas exécuteurs génériques ni propriétaires du déploiement. |
+| CI/CD du dépôt | [ci-cd-acrazie](../../skills/ci-cd-acrazie/SKILL.md) | Pipeline substantiel et opérations explicitement autorisées ; hors administration plateformes/cloud. |
 | Satellites web | [immersive-hero-designer-acrazie](../../skills/immersive-hero-designer-acrazie/SKILL.md), [canvas-banner-designer-acrazie](../../skills/canvas-banner-designer-acrazie/SKILL.md) | Workflows visuels spécialisés ; pas propriétaire générique de toute interface. |
 | Satellites vectoriels | [svg-banner-designer-acrazie](../../skills/svg-banner-designer-acrazie/SKILL.md), [svg-icon-designer-acrazie](../../skills/svg-icon-designer-acrazie/SKILL.md) | Bannières, icônes et marques ; pas génération raster ou refonte de site. |
 | Planification des agents | [multi-agent-planner-acrazie](../../skills/multi-agent-planner-acrazie/SKILL.md) | Planification demandée ; pas délégation ou exécution automatique. |
@@ -162,7 +166,7 @@ sans nouveau résolveur ou moteur d'exécution dans cette phase.
 | Product Critic / Interview | Conditionnelle | Résolution des décisions utilisateur manquantes. |
 | Feature Builder / Adversarial Reviewer | Facultative à proposer, puis gate si acceptée | Résultat indépendant sur snapshot final ; politique peut rendre revue obligatoire. |
 | Mechanical Port et Diagnostic Queue Runner / Adversarial Reviewer | Obligatoire | Vérification indépendante exigée par ces workflows. |
-| Jenkins DevOps / spécialistes de stack | Facultative | Contraintes de stack ; absence ne bloque pas automatiquement Jenkins. |
+| CI/CD / références de stack et outil | Internes, ciblées | Connaissances du propriétaire unique ; pas dépendances de skills. |
 | Immersive Hero / contrat Canvas | Conditionnelle au médium | Réutilisation des contraintes Canvas, pas sélection implicite sans confirmation. |
 
 Dépendance obligatoire indisponible : bloquer uniquement l'étape concernée,

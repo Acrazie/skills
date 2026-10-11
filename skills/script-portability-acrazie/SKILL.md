@@ -147,3 +147,12 @@ an unrelated report. Do not present recommendations as completed refactors.
 
 Keep this report factual: static instruction tests do not prove runtime portability
 or safety, and loading flags do not prove host behavior. No automatic shipping.
+
+## CI/CD boundary
+
+Substantive pipeline creation, modernization and causal repair belong to
+`ci-cd-acrazie`, not this skill. Keep this owner's assessment, application, test
+or selected-script work within its approved boundary. A CI/CD recommendation is
+not implementation permission; propose the recipient and apply its loading gate.
+Reuse applicable decisions/contract without a second interview. No implicit
+pipeline execution, publication, promotion, deployment, rollback or Git delivery.

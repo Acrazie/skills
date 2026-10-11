@@ -236,3 +236,14 @@ Provide a concise, direct, and structured 3-part completion summary:
    - Explicit confirmation of selected lint/format, test and build checks actually executed. Distinguish local proof, remote settings readback and observed CI/release runs.
 3. **Ready-to-Use Commands**:
    - Practical commands for contributor onboarding, linting, running tests, and managing worktrees (`setup.sh`, `test`, `lint`, `worktree.sh`).
+
+## Repository CI/CD ownership
+
+For substantive CI/CD work beyond minimal bootstrap, propose `ci-cd-acrazie`;
+apply its project loading boundary before reading or handing off implementation.
+Minimal bootstrap reuses an established simple template with existing decisions;
+new provider integration, release/promotion architecture or causal pipeline repair
+belongs to the CI/CD owner. Modernization may inspect and plan CI/CD globally,
+but does not implement a competing substantive pipeline workflow. Pass the current
+approved contract, decisions, evidence and allowed actions; do not repeat settled
+interviews or infer recipient activation, remote actions or Git shipping permission.

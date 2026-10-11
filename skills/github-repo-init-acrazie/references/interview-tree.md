@@ -97,7 +97,16 @@ Use this decision map to interview the user adaptively before any scaffolding oc
 - **Recommendation**: Preserve any enforced convention. For a new repository using automated releases, consider Conventional Commits; do not choose it merely because the template contains it.
 - **Ecosystem Fit Invariant (DEC-004)**: Never install Node.js/npm dependencies in a non-JS project solely for commitlint. Always configure Lefthook's native regex hook or repository-local scripts for Python, Go, and Rust.
 
-#### 2.4 CI/CD Workflows (GitHub Actions)
+#### 2.4 CI/CD Bootstrap Boundary
+
+Compare choices for the approved bootstrap; do not treat GitHub Actions as the
+only CI provider. Minimal bootstrap means an established simple template with
+settled project commands/decisions, not new provider integration, promotion or
+release architecture. Substantive pipeline changes and repairs belong to
+`ci-cd-acrazie`; apply its explicit-kit activation gate and pass current approved
+choices instead of repeating this interview. The options below are discovery
+examples, not permission to implement a competing workflow or trigger remote work.
+
 - **Question**: Which automated GitHub Actions workflows do you want to enable?
 - **Options**:
   - Automated CI (`.github/workflows/ci.yml`: lint, typecheck, test, build).

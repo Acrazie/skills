@@ -1,5 +1,14 @@
 # Protocole d'Exécution, Validation & Rollback
 
+Apply [portable-practice.md](portable-practice.md) before using this reference.
+Technical commands, flags, APIs and compatibility claims require official docs
+for the applicable version at each use; examples below are non-authoritative.
+Record source/version/date/limits in the existing plan. Inaccessible or
+contradictory docs suspend only the dependent step; do not replace proof with
+model memory. Final reports include Decisions, Evidence and Limits alongside
+required checkpoint and blocker sections. All user-owned choices have numbered
+options and exactly one context-specific recommendation; no prefilled consent.
+
 Ce document détaille les règles opérationnelles strictes que le skill `repo-modernizer-acrazie` applique lors de la phase de modification du code et des configurations.
 
 Appliquer d'abord la frontière de chargement du `SKILL.md` : dans un kit explicite,
@@ -34,7 +43,7 @@ Pour éviter les conflits de dépendances croisées (dependency hell) et les ré
 ```text
   ┌───────────────────────────────────────────────────────────┐
   │ COUCHE 1 : Runtime & Gestionnaire de Paquets              │
-  │ (.nvmrc, .python-version, passage à pnpm / uv)            │
+  │ (Déclarations runtime et gestionnaire détectés)          │
   └─────────────────────────────┬─────────────────────────────┘
                                 │ (Valider build & install)
   ┌─────────────────────────────▼─────────────────────────────┐
@@ -62,7 +71,7 @@ Valider chaque unité cohérente avant commit et avant une unité indépendante 
 Lors d'une montée majeure (Tier 2) ou d'un remplacement d'outil (Tier 3), la refactorisation suit une démarche en 3 temps :
 
 1. **Étape A : Exécution des outils et codemods officiels**
-   - Lorsqu'un outil officiel existe (ex: `biome migrate`, `vitest-codemod`, `rector process`, `cargo fix`), le lancer en priorité pour transformer la masse du code de manière déterministe.
+   - Vérifier existence, source officielle, versions source/cible, invocation, effets et limites du codemod avant utilisation autorisée. Aucun outil vérifié : prévoir adaptations manuelles bornées, sans commande devinée ni promesse de déterminisme universel.
 2. **Étape B : Traduction chirurgicale des configurations par l'IA**
    - L'IA traduit les fichiers de configuration spécifiques (ex: adaptation fine de `vite.config.ts`, `tsconfig.json`, `lefthook.yml`).
    - Nettoyage des anciennes dépendances devenues obsolètes dans le manifest (`package.json`, `pyproject.toml`, etc.).
@@ -77,10 +86,10 @@ Chaque unité de migration doit franchir les 4 portes de validation applicables 
 
 | Porte | Intitulé | Commandes Types | Critère de Succès |
 | :--- | :--- | :--- | :--- |
-| **Gate 1** | **Installation & Lockfile** | `pnpm install --frozen-lockfile` / `uv sync` | Code retour 0, pas d'erreurs de résolution |
-| **Gate 2** | **Formatage & Linting** | `pnpm biome check .` / `uv run ruff check` | Code retour 0, zéro violation bloquante |
-| **Gate 3** | **Vérification de Types** | `pnpm tsc --noEmit` / `cargo check` | Code retour 0, zéro erreur de typage |
-| **Gate 4** | **Suite de Tests** | `pnpm test` / `uv run pytest` | 100% des tests existants passent au vert |
+| **Gate 1** | **Installation & Lockfile** | `<commande vérifiée du dépôt ; effets sur installation et lockfile connus>` | Code retour 0, pas d'erreurs de résolution |
+| **Gate 2** | **Formatage & Linting** | `<checks vérifiés du dépôt ; effets d’écriture connus>` | Code retour 0, zéro violation bloquante |
+| **Gate 3** | **Vérification de Types** | `<analyse statique applicable vérifiée>` | Code retour 0, zéro erreur de typage |
+| **Gate 4** | **Suite de Tests** | `<suite vérifiée et critères approuvés>` | 100% des tests existants passent au vert |
 
 ---
 
@@ -119,3 +128,13 @@ Appliquer [commit-strategy.md](commit-strategy.md) avant chaque commit : autoris
 Pour Tier 2 ou Tier 3, préparer l'ADR selon [adr-template.md](adr-template.md) avant les validations et l'inclure dans le commit de migration concerné. Vérifier également les fichiers de gouvernance et d'automatisation approuvés.
 
 Après chaque commit réussi, enregistrer son SHA et les résultats des validations comme point de contrôle ; si un hook a modifié le contenu, recontrôler périmètre et validations avant d'enregistrer un état vert. Respecter séparément les permissions de staging, commit, push et PR. Ne jamais ajouter de mention `Co-authored-by:`.
+
+
+## Unités CI/CD substantielles
+
+Modernizer conserve inspection et plan global. Réalisation d'une unité pipeline,
+promotion/publication ou diagnostic CI/CD substantiel : proposer `ci-cd-acrazie`,
+appliquer son activation avant lecture/délégation et transmettre contrat actuel,
+décisions et checks autorisés. Pas d'implémentation concurrente sous le seul plan
+Modernizer, ni réinterview des décisions valides. Autorisations distantes/Git restent
+séparées ; une recette du catalogue ne constitue ni preuve de version ni consentement.

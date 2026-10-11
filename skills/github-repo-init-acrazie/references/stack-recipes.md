@@ -147,4 +147,4 @@ When the user chooses "Custom" or "None":
      ```bash
      mkdir -p src tests docs
      ```
-   - Proceed directly to git hooks, documentation, and CI/CD workflow configuration.
+   - Proceed to approved git hooks, documentation and minimal CI bootstrap. Substantive CI/CD needs the activated ci-cd-acrazie owner and its applicable contract.

@@ -160,6 +160,15 @@ permissions; do not infer commit, push, PR, or deployment permission from testin
 
 New application behavior and its tests belong to `feature-builder-acrazie`.
 General runner/tooling migration belongs to `repo-modernizer-acrazie`. Pipeline
-changes belong to their CI workflow, including the Jenkins family where applicable;
+changes belong to their CI workflow, owned by ci-cd-acrazie where applicable;
 GitHub Actions creation or migration is outside this skill. Read-only audits belong
 to `audit-repository-acrazie`. Do not silently perform another workflow's task.
+
+## CI/CD boundary
+
+Substantive pipeline creation, modernization and causal repair belong to
+`ci-cd-acrazie`, not this skill. Keep this owner's assessment, application, test
+or selected-script work within its approved boundary. A CI/CD recommendation is
+not implementation permission; propose the recipient and apply its loading gate.
+Reuse applicable decisions/contract without a second interview. No implicit
+pipeline execution, publication, promotion, deployment, rollback or Git delivery.

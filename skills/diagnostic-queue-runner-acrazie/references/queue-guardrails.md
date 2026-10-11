@@ -5,9 +5,28 @@ guardrails for `diagnostic-queue-runner-acrazie`.
 
 ---
 
-## 1. Universal Diagnostic Ingestion Recipes
+## Contract and permissions
 
-Extract diagnostics into a machine-readable format before dispatching worker tasks.
+Follow the entry skill's current approved agreement, four-field decision format,
+project loading boundary and worker/reviewer model gates. Each dependency and each
+new review snapshot needs its own explicit activation in an explicit kit; returning
+to the implementer also needs activation. An absent mandatory reviewer blocks
+acceptance, not unrelated discovery. Do not copy or silently install substitutes.
+
+Execution and writes require scoped permission: approve backlog/report destinations,
+protect existing files and redact sensitive output. Installation, lockfile changes,
+network, destructive fixtures and spawning remain separate. Reports default to chat.
+No implicit staging, commit, push, PR, merge or deployment.
+
+## 1. Illustrative Diagnostic Ingestion Recipes
+
+Ingest once per approved snapshot/checkpoint, then refresh after affected changes
+and between tiers. Record snapshot, environment, installed tool/version, command,
+configuration, exit status and raw output. Never dispatch stale diagnostics or treat
+failed tools as an empty queue. Commands below are historical illustrations, not
+certified CLI recipes. Verify current options and project-supported checks before
+use; `npx` may install/download and is not authorized by this table. Preserve both
+stdout and stderr and distinguish expected diagnostic exits from tool failures.
 
 ### Ecosystem Commands
 | Environment | Tool | Recommended Ingestion Command | Output Format |
@@ -21,8 +40,8 @@ Extract diagnostics into a machine-readable format before dispatching worker tas
 | **C / C++** | `clang` | `cmake --build build 2> diagnostics.txt` | POSIX text |
 | **Linter (JS/TS)** | `eslint` | `npx eslint . -f json > diagnostics.json` | JSON array |
 
-### Universal POSIX Fallback Parser
-When JSON is not available, standard compiler output follows the universal line structure:
+### Tool-Specific Text Fallback
+When machine-readable output is unavailable, a limited illustrative pattern is:
 ```regex
 ^([a-zA-Z0-9_\-\./\\]+):([0-9]+):([0-9]+):\s*(error|warning|fatal error|note):\s*(.+)$
 ```
@@ -31,6 +50,11 @@ When JSON is not available, standard compiler output follows the universal line 
 - Group 3: Column number
 - Group 4: Diagnostic severity
 - Group 5: Detailed diagnostic message and compiler code (e.g. `[E0308]`, `TS2322`)
+
+This pattern is not universal: it misses paths with spaces, drive-letter and other
+formats, omitted columns and multiline diagnostics. Preserve raw and unmatched
+output, measure parse coverage, adapt to verified tool/version formats, and block
+assignments dependent on unrecognized data. Do not silently discard records.
 
 ---
 
@@ -45,15 +69,15 @@ Handling compiler errors in random order leads to cascade re-evaluations. Always
 3. **Tier 2 — Services & Runtime**: Network engines, parsers, business logic, asynchronous task queues.
 4. **Tier 3 — Presentation & CLI**: Subcommands, HTTP handlers, user interfaces, top-level integration.
 
-### Cycle Breaking Protocol
-If two packages depend on each other (Package A ↔ Package B):
-1. **Never attempt to fix type errors across a cycle simultaneously.**
-2. Identify the shared interface or type causing the mutual dependency.
-3. **Cycle Inversion Strategy**:
-   - Extract the shared type definition into a new or existing Tier 0 leaf module.
-   - Refactor both Package A and Package B to import the extracted leaf type.
-   - Re-export or alias if public API backwards compatibility is required.
-4. Only once the cycle is broken should normal diagnostic queue processing resume.
+### Blocking Cycle Protocol
+
+Trace real imports and build configuration; manifests or directory trees alone
+are not a complete graph. Find strongly connected components instead of assuming
+the whole graph is a DAG. A legal toolchain cycle is not automatically a defect.
+If a cycle prevents safe ordering, block that component and propose a separately
+approved cycle-breaking task. Type extraction or interface inversion is not
+implicitly authorized, especially under a 1:1 mechanical port. Independent
+unaffected components may proceed under existing checks and approval.
 
 ---
 
@@ -69,11 +93,16 @@ In parallel agent environments, the most common source of corrupted states is ag
 - ❌ Running whole-project builds inside the worker loop: In large codebases, running `cargo check`
   or `mvn compile` inside a loop for every single file burns I/O and freezes disk read/writes.
 
-### Permitted Operations
-- ✅ Targeted file editing (`replace_file_content`, scoped file writes).
-- ✅ Explicit file staging (`git add path/to/file.ext`).
-- ✅ Scoped single-file syntax check (e.g. `rustc --emit=metadata <file>`, `tsc path/to/file.ts --noEmit`).
-- ✅ Targeted atomic commit (`git commit -m "fix(module): message"`).
+### Scoped Work and Checkpoints
+
+- Edit only assigned paths under approved realization; avoid overlapping writers.
+- Run approved scoped checks using project configuration; guessed single-file
+  compiler invocations do not prove module correctness.
+- Coordinator runs approved tier/checkpoint and final project validations.
+- Scoped editing never authorizes `git add` or `git commit`. Separately authorized
+  delivery follows repository action policy and exact-snapshot proof.
+- Reconcile resolved, remaining, new, blocked and not revalidated diagnostics.
+  A count drop with changed rules/configuration is not proof of correction.
 
 ---
 
@@ -81,11 +110,21 @@ In parallel agent environments, the most common source of corrupted states is ag
 
 Every diagnostic resolution must pass through `$adversarial-reviewer-acrazie` before being finalized.
 
-### Common AI "Fix" Anti-Patterns to Intercept
-1. **The Stub Escape**: Resolving an un-implemented interface by writing empty function bodies or returning dummy values.
-   - *Example*: Returning `Ok(())` or `null` just to make the return type match.
-   - *Adversarial Action*: Automatic `REJECT`.
-2. **The Excuse Comment**: Documenting why an incomplete fix is acceptable with a lengthy comment.
-   - *Adversarial Action*: Automatic `REJECT` (*"Fix the code, do not justify the workaround"*).
-3. **The Unsafe Bypass**: Wrapping stubborn type errors in `unsafe`, `as any`, or `@ts-ignore` without contract authorization.
-   - *Adversarial Action*: Automatic `REJECT`.
+### Evidence-Based Rejection and Acceptance
+
+Give the activated reviewer base, exact candidate snapshot, authoritative contract,
+scoped diff and relevant read-only context in a fresh context without inherited
+author conversation, or a separate manual reviewer context. Require `ACCEPT`
+covering every fix, including every fix in a coherent batch. `REJECT`, `INCOMPLETE`
+or unavailable isolation blocks acceptance. Later corrections invalidate affected
+review and require fresh checks/review; implementer self-review is not a substitute.
+
+Reject demonstrated introduced incomplete stubs, swallowed errors and unauthorized
+bypasses that violate requirements. Empty results, test doubles, comments and
+low-level operations alone are not proof of a defect; review needs a concrete
+failure scenario. Review reduces risk, never establishes zero defects.
+
+Before closure, run required final project and behavioral regression checks on the
+final snapshot. Parser gaps, stale diagnostics, disabled rules, failed/unavailable
+checks or pending review block dependent completion. Report actual counts,
+commands, snapshots, verdicts and guardrail evidence, not assumed clean compliance.

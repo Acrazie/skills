@@ -25,7 +25,7 @@ Please report vulnerabilities privately via **GitHub Security Advisories**:
 ### What to Include
 
 When reporting an issue, please include:
-- The affected skill or script path (e.g. `skills/jenkins-devops-acrazie/SKILL.md`).
+- The affected skill or script path (e.g. `skills/ci-cd-acrazie/SKILL.md`).
 - A description of the vulnerability, execution risk, or behavioral bypass.
 - Minimal reproducible example or sample prompt demonstrating the vulnerability.
 - Any suggested remediations or mitigations.
