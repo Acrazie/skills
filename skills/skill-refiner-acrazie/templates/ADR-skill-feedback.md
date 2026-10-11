@@ -1,4 +1,9 @@
-# ADR — Skill feedback and expected behavior
+# ADR — Durable skill behavior trade-off
+
+Use only for a user-approved durable, nontrivial decision with real alternatives
+and consequences. Ordinary preferences, score summaries and operational permissions
+belong in the approved feedback record or campaign Task Contract, not this ADR.
+Preserve existing ADR history; do not relocate legacy artifacts automatically.
 
 - **Target skill:** `<name>`
 - **ADR status:** Living
@@ -12,7 +17,8 @@ Describe why the skill is being tested, what this ADR governs, and what remains 
 
 ## Consolidated current state
 
-Summarize the active behavioral contract produced by approved campaigns. This section reflects current decisions only; preserve history below.
+Summarize the durable decisions approved from campaigns; do not duplicate the
+operational Task Contract or claim authority to implement them. This section reflects current decisions only; preserve history below.
 
 ### Behaviors to preserve
 

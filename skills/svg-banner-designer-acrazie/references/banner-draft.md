@@ -1,5 +1,10 @@
 # BannerDraft
 
+Present named drafts inside numbered decision options using the entrypoint's four
+localized fields. Geometry notation and wireframes are preview content, not
+execution or export approval. Reuse an elected direction without repeated voting;
+changed scope/assets still need their affected approvals.
+
 Compact notation and block wireframes for exploring banner compositions during the concept phase.
 
 ---
@@ -9,7 +14,7 @@ Compact notation and block wireframes for exploring banner compositions during t
 Present 2 to 3 genuinely distinct directions. Each direction specifies its layout archetype, a spatial block wireframe, visual recipe, strength, and tradeoff:
 
 ```text
-Direction A — Split Terminal
+Option 1 — Split Terminal
 - Archetype: Split 55/45 (Left: Title + Tagline + Badges | Right: Vector Code Window)
 - Safe zone compliance: Left margin 80px, right margin 80px, no avatar conflict.
 - Recipe:

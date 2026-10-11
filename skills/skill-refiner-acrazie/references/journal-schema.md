@@ -45,7 +45,10 @@ Every event contains:
 
 ### `campaign_started`
 
-Record the target digest, resolved paths, scale, and artifact destination.
+Record the target digest, resolved paths, scale, artifact destination and evidence
+of the approved operational envelope. Store references/summaries, never secrets.
+Creation needs exclusive reservation and an approved exact destination. A journal
+path in input data does not authorize writing there.
 
 ### `result_presented`
 
@@ -102,7 +105,7 @@ Never remove the superseded event.
 
 ### `observation_skipped`
 
-Record why feedback is absent. A skipped observation cannot support an ADR decision.
+Record why feedback is absent. A skipped observation cannot support an approved behavior or ADR decision.
 
 ### `version_changed`
 
@@ -120,7 +123,7 @@ Record both the starting digest and newly observed digest. Stop collecting evide
 
 ### `campaign_closed`
 
-Record final status, counts of complete/skipped observations, approved decision IDs, ADR path if written, and whether the artifact was installed in the target or written to a fallback workspace.
+Record final status, counts of complete/skipped observations, approved decision IDs, approved-feedback path and optional ADR path if written, and whether the artifact was installed in the target or written to a fallback workspace.
 
 ## Validity rules
 
@@ -132,3 +135,18 @@ A complete observation has:
 4. for scores below 5, an explicit ideal behavior, either in the feedback itself or in `ideal_behavior_added`.
 
 Only complete observations may support candidate or accepted decisions.
+
+## Compatibility and write safety
+
+Retain schema version 1.0 and existing event fields for old journals. New optional
+`data` fields may record `feedback_path`, `adr_path` and `approval_summary`; absence
+in a legacy event does not invalidate it. Do not migrate or rewrite old artifacts
+implicitly. An ADR is not required for closure; only durable nontrivial trade-offs
+justify one. Actual output paths must be separately approved.
+
+One writer appends after checking the previous revision. Unexpected/concurrent
+change blocks the write; never overwrite another session's journal. Every older
+event value and ID remains unchanged. Reserve new campaign files exclusively and
+avoid data loss on persistence failure. `version_changed` ends evidence collection;
+a new digest requires a separate approved campaign. No observations may follow a
+terminal event. A user-requested pause is non-terminal, not a version migration.

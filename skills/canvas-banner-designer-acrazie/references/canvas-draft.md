@@ -1,5 +1,10 @@
 # CanvasDraft
 
+Present named drafts inside numbered decision options using the entrypoint's four
+localized fields. Geometry notation and wireframes are preview content, not
+execution or export approval. Reuse an elected direction without repeated voting;
+changed scope/assets still need their affected approvals.
+
 Use this compact structure for each direction. Match the user's language.
 
 ```text

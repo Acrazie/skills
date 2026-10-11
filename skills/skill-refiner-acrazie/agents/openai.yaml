@@ -1,6 +1,6 @@
 interface:
   display_name: "Skill Refiner / Acrazie"
   short_description: "Refines skills through structured user feedback"
-  default_prompt: "Use $skill-refiner-acrazie to run an interactive refinement campaign for one target skill and consolidate approved feedback into an ADR."
+  default_prompt: "Use $skill-refiner-acrazie to run an interactive refinement campaign for one target skill and consolidate approved feedback into a behavior record, using an ADR only for durable nontrivial trade-offs."
 policy:
   allow_implicit_invocation: false
