@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.12.0](https://github.com/Acrazie/skills/compare/v1.11.0...v1.12.0) (2026-10-11)
+
+
+### Features
+
+* **ci-cd:** consolidate repository pipeline ownership ([#100](https://github.com/Acrazie/skills/issues/100)) ([f781d50](https://github.com/Acrazie/skills/commit/f781d50c7e0c9ce9e01cdbd87ee7b8b1d5c28d7c))
+* **engineering:** add project-local skill activation ([#93](https://github.com/Acrazie/skills/issues/93)) ([d51f71b](https://github.com/Acrazie/skills/commit/d51f71b44e37ca81389cb2f9eb83c8e93b1bd565))
+* **engineering:** harmonize audit and modernization contracts ([#97](https://github.com/Acrazie/skills/issues/97)) ([bb67c5b](https://github.com/Acrazie/skills/commit/bb67c5b4f542f40bce86c26ea616cf28fb4f85c0))
+* **engineering:** harmonize core skill contracts and handoffs ([#94](https://github.com/Acrazie/skills/issues/94)) ([e2e4012](https://github.com/Acrazie/skills/commit/e2e4012b8c608f8ba6010ca1042a04e618b8345f))
+* **engineering:** harmonize critique and review handoffs ([#96](https://github.com/Acrazie/skills/issues/96)) ([94c1f51](https://github.com/Acrazie/skills/commit/94c1f513d23a94fb0b4a60b58c865586f189c108))
+* **engineering:** harmonize migration and diagnostic workflows ([#99](https://github.com/Acrazie/skills/issues/99)) ([2aa64de](https://github.com/Acrazie/skills/commit/2aa64de467698f16ad91ddb50491908a1edb23e3))
+* **engineering:** harmonize readme and portability workflows ([#98](https://github.com/Acrazie/skills/issues/98)) ([98e5fff](https://github.com/Acrazie/skills/commit/98e5fffe42490f5e7ff92a9ceb999eb486b1cb6b))
+* **git-ship:** add verified delivery and stacked PR lifecycle ([#92](https://github.com/Acrazie/skills/issues/92)) ([2e624a2](https://github.com/Acrazie/skills/commit/2e624a229405a806fba22e562a3c1bc5bf4e3b59))
+* **github-repo-init:** add approved GitHub administration mode ([#95](https://github.com/Acrazie/skills/issues/95)) ([874c315](https://github.com/Acrazie/skills/commit/874c315b36df0c7f9683a4db3b67022542d204b6))
+* **memory-leak-diagnostician:** harmonize evidence and safety contracts ([#102](https://github.com/Acrazie/skills/issues/102)) ([bf72bf9](https://github.com/Acrazie/skills/commit/bf72bf94fe035835da50845e4555412c8bfa12a1))
+* **multi-agent-planner:** harmonize planning contracts and verification ([#101](https://github.com/Acrazie/skills/issues/101)) ([546fe02](https://github.com/Acrazie/skills/commit/546fe02f816b65bd54a32aba926f33cf9286bcfd))
+* **skills:** add portable evidence-driven pilot ([#103](https://github.com/Acrazie/skills/issues/103)) ([53dada8](https://github.com/Acrazie/skills/commit/53dada8e61b3e22f0f98a272624f9a61f021c195))
+* **skills:** add user-validated subagent model selection ([#88](https://github.com/Acrazie/skills/issues/88)) ([38472cb](https://github.com/Acrazie/skills/commit/38472cbc447eaf5a315a639da0b969da0f9c85e2))
+
 ## [1.11.0](https://github.com/Acrazie/skills/compare/v1.10.0...v1.11.0) (2026-10-07)
 
 
