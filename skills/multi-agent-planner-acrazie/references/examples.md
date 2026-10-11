@@ -1,29 +1,31 @@
-# Worked examples
+# Conditional worked examples
 
-## Example A — Common testing architecture across N repositories
+These illustrate decisions, not observed runtime results or universal verdicts.
+Each execution still needs applicable task, model, capability and action approvals.
 
-Request: "create one coherent testing architecture shared by all my repositories."
+## Shared testing conventions across repositories
 
-Verdict: multi-agent, fan-out/fan-in behind a central spec. Reason: slices (repos) are independent to apply but share conventions that must stay identical; blind fan-out guarantees drift.
+Start with one agent to inspect the authorized boundaries. If repositories have
+independent write sets, stable agreed interfaces and verified worker capacity,
+fan-out/fan-in may help. Otherwise use a sequential plan; repository count alone
+does not justify delegation.
 
-Workflow:
+Proposed phases: establish a concise shared testing specification at an approved
+path; freeze its revision; assign bounded repository slices in isolated worktrees;
+verify each diff and agreed test output; check cross-repository conformance.
+No dependency upgrades or CI changes unless the approved task includes them.
+Each worker returns revision, changed paths, exact executed checks/results and
+unexecuted checks. The integration owner verifies artifacts rather than trusting
+summaries. Unknown model choices remain pending, not inherited silently.
 
-1. Single writer inspects one representative repo per stack, then writes a one-page testing spec: runner, layout, naming, fixtures, coverage gate, CI hook.
-2. One worker per repo (max ~5 per wave) applies the spec to its repo only. Excluded: unrelated refactors, dependency upgrades.
-3. Conformance pass: same checklist run against every repo (layout, sample test run output, CI status). Non-conformant slices get one bounded retry.
+## Large codebase debugging
 
-Worker return contract: changed files, diff stat, test command plus output excerpt, CI file path.
+Start sequentially: authorized reconnaissance identifies symptoms and shared
+causes. Reproduction execution needs its own applicable permission. Only genuinely
+independent leads with non-overlapping writes may justify fan-out afterward.
 
-## Example B — Large codebase debugging
-
-Request: "debug this large codebase, failures everywhere."
-
-Verdict: start single, then narrow fan-out. Reason: symptoms may share one root cause; parallelizing before isolation multiplies noise.
-
-Workflow:
-
-1. Single reconnaissance: reproduce, collect failing paths, rank suspects, isolate independent leads.
-2. Fan out only on confirmed independent leads (one worker per lead, bounded file set each).
-3. Pipeline gate: each fix verified against reproduction plus adjacent tests before merge into the final report.
-
-Worker return contract: root-cause claim with evidence lines, changed files, reproduction result before/after, adjacent test output. No drive-by refactors.
+Worker contracts state the approved lead, allowed paths, input evidence, forbidden
+adjacent refactors and expected causal/regression proof. A shared root cause or
+write overlap stops the affected slices for repartitioning. Verify each returned
+artifact, then check the integrated final snapshot against the reproduction and
+required adjacent tests. One bounded retry per slice; no automatic merge or ship.

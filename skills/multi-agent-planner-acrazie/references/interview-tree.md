@@ -1,51 +1,40 @@
-# Interview tree
+# Planner decision frontier
 
-Use this map as decision dependencies, not as a fixed questionnaire. Skip anything already explicit or discoverable from the environment.
+Use dependencies, not a fixed questionnaire. Reuse an approved task contract;
+Interview owns missing task clarification. Planner asks only agent-architecture
+choices not already settled there. Unknown technical facts remain disclosed gaps,
+not invented user preferences.
 
-## 1. Establish facts first (never ask)
+## Facts first
 
-Inspect before asking:
+Inspect authorized repository roots, relevant boundaries, shared interfaces,
+existing specs and test commands. Verify current runtime capacity and selection
+support where available. Do not run tests or interrogate unrelated repositories
+merely to fill a planning template. File count is context, not a parallelism rule.
 
-- repository roots, languages, manifests, test setups, current Git state;
-- approximate file counts and subsystem boundaries;
-- existing central specs, ADRs, or shared conventions;
-- whether the current platform supports workers at all.
+## Unresolved decisions
 
-Unknown facts remain unknown. Do not turn them into user decisions.
+For each choice display only Current state, numbered Options, Recommendation and
+Response in the user's language. Use verified context and explain material
+consequences. No lettered options, question IDs or assumed consent.
 
-## 2. Root decisions (round 1)
+Ask the current material frontier, not every item below:
 
-Ask only unresolved items. Each question carries 2-3 options plus one recommendation with its reason.
+- Execution target and resource budget, if not in the contract.
+- Single sequential versus parallel independent slices versus ordered isolation,
+  based on actual dependency and error costs.
+- Write ownership/isolation and integration responsibility where alternatives
+  materially change collision or recovery risk.
+- Required proof and handle, if acceptance evidence has unresolved alternatives.
+- Model choices per homogeneous lot, only after the lot boundary is known.
 
-- **Goal:** What decision or artifact should exist afterward?
-- **Perimeters:** Which repos, subsystems, or file sets are central, and which are adjacent?
-- **Independence:** Can slices run without reading each other's output, or do they share contracts?
-- **Risk and budget:** What dominates — token cost, speed, coherence, or reversibility?
+Independence is normally a technical finding, not something the user must guess.
+If sources cannot establish it, mark the split provisional or blocked.
 
-Round 1 normally suffices to rule single vs multi. Propose the verdict as one of the options where it helps.
+## Stop
 
-## 3. Dependent decisions (round 2, only when unblocked)
-
-- Worker split: by repository, by module, or by independent lead — only after independence is known.
-- Coherence mechanism: central spec first, reconnaissance first, or direct fan-out — only after dependencies are known.
-- Verification path: which handle proves each worker's success — only after the split is known.
-- Platform target: where the workflow will run — only when spawn syntax matters.
-
-## 4. Rounds
-
-Ask the whole current frontier in one numbered round. Every question: 2-3 labelled options, then exactly one recommendation and why it fits this case.
-
-A second round is warranted only when round-1 answers unblock a material dependent decision. Do not interview past the stop criterion in SKILL.md.
-
-## 5. Shared-understanding checkpoint
-
-The frontier is empty when verdict, split, and contracts are settled, excluded, or blocked by a disclosed fact gap. Summarize:
-
-1. verified facts;
-2. verdict and rejected alternative;
-3. workflow architecture and phases;
-4. worker split and contracts;
-5. coherence mechanism when needed;
-6. assumptions under fast path.
-
-Wait for explicit confirmation before presenting the final deliverable as done.
+Summarize verdict, ordered phases, scoped contracts, verification, assumptions and
+blockers once settled. Ask explicit plan approval; do not add a duplicate approval
+checkpoint for the same unchanged plan. A second question round requires a newly
+unblocked material decision. An explicitly requested provisional fast path cannot
+settle action permissions or unknown safety/cost/scope choices.

@@ -1,42 +1,54 @@
-# Patterns (v1)
+# Bounded planning patterns
 
-Three patterns only. Anything else is out of scope: propose single-agent instead.
+## Decision signals
 
-## Decision table
+| Signal | Planning consequence |
+|---|---|
+| Small context, dependent files, expensive coordination | Prefer single sequential |
+| Independent writes with shared stable interfaces | Consider fan-out/fan-in |
+| Ordered work benefiting from context/role isolation | Consider verified pipeline |
+| Unclear ownership, unknown capacity or unverifiable output | Resolve or disclose blocker before runnable schedule |
 
-| Signal | Single sequential | Fan-out / fan-in | Verified pipeline |
-|---|---|---|---|
-| Subtasks independent | no | yes | partially (ordered) |
-| Shared contracts across slices | n/a (one writer) | yes, frozen in central spec | yes, passed stage to stage |
-| Context fits one window | yes | no | sometimes |
-| Error in one slice contaminates others | n/a | must be contained by spec | must be caught at stage gate |
+These are arbitration inputs, not automatic verdicts. Compare coordination,
+integration and verification cost against the actual benefit. More agents do not
+imply lower latency or token cost.
 
-Default: single sequential. Choose multi only when independence is real and coordination cost is lower than the gain.
+## Single sequential
 
-## 1. Single sequential
+One bounded agent owns the task, with explicit scope and final checks. The worker
+contract still applies. Do not force model-lot selection for a non-spawn path.
 
-One agent, minimal scope, verify at the end. Use for small volume, dependent tasks, coherence-dominated work, or when delegation overhead exceeds the gain.
+## Fan-out/fan-in
 
-## 2. Fan-out / fan-in behind a central spec
+1. One designated owner establishes shared interfaces/specification and freezes a
+   revision, if needed. No specification writes are authorized merely by planning.
+2. Independent workers operate on non-overlapping write sets with accessible inputs
+   and appropriate isolated worktrees. Shared generated files and lockfiles have
+   one owner or a serialized stage.
+3. An integration owner verifies actual slice artifacts and their identity, combines
+   them in an agreed order, then checks the final snapshot against shared criteria.
 
-Phases:
+At most five concurrent workers, further limited by verified host capacity and
+approved count. More slices may use later bounded waves only within approved scope
+and lots; do not evade limits through cascade spawning.
 
-1. One writer produces a short central spec (one page max): goal, shared conventions, interfaces, done-criteria.
-2. N workers (max ~5) execute slices constrained by the spec. Each receives the spec pointer plus its local scope only.
-3. One conformance pass checks every slice against the spec before declaring done.
+## Verified pipeline
 
-Never fan out before phase 1. Use for multi-repository or multi-module work with shared conventions.
+Stage outputs have explicit acceptance criteria and immutable/verifiable handles.
+Verify an output before its dependent stage starts. Role isolation may help even
+without parallelism, but must justify extra coordination. Do not relabel a
+non-parallel host as proven parallel execution.
 
-## 3. Verified pipeline
+## Common contract
 
-Ordered stages; each stage's output handle is verified before the next starts. Use for dependent work that still benefits from separation (reconnaissance, then isolated fixes, then validation).
+Goal, included/excluded paths, accessible inputs/spec revision, write ownership,
+isolation and integration owner, bounded steps, exact expected checks, return
+handles, unexecuted checks, limits and stop conditions. No secrets, cascade,
+unrelated edits or implicit publication permission. Minimal context must still
+include every invariant needed for correct work; do not force full history or
+remove essential context to meet an arbitrary page budget.
 
-## Worker contract (minimal)
-
-Every worker prompt contains: goal, included/excluded paths, minimal context, bounded numbered steps, return contract (changed files, diff, verifiable handles, test output), stop condition, forbidden actions (no cascade spawning, no unrelated refactors, no secret exfiltration).
-
-## Token rules (hybrid)
-
-- Central spec: short, shared once.
-- Per worker: detailed local scope only, never full history.
-- Returns: synthetic by default (files, diffs, handles, test lines). Full logs on orchestrator request only.
+One bounded retry per slice. Renaming the worker does not reset that budget.
+Unverified results and collisions pause affected work; final integrated tests are
+required when the accepted contract calls for them. URLs and summaries alone do
+not prove correctness or permission to inspect external artifacts.
