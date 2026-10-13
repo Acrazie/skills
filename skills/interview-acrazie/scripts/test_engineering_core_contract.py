@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-NAMES = ("interview-acrazie", "feature-builder-acrazie", "test-retrofitter-acrazie")
+NAMES = ("interview-acrazie", "test-retrofitter-acrazie")
 
 
 def read(name, relative="SKILL.md"):
@@ -76,17 +76,20 @@ class EngineeringCoreContractTests(unittest.TestCase):
         for phrase in ("loading approval", "execution authorization", "same contract", "not activate a dependency"):
             self.contains(phrase, ref)
 
-    def test_review_activation_and_policy_gate(self):
-        text = read("feature-builder-acrazie")
-        for phrase in ("repository policy requires review", "not a skill activation", "before reading or dispatching", "at most two correction", "final task snapshot"):
-            self.contains(phrase, text)
-
-    def test_outcome_approval_is_not_unbounded_execution(self):
-        for name in NAMES[1:]:
-            self.contains("execution authorization before editing", read(name))
-        text = read("feature-builder-acrazie")
-        self.contains("does not waive a review required by repository policy", text)
-        self.contains("each re-review handoff needs a new reviewer activation", text)
+    def test_executor_acceptance_obligations(self):
+        ref = read("interview-acrazie", "references/task-contract.md")
+        for phrase in ("execution authorization", "criterion mappings", "final task snapshot",
+                       "Always offer independent review", "explicit user choice",
+                       "Repository policy requires review", "final-snapshot `ACCEPT`",
+                       "fresh context without inherited author conversation",
+                       "including new files", "authoritative criteria", "reviewer does not implement",
+                       "explicitly approved bounded correction/re-review budget",
+                       "Never silently reset", "user arbitration", "explicit inheritance approval",
+                       "changed role, scope, risk or model", "pre-existing/out-of-scope",
+                       "withdrawal of optional review must be explicit"):
+            self.contains(phrase, ref)
+        self.contains("this skill never implements", read("interview-acrazie"))
+        self.contains("capable harness executor", read("interview-acrazie"))
 
     def test_no_fallback_self_interview(self):
         for name in NAMES[1:]:

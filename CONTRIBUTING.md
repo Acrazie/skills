@@ -22,7 +22,7 @@ skills/
 
 ### Core Invariants
 
-1. **Naming**: Every skill directory and identifier must end with the author signature: `-acrazie` (e.g. `svg-icon-designer-acrazie`).
+1. **Naming**: Every skill directory and identifier must end with the author signature: `-acrazie` (e.g. `svg-designer-acrazie`).
 2. **Directory Structure**: Every skill must contain at least `SKILL.md` and `agents/openai.yaml`.
 3. **Invocation Policy**: User-invoked skills require `disable-model-invocation: true` in `SKILL.md` frontmatter and `policy.allow_implicit_invocation: false` in `agents/openai.yaml`.
 4. **Visual Identity**: Logos and marks use the Acrazie retro-tech design language (orange-to-violet `#ff6d00` to `#9d4edd`, southeast echoes).

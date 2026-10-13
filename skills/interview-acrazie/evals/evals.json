@@ -31,12 +31,12 @@
     {
       "id": 3,
       "name": "engineering-core-explicit-return",
-      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. An explicit project kit requires a separate command for each skill. Feature Builder handed off to Interview; user explicitly activated Interview and approved its complete contract/destination, explicitly authorizing realization by Feature Builder. Describe the handoff without implementation.",
-      "expected_output": "Return the same contract and execution authority; stop and request Feature Builder command.",
+      "prompt": "Simulation only; no file edits, network, installation, Git operations, host launch or subagents. An explicit project kit requires a separate command for each skill. Test Retrofitter handed off to Interview; user explicitly activated Interview and approved its complete contract/destination, explicitly authorizing realization by Test Retrofitter. Describe the handoff without implementation.",
+      "expected_output": "Return the same contract and execution authority; stop and request Test Retrofitter command.",
       "files": [],
       "expectations": [
-        "Interview does not implement or reactivate Feature Builder.",
-        "An earlier Feature Builder invocation does not cover the return after Interview.",
+        "Interview does not implement or reactivate Test Retrofitter.",
+        "An earlier Test Retrofitter invocation does not cover the return after Interview.",
         "Preserve the approved contract and settled answers; separate scoped execution authority from skill activation and shipping."
       ]
     },
@@ -86,6 +86,125 @@
         "Reads local portable-practice reference without requiring external shared document or particular connector.",
         "Uses exactly État actuel, Options, Recommandation, Réponse with consecutively numbered options and exactly one motivated recommendation.",
         "Recommendation names one valid option; Response awaits choice and does not prefill consent; no question ID or fifth field."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "executor-handoff-low-risk-review-declined",
+      "prompt": "Simulation only; prepare contract/handoff obligations, do not implement or dispatch; no editing, installation, network or Git. Explicit authorized harness executor, approved contract with user approval evidence, new optional Python status filter implemented and six targeted unittest tests passed. No concurrency, storage, permissions or dependencies changed. User has not chosen review. Produce the next response/action. Then user says 'Skip independent review.' Produce the resulting response and contract evidence update.",
+      "expected_output": "A bounded decision trace respecting explicit choice, independent review, completion gate and correction ownership.",
+      "files": [],
+      "expectations": [
+        "The agent always offers independent review and recommends run or skip based on the actual small tested diff, not generic necessity.",
+        "Before the user choice, it does not invoke a reviewer or declare final completion.",
+        "After explicit decline, it records the recommendation and choice in the same contract and can deliver with actual criterion-linked test evidence, without invented review, CI, deployment or guarantees."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "executor-handoff-accepted-review-missing-independent-context",
+      "prompt": "Simulation only; prepare contract/handoff obligations, do not implement or dispatch; no editing, installation, network or Git. Approved feature is implemented, checks pass, user explicitly accepted the proposed review. adversarial-reviewer-acrazie is readable but the harness cannot create a separate agent or isolated context. Produce response and contract status. Then user explicitly withdraws review; no known defects and all feature criteria have evidence. Produce next response. Also state what would differ if the reviewer skill itself were unavailable.",
+      "expected_output": "A bounded decision trace respecting explicit choice, independent review, completion gate and correction ownership.",
+      "files": [],
+      "expectations": [
+        "Accepted review remains blocked when a separate context is unavailable, even if its SKILL.md can be read.",
+        "No implementer self-review is presented as independent; manual isolated handoff or explicit withdrawal is offered.",
+        "Only explicit withdrawal removes the gate, and the contract preserves the limitation and withdrawal without claiming ACCEPT.",
+        "When the skill itself is missing, authorized installation with npx skills add Acrazie/skills@adversarial-reviewer-acrazie is offered, never silently performed."
+      ]
+    },
+    {
+      "id": 10,
+      "name": "executor-handoff-rejected-review-bounded-corrections",
+      "prompt": "Simulation only; prepare contract/handoff obligations, do not implement or dispatch; no editing, installation, network or Git. User approved independent review of a new task status filter. Initial REJECT proves the changed filter drops all tasks for None, violating approved contract. Report also identifies an unrelated pre-existing cache leak. Describe next actions, review handoff inputs, and contract evidence. Assume all approved correction/re-review cycles return REJECT for a demonstrated introduced defect. Describe next action. Then user disputes a finding. Separately, explain what happens if a completed ACCEPT is followed by another task code change before delivery.",
+      "expected_output": "A bounded decision trace respecting explicit choice, independent review, completion gate and correction ownership.",
+      "files": [],
+      "expectations": [
+        "executor fixes only the demonstrated in-scope introduced defect, adds/reruns targeted checks, and reports the pre-existing cache leak separately without fixing it.",
+        "Re-review invokes the existing reviewer in a fresh context without inherited author narrative, with the complete updated task diff including new files, base/snapshot identity, authoritative criteria and necessary read-only context.",
+        "After exhaustion of the approved correction/re-review budget, it stops for user arbitration; no additional autonomous correction cycle or completion claim.",
+        "Disputed findings require arbitration, not silent override of REJECT.",
+        "A later task code change invalidates the previous ACCEPT for delivery and requires review of the final snapshot."
+      ]
+    },
+    {
+      "id": 11,
+      "name": "executor-handoff-high-risk-review-proposal",
+      "prompt": "Simulation only; prepare contract/handoff obligations, do not implement or dispatch; no editing, installation, network or Git. Explicit authorized harness executor, approved contract with approval evidence, new feature implemented and targeted checks pass. Actual diff changes asynchronous upload cancellation and shared resource cleanup; checks cover normal completion but not cancellation interleavings. User has not chosen review. Produce only the next response and proposed contract status; do not run a reviewer or declare completion.",
+      "expected_output": "A systematic independent-review offer recommending review because of concrete lifecycle/concurrency risk and test gaps, pending explicit user choice.",
+      "files": [],
+      "expectations": [
+        "The offer recommends running independent review based on changed asynchronous cancellation, shared resource cleanup and missing interleaving tests, not generic boilerplate.",
+        "It waits for explicit user acceptance before reviewer invocation or final completion and records a pending choice in the same contract.",
+        "It does not treat review as replacing missing required test evidence or guaranteeing no regressions."
+      ]
+    },
+    {
+      "id": 12,
+      "name": "executor-handoff-engineering-core-review-required-not-activated",
+      "prompt": "Simulation only; prepare contract/handoff obligations, do not implement or dispatch; no file edits, network, installation, Git operations, host launch or subagents. Feature is implemented and targeted checks passed. Repository policy requires independent review. User says skip review; Reviewer metadata is present but no Reviewer command or model selection was given. Describe next action.",
+      "expected_output": "Keep completion blocked on required review and request resolution/activation without reviewer dispatch.",
+      "files": [],
+      "expectations": [
+        "Do not let skip waive required repository policy.",
+        "Review authorization, Reviewer activation, spawning and model validation are distinct.",
+        "No self-review, invented ACCEPT or final completion."
+      ]
+    },
+    {
+      "id": 13,
+      "name": "executor-handoff-owner-boundary",
+      "prompt": "Simulation only; no mutation, network, installation, Git or subagents. Interview has prepared an approved contract for ordinary new behavior. User separately authorized harness realization; no domain-specific protocol is needed. Describe the preparation handoff only, its evidence/review guarantees and separate action gates. Do not execute the task or demand an unavailable generic implementation skill.",
+      "expected_output": "Interview returns the contract to a capable authorized harness and stops.",
+      "files": [],
+      "expectations": [
+        "Interview remains preparation-only; no implementation or worker dispatch.",
+        "Contract carries criterion-linked tests, actual final snapshot and explicit review offer/choice; required review gates acceptance.",
+        "No automatic installation, shipping, domain-skill activation or spawning."
+      ]
+    },
+    {
+      "id": 14,
+      "name": "executor-handoff-preserved-filter-contract",
+      "prompt": "Simulation only; no edits, network, installation, Git, host launch or subagents. A user approved exact status-filter criteria: omitted/None returns all tasks; a string filters by equality preserving order; unknown status/empty input returns empty; input objects unchanged. UI/storage/sorting/dependencies excluded. Persisted contract and explicit harness realization approval exist; Interview is absent from execution environment. Prepare contract acceptance obligations only, no execution.",
+      "expected_output": "Preparation-only response and contract obligations, not execution proof.",
+      "files": [],
+      "expectations": [
+        "Preserves every criterion and exclusion with targeted test mapping, no missing-Interview blocker for the reusable approved contract.",
+        "Does not implement from Interview or claim tests executed; execution/install/shipping authorities remain distinct."
+      ]
+    },
+    {
+      "id": 15,
+      "name": "executor-handoff-missing-contract",
+      "prompt": "Simulation only; no edits, network, installation, Git, host launch or subagents. An ordinary feature request lacks an approved contract; matching semantics and permissions are unresolved. Interview is available only in metadata under an explicit kit, not activated. Explain handoff prerequisite without reading unactivated body or implementing.",
+      "expected_output": "Preparation-only response and contract obligations, not execution proof.",
+      "files": [],
+      "expectations": [
+        "Blocks realization pending resolved scope and evidenced approval; no silently copied interview or installation.",
+        "Proposes separately activating Interview without automatic chain activation; harness can receive the eventual approved contract."
+      ]
+    },
+    {
+      "id": 16,
+      "name": "executor-handoff-current-contract",
+      "prompt": "Simulation only; no edits, network, installation, Git, host launch or subagents. A persisted current contract has independent approval and explicit harness realization authority. No domain protocol is needed and Interview is not installed in the execution environment. Explain handoff only.",
+      "expected_output": "Preparation-only response and contract obligations, not execution proof.",
+      "files": [],
+      "expectations": [
+        "Reuses sufficient contract after scope/context checks, without duplicate contract or installation.",
+        "Tests of new behavior are executor responsibility, not automatic Test Retrofitter activation."
+      ]
+    },
+    {
+      "id": 17,
+      "name": "executor-handoff-pending-review-activation",
+      "prompt": "Simulation only; no edits, network, installation, Git, host launch or subagents. Feature implementation checks passed. Repository requires independent review; user says skip. Explicit kit lists Reviewer but it is not activated and no delegation/model authorization exists. Prepare completion conditions only.",
+      "expected_output": "Preparation-only response and contract obligations, not execution proof.",
+      "files": [],
+      "expectations": [
+        "Skip does not waive policy-required review; no invented ACCEPT or completion.",
+        "Review authorization, separate Reviewer activation, spawning and model validation remain distinct."
       ]
     }
   ]

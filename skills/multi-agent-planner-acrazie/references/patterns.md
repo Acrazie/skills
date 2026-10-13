@@ -28,8 +28,8 @@ contract still applies. Do not force model-lot selection for a non-spawn path.
 3. An integration owner verifies actual slice artifacts and their identity, combines
    them in an agreed order, then checks the final snapshot against shared criteria.
 
-At most five concurrent workers, further limited by verified host capacity and
-approved count. More slices may use later bounded waves only within approved scope
+Bound concurrent workers by verified host capacity, approved count and the
+agreed resource budget, not a universal five-worker ceiling. More slices may use later bounded waves only within approved scope
 and lots; do not evade limits through cascade spawning.
 
 ## Verified pipeline
@@ -48,7 +48,9 @@ unrelated edits or implicit publication permission. Minimal context must still
 include every invariant needed for correct work; do not force full history or
 remove essential context to meet an arbitrary page budget.
 
-One bounded retry per slice. Renaming the worker does not reset that budget.
+Use the approved bounded retry budget per slice. Renaming the worker does not reset that budget.
+Unknown retry budgets remain pending. Stop on exhaustion, repeated failure without a new
+causal hypothesis, missing authority or unsafe scope expansion; a remaining budget is not permission to repeat blindly.
 Unverified results and collisions pause affected work; final integrated tests are
 required when the accepted contract calls for them. URLs and summaries alone do
 not prove correctness or permission to inspect external artifacts.

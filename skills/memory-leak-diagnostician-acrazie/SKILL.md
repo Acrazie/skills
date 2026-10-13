@@ -122,6 +122,6 @@ observed results. Distinguish proposed, unexecuted, locally verified and CI evid
 
 Stop at the approved boundary. Analysis-only may end with an inconclusive verdict
 and a proposed next experiment; it does not require a patch. Static audits belong
-to their audit workflow, new features to Feature Builder, broad upgrades to Repo
+to their audit workflow, new features to an authorized harness executor or feature specialist, broad upgrades to Repo
 Modernizer and pipeline changes to CI/CD. No unrelated cleanup, mandatory reviewer
 or automatic delivery chain.

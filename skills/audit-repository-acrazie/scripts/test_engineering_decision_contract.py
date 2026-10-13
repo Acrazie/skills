@@ -75,7 +75,8 @@ class EngineeringDecisionContractTests(unittest.TestCase):
         text = read(MODERNIZER)
         for phrase in ("Commit, push, and PR permissions remain distinct",
                        "obtain separate explicit confirmation before destructive rollback",
-                       "Maximum 3 self-repair attempts allowed", "before validation and the corresponding commit"):
+                       "approved bounded repair budget", "no new causal hypothesis",
+                       "do not silently invent or reset it", "before validation and the corresponding commit"):
             self.contains(phrase, text)
         ref = read(MODERNIZER, "references/commit-strategy.md")
         self.contains("Un fichier de politique ne constitue pas une preuve de consentement", ref)

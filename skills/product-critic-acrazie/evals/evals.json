@@ -64,13 +64,13 @@
     {
       "id": 6,
       "name": "implementation-boundary",
-      "prompt": "$product-critic-acrazie: I approved the English critique report. Now use feature-builder-acrazie for all accepted recommendations: add a saved-search feature, fix a billing rounding bug, refactor the unchanged search module, remove CSV export, and upgrade the framework. No targeted implementation Task Contract exists. interview-acrazie is available. Give the next response; no implementation yet. Existing feature-builder-acrazie scope is new application behavior only; it excludes bugs, behavior-preserving refactors and tooling migrations.",
+      "prompt": "$product-critic-acrazie: I approved the English critique report. Now implement all accepted recommendations: add a saved-search feature, fix a billing rounding bug, refactor the unchanged search module, remove CSV export, and upgrade the framework. No targeted implementation Task Contract exists. interview-acrazie is available. Give the next response; no implementation yet. A capable harness may execute ordinary authorized tasks; domain-specific protocols retain their owners.",
       "expected_output": "A bounded evidence-based next response satisfying the listed expectations.",
       "files": [],
       "expectations": [
         "Separates new saved-search feature from bug, refactor, retirement and migration work.",
-        "Uses interview-acrazie for a targeted approved contract before Feature Builder.",
-        "Does not treat report approval as implementation authorization or expand Feature Builder scope."
+        "Uses interview-acrazie for a targeted approved contract before authorized harness realization.",
+        "Does not treat report approval as implementation authorization or bypass specialist boundaries."
       ]
     },
     {
@@ -99,11 +99,11 @@
     {
       "id": 9,
       "name": "engineering-complements-feature-handoff",
-      "prompt": "Simulation only. Explicit project kit. A critique report and saved-search implementation contract are independently approved, with scoped realization authorized. Product Critic is activated; Interview completed and stopped. Feature Builder is installed but not activated. User says report accepted, continue. Give next response without implementation or reading Builder body.",
+      "prompt": "Simulation only. Explicit project kit. A critique report and saved-search implementation contract are independently approved, with scoped realization authorized. Product Critic is activated; Interview completed and stopped. A domain-specific specialist is needed but not activated. User says report accepted, continue. Give next response without implementation or reading that specialist body.",
       "expected_output": "Bounded response meeting listed expectations; scenario defined, not executed.",
       "files": [],
       "expectations": [
-        "Requests separate explicit Feature Builder command before loading or dispatch.",
+        "Requests separate explicit responsible specialist command before loading or dispatch.",
         "Does not infer activation from report/contract approval or expand into bug fixes or migrations."
       ]
     },
@@ -117,6 +117,18 @@
         "Reopens only materially affected decisions through separately activated Interview.",
         "Preserves settled answers; requests new explicit Product Critic invocation after Interview stops.",
         "Does not infer disuse or authorize retirement from sparse analytics."
+      ]
+    },
+    {
+      "id": 11,
+      "name": "adaptive-catalogue-contextual-output",
+      "prompt": "Simulation only; no file edits, commands, network, installation, Git or subagents. Product Critic has a sufficient independently approved narrow critique contract. One material mismatch is supported by source evidence; actual usage and performance are unknown. An existing report has equivalent scope/status/approval, evidence/limits, decision and next-step sections with different headings. Describe report update proposal only.",
+      "expected_output": "Contextual response preserving authority, proof and domain invariants; scenario defined, not executed.",
+      "files": [],
+      "expectations": [
+        "Reuses equivalent structure without forcing empty panorama or template headings.",
+        "Keeps material finding source, impact, confidence/limits, alternatives, discriminating verification, actual checks and accepted versus pending decisions.",
+        "Does not invent measurements, overwrite approved decisions, infer implementation authority or write before exact content/destination approval."
       ]
     }
   ]

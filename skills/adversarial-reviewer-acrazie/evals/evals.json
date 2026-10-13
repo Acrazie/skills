@@ -51,7 +51,7 @@
     {
       "id": 5,
       "name": "engineering-complements-unactivated-delegation",
-      "prompt": "Simulation only. Explicit project kit. Builder review is required by repository policy. Reviewer is installed but not activated. Implementer asks to dispatch its body to a child agent and self-review if unavailable; no spawning or model choice approval exists. Give next response without reading Reviewer body or spawning.",
+      "prompt": "Simulation only. Explicit project kit. Executor review is required by repository policy. Reviewer is installed but not activated. Implementer asks to dispatch its body to a child agent and self-review if unavailable; no spawning or model choice approval exists. Give next response without reading Reviewer body or spawning.",
       "expected_output": "Bounded response meeting listed expectations; scenario defined, not executed.",
       "files": [],
       "expectations": [
@@ -80,6 +80,18 @@
       "expectations": [
         "Old ACCEPT applies only to v1; v2 needs stable complete diff and new reviewer activation.",
         "Does not reuse verdict for changed content or activate returning implementer, fixes or shipping."
+      ]
+    },
+    {
+      "id": 8,
+      "name": "adaptive-catalogue-contextual-output",
+      "prompt": "Simulation only; no edits, commands, network, Git or subagents. Independent reviewer has a fixed complete diff and authoritative requirements. Changed code is in a language absent from the rubric examples. One branch violates approved error propagation with a concrete input trace. An unrelated existing test double returns an empty object valid under its contract. Describe review reasoning and verdict conditions.",
+      "expected_output": "Contextual response preserving authority, proof and domain invariants; scenario defined, not executed.",
+      "files": [],
+      "expectations": [
+        "Uses relevant pillar/contract invariants across the actual language, not an exhaustive example checklist or automatic syntax rejection.",
+        "Concrete introduced error-propagation violation supports REJECT; the valid test double does not.",
+        "Preserves fresh-context isolation, final-snapshot identity, no-fix ownership and existing verdict/correction gates."
       ]
     }
   ]

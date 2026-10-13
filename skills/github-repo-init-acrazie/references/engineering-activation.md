@@ -30,7 +30,8 @@ Response: …
 Do not add ID/Decision fields or preselect an answer as consent. Recompute the
 frontier rather than force a fixed number of rounds. Inspect facts yourself.
 
-Propose Interview + Feature Builder as an adaptable engineering core. Offer Test
+Propose Interview for preparation and the capable harness for separately authorized
+ordinary realization; add a specialist only for a distinct needed protocol. Offer Test
 Retrofitter, Adversarial Reviewer and Git Ship according to needs, then existing
 stack specialists and visual satellites. Resolve exact available names from the
 approved source, not an invented fixed inventory. Explain conditional/mandatory
@@ -81,7 +82,7 @@ with the staging directory as CWD:
 
 ```bash
 npx --yes skills@1.7.2 add 'Acrazie/skills#<approved-full-SHA>' \
-  --skill interview-acrazie --skill feature-builder-acrazie \
+  --skill interview-acrazie --skill test-retrofitter-acrazie \
   --agent codex --agent claude-code --yes
 ```
 

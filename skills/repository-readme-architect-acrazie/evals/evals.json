@@ -33,6 +33,18 @@
         "Applies separate dependency loading and existing model/spawn gates; direct inspection remains available.",
         "Does not expand README-only scope or treat model choice/architecture approval as write authorization."
       ]
+    },
+    {
+      "id": 4,
+      "name": "adaptive-catalogue-contextual-output",
+      "prompt": "Simulation only; no file edits, commands, network, installation, Git or subagents. README Architect has an independently approved reader goal and scope. Repository evidence supports one task-first architecture; other patterns add cosmetic variants only. User has not approved architecture or exact README candidate. Give next design response without forced extra alternatives or ASCII preview.",
+      "expected_output": "Contextual response preserving authority, proof and domain invariants; scenario defined, not executed.",
+      "files": [],
+      "expectations": [
+        "Offers the fitting architecture with rationale and clear hierarchy/reader flow, not an invented option quota.",
+        "Chooses a sufficient representation; no mandatory ASCII/Markdown wireframe.",
+        "Obtains user architecture choice, then retains exact candidate/destination approval immediately before any README write; no mutation now."
+      ]
     }
   ]
 }

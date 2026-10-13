@@ -82,14 +82,16 @@ Lors d'une montée majeure (Tier 2) ou d'un remplacement d'outil (Tier 3), la re
 
 ## 4. Portes de Validation Automatisées (Validation Gates)
 
-Chaque unité de migration doit franchir les 4 portes de validation applicables avec les commandes réelles du dépôt. Les exemples ci-dessous n'autorisent aucune installation. Une porte véritablement inapplicable nécessite une justification approuvée dans le plan ; une vérification requise absente, indisponible ou en échec bloque le commit.
+Chaque unité de migration doit franchir les vérifications requises par la politique du dépôt, le comportement affecté et les critères approuvés. Déterminer leurs commandes, préconditions et ordre selon les dépendances réelles. Les catégories ci-dessous sont des pistes d'évaluation, pas quatre portes universelles. Elles n'autorisent aucune installation. Une vérification réellement inapplicable doit être justifiée dans le plan approuvé ; une vérification requise absente, indisponible ou en échec bloque le commit. Ne jamais assouplir un critère pour transformer un échec en succès.
 
-| Porte | Intitulé | Commandes Types | Critère de Succès |
-| :--- | :--- | :--- | :--- |
-| **Gate 1** | **Installation & Lockfile** | `<commande vérifiée du dépôt ; effets sur installation et lockfile connus>` | Code retour 0, pas d'erreurs de résolution |
-| **Gate 2** | **Formatage & Linting** | `<checks vérifiés du dépôt ; effets d’écriture connus>` | Code retour 0, zéro violation bloquante |
-| **Gate 3** | **Vérification de Types** | `<analyse statique applicable vérifiée>` | Code retour 0, zéro erreur de typage |
-| **Gate 4** | **Suite de Tests** | `<suite vérifiée et critères approuvés>` | 100% des tests existants passent au vert |
+| Catégorie possible | Preuve attendue quand applicable |
+| :--- | :--- |
+| Installation et lockfile | Résolution conforme aux versions et effets autorisés, intégrité du lockfile. |
+| Formatage et linting | Checks réels du dépôt, aucune violation requise ignorée. |
+| Analyse statique | Commande applicable, absence d'erreurs bloquantes selon les critères approuvés. |
+| Tests et build | Checks de comportement, de régression et de production d'artefacts requis sur le snapshot exact. |
+
+Identifier les échecs préexistants séparément sans les requalifier en succès ni ignorer une gate requise. Un budget ou un ordre adapté ne dispense pas des checks finaux du contrat.
 
 ---
 
@@ -101,7 +103,7 @@ Si l'une des portes de validation échoue :
 flowchart TD
     RunGate["Exécution de la Porte de Validation (Build / Test / Lint)"] --> Check{"Succès ?"}
     Check -- Oui --> Commit["Contrôle stratégie et commit autorisé (ADR inclus)"]
-    Check -- Non --> Loop{"Tentative < 3 ?"}
+    Check -- Non --> Loop{"Budget approuvé restant et nouvelle hypothèse causale ?"}
     Loop -- Oui --> Analyze["Analyse des traces d'erreurs par l'IA"]
     Analyze --> Patch["Correction chirurgicale du code / config"]
     Patch --> RunGate
@@ -111,7 +113,8 @@ flowchart TD
 ```
 
 ### Mécanisme de Rollback :
-- Si après **3 tentatives d'auto-réparation**, la suite de tests ou le build ne passe toujours pas :
+- Utiliser un budget de réparation explicite, borné et approuvé avant les reprises. Documenter chaque tentative et sa preuve causale ; renommer une tentative ne réinitialise pas le budget. Sans budget approuvé, demander arbitrage avant de réessayer.
+- À épuisement du budget, répétition sans nouvelle hypothèse causale, manque de capacité/autorisation ou correction nécessitant un nouveau périmètre :
   1. Le skill s'arrête et préserve l'état courant. Il inspecte les modifications et fichiers non suivis, distingue son travail du travail tiers et cite le SHA du dernier point de contrôle enregistré avec ses preuves de validation. `HEAD` seul ne prouve pas un état vert ; sans point de contrôle enregistré, signaler son absence et ne pas inventer de cible de récupération.
   2. Il présente les chemins concernés, la révision cible et les conséquences de la récupération proposée. Toute action destructive (`git reset --hard`, `git clean -fd`) exige une confirmation explicite distincte ; l'approbation de migration ne suffit pas. Sans confirmation, aucun reset ni nettoyage destructif n'est exécuté.
   3. Le skill génère un **Rapport de Blocage Technique** indiquant :
@@ -125,7 +128,7 @@ flowchart TD
 
 Appliquer [commit-strategy.md](commit-strategy.md) avant chaque commit : autorisation, périmètre exact de l'index, cohérence, format du message et preuves de validation. Toute non-conformité bloque le commit, même en l'absence de hooks ou CI. Aucun contournement silencieux n'est permis.
 
-Pour Tier 2 ou Tier 3, préparer l'ADR selon [adr-template.md](adr-template.md) avant les validations et l'inclure dans le commit de migration concerné. Vérifier également les fichiers de gouvernance et d'automatisation approuvés.
+Créer un ADR seulement si la politique du dépôt le requiert ou si un arbitrage architectural durable, non évident, entre alternatives réelles est approuvé ; le tier seul ne suffit pas. Obtenir accord sur contenu et destination. Lorsqu'il est requis, préparer l'ADR selon [adr-template.md](adr-template.md) avant les validations et l'inclure dans le commit de migration concerné. Vérifier également les fichiers de gouvernance et d'automatisation approuvés.
 
 Après chaque commit réussi, enregistrer son SHA et les résultats des validations comme point de contrôle ; si un hook a modifié le contenu, recontrôler périmètre et validations avant d'enregistrer un état vert. Respecter séparément les permissions de staging, commit, push et PR. Ne jamais ajouter de mention `Co-authored-by:`.
 

@@ -6,7 +6,7 @@ Configuration recipes for code quality tools, git hooks, and linters. Read [tool
 
 ## 1. Git Hooks Managers
 
-### 1.1 Lefthook (Recommended)
+### 1.1 Lefthook (When Selected)
 Lefthook is a fast, multi-platform, dependency-free Git hooks manager.
 
 Installation:
@@ -345,17 +345,13 @@ Make executable: `chmod +x scripts/worktree.sh`.
 ## 6. Developer Experience (DX) & Runtime Pinning
 
 ### 6.1 Runtime Version Pinning
-- **Node.js**:
-  - `.node-version`: `20`
-  - `.nvmrc`: `20`
-- **Python**:
-  - `.python-version`: `3.11`
-- **Tool-agnostic (asdf / mise)**:
-  - `.tool-versions`:
-    ```text
-    nodejs 20.18.0
-    python 3.11.9
-    ```
+Preserve the project's approved runtime constraints and version manager. Choose one authoritative version declaration supported by the selected local tools and CI; do not introduce another manager or copy a historical version from this reference.
+
+- Node.js: use the existing `.node-version`, `.nvmrc` or equivalent declaration. If multiple declarations are needed, verify they resolve to the approved version or explicitly approved test matrix.
+- Python: use the existing `.python-version` or equivalent declaration and check compatibility with the manifest and lockfile.
+- asdf / mise: use the selected manager's project configuration only when that manager is already present or separately approved.
+
+Derive exact file syntax and values from current version-matched documentation. Keep local setup and application-runtime CI inputs consistent with that source; the runtime used internally by an Action is a separate compatibility concern. Do not silently select the newest release or pin a version from memory.
 
 ### 6.2 Environment Template (`.env.example`)
 Create a sanitized `.env.example` at repository root:
@@ -372,35 +368,13 @@ API_BASE_URL=http://localhost:3000/api
 ```
 Ensure `.env` and `.env.local` are in `.gitignore`.
 
-### 6.3 All-In-One Setup Script (`scripts/setup.sh`)
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
+### 6.3 Project-Specific Setup Script (`scripts/setup.sh`)
+Generate a setup script only when it is included in the approved blueprint. Derive each command from the actual manifests, lockfiles, selected tools and target shell; there is no universal auto-detection recipe.
 
-echo "==> Setting up development environment..."
+1. Inspect the working directory and required installed tools before mutations. A missing tool blocks its dependent step; it does not select another package manager or download a replacement.
+2. Copy an approved environment template only if requested and the destination does not exist. Never overwrite local values or expose secrets.
+3. Use the selected package manager's verified installation interface with the approved lockfile behavior. A `package.json` or `pyproject.toml` alone is not sufficient to select npm, uv or Poetry.
+4. Install hooks only through the selected, available tool and its approved invocation. A runner that may download packages requires its separate installation authority.
+5. Stop on failure and report the failing step. Do not retry with another tool, change lockfiles, mask errors or report success after an incomplete setup.
 
-# 1. Copy environment template if not present
-if [ -f ".env.example" ] && [ ! -f ".env" ]; then
-  echo "--> Creating .env from .env.example"
-  cp .env.example .env
-fi
-
-# 2. Install dependencies (auto-detect stack)
-if [ -f "pnpm-lock.yaml" ]; then
-  pnpm install
-elif [ -f "package.json" ]; then
-  npm install
-elif [ -f "pyproject.toml" ]; then
-  uv sync || poetry install
-fi
-
-# 3. Setup git hooks
-if [ -f "lefthook.yml" ]; then
-  npx lefthook install || lefthook install
-elif [ -d ".husky" ]; then
-  npx husky
-fi
-
-echo "==> Setup completed successfully!"
-```
-Make executable: `chmod +x scripts/setup.sh`.
+Preserve existing scripts when they meet the approved requirements. Generated commands still require the entrypoint's realization and execution permissions; this reference does not authorize running them.

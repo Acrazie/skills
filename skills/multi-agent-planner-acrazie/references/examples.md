@@ -28,4 +28,4 @@ Worker contracts state the approved lead, allowed paths, input evidence, forbidd
 adjacent refactors and expected causal/regression proof. A shared root cause or
 write overlap stops the affected slices for repartitioning. Verify each returned
 artifact, then check the integrated final snapshot against the reproduction and
-required adjacent tests. One bounded retry per slice; no automatic merge or ship.
+required adjacent tests. Retries stay within the approved bounded slice budget and require a new causal hypothesis; no automatic merge or ship.

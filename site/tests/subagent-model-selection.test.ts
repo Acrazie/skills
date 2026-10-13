@@ -6,7 +6,6 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 const read = (file: string) => readFileSync(`${root}${file}`, 'utf8');
 const ids = [
   'diagnostic-queue-runner-acrazie',
-  'feature-builder-acrazie',
   'repository-readme-architect-acrazie',
   'mechanical-port-acrazie',
   'multi-agent-planner-acrazie',
@@ -50,9 +49,9 @@ describe('portable subagent model selection', () => {
 
   test('execution sites link the gate without relaxing ownership', () => {
     expect(read('skills/diagnostic-queue-runner-acrazie/SKILL.md')).toContain('Approve separate worker and reviewer lots');
-    const builder = read('skills/feature-builder-acrazie/SKILL.md');
-    expect(builder).toContain('Validate the reviewer lot');
-    expect(builder).toContain('fresh agent context without inherited conversation');
+    const contract = read('skills/interview-acrazie/references/task-contract.md');
+    expect(contract).toContain('explicit inheritance approval');
+    expect(contract).toContain('fresh context without inherited author conversation');
     expect(read('skills/repository-readme-architect-acrazie/SKILL.md')).toContain('Before optional delegation');
     expect(read('skills/mechanical-port-acrazie/SKILL.md')).toContain('A same-context skill handoff is not a spawn');
   });

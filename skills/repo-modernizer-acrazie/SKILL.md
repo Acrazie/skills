@@ -75,14 +75,14 @@ Select this skill for requested upgrades or repository modernization. Under publ
    - Prefer applicable official migration tools and codemods after verifying their version support, documented invocation, effects and coverage; do not assume a tool exists or fully preserves semantics.
    - Mobilize the AI to surgically translate complex configurations, adapt deprecated API calls, and update mocks/tests.
 7. **Automated Validation Gates :**
-   - Every modification must pass 4 verification gates: Lockfile integrity, Lint/Format, Typecheck, and Test Suite.
+   - Derive required validation gates and their order from repository policy, affected behavior, dependencies and approved acceptance criteria. Consider lockfile integrity, lint/format, type checking, tests and build where applicable; do not impose a universal four-gate sequence or omit a required check.
 8. **AI Self-Healing & Approval-Gated Rollback :**
-   - If tests or build fail, the AI may attempt up to 3 targeted auto-repair iterations.
-   - Record the SHA and validation evidence for each verified green checkpoint. If failures persist after 3 attempts, stop, preserve the current state, and provide a blocker diagnostic referencing that checkpoint (or explicitly state that none exists). Never infer that `HEAD` is green. For recovery, obtain separate explicit confirmation before destructive rollback, specifying the affected paths, target revision, and consequences; migration approval is not recovery permission.
+   - If a required check fails, attempt scoped causal corrections only within an approved bounded repair budget. Record attempts and failure evidence; stop when the budget is exhausted, no new causal hypothesis supports another attempt, or a required capability/authority is missing. If no repair budget is approved, request one before retrying; do not silently invent or reset it.
+   - Record the SHA and validation evidence for each verified green checkpoint. If a repair stop condition is reached, stop, preserve the current state, and provide a blocker diagnostic referencing that checkpoint (or explicitly state that none exists). Never infer that `HEAD` is green. For recovery, obtain separate explicit confirmation before destructive rollback, specifying the affected paths, target revision, and consequences; migration approval is not recovery permission.
 9. **Mandatory Approved Commit Strategy & ADR Documentation :**
    - Discover existing Git policy, resolve conflicts, and approve the migration commit plan before execution. Read [references/commit-strategy.md](references/commit-strategy.md). Follow the approved strategy before every commit; block non-compliance instead of silently relaxing it. Conventional Commits are an option, not a universal requirement. Never include co-author attributions (`Co-authored-by:`).
    - Control compliance even without hooks or CI; installing enforcement tools and changing remote settings are separate opt-in actions. Commit, push, and PR permissions remain distinct.
-   - Any Tier 2 (Major) or Tier 3 (Modern Replacement) migration must generate its formal Architecture Decision Record under `docs/adr/` before validation and the corresponding commit.
+   - Require an ADR when repository policy mandates one or when a durable, non-obvious architectural trade-off between genuine alternatives needs recording. Tier alone is not an ADR trigger. Obtain approval for its content and destination; when required, prepare it before validation and the corresponding commit.
 
 ---
 
@@ -97,7 +97,7 @@ flowchart TD
   E --> F["6. Automated Validation Gates (Build / Lint / Tests)"]
   F -->|Green| G["7. Strategy Compliance & Authorized Atomic Commit"]
   F -->|Red, repairs remaining| E
-  F -->|Red after 3 repairs| H["8. Stop, Diagnose & Request Recovery Approval"]
+  F -->|Red, budget exhausted or causal progress blocked| H["8. Stop, Diagnose & Request Recovery Approval"]
   G --> I["9. Next Pillar or Completion Summary"]
 ```
 
@@ -165,12 +165,12 @@ Follow the layered ordering from [references/execution-protocol.md](references/e
 2. **Translate configuration files** (e.g. `vite.config.ts`, `biome.json`, `lefthook.yml`).
 3. **Remove obsolete dependencies and configs** from package manifests.
 4. **Refactor codebase call sites** via targeted AI edits (updating deprecated imports, mocks, and type annotations).
-5. Prepare required ADRs and governance changes within the same coherent unit before validation. Follow approved commit boundaries, not an automatic one-commit-per-tool rule.
+5. Prepare ADRs required by policy or an approved durable architectural trade-off, and approved governance changes, within the same coherent unit before validation. Follow approved commit boundaries, not an automatic one-commit-per-tool rule.
 
 ---
 
 ### Step 6: Automated Validation Gates & Self-Healing
-Use verified actual repository commands for the 4 validation gates in order; the gate descriptions below are not tool installation instructions. Missing, unavailable, or failing required checks block the commit. A genuinely inapplicable gate needs an explicit reason in the approved plan, never an invented success:
+Use verified actual repository commands for the required validation gates in their dependency order; the categories below are assessment prompts, not a mandatory sequence or tool installation instructions. Missing, unavailable, or failing required checks block the commit. A genuinely inapplicable gate needs an explicit reason in the approved plan, never an invented success:
 1. `Lockfile & Install`: verified repository command and lockfile-preservation expectations.
 2. `Linter & Formatter`: verified repository checks, with write effects disclosed.
 3. `Typecheck`: verified applicable static-analysis command.
@@ -181,8 +181,8 @@ documentation before use; these gate names are not executable recipes.
 
 **Self-Healing Loop :**
 - If an error occurs, analyze the stack trace and apply targeted patches.
-- Maximum 3 self-repair attempts allowed.
-- If the suite is not 100% green after 3 attempts:
+- Use the approved bounded repair budget and causal stop conditions; renaming a repair or splitting the same failure does not reset that budget.
+- If the budget is exhausted, the same failure repeats without a new causal hypothesis, or safe scoped correction is blocked:
   - Stop, preserve the current state, and present a **Blocker Diagnostic Report** with the failing command, evidence, repair count, and recorded verified checkpoint SHA (or its absence).
   - Inspect and preserve unrelated changes; show exact affected paths and target revision. Obtain separate explicit confirmation before any destructive reset or cleanup. If declined, preserve the current state and await arbitration.
 

@@ -15,7 +15,7 @@ SCRIPT = Path(__file__).with_name("engineering_activation.py")
 spec = importlib.util.spec_from_file_location("activation", SCRIPT)
 activation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(activation)
-SKILL = "feature-builder-acrazie"
+SKILL = "test-retrofitter-acrazie"
 
 
 class ActivationTests(unittest.TestCase):

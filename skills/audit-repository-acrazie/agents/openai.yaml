@@ -1,6 +1,6 @@
 interface:
   display_name: "Audit Repository / Acrazie"
   short_description: "Audits one repository decision precisely"
-  default_prompt: "Use $audit-repository-acrazie to audit this precise technical decision in the repository."
+  default_prompt: "Use $audit-repository-acrazie to assess this precise repository decision or selected-script portability question read-only, with evidence gaps and a separately authorized executor handoff."
 policy:
   allow_implicit_invocation: true

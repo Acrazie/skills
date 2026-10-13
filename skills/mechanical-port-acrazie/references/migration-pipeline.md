@@ -52,10 +52,10 @@ and hallucinated code is an automated test suite whose execution is decoupled fr
 
 ---
 
-## 2. Phase 1: The Universal Paradigm Matrix (`PARADIGM-MAPPING.md`)
+## 2. Phase 1: Traceable Paradigm Mapping
 
 Before generating target code, document how the source language constructs map to the target language
-across four foundational pillars. Store this document at its approved destination; the root is only a proposal.
+across the four foundational pillars below. Reuse an applicable approved specification or record the evidence in an approved accessible document/contract. `PARADIGM-MAPPING.md` is only an example name; the root is only a proposal. No fixed filename, file format or separate artifact is required, and no new write is authorized by this reference.
 
 ### Pillar A: Memory & Resource Lifecycle
 | Source Paradigm | Target Paradigm | Mapping Strategy & Hazards |
@@ -87,9 +87,9 @@ across four foundational pillars. Store this document at its approved destinatio
 
 ---
 
-## 3. Phase 2: Ownership and Resource Matrix (`OWNERSHIP-MATRIX.tsv`)
+## 3. Phase 2: Traceable Ownership and Resource Evidence
 
-After write/destination approval, produce an inventory TSV documenting resource lifetimes for the selected boundary.
+Reuse or record resource-lifetime evidence for the selected boundary after any required content/write/destination approval. It may share the approved mapping document or contract. `OWNERSHIP-MATRIX.tsv` and the TSV below are examples, not required separate files; preserve all relevant ownership, cleanup, aliasing and concurrency facts regardless of representation.
 
 ```tsv
 struct_or_type	field_name	resource_kind	allocation_locus	owner_lifetime	cleanup_trigger	concurrency_model
@@ -102,14 +102,14 @@ EventDispatcher	listener_list	Callback Ref	Dispatcher::on()	Shared WeakRef	Expli
 
 ## 4. Phase 3: Canary Trial Run Protocol
 
-1. Select 3 to 5 canary files:
+1. Select representative canary units according to actual semantic risks and dependencies, not a fixed file count. Explain coverage and remaining gaps before translation. The following categories are prompts to inspect where present, not required project roles:
    - **Type Definition Leaf**: Minimal dependencies, pure data models or types.
    - **Core Logic Unit**: Algorithmic processing, math, or state transformation.
    - **Resource / I/O Handler**: Network, filesystem, or async coordination.
-2. Port each canary file mechanically, adhering strictly to `PARADIGM-MAPPING.md`.
+2. Port each canary file mechanically, adhering strictly to the approved traceable mapping.
 3. Run authorized checks/oracle and propose review for the exact canary snapshot; activate the reviewer separately in an explicit kit.
 4. Require independent `ACCEPT` covering all canary files; corrected snapshots need fresh review and affected validations.
-5. Update `PARADIGM-MAPPING.md` with any discovered edge cases or refined conventions.
+5. Update the approved mapping evidence with any discovered edge cases or refined conventions.
 
 ---
 

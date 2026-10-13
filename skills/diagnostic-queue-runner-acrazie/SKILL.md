@@ -115,13 +115,17 @@ generated workflow without executing it.
 
 - Ingest once per snapshot/checkpoint, not once forever. Record tool/version,
   configuration, command, environment, snapshot, exit status, raw output and parse
-  coverage. Revalidate diagnostics after affected changes and between tiers; never
+  coverage. Revalidate diagnostics after affected changes and between approved batches/checkpoints; never
   dispatch stale diagnostics as current failures. A lower count alone is not proof
   of correction when checks, inputs or configuration changed.
-- No slow root builds in worker inner loops. Coordinator performs approved
-  checkpoint/tier validations. Workers may run approved scoped checks that preserve
-  project configuration; a guessed single-file compiler command is not proof of a
-  module build. Never drop required final checks to save time.
+- Select worker checks by required coverage, actual tooling, cost and isolation.
+  Prefer approved scoped checks preserving project configuration; a guessed
+  single-file compiler command is not proof of a module build. Whole-project checks
+  may be necessary when no valid scoped check exists, but require an explicitly
+  approved schedule, execution owner and isolated/serialized shared build effects.
+  Coordinator performs approved checkpoint and final project validations. Do not
+  repeat expensive whole-project checks per file without a coverage/cost reason,
+  and never drop required final checks to save time.
 - Workers may edit only assigned paths under approved realization. Preserve shared
   interfaces, others' work and repository isolation. Ban `git stash`, `git reset`,
   `git checkout .` and `git clean`. Scoped editing never authorizes staging/commits.
@@ -149,8 +153,11 @@ on missing/unrecognized data rather than dropping it silently.
 
 ### 2. Establish dependency order
 
-Trace actual imports/build configuration as well as manifests. Process leaves
-before consumers where dependencies permit. Manifests or directory names alone
+Trace actual imports/build configuration as well as manifests.
+Order approved batches by observed causal and build dependencies; use leaves
+before consumers when that order removes cascading failures. Do not force a fixed
+four-layer architecture or an order contradicted by the actual dependency graph.
+Manifests or directory names alone
 are not a complete graph. Detect strongly connected components; do not assume the
 whole project is a DAG or that every cycle is illegal in the target toolchain.
 If a cycle prevents safe ordering, block that component and propose a separately
@@ -173,7 +180,7 @@ and obtain approval for a changed execution plan rather than silently substituti
 
 ### 4. Refresh and close
 
-At each approved tier/checkpoint, rerun relevant validations and refresh the queue
+At each approved batch/checkpoint, rerun relevant validations and refresh the queue
 against the current snapshot. Separate resolved, remaining, new, blocked and not
 revalidated diagnostics; record changes of tool/configuration so counts remain
 interpretable. New out-of-scope causes require new scope approval.

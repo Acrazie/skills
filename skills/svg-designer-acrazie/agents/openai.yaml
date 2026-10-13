@@ -1,0 +1,6 @@
+interface:
+  display_name: "SVG Designer / Acrazie"
+  short_description: "Design static SVG marks, banners and requested exports"
+  default_prompt: "Use $svg-designer-acrazie to design the requested static vector asset with context-appropriate concepts, native SVG, target-specific checks, and only approved exports."
+policy:
+  allow_implicit_invocation: true

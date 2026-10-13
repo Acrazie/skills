@@ -9,10 +9,6 @@ export interface InvocationDeclaration extends Omit<Invocation, 'evidence'> { ev
 // Reviewed instructions, not name matching: mentions and installation suggestions are not calls.
 const declarations: InvocationDeclaration[] = [
   {
-    source: 'feature-builder-acrazie', target: 'interview-acrazie', conditional: true,
-    evidence: [{ path: 'skills/feature-builder-acrazie/SKILL.md', quote: 'Interview is mandatory only when no applicable approved contract can be reused.\nWhen required, propose `interview-acrazie`, applying the project loading boundary before\nreading or invoking it.' }],
-  },
-  {
     source: 'immersive-hero-designer-acrazie', target: 'canvas-banner-designer-acrazie', conditional: true,
     evidence: [{ path: 'skills/immersive-hero-designer-acrazie/SKILL.md', quote: 'For a procedural Canvas scene or pointer-reactive ambient backdrop alone, use `canvas-banner-designer-acrazie` instead; if it is the chosen medium within a complete hero, follow that skill\'s rendering and lifecycle contract rather than inventing a second one.' }],
   },

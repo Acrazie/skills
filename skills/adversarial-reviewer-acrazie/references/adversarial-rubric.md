@@ -16,6 +16,22 @@ a concrete failure scenario and a violated invariant for each rejection; syntax
 matches are investigation leads, not proof. Separate pre-existing issues and do
 not reject contract-valid empty results, test doubles, or authorized operations.
 
+## Conditional use of examples
+
+Assess relevance of each pillar to the affected contract and stable snapshot, then
+investigate material paths rather than applying every language example as a fixed
+checklist. The manifestations below are non-exhaustive investigation leads, not
+universal language claims, detection rules or prescribed fixes. Missing examples
+never exclude an actual defect; irrelevant examples need no invented scenario.
+Record material applicability/evidence gaps. Do not skip affected authorization,
+security, error, data-integrity or lifecycle guarantees to reduce review effort.
+
+Verify runtime, language, framework and version semantics when an example matters
+to a finding. Trace actual ownership, execution and failure conditions; a syntax
+match alone never establishes leakage, unsafe behavior or a contract violation.
+Preserve independent context, final-snapshot identity and proof-of-flaw requirements.
+This guidance does not alter the caller's review/correction loops or verdict rules.
+
 ---
 
 ## Pillar 1: Resource & Lifecycle Hazards

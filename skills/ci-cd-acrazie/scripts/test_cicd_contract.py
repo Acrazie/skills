@@ -71,7 +71,7 @@ class CICDContract(unittest.TestCase):
         for name in ['github-repo-init-acrazie','repo-modernizer-acrazie']:
             text=(ROOT/'skills'/name/'SKILL.md').read_text()
             self.assertRules(text, ['For substantive CI/CD work beyond minimal bootstrap', 'ci-cd-acrazie', 'project loading boundary', 'not repeat settled interviews'])
-        for name in ['audit-repository-acrazie','script-portability-acrazie','feature-builder-acrazie','test-retrofitter-acrazie']:
+        for name in ['audit-repository-acrazie','test-retrofitter-acrazie']:
             self.assertIn('## CI/CD boundary', (ROOT/'skills'/name/'SKILL.md').read_text())
 
     def test_migration_is_explicit(self):

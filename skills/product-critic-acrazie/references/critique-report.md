@@ -4,7 +4,19 @@ Write one concise English report in `docs/critics/<subject>.md` after the user
 approves its content and exact destination. Keep evidence proportional to the
 decision. Do not reproduce sensitive data or turn this report into a transcript.
 
-## Report structure
+## Report content and adaptable structure
+
+Choose a concise structure fitting the selected decision and existing report.
+Preserve scope/revision, status and approval evidence; distinguish observations,
+declared needs and hypotheses; retain verdict, what to keep, material comparisons,
+recommendations, accepted/pending decisions, actual checks, evidence gaps and next
+authorized step. For each material finding, keep enough source/context, impact,
+confidence/limits and a discriminating verification method to support its decision.
+Include migration, compatibility or performance detail when relevant; do not invent
+measurements or remove a material risk merely to shorten the report.
+
+The following is an illustrative layout, not mandatory headings, a field count or
+a reason to add empty sections. Equivalent content in an existing report is valid:
 
 ```markdown
 # <Product or subject> Critique

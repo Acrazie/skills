@@ -124,9 +124,10 @@ examples, not permission to implement a competing workflow or trigger remote wor
 #### 2.6 Documentation & Governance
 - **Question**: Which repository governance and documentation files should be generated?
 - **Options**:
-  - Standard governance suite (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` [MIT], `docs/git-workflow.md`, `AGENTS.md` [linking to `docs/git-workflow.md`], `.github/ISSUE_TEMPLATE/`, `PULL_REQUEST_TEMPLATE.md`).
-  - Minimal governance (`README.md` + `LICENSE`).
-- **Recommendation**: Standard governance suite with MIT License.
+  - Preserve existing governance and add only files required by the project's audience, contribution model and obligations.
+  - Adopt a broader governance set when justified (`README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `docs/git-workflow.md`, `AGENTS.md`, issue/PR templates).
+  - Add `LICENSE` only after an explicit license choice; preserving no license or deferring the choice is not permission to insert MIT.
+- **Recommendation**: The smallest useful set consistent with existing policy and verified needs. Explain any proposed addition. Treat licensing as a separate unresolved decision when necessary, not a template default.
 - **Note on Existing Files**: If any of these files already exist, explicitly ask whether to **preserve** or **overwrite** them.
 
 ---
@@ -184,7 +185,7 @@ Once all rounds are resolved, compile the agreed configuration into a concise, s
 
 - **Target Directory**: `./my-awesome-app`
 - **Remote GitHub**: `owner/my-awesome-app` (Private) via `gh`
-- **Stack & Runtime**: TypeScript + React (Vite) with `pnpm` (Node 20 pinned via `.node-version`)
+- **Stack & Runtime**: TypeScript + React (Vite) with the selected `pnpm` version and approved Node.js version declared in `.node-version`
 - **Branching & Environments**: Trunk-based (`main`), branch prefixes (`feat/`, `fix/`, `chore/`)
 - **Parallel Dev Workflow**: Situational worktrees (`.worktrees/` in `.gitignore`, `scripts/worktree.sh`), if selected
 - **Git Delivery Policy**: Reviewed targeted staging; coherent commits; approval before push/PR; PR target `main` and Draft default, if selected
@@ -196,7 +197,7 @@ Once all rounds are resolved, compile the agreed configuration into a concise, s
   - `release-please.yml`: Automated semver releases & changelogs
   - `dependabot.yml`: Weekly npm dependencies update
 - **Governance & DX**:
-  - `README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` (MIT)
+  - `README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` (only with the explicitly selected license)
   - `.github/ISSUE_TEMPLATE/` (bug & feature), `PULL_REQUEST_TEMPLATE.md`
   - `.editorconfig`, `.gitignore`, `.env.example`, `scripts/setup.sh`
 

@@ -61,10 +61,9 @@ Browse selected skills below, or explore the interactive documentation portal at
 | Skill | Category | Invocation | Description |
 | :--- | :--- | :--- | :--- |
 | [**repository-readme-architect**](skills/repository-readme-architect-acrazie/SKILL.md) | Architecture & Review | `$repository-readme-architect-acrazie` | Design, restructure, or update a repository primary README via decision-tree interviews. |
-| [**audit-repository**](skills/audit-repository-acrazie/SKILL.md) | Architecture & Review | `$audit-repository-acrazie` | Audit a precise technical decision, integration, stack choice, or subsystem in an existing repo. |
+| [**audit-repository**](skills/audit-repository-acrazie/SKILL.md) | Architecture & Review | `$audit-repository-acrazie` | Assess a precise repository decision or selected-script portability read-only; implementation requires separate authority. |
 | [**ci-cd**](skills/ci-cd-acrazie/SKILL.md) | CI/CD & DevOps | `$ci-cd-acrazie` | Design, modernize and diagnose repository pipelines across tools/languages; remote operations require separate authority. |
-| [**svg-icon-designer**](skills/svg-icon-designer-acrazie/SKILL.md) | Design & Visuals | `$svg-icon-designer-acrazie` | Design original SVG icons and logos through iterative drafts, ASCII previews, and exports. |
-| [**svg-banner-designer**](skills/svg-banner-designer-acrazie/SKILL.md) | Design & Visuals | `$svg-banner-designer-acrazie` | Design custom vector SVG banners, social cards, and platform header graphics. |
+| [**svg-designer**](skills/svg-designer-acrazie/SKILL.md) | Design & Visuals | `$svg-designer-acrazie` | Design original static SVG icons, logos, banners and social cards with contextual checks and approved exports. |
 | [**canvas-banner-designer**](skills/canvas-banner-designer-acrazie/SKILL.md) | Design & Visuals | `$canvas-banner-designer-acrazie` | Build animated HTML Canvas banners, web heroes, and interactive ambient backdrops. |
 | [**immersive-hero-designer**](skills/immersive-hero-designer-acrazie/SKILL.md) | Design & Visuals | `$immersive-hero-designer-acrazie` | Design and build complete immersive web hero sections (video, 3D, Canvas, or CSS). |
 | [**github-repo-init**](skills/github-repo-init-acrazie/SKILL.md) | Git & Governance | `$github-repo-init-acrazie` | Initialize repositories, activate engineering kits, or administer approved GitHub.com repository and personal Developer Settings. |
