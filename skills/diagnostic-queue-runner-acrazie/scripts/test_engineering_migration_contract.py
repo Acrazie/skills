@@ -59,14 +59,42 @@ class MigrationContract(unittest.TestCase):
 
     def test_preserved_model_gate(self):
         section = lambda text: text.split('## Subagent model selection\n')[1].split('\n## ')[0].strip()
-        control = section(read('feature-builder-acrazie'))
+        control = section(read('repository-readme-architect-acrazie'))
         for skill in IDS:
             self.assertEqual(section(read(skill)), control)
 
     def test_queue_freshness(self):
-        for rule in ('once per snapshot/checkpoint', 'never', 'stale diagnostics', 'between tiers',
-                     'changed', 'not revalidated', 'No slow root builds in worker inner loops', 'final project checks'):
+        for rule in ('once per snapshot/checkpoint', 'never', 'stale diagnostics', 'between approved batches/checkpoints',
+                     'changed', 'not revalidated', 'isolated/serialized shared build effects', 'final project checks'):
             self.assertIn(rule, read(IDS[1]))
+
+    def test_adaptable_port_evidence_and_canaries(self):
+        body = read(IDS[0])
+        pipeline = read(IDS[0], 'references/migration-pipeline.md')
+        self.assertIn('approved accessible document or contract', body)
+        self.assertIn('not a required separate artifact', body)
+        self.assertIn('actual semantic risks', body)
+        self.assertIn('Explain coverage and gaps', body)
+        self.assertIn('No fixed filename, file format or separate artifact is required', pipeline)
+        for text in (body, pipeline):
+            self.assertNotIn('select 3–5', text)
+            self.assertNotIn('Select 3 to 5', text)
+        self.assertIn('before any target code is written', body)
+        self.assertIn('independent `ACCEPT` covering every canary', body)
+
+    def test_observed_queue_order_and_approved_checks(self):
+        body = read(IDS[1])
+        guardrails = read(IDS[1], 'references/queue-guardrails.md')
+        self.assertIn('observed causal and build dependencies', body)
+        self.assertIn('explicitly\n  approved schedule', body)
+        self.assertIn('isolated/serialized shared build effects', body)
+        self.assertIn('Never drop required final checks'.lower(), body.lower())
+        self.assertIn('not a universal bottom-up mandate', guardrails)
+        self.assertIn('strongly connected components', guardrails)
+        self.assertIn('execution owner', guardrails)
+        self.assertNotIn('Always process bottom-up', guardrails)
+        self.assertNotIn('### Tier Structure', guardrails)
+        self.assertNotIn('No slow root builds in worker inner loops', body)
 
     def test_queue_parser_and_tool_limits(self):
         for rule in ('not universal', 'unmatched/multiline diagnostics', 'Windows',

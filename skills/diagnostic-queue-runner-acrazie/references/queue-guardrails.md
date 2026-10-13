@@ -21,7 +21,7 @@ No implicit staging, commit, push, PR, merge or deployment.
 ## 1. Illustrative Diagnostic Ingestion Recipes
 
 Ingest once per approved snapshot/checkpoint, then refresh after affected changes
-and between tiers. Record snapshot, environment, installed tool/version, command,
+and between approved batches/checkpoints. Record snapshot, environment, installed tool/version, command,
 configuration, exit status and raw output. Never dispatch stale diagnostics or treat
 failed tools as an empty queue. Commands below are historical illustrations, not
 certified CLI recipes. Verify current options and project-supported checks before
@@ -60,14 +60,7 @@ assignments dependent on unrecognized data. Do not silently discard records.
 
 ## 2. Topological Dependency Ordering & Cycle Breaking
 
-Handling compiler errors in random order leads to cascade re-evaluations. Always process bottom-up.
-
-### Tier Structure (The Dependency DAG)
-1. **Tier 0 — Foundation & Primitives**: Basic data types, serialization helpers, string/buffer utilities,
-   low-level constants, system error enums. Zero external project dependencies.
-2. **Tier 1 — Domain Models & State**: Entities, data structures, storage interfaces, core protocols.
-3. **Tier 2 — Services & Runtime**: Network engines, parsers, business logic, asynchronous task queues.
-4. **Tier 3 — Presentation & CLI**: Subcommands, HTTP handlers, user interfaces, top-level integration.
+Build the ordering from observed imports, build dependencies and demonstrated causes of cascaded diagnostics. Leaves-before-consumers can reduce redundant failures when the graph supports it; it is not a universal bottom-up mandate. Group strongly connected components and inseparable changes into coherent approved batches. Do not invent foundation/domain/service/presentation tiers from directory names. Refresh evidence at approved boundaries and explain the chosen order, dependencies and unresolved blockers.
 
 ### Blocking Cycle Protocol
 
@@ -90,15 +83,17 @@ In parallel agent environments, the most common source of corrupted states is ag
   it wipes out uncommitted work being drafted by Agent B.
 - ❌ `git reset HEAD --hard`: Destroys all parallel in-flight edits across the entire workspace.
 - ❌ `git checkout .`: Reverts all files globally, not just the file assigned to the worker.
-- ❌ Running whole-project builds inside the worker loop: In large codebases, running `cargo check`
-  or `mvn compile` inside a loop for every single file burns I/O and freezes disk read/writes.
+
+### Worker Validation Scheduling
+
+Whole-project checks are not inherently prohibited. Prefer sufficient scoped checks when available; repeated expensive root builds per file need a demonstrated coverage/cost reason. When only a whole-project check can validate a slice, approve its schedule and execution owner, preserve project configuration and isolate or serialize shared build effects before running it.
 
 ### Scoped Work and Checkpoints
 
 - Edit only assigned paths under approved realization; avoid overlapping writers.
 - Run approved scoped checks using project configuration; guessed single-file
   compiler invocations do not prove module correctness.
-- Coordinator runs approved tier/checkpoint and final project validations.
+- Coordinator runs approved batch/checkpoint and final project validations. Worker checks do not replace final integrated proof.
 - Scoped editing never authorizes `git add` or `git commit`. Separately authorized
   delivery follows repository action policy and exact-snapshot proof.
 - Reconcile resolved, remaining, new, blocked and not revalidated diagnostics.

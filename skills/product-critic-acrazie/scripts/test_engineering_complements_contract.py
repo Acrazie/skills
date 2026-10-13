@@ -57,8 +57,8 @@ class EngineeringComplementsContractTests(unittest.TestCase):
     def test_critic_return_and_feature_handoff_have_separate_authority(self):
         text = read(NAMES[0])
         for phrase in ("new explicit invocation of Product Critic", "Report approval never authorizes implementation",
-                       "separate explicit activation of Feature Builder", "not a skill command",
-                       "not implement the feature itself", "Bug fixes, behavior-preserving refactors"):
+                       "capable harness executor", "separate realization authorization",
+                       "never implements or dispatches", "bugs, refactors, retirement or migrations"):
             self.contains(phrase, text)
 
     def test_critic_report_acceptance_remains_separate(self):

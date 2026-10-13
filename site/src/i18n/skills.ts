@@ -36,13 +36,13 @@ export const CATEGORY_TRANSLATIONS: Record<string, Record<Locale, string>> = {
 export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, LocalizedSkillMeta>> = {
   'audit-repository-acrazie': {
     en: {
-      description: 'Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. Use when the task needs a bounded technical assessment before a decision; not for general repository audits, diff or PR review, security audits, documentation audits, or multi-repository analysis.',
+      description: 'Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. Use when the task needs a bounded technical assessment before a decision, including read-only selected-script portability assessment and a separately authorized executor handoff; not for general repository audits, diff or PR review, security audits, documentation audits, or multi-repository analysis.',
     },
     fr: {
-      description: 'Auditer une décision technique précise, une intégration, un outil, un choix de stack ou un sous-système dans un dépôt existant. Pour une évaluation technique ciblée nécessaire à la décision demandée, sans commande de skill obligatoire.',
+      description: 'Auditer une décision technique précise, une intégration, un outil, un choix de stack ou un sous-système dans un dépôt existant. Pour une évaluation technique ciblée nécessaire à la décision demandée, y compris portabilité de scripts sélectionnés en lecture seule et transmission à un exécutant séparément autorisé.',
     },
     zh: {
-      description: '针对现有代码库中的具体技术决策、工具集成、技术栈选型或子系统进行针对性审计。适用于当前任务所需的针对性技术评估，无需显式技能命令。',
+      description: '针对现有代码库中的具体技术决策、工具集成、技术栈选型或子系统进行针对性审计。适用于当前任务所需的针对性技术评估，包括选定脚本可移植性的只读评估及另行授权的执行交接。',
     },
   },
   'canvas-banner-designer-acrazie': {
@@ -144,26 +144,15 @@ export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, Localize
       description: '在用户测试一个目标技能时收集结构化反馈，以追加式日志保留观察，并在行为记录中汇总经批准的反馈；仅将长期且非平凡的权衡写入 ADR。仅显式启用，不修改目标技能。',
     },
   },
-  'svg-banner-designer-acrazie': {
+  'svg-designer-acrazie': {
     en: {
-      description: 'Design custom vector SVG banners, social cards, and header graphics with platform-specific safe zones, typography, and optional PNG exports. Use when creating or updating banners for GitHub READMEs, OpenGraph cards, X/Twitter, LinkedIn, YouTube, or blog headers.',
+      description: 'Design original static SVG icons, logos, banners, social cards and header graphics with target-specific checks and only approved raster or favicon exports. Not raster image editing, animated scenes, whole-site UI redesign or general diagramming.',
     },
     fr: {
-      description: 'Concevoir des bannières vectorielles SVG sur mesure, social cards et en-têtes graphiques avec zones de sécurité adaptées (GitHub, OpenGraph, X, LinkedIn, YouTube).',
+      description: 'Concevoir des icônes, logos, bannières, social cards et en-têtes SVG statiques originaux, avec vérifications adaptées à la cible et seuls exports raster ou favicon approuvés. Hors retouche raster, scènes animées, refonte complète d’interface et diagrammes génériques.',
     },
     zh: {
-      description: '设计符合各社交平台安全区域与排版规范的矢量 SVG 横幅、社交预览卡与 Header 视觉图像，支持 PNG 导出。',
-    },
-  },
-  'svg-icon-designer-acrazie': {
-    en: {
-      description: 'Design original SVG logos and icons through compact concept drafts, then produce clean vector markup and requested PNG or favicon exports. Use for individual marks, small sets, app symbols, and favicons; not for editing raster artwork and not for producing ASCII art as the deliverable.',
-    },
-    fr: {
-      description: 'Créer des logos et icônes SVG vectoriels originaux via des ébauches compactes, puis générer un balisage propre et les exports PNG ou favicon demandés.',
-    },
-    zh: {
-      description: '通过紧凑概念草图设计原创矢量 SVG 标志与图标系统，生成纯净矢量代码及所需的 PNG 或 Favicon 导出资源。',
+      description: '设计原创静态 SVG 图标、标志、横幅、社交预览卡与页头图形，按实际用途验证，并仅导出获准的位图或 Favicon。不用于位图编辑、动画场景、整站界面重设计或通用图表。',
     },
   },
 };

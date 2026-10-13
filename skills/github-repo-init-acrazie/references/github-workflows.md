@@ -10,6 +10,8 @@ Adapts to the selected branching model (e.g. `[main]` for trunk-based, or `[main
 
 ### 1.1 Node.js / TypeScript (pnpm + Approved Tool Scripts)
 
+Use the project's approved Node.js version declaration for local setup and CI. The example below assumes an existing `.node-version`; adapt the path to the actual supported declaration rather than creating that file implicitly. Do not also set `node-version`, which would override `node-version-file`. Verify these inputs against the selected Action revision using [setup-node documentation](https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md). Package-manager and Action revisions below remain illustrative and must match the approved project and runner. The application Node.js version is not the Action's internal runtime.
+
 Define `lint` and `format:check` for the selected tools before using this workflow. Oxlint/Oxfmt uses `oxlint` and `oxfmt --check`; Biome or ESLint/Prettier must define equivalent non-mutating scripts. Do not run an unselected tool.
 ```yaml
 name: CI
@@ -43,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: 'pnpm'
 
       - name: Install dependencies

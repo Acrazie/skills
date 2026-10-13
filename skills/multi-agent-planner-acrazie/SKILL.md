@@ -69,10 +69,12 @@ latency or price savings without evidence.
 
 Support single sequential, fan-out/fan-in behind a central specification and a
 verified pipeline. No hierarchical supervisors, cascade spawning or worker-spawns-
-worker. Plan at most five concurrent workers, further bounded by verified runtime
-capacity and the approved lot count. If capacity is unknown, leave the executable
-schedule pending; do not assert the platform can run it. One bounded retry per
+worker. Bound concurrent workers by verified runtime
+capacity, the approved lot count and the agreed resource budget; no universal worker cap. If capacity is unknown, leave the executable
+schedule pending; do not assert the platform can run it. Use an approved bounded retry budget per
 slice, including a changed executor, not repeated retries under renamed workers.
+If that budget is unknown, leave retries pending; do not silently choose one.
+Stop earlier if no new causal hypothesis supports another attempt or authority is missing.
 
 For shared interfaces/conventions, agree and freeze their revision before fan-out.
 For debugging, reconnaissance isolates independent leads before parallel fixes.
@@ -139,7 +141,7 @@ do not prove combined correctness. Fresh-context review remains isolated when
 required or explicitly selected, never inherited by default from implementation.
 
 Failure, unavailable capability, conflicting scope or unverifiable result pauses
-the affected slice. An authorized bounded retry must retain its approved scope,
+the affected slice. Any retry within the approved bounded budget must retain its approved scope,
 permissions and model lot; changed role/risk/model requires renewed validation.
 After retry exhaustion, report the blocker or propose a single-agent recovery
 with approval; do not silently continue a delegation loop.

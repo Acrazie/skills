@@ -87,9 +87,9 @@ A recommendation-only assessment of an existing product's features and codebase 
 The reusable `interview-acrazie` skill that clarifies user-owned decisions and produces an approved Task Contract without executing the task.
 *Avoid*: Development orchestrator, feature implementer.
 
-**Feature Builder**:
-The `feature-builder-acrazie` specialist that realizes new application behavior from an approved Task Contract with criterion-linked evidence, distinct from its optional independent reviewer.
-*Avoid*: Bug fixer, refactorer, agent reviewer.
+**Harness Executor**:
+The capable execution context realizing an independently authorized Task Contract when no separate specialist protocol is needed, with criterion-linked final-snapshot evidence and recorded independent-review choice.
+*Avoid*: Interview implementation, automatic specialist activation, authority inferred from outcome approval.
 
 **Test Retrofitter**:
 The `test-retrofitter-acrazie` skill for adding automated evidence to existing untested or insufficiently tested behavior, distinct from implementing or correcting functionality.
@@ -190,11 +190,11 @@ A minimal structural code change that severs an anchor reference (e.g. unbinding
 ## Script Portability & Shell Hardening
 
 **Script Portability**:
-The specialist skill `script-portability-acrazie` dedicated to eliminating OS-dependent syntax hazards, purging redundant polyfills (`cross-env`, `rimraf`, `shx`), and hardening automation scripts against shell injection.
+A conditional selected-script assessment under `audit-repository-acrazie`: trace preserved behavior and target OS/shell/runtime/runner proof, then recommend a separately authorized executor handoff. Audit remains read-only.
 *Avoid*: Macro-toolchain modernizer, Jenkins pipeline specialist.
 
 **Polyfill Purge**:
-The systematic elimination of obsolete developer dependency polyfills in favor of native runtime capabilities (e.g. `node --env-file`, `fs.rmSync`, in-process Bun Shell).
+An optional removal decision for a selected compatibility helper only when fitting native or installed capabilities demonstrably preserve required behavior and target compatibility. Retention is valid; runtime migration and blanket removal are not implied.
 *Avoid*: Dependency update, arbitrary package pruning.
 
 **In-Process Shell**:
@@ -279,3 +279,17 @@ continuing authorized work independent of that fact.
 Repeatable required steps, traceable decisions, observable criteria and stable
 output structure across skill executions.
 *Avoid*: Guaranteed identical wording or results across models and harnesses.
+
+## Static Vector Design
+
+**Static Vector Asset**:
+An editable vector composition whose geometry and typography communicate a stable
+visual result, including a mark, icon, banner or social preview. Its target governs
+small-size recognition, color behavior, readability, crop and requested output formats.
+*Avoid*: Animated scene, whole application interface, raster illustration.
+
+**Contextual Design Reference**:
+Optional visual vocabulary or a target-specific verification guide used only when
+its conditions match the brief. It provides principles or questions to investigate,
+not a mandatory layout, style, concept quota or proof of current platform support.
+*Avoid*: Fixed recipe, copied example, universal compatibility certification.

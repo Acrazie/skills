@@ -1,6 +1,6 @@
 # Stack Scaffolding Recipes
 
-Deterministic, battle-tested scaffolding commands and recipes for each supported technology stack.
+Illustrative scaffolding patterns, not certified commands or a closed list of supported stacks. Use only the pattern matching the approved project. Verify generator versions, CLI flags, mutation scope and compatibility against current official documentation before proposing execution. Preserve the selected package manager, framework, runtime and license; versions and tools below are examples, not recommendations or installation authority.
 
 ---
 
@@ -47,7 +47,7 @@ Add to `package.json`:
 
 ## 2. Python
 
-### 2.1 Python with `uv` (Recommended)
+### 2.1 Python with `uv` (When Selected)
 `uv` is an extremely fast Python package and project manager written in Rust.
 
 ```bash
@@ -128,7 +128,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["<owner>"]
 description = "<project-description>"
-license = "MIT"
+license = "<approved-SPDX-expression>" # omit if no license has been selected
 
 [dependencies]
 
@@ -143,7 +143,7 @@ When the user chooses "Custom" or "None":
 1. Check if the user specified a custom CLI generator (e.g. `npx create-remix@latest`, `mix phx.new`, `dotnet new webapi`).
 2. Run the custom command if approved.
 3. If no framework is needed ("None" / empty repo):
-   - Set up the standard directory hierarchy:
+   - Propose only directories needed by the approved project; the following hierarchy is an example, not mandatory scaffolding:
      ```bash
      mkdir -p src tests docs
      ```

@@ -42,16 +42,30 @@ class CommitContractTests(unittest.TestCase):
         self.require(STRATEGY, "git diff --cached", "Un index déjà contaminé bloque le commit", "Un test vert du working tree ne valide pas un index partiel différent", "sans stash/reset du travail tiers")
 
     def test_adr_precedes_validation_and_commit(self):
-        self.require(ENTRY, "before validation and the corresponding commit")
+        self.require(ENTRY, "before validation and the corresponding commit", "Tier alone is not an ADR trigger", "repository policy mandates")
         self.require(EXECUTION, "avant les validations et l'inclure dans le commit")
         self.assertNotIn("references/adr-template.md", EXECUTION)
 
     def test_failed_checks_and_safe_checkpoints(self):
         self.require(ENTRY, "obtain separate explicit confirmation before destructive rollback")
-        self.require(STRATEGY, "indisponible, rouge ou périmée bloque le commit", "SHA avec les preuves", "trois réparations infructueuses", "Aucun reset ou nettoyage automatique", "HEAD` n'est pas vert par définition")
+        self.require(STRATEGY, "indisponible, rouge ou périmée bloque le commit", "SHA avec les preuves", "budget de réparation borné approuvé", "Aucun reset ou nettoyage automatique", "HEAD` n'est pas vert par définition")
         for document in (ENTRY, EXECUTION):
             self.assertNotIn("Automatic Rollback", document)
             self.assertNotIn("Rollback Automatique", document)
+
+    def test_contextual_gates_and_bounded_repairs(self):
+        self.require(ENTRY, "approved bounded repair budget", "no new causal hypothesis",
+                     "do not silently invent or reset it", "do not impose a universal four-gate sequence")
+        self.require(EXECUTION, "pas quatre portes universelles", "budget de réparation explicite",
+                     "renommer une tentative ne réinitialise pas", "sans nouvelle hypothèse causale")
+        for document in (ENTRY, EXECUTION, STRATEGY):
+            self.assertNotIn("3 self-repair attempts", document)
+            self.assertNotIn("Tentative < 3", document)
+            self.assertNotIn("Après trois réparations infructueuses", document)
+        taxonomy = (SKILL / "references/taxonomy-matrix.md").read_text()
+        template = (SKILL / "references/adr-template.md").read_text()
+        self.assertNotIn("prepare the required ADR", taxonomy)
+        self.assertIn("A tier number alone does not require an ADR", template)
 
     def test_local_references_resolve(self):
         for file in [SKILL / "SKILL.md", *sorted((SKILL / "references").glob("*.md"))]:

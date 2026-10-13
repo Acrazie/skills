@@ -136,15 +136,19 @@ recipient without granting new roles, scope or model choices. Apply the subagent
 model-selection gate to separately authorized translation, reviewer and diagnostic
 worker lots. No automatic worker spawning from migration approval.
 
-1. **Paradigm mapping**: after artifact/write approval, produce `PARADIGM-MAPPING.md`
-   at the approved destination. Cover memory/resource lifecycle, error model,
+1. **Paradigm mapping**: reuse or record traceable paradigm mapping in an
+   approved accessible document or contract after artifact/write approval.
+   `PARADIGM-MAPPING.md` is an example name, not a required format or destination. Cover memory/resource lifecycle, error model,
    concurrency/asynchrony and types/nullability. Trace actual source semantics;
    examples are prompts for investigation, not universal translations.
-2. **Ownership matrix**: produce `OWNERSHIP-MATRIX.tsv` within approved write scope.
+2. **Ownership matrix**: reuse or record traceable resource ownership evidence within approved write scope.
+   A table in the same approved document may suffice; `OWNERSHIP-MATRIX.tsv` is an example, not a required separate artifact.
    Inventory fields/resources, allocation locus, owner lifetime, cleanup trigger,
    aliases and concurrency boundaries needed for the selected migration.
-3. **Canary trial**: select 3–5 representative files (or approve a smaller set for
-   a smaller boundary). Translate according to the mapping, run applicable checks
+3. **Canary trial**: select representative units covering the actual semantic risks and
+   boundaries of the approved port, not a fixed file count. Explain coverage and gaps
+   before translating; a small boundary may need fewer units, while distinct
+   lifecycle, error or concurrency risks may need more. Translate according to the mapping, run applicable checks
    and oracle, and obtain independent `ACCEPT` covering every canary. Refine mapping
    on discovered semantic issues and revalidate affected code before full translation.
 4. **Full translation**: mirror remaining units, verify each through the independent
@@ -164,7 +168,7 @@ blocked gate; never declare the migration verified or complete.
 
 Report in chat by default; file writing requires approved content/destination.
 Include source/target environments, contract and snapshots, oracle command/results
-and coverage limits, mapping/matrix/canary status, reviewed units and exact review
+and coverage limits, mapping/ownership/canary evidence, its accessible location and coverage status, reviewed units and exact review
 snapshot/verdict, target checks, queue handoff status and remaining authorized step.
 Distinguish passed, failed, blocked, not executed and unverified states. Do not
 force `VERIFIED` when the oracle is absent or the target was never tested. Report

@@ -2,7 +2,8 @@
 name: audit-repository-acrazie
 description: >-
   Audit a precise technical decision, integration, subsystem, or choice of library,
-  framework, or development tool before adoption in one existing repository. Use
+  framework, or development tool before adoption in one existing repository, including targeted selected-script
+  portability assessment (not refactoring). Use
   when the task needs a bounded technical assessment before a decision; not for general
   repository audits, diff or PR review, security audits, documentation audits,
   multi-repository analysis, or external-service selection.
@@ -70,6 +71,14 @@ record-write permission nor implementation, installation or shipping authority.
 Read [references/interview-tree.md](references/interview-tree.md). Ask only unresolved user-owned decisions whose prerequisites are settled. Normally one compact round is enough; ask another only when an answer exposes a material unresolved branch.
 
 When the frontier is empty, summarize the audit question, scope, exclusions, decision criteria, and relevant existing Audit Records. Get explicit confirmation before deep investigation unless applicable independent approval evidence already covers that exact investigation.
+
+## Selected-script portability
+
+For a precise cross-platform script question, read
+[references/script-portability.md](references/script-portability.md) conditionally.
+Keep this assessment read-only. Recommend preservation, native target checks and
+an executor handoff; any realization requires separate authorization. Do not
+promise script refactoring, dependency removal or a runtime migration.
 
 ## Investigate
 

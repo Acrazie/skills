@@ -161,20 +161,17 @@ request, reuse a sufficient approved targeted Task Contract, or ask
 loading and availability gates above. Preserve settled
 decisions; scope concrete outcomes and checks rather than copying the entire critique.
 
-- New application features: hand off to `feature-builder-acrazie` only after the
-  human authorizes the feature implementation and the targeted contract is
-  approved with independent approval evidence. Under ordinary library defaults a
-  natural-language request suffices; in an explicit kit request a separate explicit
-  activation of Feature Builder before reading or dispatching its instructions.
-  If it is unavailable, block this handoff and request the separately approved
-  installation flow above. Report, contract and option approvals do not activate
-  it or grant execution, spawning or shipping permissions. Respect its specialist
-  exclusions; this critique does not implement the feature itself.
-- Bug fixes, behavior-preserving refactors, retirement, and migrations: disclose
-  the Feature Builder mismatch and agree on a suitable workflow with the user.
-  Do not disguise these as features or expand another skill's scope.
+- For ordinary implementation, hand off the targeted approved contract to a capable
+  harness executor after separate realization authorization. Carry Interview's
+  contract acceptance obligations, including criterion-linked tests, final-snapshot
+  evidence and independent-review offer; this critique never implements or dispatches.
+  A sufficient current contract needs no new Interview invocation. If a separate
+  domain protocol is needed, select its responsible specialist, preserving its
+  loading, availability, scope and action gates; do not disguise bugs, refactors,
+  retirement or migrations as new features. Report/option approval grants no
+  execution, installation, spawning or shipping permission.
 - Mixed recommendations: separate their ownership and approval boundaries; do not
-  send an unbounded modernization program through Feature Builder.
+  send an unbounded modernization program through an ordinary execution handoff.
 
 Finish with the approved report path, accepted decisions, checks actually run,
 uncertainties, and the next authorized step. Distinguish local evidence from CI,

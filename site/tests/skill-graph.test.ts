@@ -36,19 +36,12 @@ describe('documented invocations', () => {
     expect(graph.nodes.every(n => Number.isFinite(n.x) && Number.isFinite(n.y))).toBe(true);
     expect(graph.nodes.some(n => !graph.links.some(l => l.source === n.id || l.target === n.id))).toBe(true);
   });
-  test('builder Interview edge records the reusable-contract and loading gates', () => {
-    const link = getSkillGraph().links.find(link =>
-      link.source === 'feature-builder-acrazie' && link.target === 'interview-acrazie');
-    expect(link).toBeDefined();
-    expect(link!.conditional).toBe(true);
-    expect(link!.evidence).toHaveLength(1);
-    const evidence = link!.evidence[0];
-    expect(evidence.path).toBe('skills/feature-builder-acrazie/SKILL.md');
-    expect(evidence.quote).toContain('no applicable approved contract can be reused');
-    expect(evidence.quote).toContain('propose `interview-acrazie`');
-    expect(evidence.quote).toContain('project loading boundary before\nreading or invoking it');
-    const lines = fs.readFileSync(`${getRepoRoot()}/${evidence.path}`, 'utf8').split('\n');
-    expect(lines.slice(evidence.line - 1, evidence.endLine).join('\n')).toContain(evidence.quote);
+  test('retired generic packages and harness are not graph nodes or endpoints', () => {
+    const graph = getSkillGraph();
+    for (const id of ['feature-builder-acrazie', 'script-portability-acrazie', 'harness']) {
+      expect(graph.nodes.some(node => node.id === id)).toBe(false);
+      expect(graph.links.some(link => link.source === id || link.target === id)).toBe(false);
+    }
   });
   test('CI/CD owner uses real conditional handoffs, not internal-reference edges', () => {
     const graph = getSkillGraph();
@@ -62,8 +55,7 @@ describe('documented invocations', () => {
   });
   test('real edges are reviewed calls, never recommendation-only git shipping', () => {
     const graph = getSkillGraph();
-    expect(graph.links).toHaveLength(4);
-    expect(graph.links.some(l => l.source === 'feature-builder-acrazie' && l.target === 'interview-acrazie')).toBe(true);
+    expect(graph.links).toHaveLength(3);
     expect(graph.links.some(l => l.source === 'git-ship-acrazie')).toBe(false);
     for (const link of graph.links) for (const evidence of link.evidence) {
       const lines = fs.readFileSync(`${getRepoRoot()}/${evidence.path}`, 'utf8').split('\n');

@@ -1,7 +1,6 @@
 # Modernization ADR Template
 
-For an approved Tier 2 or Tier 3 migration, prepare the ADR before validation and
-include it in the corresponding authorized commit. Follow the repository's naming
+Use an ADR when repository policy requires it or an approved durable, non-obvious architectural trade-off among genuine alternatives needs recording. A tier number alone does not require an ADR. Obtain content/destination approval; when required, prepare the ADR before validation and include it in the corresponding authorized commit. Follow the repository's naming
 convention; otherwise use `docs/adr/` with the next unused identifier. Record actual
 approval, sources and outcomes; the template grants no consent and predeclares no
 check successful. Apply [portable-practice.md](portable-practice.md).

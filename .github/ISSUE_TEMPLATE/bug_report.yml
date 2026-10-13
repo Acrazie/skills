@@ -10,7 +10,7 @@ body:
     id: skill
     attributes:
       label: Affected Skill
-      description: Which skill is having an issue? (e.g. `svg-icon-designer-acrazie`)
+      description: Which skill is having an issue? (e.g. `svg-designer-acrazie`)
       placeholder: "skills/<skill-name>-acrazie"
     validations:
       required: true

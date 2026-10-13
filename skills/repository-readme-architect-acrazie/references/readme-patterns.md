@@ -29,7 +29,7 @@ Best only when contribution is the main reader outcome. Lead with project contex
 
 Best for monorepos or documentation-rich projects. Lead with package or domain map and audience routes, then shared setup and cross-cutting policies.
 
-Offer two or three patterns only when each produces a materially different reader journey. Adapt or combine them after user selection.
+Compare patterns only when each produces a materially different viable reader journey; no fixed option count or exhaustive pattern survey. A single fitting proposal is valid with its rationale and explicit user approval. Adapt or combine useful patterns after user selection.
 
 ## Project-type emphasis
 
@@ -54,9 +54,11 @@ Offer two or three patterns only when each produces a materially different reade
 - Avoid marketing claims the repository cannot substantiate.
 - Avoid empty standard sections added merely because templates contain them.
 
-## Wireframe format
+## Optional architecture representation
 
-Each architecture proposal should show:
+Choose a representation sufficient for the current reader-flow decision. A short
+outline can be enough; use a wireframe when it clarifies hierarchy or content. The
+following illustrates one possible shape, not required syntax or headings:
 
 ```text
 # Project name

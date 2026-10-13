@@ -30,8 +30,8 @@ performance costs in the repository; do not substitute general benchmark ratios.
 | Tier | Scope | Required assessment |
 | :--- | :--- | :--- |
 | 1. Conservative | Maintenance updates within the incumbent approach | Verify behavior and compatibility; a patch/minor update is not automatically risk-free |
-| 2. Major | A major upgrade of an incumbent tool | Verify breaking changes and migration path; prepare the required ADR before validation/commit |
-| 3. Replacement | Replace a tool or approach | Verify capability parity and lifecycle cost; prepare the required ADR before validation/commit |
+| 2. Major | A major upgrade of an incumbent tool | Verify breaking changes and migration path; assess whether repository policy or a durable architectural trade-off requires an ADR before validation/commit |
+| 3. Replacement | Replace a tool or approach | Verify capability parity and lifecycle cost; assess whether repository policy or a durable architectural trade-off requires an ADR before validation/commit |
 
 Choose a tier from the actual problem, required benefits, evidence and migration
 cost. Keeping the setup unchanged is valid. Risk and effort depend on the project,

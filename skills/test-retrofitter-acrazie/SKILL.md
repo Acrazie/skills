@@ -158,7 +158,8 @@ permissions; do not infer commit, push, PR, or deployment permission from testin
 
 ## Ownership exclusions
 
-New application behavior and its tests belong to `feature-builder-acrazie`.
+New application behavior and its tests belong to the authorized harness executor
+or responsible feature specialist, not this existing-behavior testing workflow.
 General runner/tooling migration belongs to `repo-modernizer-acrazie`. Pipeline
 changes belong to their CI workflow, owned by ci-cd-acrazie where applicable;
 GitHub Actions creation or migration is outside this skill. Read-only audits belong

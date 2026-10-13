@@ -40,10 +40,21 @@ class PlannerContract(unittest.TestCase):
                    'blocked or pending instead of silently choosing')
 
     def test_count_and_retry(self):
-        self.rules('SKILL.md', 'at most five concurrent workers',
-                   'bounded by verified runtime capacity',
+        self.rules('SKILL.md', 'Bound concurrent workers by verified runtime capacity',
+                   'approved lot count', 'agreed resource budget',
+                   'approved bounded retry budget', 'no new causal hypothesis',
                    'not repeated retries under renamed workers',
                    'no last-writer-wins', 'After retry exhaustion')
+
+    def test_no_universal_count_or_retry_quota(self):
+        for path in ('SKILL.md', 'references/patterns.md', 'references/examples.md'):
+            text = read(path)
+            self.assertNotIn('at most five concurrent workers', text.lower())
+            self.assertNotIn('one bounded retry per slice', text.lower())
+        self.rules('references/patterns.md', 'Unknown retry budgets remain pending',
+                   'Renaming the worker does not reset that budget', 'new causal hypothesis')
+        self.rules('SKILL.md', 'If capacity is unknown', 'No hierarchical supervisors',
+                   'No implicit staging, commit, push, PR, merge')
 
     def test_scope_collision(self):
         self.rules('SKILL.md', 'non-overlapping write sets',
@@ -65,14 +76,14 @@ class PlannerContract(unittest.TestCase):
         def section(id):
             text = (ROOT / 'skills' / id / 'SKILL.md').read_text()
             return text.split('## Subagent model selection\n')[1].split('\n## ')[0].strip()
-        self.assertEqual(section(SKILL.name), section('feature-builder-acrazie'))
+        self.assertEqual(section(SKILL.name), section('repository-readme-architect-acrazie'))
 
     def test_references(self):
         self.rules('references/platforms.md', 'revalidate available models and override support',
                    'Do not assume an alias or model identifier transfers',
                    'does not call these mechanisms itself', 'not proof that the host enforces')
         self.rules('references/examples.md', 'repository count alone does not justify delegation',
-                   'One bounded retry per slice')
+                   'approved bounded slice budget')
         self.rules('references/patterns.md', 'Renaming the worker does not reset that budget',
                    'One bounded agent owns the task', 'immutable/verifiable handles')
         self.rules('references/interview-tree.md', 'Unknown technical facts',

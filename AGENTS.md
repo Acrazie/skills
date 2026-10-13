@@ -21,7 +21,7 @@ skills/
 ## Hard Invariants
 
 1. **Naming**:
-   - Every skill directory and identifier must end with the author signature: `-acrazie` (e.g. `svg-icon-designer-acrazie`).
+   - Every skill directory and identifier must end with the author signature: `-acrazie` (e.g. `svg-designer-acrazie`).
 2. **Git, Worktrees & Parallel Development Protocol**:
    - **Worktree Isolation**:
      - All skill additions, refactoring, evaluations, and updates **MUST** take place within an isolated Git worktree located at `.worktrees/<branch-name>`.
@@ -66,7 +66,8 @@ skills/
    - Internal refinement journals belong in `<skill>/.skill-refiner/campaigns/YYYY-MM-DD-refinement-<N>.json`.
    - Never commit `.worktrees/`, `.hermes/`, `.skill-refiner/`, `.skill-improver/`, `.impeccable/`, `skills/*/docs/`, or temporary HTML previews. They are gitignored and blocked by Lefthook.
 4. **Visual Identity**:
-   - Logos follow the Acrazie retro-tech design language (modular lettering, orange-to-violet palette `#ff6d00` to `#9d4edd`, southeast echoes).
+   - Do not create package logos automatically; the catalogue does not require them. Portal branding, favicons and supplied inspiration references remain separate from package logos.
+   - When explicitly requested, Acrazie visual work follows the retro-tech design language (modular lettering, orange-to-violet palette `#ff6d00` to `#9d4edd`, southeast echoes).
    - Metaphors must be cleanly integrated into letterforms without lookalike glitches or detached noise.
 5. **Invocation Model**:
    - Default to model-invocable skills within the current requested task. Selection does not approve new objectives, scope expansion, agent spawning, or restricted actions.

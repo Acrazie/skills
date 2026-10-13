@@ -105,7 +105,7 @@ When the frontier becomes empty, present a compact shared-understanding record c
 After shared understanding is confirmed:
 
 1. Read [references/readme-patterns.md](references/readme-patterns.md).
-2. Do not repropose architectures when a current independently approved choice already covers this task. Otherwise offer two or three materially different README architectures. Use Markdown/ASCII wireframes showing hierarchy, reader flow, expected content, and representative block types. Do not create cosmetic variants. Use Mermaid only when a real architecture or process benefits from it.
+2. Do not repropose architectures when a current independently approved choice already covers this task. Otherwise compare only viable architectures that materially change the reader journey; no fixed option count. If one fitting architecture is supported, explain why alternatives add no value rather than inventing variants. Use a compact outline, wireframe or another clear representation when it helps the decision; no required preview format. Make hierarchy, reader flow and expected content clear. Do not create cosmetic variants. Use Mermaid only when a real architecture or process benefits from it.
 3. Let the user select one option or combine elements. Consolidate the choice before drafting.
 4. Prepare one complete candidate outside the repository. Use no silent placeholders; include placeholders only with explicit approval.
 5. Show the candidate and, for an update, a diff plus a summary of removals and semantic changes. Preserve intentional existing content unless the approved design supersedes it visibly.

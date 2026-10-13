@@ -5,7 +5,7 @@ description: Design and implement animated HTML Canvas banners, web heroes, and 
 
 # Canvas Banner Designer / Acrazie
 
-Create a distinctive scene that lives behind real content, not a generic particle wallpaper. Deliver working browser code: standalone HTML or an integration in the user's framework. This complements `svg-banner-designer-acrazie`; it does not replace static image exports or promise JavaScript animation on platforms that only accept images.
+Create a distinctive scene that lives behind real content, not a generic particle wallpaper. Deliver working browser code: standalone HTML or an integration in the user's framework. This complements `svg-designer-acrazie`; it does not replace static image exports or promise JavaScript animation on platforms that only accept images.
 
 ## Project loading and task authority
 

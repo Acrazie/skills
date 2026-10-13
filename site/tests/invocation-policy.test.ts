@@ -40,7 +40,8 @@ describe('skill invocation policy', () => {
     expect(gitShip).toContain('Do not commit before the delivery recap.');
     expect(gitShip).toContain('Execute only approved steps with boundary checks');
     expect(readSkill('github-repo-init-acrazie')).toContain('blueprint approval alone is not publication approval');
-    expect(readSkill('feature-builder-acrazie')).toContain('Approval of the feature contract allows scoped implementation');
+    expect(readSkill('interview-acrazie')).toMatch(/this\s+skill never implements/);
+    expect(readSkill('audit-repository-acrazie')).toContain('Keep investigation read-only');
     expect(readSkill('test-retrofitter-acrazie')).toContain('No implementation begins without applicable explicit approval evidence');
     expect(readSkill('product-critic-acrazie')).toContain('Report approval never authorizes implementation');
     expect(readSkill('multi-agent-planner-acrazie')).toContain('never spawns workers itself');
@@ -81,6 +82,22 @@ describe('single repository CI/CD owner', () => {
       expect(owner).toBeDefined();
       expect(owner!.description.length).toBeGreaterThan(50);
       expect(owner!.description).toMatch(/authorization|autorisations|授权/);
+    }
+  });
+});
+
+// Static catalogue and ownership proof, not runtime portability certification.
+describe('generic execution retirement', () => {
+  test('all locales omit retired packages and expose assessment, not refactoring', () => {
+    for (const locale of ['en', 'fr', 'zh'] as const) {
+      const local = getLocalizedSkills(locale);
+      for (const id of ['feature-builder-acrazie', 'script-portability-acrazie']) {
+        expect(local.some(skill => skill.id === id)).toBe(false);
+      }
+      const owner = local.find(skill => skill.id === 'audit-repository-acrazie')!;
+      expect(owner.description).toMatch(/read-only|lecture seule|只读/);
+      expect(owner.description).toMatch(/separately authorized|séparément autorisé|另行授权/);
+      expect(owner.references.some(ref => ref.name === 'script-portability.md')).toBe(true);
     }
   });
 });

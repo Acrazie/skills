@@ -122,9 +122,12 @@ contract format and approval/reuse rules.
   real alternatives. Use the repository's convention or `docs/adr/` with the next
   unused number. Never turn every task contract into an ADR.
 - Return the same contract path, approval evidence, relevant glossary/ADR links,
-  blocked conditions, and the responsible specialist. Separate outcome approval
+  blocked conditions, and the responsible specialist or capable harness executor.
+  Use a specialist only when its separate protocol is needed; otherwise the harness
+  realizes the authorized task under the contract obligations below. Separate outcome approval
   from any explicit authorization to resume scoped realization. Stop here; this
-  skill never implements or activates its caller. In an explicit project kit,
+  skill never implements or activates its caller. When a specialist is needed in
+  an explicit project kit,
   request a new explicit invocation of the specialist to resume, even if it was
   active before the interview. Preserve answers and the approved contract rather
   than restarting the interview. Neither handoff nor outcome approval grants

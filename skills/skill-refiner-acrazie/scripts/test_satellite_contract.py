@@ -6,8 +6,10 @@ import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
-VISUALS = ['canvas-banner-designer-acrazie', 'immersive-hero-designer-acrazie',
-           'svg-banner-designer-acrazie', 'svg-icon-designer-acrazie']
+CANVAS = 'canvas-banner-designer-acrazie'
+HERO = 'immersive-hero-designer-acrazie'
+SVG = 'svg-designer-acrazie'
+VISUALS = [CANVAS, HERO, SVG]
 REFINER = 'skill-refiner-acrazie'
 
 
@@ -38,7 +40,7 @@ class SatelliteContract(unittest.TestCase):
                        'block only dependent realization', 'Do not duplicate the foundation interview')
 
     def test_decisions(self):
-        for id in VISUALS:
+        for id in (CANVAS, HERO):
             self.rules(id, 'SKILL.md', 'Current state, numbered Options, Recommendation and Response',
                        'No question IDs', 'preselected consent', 'Visual drafts may have names')
         self.rules(REFINER, 'SKILL.md', 'numbered Options', 'preselected ratings',
@@ -57,31 +59,72 @@ class SatelliteContract(unittest.TestCase):
             self.rules(id, 'SKILL.md', 'disclose unexecuted checks',
                        'do not prove rendered appearance or runtime behavior',
                        'actual evidence', 'assets', 'acceptance criteria')
-        self.rules(VISUALS[0], 'SKILL.md', 'one animation loop per scene', 'reduced motion')
-        self.rules(VISUALS[1], 'SKILL.md', 'Never autoplay audio', 'unmount/remount')
-        self.rules(VISUALS[3], 'SKILL.md', 'Do not generate any SVG before', 'ASCII as evidence')
+        self.rules(CANVAS, 'SKILL.md', 'one animation loop per scene', 'reduced motion')
+        self.rules(HERO, 'SKILL.md', 'Never autoplay audio', 'unmount/remount')
+        self.rules(SVG, 'SKILL.md', 'Do not generate any SVG before', 'ASCII as evidence')
 
     def test_canvas_handoff_graph_evidence(self):
-        source = text(VISUALS[1])
+        source = text(HERO)
         graph = (ROOT / 'site/src/lib/skill-graph.ts').read_text()
         match = re.search(r"source: 'immersive-hero-designer-acrazie'.*?quote: '((?:\\.|[^'])*)'", graph, re.S)
         self.assertIsNotNone(match)
         quote = match.group(1).replace("\\'", "'").replace('\\n', '\n')
         self.assertIn(quote, source)
-        self.rules(VISUALS[1], 'SKILL.md', 'apply its dependency loading gate',
+        self.rules(HERO, 'SKILL.md', 'apply its dependency loading gate',
                    'Missing activation blocks only that dependency')
 
     def test_draft_reference_format(self):
-        for id, path in [(VISUALS[0], 'canvas-draft.md'), (VISUALS[2], 'banner-draft.md'),
-                         (VISUALS[3], 'icon-draft.md')]:
-            self.rules(id, 'references/' + path, 'numbered decision options',
+        for id, path in [(CANVAS, 'canvas-draft.md'), (SVG, 'banner-draft.md'),
+                         (SVG, 'icon-draft.md')]:
+            self.rules(id, 'references/' + path,
                        'not execution or export approval')
+            if id != 'svg-designer-acrazie':
+                self.rules(id, 'references/' + path, 'numbered decision options')
 
     def test_export_install_gate(self):
-        for id in VISUALS[2:]:
+        for id in (SVG,):
             self.rules(id, 'references/exports.md', 'approved', 'installed',
-                       'npx', 'permission' if id == VISUALS[2] else 'bypass', 'external resources')
-        self.assertNotIn('npx @resvg', text(VISUALS[2], 'references/exports.md'))
+                       'npx', 'permission', 'external resources')
+        self.assertNotIn('npx @resvg', text(SVG, 'references/exports.md'))
+
+    def test_svg_single_owner_and_conditional_domains(self):
+        svg = 'svg-designer-acrazie'
+        body = flat(svg)
+        for retired in ('svg-icon-designer-acrazie', 'svg-banner-designer-acrazie'):
+            self.assertFalse((ROOT / 'skills' / retired).exists())
+        self.rules(svg, 'SKILL.md', 'one static-vector workflow', 'conditional domain',
+                   'actual smallest target size', 'crop and avatar occlusion',
+                   'currentColor', 'no fixed question fields', 'not a quota',
+                   'not create a package logo', 'real encoding', 'not a renamed PNG')
+        for source in ('icon-draft.md', 'banner-draft.md', 'presets.md'):
+            self.assertIn('references/' + source, text(svg))
+        self.rules(svg, 'references/exports.md', 'An ICO must be encoded as ICO',
+                   'requested embedded sizes', 'Do not install a renderer',
+                   'actual pixel dimensions', 'export permission does not authorize integration')
+        self.assertNotIn('50% to 65%', body)
+        self.assertNotIn('3–5 directions', flat(svg, 'references/inspiration-library.md'))
+        self.assertNotIn("entrypoint's four", flat(svg, 'references/icon-draft.md'))
+        self.assertNotIn('Every direction in a multi-choice concept batch needs',
+                         flat(svg, 'references/icon-draft.md'))
+        cases = json.loads(text(svg, 'evals/evals.json'))['evals']
+        self.assertEqual(len(cases), 8)
+        self.assertEqual({c['name'] for c in cases if c['id'] > 4}, {
+            'svg-icon-color-small-size', 'svg-real-favicon',
+            'svg-banner-contextual-crop', 'svg-combined-targets'})
+        self.assertTrue(all(c['prompt'].startswith('Simulation only') for c in cases))
+
+    def test_svg_catalogue_and_package_logo_retirement(self):
+        self.assertFalse(list((ROOT / 'skills').glob('*/assets/*logo*.svg')))
+        self.assertTrue((ROOT / 'site/public/logo.svg').exists())
+        readme = (ROOT / 'README.md').read_text()
+        translations = (ROOT / 'site/src/i18n/skills.ts').read_text()
+        canvas = text('canvas-banner-designer-acrazie')
+        for source in (readme, translations, canvas):
+            self.assertIn('svg-designer-acrazie', source)
+            self.assertNotIn('svg-icon-designer-acrazie', source)
+            self.assertNotIn('svg-banner-designer-acrazie', source)
+        self.assertIn('Do not create package logos automatically',
+                      (ROOT / 'AGENTS.md').read_text())
 
     def test_refiner_explicit_and_operational(self):
         self.rules(REFINER, 'SKILL.md', 'disable-model-invocation: true',

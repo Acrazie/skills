@@ -15,7 +15,7 @@ source SHA only after verification, discover existing rules and obtain approval.
   "source_revision": "<approved-40-character-lowercase-Git-SHA>",
   "installer_version": "1.7.2",
   "hosts": ["codex", "claude-code"],
-  "skills": ["interview-acrazie", "feature-builder-acrazie"],
+  "skills": ["interview-acrazie", "test-retrofitter-acrazie"],
   "permissions": {
     "stage": {"mode": "confirm"},
     "commit": {"mode": "confirm"},
