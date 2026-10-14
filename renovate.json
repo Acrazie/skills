@@ -1,0 +1,56 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabledManagers": ["bun", "github-actions", "dockerfile"],
+  "dependencyDashboard": true,
+  "timezone": "Europe/Paris",
+  "schedule": ["* * 1,15 * *"],
+  "updateNotScheduled": true,
+  "prConcurrentLimit": 5,
+  "automerge": false,
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "labels": ["dependencies"],
+  "separateMajorMinor": true,
+  "lockFileMaintenance": { "enabled": false },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["* * * * *"],
+    "dependencyDashboardApproval": false,
+    "groupName": null,
+    "prConcurrentLimit": 0,
+    "automerge": false
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["bun"],
+      "matchFileNames": ["site/package.json"],
+      "addLabels": ["site"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github-actions"]
+    },
+    {
+      "matchManagers": ["bun"],
+      "matchFileNames": ["site/package.json"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "site non-major"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "github actions non-major"
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "docker non-major"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "groupName": null
+    }
+  ]
+}
