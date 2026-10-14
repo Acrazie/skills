@@ -44,7 +44,6 @@ const countMany = t('catalogue.skillsCount')(999).replace('999', '{count}');
         placeholder={t('catalogue.searchPlaceholder')}
         autocomplete="off"
       />
-      <kbd>/</kbd>
     </div>
 
     <div
@@ -142,12 +141,6 @@ const countMany = t('catalogue.skillsCount')(999).replace('999', '{count}');
       searchInput?.focus();
     });
 
-    document.addEventListener('keydown', (event) => {
-      if (event.key === '/' && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement)) {
-        event.preventDefault();
-        searchInput?.focus();
-      }
-    });
   }
 
   setupCatalogue();

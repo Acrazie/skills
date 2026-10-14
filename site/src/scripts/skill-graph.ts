@@ -2,6 +2,7 @@ import type ForceGraph from 'force-graph';
 import type { LinkObject, NodeObject } from 'force-graph';
 import type { Invocation } from '../lib/skill-graph';
 import { redrawDuration } from '../lib/graph-motion';
+import { reserveLabel, type LabelBounds } from '../lib/graph-labels';
 import { graphTranslations } from '../i18n/graph';
 interface MapNode extends NodeObject { id: string; category: string; color: string; x: number; y: number }
 interface MapLink extends LinkObject<MapNode> { source: string | MapNode; target: string | MapNode }
@@ -17,6 +18,15 @@ async function setupMap(root: HTMLElement) {
   const search = root.querySelector<HTMLInputElement>('[data-search]')!;
   const rows = [...root.querySelectorAll<HTMLElement>('[data-skill-row]')];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const styles = getComputedStyle(root);
+  const palette = {
+    surface: styles.getPropertyValue('--surface-deep').trim(),
+    link: styles.getPropertyValue('--map-link').trim(),
+    signal: styles.getPropertyValue('--map-signal').trim(),
+    activeInk: styles.getPropertyValue('--ink-inverse').trim(),
+    labelInk: styles.getPropertyValue('--map-label-ink').trim(),
+    codeFont: styles.getPropertyValue('--font-code').trim(),
+  };
   let graph: ForceGraph<MapNode, MapLink> | undefined;
   let selected: string | null = null;
   let hovered: string | null = null;
@@ -72,7 +82,7 @@ async function setupMap(root: HTMLElement) {
       heading.focus({ preventScroll: true });
       if (matchMedia('(max-width: 800px)').matches) heading.scrollIntoView({ behavior: reduced.matches ? 'instant' : 'smooth', block: 'start' });
     }
-    graph?.linkColor(link => linked(link) ? '#e6d6ff' : '#767481').linkWidth(link => linked(link) ? 1.8 : 1);
+    graph?.linkColor(link => linked(link) ? palette.signal : palette.link).linkWidth(link => linked(link) ? 1.8 : 1);
     wake(true);
   }
   root.addEventListener('click', event => {
@@ -116,21 +126,26 @@ async function setupMap(root: HTMLElement) {
   document.addEventListener('visibilitychange', () => { if (document.hidden) sleep(); else wake(); });
   const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible) wake(); else sleep(); });
   observer.observe(stage);
-  const fromHash = () => { const prefix = '#map-skill-'; if (location.hash.startsWith(prefix)) select(location.hash.slice(prefix.length)); };
+  const fromHash = () => {
+    const prefix = '#map-skill-';
+    const id = location.hash.startsWith(prefix) ? location.hash.slice(prefix.length) : null;
+    select(data.nodes.some(node => node.id === id) ? id : null);
+  };
   fromHash(); window.addEventListener('hashchange', fromHash);
   let resize: ResizeObserver | undefined;
-  window.addEventListener('pagehide', sleep);
+  window.addEventListener('pagehide', () => { dragging = false; sleep(); });
+  window.addEventListener('blur', () => { dragging = false; sleep(); });
   window.addEventListener('pageshow', () => wake());
   try {
     const { default: Graph } = await import('force-graph');
     if (!document.createElement('canvas').getContext('2d')) throw new Error('Canvas unavailable');
     graph = new Graph<MapNode, MapLink>(canvas)
-      .width(stage.clientWidth).height(stage.clientHeight).backgroundColor('#101011')
+      .width(stage.clientWidth).height(stage.clientHeight).backgroundColor(palette.surface)
       .graphData({ nodes: data.nodes.map(n => ({ ...n })), links: data.links.map(l => ({ source: l.source, target: l.target })) })
       .cooldownTicks(0).enableZoomInteraction(event => event.type !== 'wheel' || stage.clientWidth >= 500).minZoom(.15).maxZoom(4).nodeLabel(() => '').linkLabel(() => '')
-      .linkColor('#767481').linkWidth(1).linkCurvature(.14)
+      .linkColor(palette.link).linkWidth(1).linkCurvature(.14)
       .linkDirectionalArrowLength(6).linkDirectionalArrowRelPos(.86)
-      .linkDirectionalParticleWidth(2).linkDirectionalParticleColor('#e6d6ff').linkDirectionalParticleSpeed(.008)
+      .linkDirectionalParticleWidth(2).linkDirectionalParticleColor(palette.signal).linkDirectionalParticleSpeed(.008)
       .onRenderFramePre((context, scale) => {
         const nodes = graph!.graphData().nodes;
         for (const category of new Set(nodes.map(n => n.category))) {
@@ -154,19 +169,35 @@ async function setupMap(root: HTMLElement) {
         const dim = !!selected && !neighbors.has(node.id) && !active;
         context.globalAlpha = dim ? .34 : 1;
         const size = (active ? 10 : 7) / scale;
-        context.fillStyle = '#101011'; context.strokeStyle = node.color; context.lineWidth = (active ? 2 : 1.5) / scale;
+        context.fillStyle = palette.surface; context.strokeStyle = node.color; context.lineWidth = (active ? 2 : 1.5) / scale;
         context.beginPath(); context.rect(node.x - size, node.y - size, size * 2, size * 2); context.fill(); context.stroke();
         context.fillStyle = node.color; context.fillRect(node.x - 1.5 / scale, node.y - 1.5 / scale, 3 / scale, 3 / scale);
-        if (scale >= .25 || active) {
-          context.font = `${11 / scale}px "JetBrains Mono", monospace`; context.textAlign = 'center';
-          const words = node.id.replace(/-acrazie$/, '').split('-'); const lines: string[] = []; let line = '';
-          for (const word of words) { if (line.length + word.length > 20 && line) { lines.push(line); line = word; } else line += (line ? '-' : '') + word; }
-          lines.push(line);
-          lines.forEach((text, index) => {
-            const y = node.y + size + (16 + index * 14) / scale; const width = context.measureText(text).width;
-            context.fillStyle = '#101011'; context.fillRect(node.x - width / 2 - 3 / scale, y - 11 / scale, width + 6 / scale, 14 / scale);
-            context.fillStyle = active ? '#ffffff' : '#e0e0e5'; context.fillText(text, node.x, y);
-          });
+        context.globalAlpha = 1;
+      })
+      .onRenderFramePost((context, scale) => {
+        const occupied: LabelBounds[] = [];
+        // Selected/hovered labels get first claim on space; other labels never overwrite them.
+        const nodes = graph!.graphData().nodes.filter(node => matches.has(node.id))
+          .sort((a, b) => Number(b.id === selected) - Number(a.id === selected) || Number(b.id === hovered) - Number(a.id === hovered));
+        for (const node of nodes) {
+          const active = node.id === selected || node.id === hovered;
+          const dim = !!selected && !neighbors.has(node.id) && !active;
+          const size = (active ? 10 : 7) / scale;
+          if (scale >= .25 || active) {
+            context.font = `${11 / scale}px ${palette.codeFont}`; context.textAlign = 'center';
+            const words = node.id.replace(/-acrazie$/, '').split('-'); const lines: string[] = []; let line = '';
+            for (const word of words) { if (line.length + word.length > 20 && line) { lines.push(line); line = word; } else line += (line ? '-' : '') + word; }
+            lines.push(line);
+            const width = Math.max(...lines.map(text => context.measureText(text).width));
+            const top = node.y + size + 5 / scale;
+            if (!reserveLabel({ left: node.x - width / 2 - 5 / scale, right: node.x + width / 2 + 5 / scale, top: top - 2 / scale, bottom: top + (lines.length * 14 + 2) / scale }, occupied)) continue;
+            context.globalAlpha = dim ? .34 : 1;
+            lines.forEach((text, index) => {
+              const y = node.y + size + (16 + index * 14) / scale; const width = context.measureText(text).width;
+              context.fillStyle = palette.surface; context.fillRect(node.x - width / 2 - 3 / scale, y - 11 / scale, width + 6 / scale, 14 / scale);
+              context.fillStyle = active ? palette.activeInk : palette.labelInk; context.fillText(text, node.x, y);
+            });
+          }
         }
         context.globalAlpha = 1;
       })
@@ -180,6 +211,7 @@ async function setupMap(root: HTMLElement) {
     canvas.addEventListener('pointerdown', () => { dragging = true; wake(); });
     window.addEventListener('pointerup', () => { dragging = false; wake(); });
     canvas.addEventListener('pointercancel', () => { dragging = false; sleep(); });
+    canvas.addEventListener('lostpointercapture', () => { dragging = false; wake(); });
     canvas.addEventListener('wheel', () => wake(), { passive: true });
     resize = new ResizeObserver(() => { graph?.width(stage.clientWidth).height(stage.clientHeight); arrange(); fit(); }); resize.observe(stage);
     root.querySelector<HTMLElement>('[data-loading]')!.hidden = true;
