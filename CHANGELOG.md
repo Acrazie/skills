@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 
 
+## [1.13.0](https://github.com/Acrazie/skills/compare/v1.12.0...v1.13.0) (2026-10-14)
+
+
+### Features
+
+* **skills:** harmonize visual specialists and refiner contracts ([#104](https://github.com/Acrazie/skills/issues/104)) ([9e6a698](https://github.com/Acrazie/skills/commit/9e6a6983dac60ebf904cdbc378e0c3419d57c9f0))
+
+
+### Bug Fixes
+
+* **site:** harden portal and integrate language selector ([#107](https://github.com/Acrazie/skills/issues/107)) ([cfac1a2](https://github.com/Acrazie/skills/commit/cfac1a2833cb08710512e9ef1036a20ff4bb5abc))
+
 ## [1.12.0](https://github.com/Acrazie/skills/compare/v1.11.0...v1.12.0) (2026-10-11)
 
 
