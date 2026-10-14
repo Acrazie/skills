@@ -20,14 +20,14 @@ const t = useTranslations(lang);
   data-copy-text={text}
   data-copy-success={t('copy.success')}
   data-copy-error={t('copy.error')}
-  class={`copy-btn inline-flex items-center gap-1.5 font-medium rounded-md border border-zinc-800 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-zinc-100 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-600 ${size === 'sm' ? 'px-2 py-1 text-xs' : 'px-3 py-1.5 text-sm'} ${className}`}
+  class={`copy-btn inline-flex items-center gap-1.5 font-medium rounded-md border border-(color:--copy-border) bg-(--copy-surface) hover:bg-(--copy-hover-surface) text-(color:--copy-ink) hover:text-(color:--copy-hover-ink) transition-colors focus:outline-none focus:ring-2 focus:ring-(color:--copy-focus) ${size === 'sm' ? 'px-2 py-1 text-xs' : 'px-3 py-1.5 text-sm'} ${className}`}
   title={t('copy.title')}
   aria-label={ariaLabel}
 >
   <span class="icon-copy flex items-center">
     <TablerIcon name="copy" size={size === 'sm' ? 14 : 16} />
   </span>
-  <span class="icon-check hidden text-emerald-400 flex items-center">
+  <span class="icon-check hidden text-(color:--copy-success) flex items-center">
     <TablerIcon name="check" size={size === 'sm' ? 14 : 16} />
   </span>
   {label && <span class="btn-label">{label}</span>}
@@ -41,6 +41,7 @@ const t = useTranslations(lang);
       // Prevent attaching duplicate listeners
       if (btn.getAttribute('data-copy-initialized')) return;
       btn.setAttribute('data-copy-initialized', 'true');
+      let errorMessage: HTMLDivElement | undefined;
 
       btn.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -50,6 +51,8 @@ const t = useTranslations(lang);
 
         try {
           await navigator.clipboard.writeText(text);
+          errorMessage?.remove();
+          errorMessage = undefined;
           const iconCopy = btn.querySelector('.icon-copy');
           const iconCheck = btn.querySelector('.icon-check');
 
@@ -67,6 +70,17 @@ const t = useTranslations(lang);
           console.error('Failed to copy to clipboard', err);
           const status = btn.querySelector('.copy-status');
           if (status) status.textContent = (btn as HTMLElement).dataset.copyError || '';
+          if (!errorMessage) {
+            errorMessage = document.createElement('div');
+            errorMessage.className = 'copy-error-message';
+            errorMessage.setAttribute('aria-hidden', 'true');
+            const card = btn.closest('.skill-card');
+            const command = btn.closest('.install-bar, .cloud-hero__install');
+            if (card) card.append(errorMessage);
+            else if (command) command.after(errorMessage);
+            else btn.after(errorMessage);
+          }
+          errorMessage.textContent = (btn as HTMLElement).dataset.copyError || '';
         }
       });
     });
@@ -76,3 +90,13 @@ const t = useTranslations(lang);
   setupCopyButtons();
   document.addEventListener('astro:page-load', setupCopyButtons);
 </script>
+
+<style>
+  :global(.copy-error-message) {
+    min-width: 0;
+    flex-basis: 100%;
+    grid-column: 1 / -1;
+    margin: 0.5rem 0;
+    overflow-wrap: anywhere;
+  }
+</style>
