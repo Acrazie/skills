@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { getAllSkills, getRepoRoot, type SkillData } from './skills';
+import { getAllSkills, getRepoRoot, getSourceRevision, type SkillData } from './skills';
 
 export interface GraphEvidence { path: string; quote: string; line: number; endLine: number }
 export interface Invocation { source: string; target: string; conditional: boolean; evidence: GraphEvidence[] }
@@ -70,6 +70,6 @@ export function getSkillGraph() {
   const skills = getAllSkills();
   const links = resolveInvocations(skills.map(skill => skill.id), declarations, file => fs.readFileSync(path.join(root, file), 'utf8'));
   // Container builds copy sources, not .git, and do not install a Git executable.
-  const revision = /^[a-f0-9]{40}$/i.test(process.env.GITHUB_SHA ?? '') ? process.env.GITHUB_SHA! : 'main';
+  const revision = getSourceRevision();
   return { nodes: createGraphNodes(skills), links, revision };
 }

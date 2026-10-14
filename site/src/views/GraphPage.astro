@@ -78,7 +78,7 @@ const evidenceUrl = (e: { path: string; line: number; endLine: number }) => `htt
                 {!incoming.length && !outgoing.length && <p>{t.none}</p>}
               </div>
               <h3 class="map-instructions-title">{t.instructions} <code>SKILL.md</code></h3>
-              <article class="prose-shadcn" set:html={renderMarkdownWithHeadingOffset(skill.content, 2, `https://github.com/Acrazie/skills/blob/${graph.revision}/skills/${skill.id}/SKILL.md`)} />
+              <article class="prose-shadcn" lang="en" set:html={renderMarkdownWithHeadingOffset(skill.content, 2, `https://github.com/Acrazie/skills/blob/${graph.revision}/skills/${skill.id}/SKILL.md`)} />
             </div>
           </details>;
         })}

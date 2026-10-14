@@ -47,7 +47,6 @@ const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === 
 
     const show = () => {
       dock.classList.remove('site-header--hidden');
-      dock.inert = false;
     };
 
     const update = () => {
@@ -63,7 +62,6 @@ const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === 
         travel = 0;
       } else if (travel > 14) {
         dock.classList.add('site-header--hidden');
-        dock.inert = true;
         travel = 0;
       } else if (travel < -14) {
         show();
@@ -83,7 +81,7 @@ const isHome = currentPath === '/' || currentPath === '/fr/' || currentPath === 
 <style>
   @media (max-width: 640px) {
     .site-header__inner { flex-wrap: wrap; height: auto; min-height: 60px; gap: 0 12px; }
-    .site-nav { order: 3; width: 100%; justify-content: space-between; border-top: 1px solid #454547; }
+    .site-nav { order: 3; width: 100%; justify-content: space-between; border-top: 1px solid var(--dock-mobile-line); }
     .site-header__links { margin-left: auto; }
     .site-header--over-hero { margin-bottom: -117px; }
   }

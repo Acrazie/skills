@@ -51,6 +51,14 @@ export function getRepoRoot(): string {
   return cwd;
 }
 
+export function getSourceRevision(): string {
+  return /^[a-f0-9]{40}$/i.test(process.env.GITHUB_SHA ?? '') ? process.env.GITHUB_SHA! : 'main';
+}
+
+export function getSkillSourceUrl(id: string, file = 'SKILL.md'): string {
+  return `https://github.com/Acrazie/skills/blob/${getSourceRevision()}/skills/${id}/${file}`;
+}
+
 export function getAllSkills(): SkillData[] {
   // Resolve skills folder relative to project
   const skillsDir = path.join(getRepoRoot(), 'skills');
