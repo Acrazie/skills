@@ -1,0 +1,6 @@
+interface:
+  display_name: "Autonomous Design / Acrazie"
+  short_description: "Explore, decide, document, optionally implement"
+  default_prompt: "Use $autonomous-design-acrazie to establish my initial mandate, explore and document the relevant decisions without follow-up questions, and implement and test them only if I select mode 2."
+policy:
+  allow_implicit_invocation: true
