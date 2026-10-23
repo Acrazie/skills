@@ -34,6 +34,17 @@ export const CATEGORY_TRANSLATIONS: Record<string, Record<Locale, string>> = {
 };
 
 export const SKILL_METADATA_TRANSLATIONS: Record<string, Record<Locale, LocalizedSkillMeta>> = {
+  'autonomous-design-acrazie': {
+    en: {
+      description: 'Explore a topic and resolve relevant decisions autonomously under an initial mandate. Both modes document evidence, trade-offs and domain vocabulary; mode 2 then adds authorized implementation and testing. No ongoing interview, Git shipping or deployment.',
+    },
+    fr: {
+      description: 'Explorer un sujet et trancher les décisions pertinentes en autonomie dans un mandat initial. Les deux modes documentent preuves, arbitrages et vocabulaire métier ; le mode 2 ajoute ensuite une implémentation autorisée et ses tests. Sans entretien continu, publication Git ni déploiement.',
+    },
+    zh: {
+      description: '在初始授权范围内自主探索主题并解决相关决策。两种模式都记录证据、权衡和领域术语；模式二在此之后追加获准的实现与测试。不持续访谈、不进行 Git 发布或部署。',
+    },
+  },
   'audit-repository-acrazie': {
     en: {
       description: 'Audit a precise technical decision, integration, tool, stack choice, or subsystem in one existing repository. Use when the task needs a bounded technical assessment before a decision, including read-only selected-script portability assessment and a separately authorized executor handoff; not for general repository audits, diff or PR review, security audits, documentation audits, or multi-repository analysis.',
