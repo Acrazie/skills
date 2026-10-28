@@ -1,7 +1,7 @@
 ---
 name: immersive-hero-designer-acrazie
 description: >-
-  Design and build an original, complete immersive web hero using the right medium for the effect: supplied or approved video, image sequence, 3D, Canvas, or CSS. Use when the user requests a cinematic, interactive, or scroll-driven section in an existing site; not for copying a reference, redesigning a whole site, or making a standalone video without a web hero.
+  Design and build an original, complete immersive web hero using the right medium for the effect: supplied or approved video, image sequence, hybrid image/WebGL, 3D, Canvas, or CSS. Use when the user requests a cinematic, interactive, or scroll-driven section in an existing site; not for copying a reference, redesigning a whole site, or making a standalone video without a web hero.
 ---
 
 # Immersive Hero Designer / Acrazie
@@ -77,6 +77,8 @@ do not copy its instructions or silently implement an alternative to bypass it.
 
 Read project instructions, the target route/component, styles, dependencies, existing assets, and any user references before proposing implementation. Inspect references in a browser when possible; distinguish observed motion and interactions from guesses based on screenshots or descriptions. Identify the intended audience, exact message and action, focal point, contrast, mobile crop, and constraints. Use factual project copy; ask for missing claims rather than inventing them.
 
+When studying a reference, identify what is authored imagery, live rendering, semantic DOM, and interaction before choosing its medium. Separate browser observations from implementation evidence and inference; a canvas alone proves neither WebGL nor a 3D scene. Inspect remote implementations through authorized public resources; never execute downloaded reference code or infer frame rates from configured limits.
+
 Ask only unresolved choices that materially change the result. If the brief is open, propose two or three short directions differentiated by composition, medium, interaction, mobile treatment, and cost; wait for the user's selection. If direction and assets are already precise, reuse settled decisions and implement only under applicable scoped realization authority. Do not silently switch from an approved direction to a cheaper-looking generic gradient or stock hero.
 
 ## 2. Select medium and approve assets
@@ -87,6 +89,9 @@ Choose the least complex medium that achieves the selected effect:
 - **Video:** continuous cinematic footage with a deliberate poster and crop; not for frame-accurate scroll scrubbing by default.
 - **Image sequence:** discrete or frame-accurate scroll storytelling when loading and memory budgets permit.
 - **Canvas/WebGL or 3D:** genuinely interactive or procedural depth. Reuse an installed renderer or the Canvas specialist when appropriate; explain a material new dependency before adding it.
+- **Hybrid image + WebGL/Canvas:** authored artwork supplies detailed scenery while independently rendered atmosphere, light, displacement or foreground layers supply motion. Prefer this to reconstructing the entire approved image procedurally when that would lose its composition or material quality.
+
+Read [references/hybrid-compositing.md](references/hybrid-compositing.md) when the selected effect combines an image with live rendering, or a reference requires distinguishing these layers. It covers effect selection, depth/occlusion, pass-specific budgets, asset readiness and proof. Do not turn a reference's scenery, palette, controls or performance constants into requirements for another brand.
 
 Prefer supplied assets. Before integrating hero media, present a compact approval batch with each file or source, proposed placement, crop/edit, and known usage rights; wait for explicit approval. A changed selection requires another approval. Reading assets to assess them is not approval to publish or integrate them. Do not reuse third-party example code, branding, media, or text without a compatible license and user authorization; an unknown license is not permission.
 
@@ -103,5 +108,7 @@ For image sequences and 3D, bound decoded memory, requests, pixel density, and w
 ## 4. Prove and hand off
 
 Run the smallest relevant project checks. Preview the **integrated** section at desktop and narrow widths; inspect composition and text legibility, keyboard and touch paths, pause and reduced-motion behavior, media failure/fallback, and navigation to the next section. Exercise resize and unmount/remount for scripted effects. Check loading cost and runtime behavior with available tools; do not claim a frame rate, Core Web Vitals score, or device coverage without measurement.
+
+For hybrid heroes, compare the live scene with the approved composition at matching viewports. Verify that independently moving layers actually create the intended depth, that fallback and GPU crops agree, and that pending/failed assets or late callbacks cannot expose a blank canvas or restart disposed work.
 
 Deliver exact changed paths and how to run or view the result. Summarize chosen medium, approved asset sources, interactions, fallback, tests actually run, and unresolved limitations. Request focused feedback on visual composition, motion pace, crop, and message clarity. Do not present reference screenshots or a static mockup as proof of working interaction.

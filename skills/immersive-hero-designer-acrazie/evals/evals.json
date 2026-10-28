@@ -65,6 +65,52 @@
         "No invented visual or device verification.",
         "No commit, push, PR or automatic refinement campaign."
       ]
+    },
+    {
+      "id": 8,
+      "name": "hybrid-locked-art-independent-depth",
+      "prompt": "Use $immersive-hero-designer-acrazie to integrate the approved hero in this existing Astro site. The approved local mockup shows a finely detailed mineral landscape; keep its composition and warm palette. I like the depth of a reference whose mist passes in front of a decorative mark, not its mountains or colors. The approved contract allows editing only the hero and producing a text-free derivative of the supplied artwork for that hero. Keep the heading and navigation in HTML, no cursor effect, no scroll lock and no new dependency. The Canvas dependency is explicitly activated; follow the existing lifecycle owner. Propose the smallest rendering architecture before coding.",
+      "expected_output": "Separates authored base, independent atmosphere, masks and semantic content; proposes layered compositing or a justified bounded volume without procedurally rebuilding the landscape, importing reference assets/style or restoring pointer/scroll hijacking. Defines distinct effect/composition budgets and a fallback.",
+      "files": [],
+      "expectations": [
+        "Preserves the approved composition and warm palette rather than adopting the reference scenery.",
+        "Essential heading/navigation are not flattened into the generated plate.",
+        "Does not equate image distortion with independent volumetric depth."
+      ]
+    },
+    {
+      "id": 9,
+      "name": "reference-evidence-limits",
+      "prompt": "Use $immersive-hero-designer-acrazie to select a medium for a complete hero. I supplied a screenshot of a reference and its public DOM: one image and one decorative canvas. The renderer bundle returns HTTP 403 and no live interaction can be observed. Is it a Three.js fluid simulation at 60 FPS? Analysis only; do not generate media, write application files or probe hidden endpoints.",
+      "expected_output": "Reports the observed image/canvas hybrid and the unknown renderer/animation mechanism, refuses unsupported Three.js/physical-simulation/FPS claims, and identifies the additional evidence needed without hidden-endpoint probing or realization.",
+      "files": [],
+      "expectations": [
+        "Canvas presence is not treated as proof of WebGL, ray marching or 3D meshes.",
+        "Blocked bundle access does not become an assertion about the hidden implementation."
+      ]
+    },
+    {
+      "id": 10,
+      "name": "hybrid-async-media-lifecycle",
+      "prompt": "Use $immersive-hero-designer-acrazie for the approved image-backed hero in our existing HTML prototype. The supplied local text-free image is approved for this exact placement and crop. Canvas is explicitly activated. Media may be cached, delayed or fail; the hero can unmount while decoding, lose GPU context before load completion, or receive a reduced-motion change while loading. Keep the current scheduler, no installs or external assets. Implement only this scoped integration and provide evidence appropriate to available tools.",
+      "expected_output": "Keeps static/semantic fallback until media and GPU are ready, handles cached/pending/error paths and late callbacks without duplicate upload or orphan work, restores or remains safely static after context loss, and tests these risks separately from visual rendering/performance.",
+      "files": [],
+      "expectations": [
+        "No blank opaque canvas hides the fallback during initialization or failure.",
+        "Texture ownership and asset listeners follow the existing disposal boundary.",
+        "Synthetic GPU tests are not reported as measured frame rate or visual fidelity."
+      ]
+    },
+    {
+      "id": 11,
+      "name": "hybrid-restraint-and-pass-budgets",
+      "prompt": "Use $immersive-hero-designer-acrazie to refine our already approved image-backed hero. We want only a subtle local deformation and gently moving light over the same image, with a real HTML heading and pause control. No independent fog, foreground occlusion or scroll transition is requested. The existing WebGL renderer and Canvas dependency are activated; scoped edits are approved. A reference used 64 ray steps, 450000 cloud pixels and 8 million composite pixels. Reuse those settings if they are relevant, otherwise choose what fits this scene.",
+      "expected_output": "Extends the small image-backed renderer without introducing an unneeded volume engine, framebuffer pipeline, new library or reference constants. Keeps configured budgets distinct from measured performance and preserves the existing composition, crop, semantic shell and pause behavior.",
+      "files": [],
+      "expectations": [
+        "Does not turn the hybrid reference into a universal ray-marching/multipass requirement.",
+        "Does not silently adopt reference-specific numbers, colors, controls or choreography."
+      ]
     }
   ]
 }
