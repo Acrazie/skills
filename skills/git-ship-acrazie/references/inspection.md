@@ -29,8 +29,8 @@ and protected branches, not only main/master; block unauthorized direct delivery
 Do not change repository or organization settings to bypass protections.
 
 Distinguish absent rules from inaccessible remote rules. With no documented policy,
-propose a minimal explicit delivery strategy using verified facts and ask for
-approval: no mandatory initialization or new governance file. Repository setup is
+use a minimal delivery strategy based on verified facts and applicable user
+authorization; ask for approval only when required: no mandatory initialization or new governance file. Repository setup is
 optional, separately requested work. On a policy conflict, block the affected action
 and request resolution; a user preference cannot override enforced restrictions.
 

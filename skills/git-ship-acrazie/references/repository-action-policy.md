@@ -72,6 +72,7 @@ trusted observations, not a capability token. `blocked`/`forbidden` exit nonzero
 `confirm` exits zero **but still requires approval**. An unavailable helper blocks
 preauthorization evaluation, not ordinary independently approved delivery.
 
-With no kit configuration, retain the normal recap and explicit approval workflow;
+With no kit configuration, retain the recap and establish authorization from an
+applicable explicit current or standing user grant, or request approval;
 do not require Repo Init installation. Never merge, deploy, force-push, delete,
 change settings, recover destructively or bypass hooks under ordinary preauthorization.
