@@ -36,7 +36,10 @@ describe('skill invocation policy', () => {
 
   test('selection does not remove action, contract, or ownership gates', () => {
     const gitShip = readSkill('git-ship-acrazie');
-    expect(gitShip).toMatch(/Before delivery mutations, present\s+one consolidated recap and obtain explicit approval/);
+    expect(gitShip).toContain('Skill selection alone is not such an');
+    expect(gitShip).toMatch(/Before delivery mutations, establish authorization from an explicit current or\s+standing user grant/);
+    expect(gitShip).toMatch(/Otherwise ask\s+once with a consolidated recap/);
+    expect(gitShip).toContain('Restrictive current instructions prevail.');
     expect(gitShip).toContain('Do not commit before the delivery recap.');
     expect(gitShip).toContain('Execute only approved steps with boundary checks');
     expect(readSkill('github-repo-init-acrazie')).toContain('blueprint approval alone is not publication approval');

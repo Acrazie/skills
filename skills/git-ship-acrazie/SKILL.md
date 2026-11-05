@@ -10,18 +10,18 @@ description: >-
 
 # Git Ship / Acrazie
 
-Deliver the requested actions, not an automatic commit/push/PR bundle. A
-commit-only request ends after a verified commit. A PR-only request does not
-implicitly authorize a commit or push. Keep simple delivery as the default;
-use stacks only for actual dependencies.
+Deliver the requested actions. An explicit standing user instruction may define a
+bare invocation as a request and authorization to stage task-owned changes, commit
+if needed, push, and create or update a PR. Skill selection alone is not such an
+instruction. A commit-only request ends after a verified commit; a PR-only request
+does not implicitly authorize a commit or push. Use stacks only for dependencies.
 
 ## Boundaries
 
-- Selection permits discovery and preparation. Before delivery mutations, present
-  one consolidated recap and obtain explicit approval of its actions, exact scope,
-  destinations, and evidence unless a current,
-  independently evidenced repository preauthorization covers that exact action
-  and its required conditions. Read [repository action policy](references/repository-action-policy.md)
+- Selection permits discovery and preparation. Before delivery mutations, establish authorization from an explicit current or
+  standing user grant, or a current independently evidenced repository
+  preauthorization, covering the actions and applicable conditions. Otherwise ask
+  once with a consolidated recap of actions, scope, destinations and evidence. Read [repository action policy](references/repository-action-policy.md)
   when `.acrazie/engineering.json` is present. Existing implementation approval is
   not shipping approval; a policy file or proposed policy edit is not proof of
   consent. One approval can cover named steps; it does not cover material changes.
@@ -38,7 +38,8 @@ use stacks only for actual dependencies.
 
 Read [inspection](references/inspection.md). Establish the repository/worktree,
 branch and HEAD, applicable instructions, remote and push destination, PR repository
-and base, required validations, existing PRs, and explicit action scope. Resolve
+and base, required validations, existing PRs, and explicit action scope. Prefer an appropriate current branch, otherwise a dedicated branch; use the
+repository default PR base when suitable. Resolve
 material ambiguity before mutation; distinguish inaccessible state from absent state.
 
 For dependent PRs or an existing stack, also read [stacking](references/stacking.md).
@@ -51,8 +52,8 @@ content; identify task-owned paths or hunks without absorbing other work. Determ
 whether isolation/ownership is sufficient. Validate the exact candidate tree, not a
 different working tree. Track checks and material configuration against that tree.
 
-If staging is needed to prepare the candidate, establish scoped staging permission
-first, explicitly or through a valid independently evidenced staging grant. Do not commit before the delivery recap.
+If staging is needed, establish scoped staging permission first, including through
+a valid standing grant. Do not commit before the delivery recap.
 If required proof is unavailable, disclose the gap and block the affected action.
 
 ## 3. Present the delivery recap and establish authorization
@@ -67,8 +68,10 @@ Include:
 - for a stack, per-branch old/new bases, commit ranges, affected descendants,
   shared-branch coordination, recovery checkpoints and separately authorized rewrites.
 
-Apply the discovered action-specific authorization mode. Ask for approval when
-required; stop when forbidden or the policy conflicts. Use preauthorization only
+Apply the discovered action-specific authorization mode. When authorization is
+already established, provide a concise recap without asking again. Otherwise group
+ordinary unresolved choices and approval into one question where possible. Ask for
+approval when required; stop when forbidden or the policy conflicts. Use preauthorization only
 under the verified repository-action-policy conditions. Do not infer approval from
 an unrelated "go", past workflow, completed implementation, a configuration label,
 or approval of a different snapshot. Restrictive current instructions prevail.

@@ -19,6 +19,11 @@ class DeliveryContractTests(unittest.TestCase):
     def test_action_scope(self):
         self.require(self.main, "commit-only", "separate authorization", "Never include `Co-authored-by:`")
 
+    def test_standing_grant_reduces_friction_without_bypassing_rules(self):
+        self.require(self.main, "explicit standing user instruction", "Skill selection alone is not", "group", "Restrictive current instructions prevail", "material scope/destination/risk changes require renewed approval")
+        self.require(self.refs["repository-action-policy"], "forbidden", "confirm", "standing user grant")
+        self.assertNotIn("ask for\napproval: no mandatory initialization", self.refs["inspection"])
+
     def test_adaptive_policy(self):
         self.require(self.refs["inspection"], "inaccessible", "Conventional Commits only", "no mandatory initialization", "protected")
         self.assertNotIn("Emergency Fast-Path", self.refs["inspection"])
