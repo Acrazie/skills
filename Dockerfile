@@ -11,7 +11,7 @@ COPY CHANGELOG.md ./CHANGELOG.md
 
 RUN cd site && bun run build
 
-FROM ghcr.io/nginx/nginx-unprivileged:alpine@sha256:b9241c6e7b8e9a862f129d8d4199ab64b10390949a78bdd5603379b32c844083 AS runtime-base
+FROM ghcr.io/nginx/nginx-unprivileged:alpine@sha256:378d0c32f6562f7fd9629170797f57d2b953aa09be983b3daaf4809bb039ca00 AS runtime-base
 
 COPY --chown=101:101 nginx.conf /etc/nginx/nginx.conf
 
