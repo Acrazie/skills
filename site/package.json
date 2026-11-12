@@ -11,7 +11,7 @@
     "test:graph": "bun test tests/skill-graph.test.ts tests/graph-output.test.ts"
   },
   "dependencies": {
-    "@tailwindcss/vite": "4.3.3",
+    "@tailwindcss/vite": "4.3.5",
     "astro": "^7.3.4",
     "force-graph": "^1.52.0",
     "gray-matter": "^4.0.3",
